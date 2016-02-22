@@ -33,15 +33,12 @@ public class ModuloProducto implements Modulo {
 
         Router rutas = Router.router(vertx);
 
-        // /producto/
         rutas.get("/").handler(rc -> {
 
             vertx.eventBus().send("listarProductos", new JsonObject(), res -> {
 
                 System.out.println("servidor" + res);
                 if (res.succeeded()) {
-
-
 
                     System.out.println("servidor" );
 
