@@ -40,8 +40,6 @@ public class ModuloProducto implements Modulo {
                 System.out.println("servidor" + res);
                 if (res.succeeded()) {
 
-
-
                     System.out.println("servidor" );
 
                     rc.response().end(((JsonArray)res.result().body()).encodePrettily());
