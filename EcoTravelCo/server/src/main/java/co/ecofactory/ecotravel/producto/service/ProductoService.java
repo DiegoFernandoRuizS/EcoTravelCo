@@ -40,7 +40,7 @@ public class ProductoService extends AbstractVerticle {
         try {
 
             CompletableFuture<List<JsonObject>> data = this.dao.listarProductos();
-
+            System.out.println(11);
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
