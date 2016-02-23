@@ -1,3 +1,4 @@
+--SQL PRINCIPAL PROYECTO
 
 -- Table: "mp_tipo_producto"
 
