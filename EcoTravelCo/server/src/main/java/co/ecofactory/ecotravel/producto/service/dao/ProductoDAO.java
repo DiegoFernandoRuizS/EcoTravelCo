@@ -9,13 +9,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-/**
- * Created by samuel on 2/15/16.
- */
 public class ProductoDAO {
     private JDBCClient dataAccess;
 
     public ProductoDAO(Vertx vertx, JsonObject conf) {
+
         dataAccess = JDBCClient.createShared(vertx, conf);
     }
 
@@ -23,18 +21,13 @@ public class ProductoDAO {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "select * from mp_producto";
         JsonArray params = new JsonArray();
-
-
         dataAccess.getConnection(conn -> {
-
-
-                    if (conn.succeeded()) {
-
+            if (conn.succeeded()) {
                         conn.result().queryWithParams(query, params, data -> {
-
                             if (data.succeeded()) {
-
                                 res.complete(data.result().getRows());
+                                System.out.println("En el If respuesta " +res);
+
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
@@ -43,20 +36,13 @@ public class ProductoDAO {
                     } else {
                         conn.cause().printStackTrace();
                     }
-
                     try{
                         conn.result().close();
                     }catch(Exception e){
 
                     }
-
                 }
-
         );
-
-
         return res;
     }
-
-
 }
