@@ -12,9 +12,6 @@ import org.bson.json.JsonWriter;
 
 import java.util.List;
 
-/**
- * Created by samuel on 2/15/16.
- */
 public class ModuloProducto implements Modulo {
     @Override
     public void inicializar(Vertx vertx) {
@@ -30,29 +27,20 @@ public class ModuloProducto implements Modulo {
     }
 
     public Router getRutas(Vertx vertx) {
-
         Router rutas = Router.router(vertx);
 
+
         rutas.get("/").handler(rc -> {
-
             vertx.eventBus().send("listarProductos", new JsonObject(), res -> {
-
-                System.out.println("servidor" + res);
+                System.out.println("servidor: " + res);
                 if (res.succeeded()) {
-
-                    System.out.println("servidor" );
-
+                    System.out.println("servidor correcto" );
                     rc.response().end(((JsonArray)res.result().body()).encodePrettily());
 
-
                 } else {
-                    rc.response().end("ERROR");
+                    rc.response().end("ERROR en el modulo producto");
                 }
-
-
             });
-
-
         });
 
         rutas.get("/:id").handler(rc -> {
