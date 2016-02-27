@@ -13,19 +13,16 @@ angular.module('materialAdmin')
       	$scope.datos = [];
       	$scope.data = {};	    
 	    
-	    console.log("Consultar los(las) Persona(s)");
+	    console.log("Consultando productos...");
 	    $http.get("http://localhost:8181/producto/")
 	    
 	    .success(function(res){
-
-$scope.datos=res
-	    	
-	    	
-	    	 
-	    	console.log(res);
+        $scope.datos=res
+	    console.log(res);
 	    
 	    }).error(function(res){	  	  
 	        console.log("Doesn't work");
+	        console.log("Que trae esto: "+res);
 
 	    });
 	    

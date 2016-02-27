@@ -20,9 +20,9 @@ public class ProductoService extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         dao = new ProductoDAO(this.getVertx(), new JsonObject()
-                .put("url", "jdbc:postgresql://localhost/ecofactory")
+                .put("url", "jdbc:postgresql://localhost:5432/ecotravelco")
                 .put("driver_class", "org.postgresql.Driver")
-                .put("user","postgres").put("password","1234")
+                .put("user","postgres").put("password","password")
             //    .put("url", "jdbc:postgres://54.227.245.197:5432/d5edkisov7ljbj")
             //    .put("driver_class", "org.postgresql.Driver")
             //    .put("user","opojrqcxmvacqx").put("password","97KRqSwF2Y3CWkCSI_PGPPzKPD")
@@ -52,14 +52,14 @@ public class ProductoService extends AbstractVerticle {
                     message.reply(arr);
                 } else {
                     error.printStackTrace();
-                    message.fail(0, "ERROR");
+                    message.fail(0, "ERROR in data");
                 }
             });
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            message.fail(0, "ERROR");
+            message.fail(0, "ERROR inside catch");
 
         }
     }
