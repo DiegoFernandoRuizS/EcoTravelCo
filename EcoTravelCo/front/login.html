@@ -15,21 +15,21 @@
         <link href="css/app.min.2.css" rel="stylesheet">
     </head>
 
-    <body class="login-content" data-ng-controller="loginCtrl as lctrl">
+    <body class="login-content" data-ng-controller="LoginCtrl as lctrl">
 
         <!-- Login -->
         <div class="lc-block" id="l-login" data-ng-class="{ 'toggled': lctrl.login === 1 }" data-ng-if="lctrl.login === 1">
             <div class="input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                 <div class="fg-line">
-                    <input type="text" class="form-control" placeholder="Username">
+                    <input type="text" class="form-control" placeholder="Usuario" ng-model="usuario.login">
                 </div>
             </div>
 
             <div class="input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
                 <div class="fg-line">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" class="form-control" placeholder="Contraseña" ng-model="usuario.contrasenia">
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                 </label>
             </div>
 
-            <a href="" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
+            <a href="" data-ng-click="autenticarUsuario();" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
 
             <ul class="login-navigation">
                 <li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.login = 0; lctrl.register = 1">Register</li>
@@ -53,38 +53,48 @@
 
         <!-- Register -->
         <div class="lc-block" id="l-register" data-ng-class="{ 'toggled': lctrl.register === 1 }" data-ng-if="lctrl.register === 1">
-            <div class="input-group m-b-20">
+
+			<div class="input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                 <div class="fg-line">
-                    <input type="text" class="form-control" placeholder="Username">   
+                    <input type="text" class="form-control" placeholder="Nombre" ng-model="registro.nombre">   
+                </div>
+            </div>
+
+			<div class="input-group m-b-20">
+                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <div class="fg-line">
+                    <input type="text" class="form-control" placeholder="Apellido" ng-model="registro.apellido">   
+                </div>
+            </div>
+            
+
+			<div class="input-group m-b-20">
+                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                <div class="fg-line">
+                    <input type="text" class="form-control" placeholder="Usuario" ng-model="registro.login">   
                 </div>
             </div>
 
             <div class="input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
                 <div class="fg-line">
-                    <input type="text" class="form-control" placeholder="Email Address">
+                    <input type="text" class="form-control" placeholder="Correo Electrónico" ng-model="registro.correo_electronico">
                 </div>
             </div>
 
             <div class="input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
                 <div class="fg-line">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" class="form-control" placeholder="Contraseña" ng-model="registro.contrasenia">
                 </div>
             </div>
 
             <div class="clearfix"></div>
 
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="">
-                    <i class="input-helper"></i>
-                    Accept the license agreement
-                </label>
-            </div>
+            
 
-            <a href="" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
+            <a href="" data-ng-click="registrarUsuario();" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
 
             <ul class="login-navigation">
                 <li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.register = 0; lctrl.login = 1">Login</li>
@@ -106,7 +116,7 @@
             <a href="" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
 
             <ul class="login-navigation">
-                <li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.forgot = 0; lctrl.login = 1">Login</li>
+                <li data-block="#l-login" class="bgm-green" data-ng-click="lctrl.login();">Login</li>
                 <li data-block="#l-register" class="bgm-red" data-ng-click="lctrl.forgot = 0; lctrl.register = 1">Register</li>
             </ul>
         </div>
@@ -166,6 +176,7 @@
 
         
         <!-- Angular Modules -->
+		<script type="text/javascript" src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
         <script src="vendors/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="vendors/bower_components/angular-loading-bar/src/loading-bar.js"></script>
         <script src="vendors/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
@@ -186,10 +197,12 @@
         <script src="js/app.js"></script>
         <script src="js/config.js"></script>
         <script src="js/controllers/main.js"></script>
+        <script src="js/controllers/seguridad/loginctrl.js"></script>
         <script src="js/services.js"></script>
         <script src="js/templates.js"></script>
         <script src="js/controllers/ui-bootstrap.js"></script>
         <script src="js/controllers/table.js"></script>
+        <script src="js/controllers/productos/ProductosCtrl.js"></script>
 
 
         <!-- Template Modules -->

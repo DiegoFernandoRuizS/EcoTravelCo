@@ -22,7 +22,7 @@ public class ProductoService extends AbstractVerticle {
         dao = new ProductoDAO(this.getVertx(), new JsonObject()
                 .put("url", "jdbc:postgresql://localhost:5432/ecotravelco")
                 .put("driver_class", "org.postgresql.Driver")
-                .put("user", "postgres").put("password", "password")
+                .put("user", "postgres").put("password", "eduardo88$")
                 //    .put("url", "jdbc:postgres://54.227.245.197:5432/d5edkisov7ljbj")
                 //    .put("driver_class", "org.postgresql.Driver")
                 //    .put("user","opojrqcxmvacqx").put("password","97KRqSwF2Y3CWkCSI_PGPPzKPD")
