@@ -50,7 +50,7 @@ materialAdmin
         this.wallLink = false;
 
         //Skin Switch
-        this.currentSkin = 'blue';
+        this.currentSkin = 'green';
 
         this.skinList = [
             'lightblue',
