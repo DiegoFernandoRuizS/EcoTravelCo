@@ -1,47 +1,45 @@
-package co.ecofactory.ecotravel.producto.service;
+package co.ecofactory.ecotravel.canasta.service;
 
-import co.ecofactory.ecotravel.producto.service.dao.ProductoDAO;
+import co.ecofactory.ecotravel.canasta.service.dao.CanastaDAO;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Handler;
 
 /**
  * Created by samuel on 2/15/16.
  */
-public class ProductoService extends AbstractVerticle {
-    private ProductoDAO dao;
+public class CanastaService extends AbstractVerticle {
+    private CanastaDAO dao;
 
     @Override
     public void start() throws Exception {
-        dao = new ProductoDAO(this.getVertx(), new JsonObject()
+        dao = new CanastaDAO(this.getVertx(), new JsonObject()
                     .put("url", "jdbc:postgresql://localhost/ecofactory")
                 .put("driver_class", "org.postgresql.Driver")
                 .put("user","postgres").put("password","1234")
                 .put("max_pool_size", 30));
 
         // registro los metodos en el bus
-        this.getVertx().eventBus().consumer("listarProductos", this::listarProductos);
+        this.getVertx().eventBus().consumer("listarCanasta", this::listarCanasta);
 
     }
 
-    public void listarProductos(Message<JsonObject> message) {
+    public void listarCanasta(Message<JsonObject> message) {
 
-        System.out.println("listarProductos");
+        System.out.println("listarCanasta");
 
         try {
 
-            CompletableFuture<List<JsonObject>> data = this.dao.listarProductos();
+            CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta();
             System.out.println(11);
             data.whenComplete((ok, error) -> {
-                System.out.println("listarProductos");
+                System.out.println("listarCanasta");
                 if (ok != null) {
-                    System.out.println("listarProductos:OK" + ok);
+                    System.out.println("listarCanasta:OK" + ok);
                     JsonArray arr = new JsonArray();
 
                     ok.forEach(o -> arr.add(o));

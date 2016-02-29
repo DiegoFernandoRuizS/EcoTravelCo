@@ -51,6 +51,16 @@ materialAdmin
 				controller: 'ProductosCtrl'
             })
 
+            .state ('canasta', {
+                url: '/canasta',
+                templateUrl: 'views/common.html'
+            })
+
+            .state ('canasta.lista', {
+                url: '/canasta',
+                templateUrl: 'views/canasta.html',
+                controller: 'CanastaCtrl'
+            })
 
 
 

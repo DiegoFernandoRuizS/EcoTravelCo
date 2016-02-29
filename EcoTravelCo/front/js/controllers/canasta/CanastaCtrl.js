@@ -8,13 +8,13 @@
  * Controller of the PersonaLista
  */
 angular.module('materialAdmin')
-  .controller('ProductosCtrl', function ($scope, $rootScope, $http, $location) {
+  .controller('CanastaCtrl', function ($scope, $rootScope, $http, $location) {
 	  
       	$scope.datos = [];
       	$scope.data = {};	    
 	    
-	    console.log("Consultando productos...");
-	    $http.get("http://localhost:8181/producto/")
+	    console.log("Consultando canasta...");
+	    $http.get("http://localhost:8181/canasta/")
 	    
 	    .success(function(res){
         $scope.datos=res
@@ -25,8 +25,8 @@ angular.module('materialAdmin')
 	        console.log("Que trae esto: "+res);
 
 	    });
-	    
-    
-    
   });
-
+  
+  
+  
+  

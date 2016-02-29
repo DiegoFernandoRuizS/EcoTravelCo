@@ -41,6 +41,15 @@
 
             </ul>
         </li>
+
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Canasta</a>
+
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="canasta.lista" data-ng-click="mactrl.sidebarStat($event)">Canasta</a></li>
+
+            </ul>
+        </li>
         
     </ul>
 </div>
