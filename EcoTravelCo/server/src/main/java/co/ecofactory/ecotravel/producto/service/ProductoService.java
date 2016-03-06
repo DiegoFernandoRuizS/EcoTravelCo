@@ -30,6 +30,8 @@ public class ProductoService extends AbstractVerticle {
 
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("listarProductos", this::listarProductos);
+        this.getVertx().eventBus().consumer("listarProductosHome", this::listarProductosHome);
+        this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);
 
     }
 
@@ -57,6 +59,121 @@ public class ProductoService extends AbstractVerticle {
             });
 
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+    public void listarProductosHome(Message<JsonObject> message) {
+
+        System.out.println("listarProductos");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.listarProductosHome();
+            System.out.println(11);
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProductos");
+                if (ok != null) {
+                    System.out.println("listarProductos:OK" + ok);
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+
+    public void listarProductosDetalle(Message<JsonObject> message) {
+
+        System.out.println("listarProductos");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.listarProductosDetalle(message.body().getString("id"));
+            System.out.println(11);
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProductos");
+                if (ok != null) {
+                    System.out.println("listarProductos:OK" + ok);
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+    //Listar producto con un id como paramento
+    public void listarProducto(Message<JsonObject> message) {
+
+        System.out.println("listarProducto ID: " + message.body().getLong("id"));
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.listarProducto(message.body().getLong("id"));
+
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProducto");
+                if (ok != null) {
+                    System.out.println("listarProducto:OK" + ok);
+
+                    message.reply(ok.get(0));
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+    //Insertar producto
+    public void insertarProducto(Message<JsonObject> message) {
+        System.out.println("Service insertarProducto" + message.body());
+        try {
+            System.out.println("ACA QUE HAY? "+message.body());
+            CompletableFuture<List<JsonObject>> data = this.dao.insertarProducto();
+            data.whenComplete((ok, error) -> {
+                System.out.println("insertarProducto");
+                if (ok != null) {
+                    System.out.println("insertarProducto:OK" + ok);
+                    message.reply(ok.get(0));
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");

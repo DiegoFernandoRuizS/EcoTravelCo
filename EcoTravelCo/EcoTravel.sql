@@ -55,7 +55,7 @@ CREATE TABLE "mp_persona"
   tipo character varying(15) NOT NULL,
   foto character varying(1000) ,
   fecha_registro timestamp with time zone NOT NULL,
-  fecha_actualizacion timestamp with time zone NOT NULL,
+  fecha_actualizacion timestamp with time zone,
   login character varying(15) NOT NULL,
   contrasenia character varying(15) NOT NULL,
   id_direccion_id integer,
@@ -114,6 +114,8 @@ CREATE TABLE "mp_producto"
   id_padre integer,
   id_direccion_id integer,
   tipo_producto_id integer,
+  descripcion character varying(255) NOT NULL,
+  precio double precision NOT NULL,
   CONSTRAINT "mp_producto_pkey" PRIMARY KEY (id),
   CONSTRAINT "mp_producto_id_direccion_id_a68deeec_fk_mp_direccion_id" FOREIGN KEY (id_direccion_id)
       REFERENCES "mp_direccion" (id) MATCH SImpLE
@@ -158,7 +160,12 @@ CREATE TABLE "mp_galeria"
   tipo character varying(15) NOT NULL,
   url character varying(1000) NOT NULL,
   descripcion character varying(255) ,
-  CONSTRAINT "mp_galeria_pkey" PRIMARY KEY (id)
+  producto_id integer,
+  CONSTRAINT "mp_galeria_pkey" PRIMARY KEY (id),
+  CONSTRAINT "mp_galeria_mp_producto_fk_producto_id" FOREIGN KEY (producto_id)
+  REFERENCES "mp_producto" (id) MATCH SImpLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED
+
 )
 WITH (
   OIDS=FALSE
