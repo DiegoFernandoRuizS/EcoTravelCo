@@ -29,17 +29,80 @@ public class CanastaService extends AbstractVerticle {
     }
 
     public void listarCanasta(Message<JsonObject> message) {
-
         System.out.println("listarCanasta");
-
         try {
 
-            CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta();
+            //CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta(message.body().getString("id"));
+            CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta("1");
             System.out.println(11);
             data.whenComplete((ok, error) -> {
                 System.out.println("listarCanasta");
                 if (ok != null) {
                     System.out.println("listarCanasta:OK" + ok);
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+
+    public void agregarCanasta(Message<JsonObject> message) {
+
+        System.out.println("agregarCanasta");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.agregarCanasta();
+            System.out.println(11);
+            data.whenComplete((ok, error) -> {
+                System.out.println("agregarCanasta");
+                if (ok != null) {
+                    System.out.println("agregarCanasta:OK" + ok);
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+
+    public void quitarCanasta(Message<JsonObject> message) {
+
+        System.out.println("quitarCanasta");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.quitarCanasta();
+            System.out.println(11);
+            data.whenComplete((ok, error) -> {
+                System.out.println("quitarCanasta");
+                if (ok != null) {
+                    System.out.println("quitarCanasta:OK" + ok);
                     JsonArray arr = new JsonArray();
 
                     ok.forEach(o -> arr.add(o));

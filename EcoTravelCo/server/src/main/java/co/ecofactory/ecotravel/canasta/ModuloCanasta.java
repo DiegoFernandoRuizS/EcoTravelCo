@@ -24,38 +24,34 @@ public class ModuloCanasta implements Modulo {
 
     public Router getRutas(Vertx vertx) {
         Router rutas = Router.router(vertx);
-
-
         rutas.get("/").handler(rc -> {
-            vertx.eventBus().send("listarCanasta", new JsonObject(), res -> {
+            JsonObject _params = new JsonObject();
+            final String id = rc.request().getParam("id");
+            _params.put("id", id);
+            vertx.eventBus().send("listarCanasta", _params, res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto" );
                     rc.response().end(((JsonArray)res.result().body()).encodePrettily());
-
                 } else {
                     rc.response().end("ERROR en el modulo canasta");
                 }
             });
         });
 
-        rutas.get("/:id").handler(rc -> {
+        rutas.get("/").handler(rc -> {
             rc.response().write("OK");
         });
 
-        rutas.put("/:id").handler(rc -> {
+        rutas.put("/").handler(rc -> {
             // TODO Add a new product...
             rc.response().end();
-
         });
 
-        rutas.delete("/:id").handler(rc -> {
+        rutas.delete("/").handler(rc -> {
             // TODO delete the product...
             rc.response().end();
-
         });
-
         return rutas;
     }
-
 }

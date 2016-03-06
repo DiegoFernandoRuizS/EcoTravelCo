@@ -35,24 +35,75 @@
     </div>
 
     <div class="card">
-        <div class="card-header">
-            <h2>Productos Encontrados</h2>
-        </div>
+        <div class="card-body card-padding">
+            <div class="clearfix"></div>
 
-        <div class="card-body table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Nombre</th>
-                    </tr>
-                </thead>
+            <div class="row m-t-25 p-0 m-b-25">
+                <div class="col-xs-3">
+                    <div class="bgm-amber brd-2 p-15">
+                        <div class="c-white m-b-5">Invoice#</div>
+                        <h2 class="m-0 c-white f-300">456213</h2>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="bgm-blue brd-2 p-15">
+                        <div class="c-white m-b-5">Date</div>
+                        <h2 class="m-0 c-white f-300">20/06/2015</h2>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="bgm-green brd-2 p-15">
+                        <div class="c-white m-b-5">Whatever</div>
+                        <h2 class="m-0 c-white f-300">472-000</h2>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="bgm-red brd-2 p-15">
+                        <div class="c-white m-b-5">Grand Total</div>
+                        <h2 class="m-0 c-white f-300">$23,980</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <table class="table i-table m-t-25 m-b-25">
+                <thead class="text-uppercase">
+                <tr><th class="c-gray">Servicio</th>
+                    <th/>
+                    <th class="c-gray" align="center">Precio Unitario</th>
+                    <th class="c-gray" align="center">Cantidad</th>
+                    <th class="highlight" align="center">Total</th>
+                </tr></thead>
+
                 <tbody>
-					<tr ng-repeat="data in datos">
-							<td><a ng-href="#/canasta/{{data.id}}">{{data.id}}</a></td>
-						    <td>{{data.nombre}}</td>
-					</tr>
-          </tbody>
+                </tbody><thead>
+                    <tr ng-repeat="data in datos">
+                        <td>
+                            <div class="pull-left">
+                                <img class="lv-img-m" data-ng-src="http://www.dilos.com/picture/hotel/19056" alt="" src="http://www.dilos.com/picture/hotel/19056">
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <h5 class="text-uppercase f-400"><a ng-href="#/canasta/{{data.id}}">{{data.nombre}}</a></h5>
+                            <p class="text-muted">Nullam <consectet></consectet>ur dolor nec ullamcorper finibus. Quisque a porta mauris, non venenatis mi. Pellentesque habitant morbi tristique</p>
+                        </td>
+                        <td>$450.00</td>
+                        <td align="center">{{data.cantidad}}</td>
+                        <td class="highlight">{{data.precioTotal}}</td>
+                        <!--<td><a ng-href="#/canasta/{{data.id}}">{{data.id}}</a></td>
+                        <td>{{data.nombre}}</td>-->
+                        <td ><button class="btn bgm-cyan btn-icon waves-effect waves-circle"><i class="zmdi zmdi-delete"></i></button></td>
+                    </tr>
+
+            <tr>
+                <td colspan="4"></td>
+                <td class="highlight" >$20,092.00</td>
+            </tr>
+            </thead>
             </table>
         </div>
     </div>

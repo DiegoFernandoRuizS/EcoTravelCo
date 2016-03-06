@@ -4,8 +4,8 @@
  * @ngdoc function
  * @name sistemagestionuniversitario.controller:PersonaListaCtrl
  * @description
- * # PersonaListaCtrl
- * Controller of the PersonaLista
+ * # canastaCtrl
+ * Controller of the Canasta
  */
 angular.module('materialAdmin')
   .controller('CanastaCtrl', function ($scope, $rootScope, $http, $location) {
