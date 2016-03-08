@@ -51,6 +51,12 @@ materialAdmin
 				controller: 'ProductosCtrl'
             })
 
+            .state ('productos.detalle', {
+                url: '/detalle',
+                templateUrl: 'views/detalle_producto.html',
+                controller: 'ProductosDetalle'
+            })
+
 
 
 
