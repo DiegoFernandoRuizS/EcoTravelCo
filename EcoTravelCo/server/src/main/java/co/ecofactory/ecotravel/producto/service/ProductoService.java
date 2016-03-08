@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Handler;
 
-/**
- * Created by samuel on 2/15/16.
- */
 public class ProductoService extends AbstractVerticle {
     private ProductoDAO dao;
 
@@ -32,25 +29,22 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarProductos", this::listarProductos);
         this.getVertx().eventBus().consumer("listarProducto", this::listarProducto);
         this.getVertx().eventBus().consumer("insertarProducto", this::insertarProducto);
+        this.getVertx().eventBus().consumer("editarProducto", this::editarProducto);
+        this.getVertx().eventBus().consumer("borrarProducto", this::borrarProducto);
+
 
     }
 
     public void listarProductos(Message<JsonObject> message) {
-
         System.out.println("listarProductos");
-
         try {
-
             CompletableFuture<List<JsonObject>> data = this.dao.listarProductos();
-
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
                     System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
-
                     ok.forEach(o -> arr.add(o));
-
                     message.reply(arr);
                 } else {
                     error.printStackTrace();
@@ -68,26 +62,19 @@ public class ProductoService extends AbstractVerticle {
 
     //Listar producto con un id como paramento
     public void listarProducto(Message<JsonObject> message) {
-
         System.out.println("listarProducto ID: " + message.body().getLong("id"));
-
         try {
-
             CompletableFuture<List<JsonObject>> data = this.dao.listarProducto(message.body().getLong("id"));
-
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
                 if (ok != null) {
                     System.out.println("listarProducto:OK" + ok);
-
                     message.reply(ok.get(0));
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
                 }
             });
-
-
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
@@ -99,13 +86,12 @@ public class ProductoService extends AbstractVerticle {
     public void insertarProducto(Message<JsonObject> message) {
         System.out.println("Service insertarProducto" + message.body());
         try {
-            System.out.println("ACA QUE HAY? "+message.body());
-            CompletableFuture<List<JsonObject>> data = this.dao.insertarProducto();
+            CompletableFuture<JsonObject> data = this.dao.insertarProducto(message.body());
             data.whenComplete((ok, error) -> {
                 System.out.println("insertarProducto");
                 if (ok != null) {
                     System.out.println("insertarProducto:OK" + ok);
-                    message.reply(ok.get(0));
+                    message.reply(ok);
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
@@ -114,7 +100,49 @@ public class ProductoService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
-
         }
     }
+
+    //Editar producto
+    public void editarProducto(Message<JsonObject> message) {
+
+        try {
+            CompletableFuture<JsonObject> data = this.dao.editarProducto(message.body(),message.body().getLong("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("editarProducto");
+                if (ok != null) {
+                    System.out.println("editarProducto:OK" + ok);
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data editarProducto");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch editarProducto");
+        }
+    }
+
+    //Borrar producto con un id como paramento
+    public void borrarProducto(Message<JsonObject> message) {
+        System.out.println("borrarProducto ID: " + message.body().getLong("id"));
+        try {
+            CompletableFuture<JsonObject> data = this.dao.borrarProducto(message.body().getLong("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("borrarProducto");
+                if (ok != null) {
+                    System.out.println("borrarProducto:OK" + ok);
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
 }
