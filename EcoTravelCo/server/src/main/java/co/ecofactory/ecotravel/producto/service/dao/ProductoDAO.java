@@ -20,7 +20,7 @@ public class ProductoDAO {
         dataAccess = JDBCClient.createShared(vertx, conf);
     }
 
-    //Listar todos los productos
+    //Listar productos
     public CompletableFuture<List<JsonObject>> listarProductos() {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "select * from mp_producto";
@@ -30,7 +30,37 @@ public class ProductoDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                                System.out.println("En el If respuesta " + data.result().getRows());
+                                System.out.println("En el If respuesta " + res);
+
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
+    public CompletableFuture<List<JsonObject>> listarProductosHome() {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        String query = "select a.*, b.*, c.* from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id left join mp_galeria c on a.id=c.producto_id";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                                System.out.println("En el If respuesta " + res);
+
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
@@ -43,6 +73,36 @@ public class ProductoDAO {
                         conn.result().close();
                     } catch (Exception e) {
                         e.printStackTrace();
+                    }
+                }
+        );
+        return res;
+    }
+
+    public CompletableFuture<List<JsonObject>> listarProductosDetalle(String id) {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        System.out.println("entro");
+        String query = "select a.*, b.*, c.* from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id left join mp_galeria c on a.id=c.producto_id where a.id=" + id;
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                                System.out.println("En el If respuesta " + res);
+
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
                     }
                 }
         );
@@ -123,12 +183,12 @@ public class ProductoDAO {
     }
 
     //Editar un producto
-    public CompletableFuture<JsonObject> editarProducto(JsonObject editProducto,Long id) {
+    public CompletableFuture<JsonObject> editarProducto(JsonObject editProducto, Long id) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
 
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
-        System.out.println("Que ID llega al DAO "+id);
+        System.out.println("Que ID llega al DAO " + id);
         JsonUtils.add(params, editProducto.getString("estado", ""));
         JsonUtils.add(params, editProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
@@ -139,7 +199,7 @@ public class ProductoDAO {
         String query = "UPDATE public.mp_producto\n" +
                 "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
                 "       calificacion_promedio=?, id_padre=?, id_direccion_id=?, tipo_producto_id=?\n" +
-                " WHERE id="+id+";";
+                " WHERE id=" + id + ";";
 
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -171,7 +231,7 @@ public class ProductoDAO {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
 
         String query = "DELETE FROM public.mp_producto\n" +
-                " WHERE id="+id+";";
+                " WHERE id=" + id + ";";
 
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
@@ -198,4 +258,6 @@ public class ProductoDAO {
         );
         return res;
     }
+
+
 }
