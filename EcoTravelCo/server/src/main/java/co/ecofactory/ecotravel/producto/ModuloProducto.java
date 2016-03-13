@@ -46,16 +46,11 @@ public class ModuloProducto implements Modulo {
 
         //Listar producto
         rutas.get("/:id").handler(rc -> {
-
             final String id = rc.request().getParam("id");
             final Long idAsLong = Long.valueOf(id);
-
             JsonObject _params = new JsonObject();
-
             _params.put("id", idAsLong);
-
             vertx.eventBus().send("listarProducto", _params, res -> {
-
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto -> : " + res.result().body());
@@ -63,60 +58,63 @@ public class ModuloProducto implements Modulo {
                 } else {
                     rc.response().end("ERROR en el modulo producto consultando un producto");
                 }
-
             });
         });
 
 
         //Agregar nuevo producto
         rutas.post("/").handler(rc -> {
-
-        //    String json = Json.decodeValue(rc.getBodyAsString(),String.class);
-
-            //Trayendo los datos desde el JSON
             JsonObject producto = new JsonObject();
-           // producto=rc.getBodyAsJson();
-
-          //  System.out.println("PRODUCTO JSON COMO LLEGA:  "+json);
-            //final String id = rc.request().getParam("id");
-            //final Long idAsLong = Long.valueOf(id);
-            //System.out.println("Llego el ID "+ idAsLong);
-            JsonObject _params = new JsonObject();
-
-            //_params.put("id", 3L);
-
-
-            System.out.println("----->"+rc.getBodyAsString());
-            System.out.println("----->"+rc.getBodyAsJson().getString("estado"));
-
-
-
-
-            vertx.eventBus().send("insertarProducto", _params, res -> {
-
+            producto = rc.getBodyAsJson();
+            vertx.eventBus().send("insertarProducto", producto, res -> {
                 System.out.println("servidor insertarProducto: " + res.result().body());
                 if (res.succeeded()) {
                     System.out.println("servidor correcto insertarProducto -> : " + res.result().body());
-                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                    rc.response().end("Se inserto correctamente "+((JsonObject) res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo producto insertar un producto");
                 }
-
             });
-
         });
 
         //Editar un producto
         rutas.put("/:id").handler(rc -> {
-            // TODO Add a new product...
-            rc.response().end();
+            final String id = rc.request().getParam("id");
+            final Long idAsLong = Long.valueOf(id);
+            JsonObject producto = new JsonObject();
+            producto = rc.getBodyAsJson();
+            producto.put("id", idAsLong);
+            vertx.eventBus().send("editarProducto", producto,res -> {
+                System.out.println("servidor editarProducto: " + res.result().body());
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto editarProducto -> : " + res.result().body());
+                    if(((JsonObject)res.result().body()).getInteger("updated",0)!=0){
+                        rc.response().end("Se editarProducto correctamente "+((JsonObject) res.result().body()).encodePrettily());
+                    }else{
+                        rc.response().end("El ID "+idAsLong+" no fue encontrado");
+                    }
 
+                } else {
+                    rc.response().end("ERROR en el modulo producto editar un producto");
+                }
+            });
         });
 
         //Borrar un producto
         rutas.delete("/:id").handler(rc -> {
-            // TODO delete the product...
-            rc.response().end();
+            final String id = rc.request().getParam("id");
+            final Long idAsLong = Long.valueOf(id);
+            JsonObject _params = new JsonObject();
+            _params.put("id", idAsLong);
+            vertx.eventBus().send("borrarProducto", _params, res -> {
+                System.out.println("servidor: " + res);
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo producto delete un producto");
+                }
+            });
 
         });
 
