@@ -23,6 +23,12 @@ public class ProductoService extends AbstractVerticle {
             //    .put("url", "jdbc:postgres://54.227.245.197:5432/d5edkisov7ljbj")
             //    .put("driver_class", "org.postgresql.Driver")
             //    .put("user","opojrqcxmvacqx").put("password","97KRqSwF2Y3CWkCSI_PGPPzKPD")
+
+              //  .put("user", "postgres").put("password", "eduardo88$")
+                //    .put("url", "jdbc:postgres://54.227.245.197:5432/d5edkisov7ljbj")
+                //    .put("driver_class", "org.postgresql.Driver")
+                //    .put("user","opojrqcxmvacqx").put("password","97KRqSwF2Y3CWkCSI_PGPPzKPD")
+
                 .put("max_pool_size", 30));
 
         // registro los metodos en el bus

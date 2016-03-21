@@ -28,6 +28,13 @@ public class Services {
             r.next();
         });
 
+        mainRouter.options("/*").handler(r->{
+
+            r.response().end("OK");
+
+
+        });
+
     }
     public static Router getMainRouter(){
         return mainRouter;
