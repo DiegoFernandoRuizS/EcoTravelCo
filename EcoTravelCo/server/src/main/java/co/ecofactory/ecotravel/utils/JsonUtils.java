@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 
 import java.time.Instant;
 
+
 public class JsonUtils {
     public static JsonArray add(JsonArray in, Object data) {
         if (data == null) {
@@ -25,4 +26,6 @@ public class JsonUtils {
         }
         return in;
     }
+
 }
+
