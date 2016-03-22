@@ -9,8 +9,8 @@ public class Modulos {
                 , "co.ecofactory.ecotravel.producto.ModuloProductoPrincipal"
                 , "co.ecofactory.ecotravel.producto.ModuloProductoDetalle",
                 "co.ecofactory.ecotravel.usuario.ModuloUsuario",
-                "co.ecofactory.ecotravel.cliente.ModuloCliente",
-                "co.ecofactory.ecotravel.seguridad.ModuloSeguridad"};
+                "co.ecofactory.ecotravel.cliente.ModuloCliente"};
+               // "co.ecofactory.ecotravel.seguridad.ModuloSeguridad"};
 
 
         for (String nombreModulo : modulos) {

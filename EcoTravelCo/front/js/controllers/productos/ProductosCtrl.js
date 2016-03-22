@@ -1,12 +1,6 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name sistemagestionuniversitario.controller:PersonaListaCtrl
- * @description
- * # PersonaListaCtrl
- * Controller of the PersonaLista
- */
+
 angular.module('materialAdmin')
   .controller('ProductosCtrl', function ($scope, $rootScope, $http, $location) {
 	  
@@ -14,20 +8,24 @@ angular.module('materialAdmin')
       	$scope.data = {};	    
 	    
 	    console.log("Consultando productos...");
-	    $http.get("http://localhost:8181/producto/")
-	    
-	    .success(function(res){
+	    $http.get("http://localhost:8181/producto/").success(function(res){
         $scope.datos=res
 	    console.log(res);
-	    
 	    }).error(function(res){	  	  
 	        console.log("Doesn't work");
 	        console.log("Que trae esto: "+res);
-
 	    });
-	    
-    
-    
+
+	     $scope.insertarProducto = function () {
+	     $http.post("http://localhost:8181/producto/",$scope.insertarProducto,{})
+        	    .success(function(res){
+              	$scope.insertarProducto = {};
+        	    }).error(function(res){
+        	        console.log("Doesn't work para insertar producto");
+        	        console.log("Que trae esto para insertar producto: "+res);
+        	    });
+        		};
+
   });
 
 angular.module('materialAdmin')
