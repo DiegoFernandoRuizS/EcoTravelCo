@@ -1,5 +1,5 @@
 <div class="container" ng-controller="ProductosCtrl">
-    <div class="block-header" >
+    <div class="block-header">
         <h2>Gestión de productos - Crear producto</h2>
 
         <ul class="actions">
@@ -36,9 +36,8 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Input Groups
-                <small>Extend form controls by adding text or buttons before, after, or on both sides of any text-based
-                    inputs.
+            <h2>Crear productos
+                <small>Crear productos pertenece a la sección de gestion de productos
                 </small>
             </h2>
         </div>
@@ -63,7 +62,8 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Dirección" ng-model="producto.id_direccion_id">
+                            <input type="text" class="form-control" placeholder="Dirección"
+                                   ng-model="producto.id_direccion_id">
                         </div>
                     </div>
                     <br/>
@@ -71,7 +71,7 @@
                         <span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
                         <div class="fg-line">
 
-                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}"
+                            <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}"
                                    placeholder="Precio" ng-model="producto.precio">
                         </div>
                     </div>
@@ -79,7 +79,8 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-mail-send"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Calificacion" ng-model="producto.calificacion_promedio">
+                            <input type="text" class="form-control" placeholder="Calificacion"
+                                   ng-model="producto.calificacion_promedio">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-layers"></i></span>
                     </div>
@@ -89,7 +90,11 @@
                 <div class="col-sm-4">
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Estado" ng-model="producto.estado">
+                            <select chosen data-placeholder="Seleccione estado..." class="w-100" ng-model="producto.estado">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="En proceso">En proceso</option>
+                            </select>
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-landscape"></i></span>
                     </div>
@@ -98,28 +103,11 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Nombre" ng-model="producto.nombre">
+                            <input type="text-area" class="form-control" placeholder="Nombre" ng-model="producto.nombre">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-sun"></i></span>
                     </div>
-
-                    <br/>
-
-                    <div class="input-group">
-                        <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Fecha registro" ng-model="producto.fecha_registro">
-                        </div>
-                        <span class="input-group-addon last"><i class="zmdi zmdi-airplane"></i></span>
-                    </div>
-
-                    <br/>
-
-                    <div class="input-group">
-                        <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Fecha actualización" ng-model="producto.fecha_actualizacion">
-                        </div>
-                        <span class="input-group-addon last"><i class="zmdi zmdi-my-location"></i></span>
-                    </div>
+                    <br>
                 </div>
 
                 <div class="col-sm-4">
@@ -136,7 +124,8 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Tipo de producto" ng-model="producto.tipo_producto_id">
+                            <input type="text" class="form-control" placeholder="Tipo de producto"
+                                   ng-model="producto.tipo_producto_id">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-plus-circle-o"></i></span>
                     </div>
@@ -146,29 +135,81 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-mail-send"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Descripcion" ng-model="producto.descripcion">>
+                            <input type="text" class="form-control" placeholder="Descripcion"
+                                   ng-model="producto.descripcion">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-layers"></i></span>
                     </div>
 
                     <br/>
 
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="zmdi zmdi-portable-wifi"></i></span>
-                        <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Messages">
-                        </div>
-                        <span class="input-group-addon last"><i class="zmdi zmdi-dialpad"></i></span>
-                    </div>
+
                 </div>
             </div>
             <br/>
+
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" name="...">
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" name="...">
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" name="...">
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
 
                     <div class="input-group">
-                        <span class="btn btn-info" data-ng-click="insertarProducto();">Guardar</span>
+                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
                     </div>
+                </div>
+                <div class="col-md-4">
                 </div>
             </div>
 
