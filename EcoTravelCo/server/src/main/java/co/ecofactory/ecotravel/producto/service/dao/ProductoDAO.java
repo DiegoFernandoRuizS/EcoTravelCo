@@ -143,7 +143,7 @@ public class ProductoDAO {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
-        JsonUtils.add(params, nuevoProducto.getInteger("id", 0));
+        /*JsonUtils.add(params, nuevoProducto.getString("id", ""));
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
@@ -153,8 +153,22 @@ public class ProductoDAO {
         JsonUtils.add(params, nuevoProducto.getInteger("id_direccion_id", 0));
         JsonUtils.add(params, nuevoProducto.getInteger("tipo_producto_id", 0));
         JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
-        JsonUtils.add(params, nuevoProducto.getDouble("precio",0D));
+        JsonUtils.add(params, nuevoProducto.getDouble("precio",0D));*/
 
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id", "")));
+        JsonUtils.add(params, nuevoProducto.getString("estado", ""));
+        JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
+        JsonUtils.add(params, new Date().toInstant());
+        JsonUtils.add(params, new Date().toInstant());
+        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("calificacion_promedio", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
+        JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
+        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio","")));
+
+        System.out.println("-------->>>>>>>>>>");
+        System.out.println("-------->>>>>>>>>> ");
         String query = "INSERT INTO public.mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
                 "            id_padre, id_direccion_id, tipo_producto_id,descripcion,precio)\n" +

@@ -1,5 +1,5 @@
 <div class="container" ng-controller="ProductosCtrl">
-    <div class="block-header">
+    <div class="block-header" >
         <h2>Gestión de productos - Crear producto</h2>
 
         <ul class="actions">
@@ -54,7 +54,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="ID producto">
+                            <input type="text" class="form-control" placeholder="ID producto" ng-model="producto.id">
                         </div>
                     </div>
 
@@ -63,7 +63,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Dirección">
+                            <input type="text" class="form-control" placeholder="Dirección" ng-model="producto.id_direccion_id">
                         </div>
                     </div>
                     <br/>
@@ -72,8 +72,16 @@
                         <div class="fg-line">
 
                         <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}"
-                                   placeholder="Precio">
+                                   placeholder="Precio" ng-model="producto.precio">
                         </div>
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi zmdi-mail-send"></i></span>
+                        <div class="fg-line">
+                            <input type="text" class="form-control" placeholder="Calificacion" ng-model="producto.calificacion_promedio">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi zmdi-layers"></i></span>
                     </div>
 
                 </div>
@@ -81,7 +89,7 @@
                 <div class="col-sm-4">
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Estado">
+                            <input type="text" class="form-control" placeholder="Estado" ng-model="producto.estado">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-landscape"></i></span>
                     </div>
@@ -90,7 +98,7 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Nombre">
+                            <input type="text" class="form-control" placeholder="Nombre" ng-model="producto.nombre">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-sun"></i></span>
                     </div>
@@ -99,7 +107,7 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Fecha registro">
+                            <input type="text" class="form-control" placeholder="Fecha registro" ng-model="producto.fecha_registro">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-airplane"></i></span>
                     </div>
@@ -108,7 +116,7 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Fecha actualización">
+                            <input type="text" class="form-control" placeholder="Fecha actualización" ng-model="producto.fecha_actualizacion">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-my-location"></i></span>
                     </div>
@@ -118,7 +126,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-arrow-missed"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="ID padre">
+                            <input type="text" class="form-control" placeholder="ID padre" ng-model="producto.id_padre">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
                     </div>
@@ -128,7 +136,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Tipo de producto">
+                            <input type="text" class="form-control" placeholder="Tipo de producto" ng-model="producto.tipo_producto_id">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-plus-circle-o"></i></span>
                     </div>
@@ -138,7 +146,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-mail-send"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Descripcion">
+                            <input type="text" class="form-control" placeholder="Descripcion" ng-model="producto.descripcion">>
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-layers"></i></span>
                     </div>
@@ -159,7 +167,7 @@
                 <div class="col-md-12">
 
                     <div class="input-group">
-                        <span class="btn btn-info">Guardar</span>
+                        <span class="btn btn-info" data-ng-click="insertarProducto();">Guardar</span>
                     </div>
                 </div>
             </div>
