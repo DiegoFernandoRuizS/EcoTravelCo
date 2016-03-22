@@ -1,6 +1,6 @@
-<div class="container">
-<div class="block-header">
-        <h2>Form Components</h2>
+<div class="container" ng-controller="ProductosCtrl">
+    <div class="block-header">
+        <h2>Gestión de productos - Crear producto</h2>
 
         <ul class="actions">
             <li>
@@ -36,12 +36,16 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Input Groups <small>Extend form controls by adding text or buttons before, after, or on both sides of any text-based inputs.</small></h2>
+            <h2>Input Groups
+                <small>Extend form controls by adding text or buttons before, after, or on both sides of any text-based
+                    inputs.
+                </small>
+            </h2>
         </div>
 
         <div class="card-body card-padding">
-            <p class="c-black f-500 m-b-5">Basic Example</p>
-            <small>Place one add-on or button on either side of an input. You may also place one on both sides of an input.</small>
+            <p class="c-black f-500 m-b-5">Crear nuevo producto</p>
+            <small>En esta sección usted puede crear un nuevo producto</small>
 
             <br/><br/>
 
@@ -50,25 +54,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Full Name">
-                        </div>
-                    </div>
-
-                    <br/>
-
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="zmdi zmdi-local-phone"></i></span>
-                        <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Contact Number">
-                        </div>
-                    </div>
-
-                    <br/>
-
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-                        <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Email Address">
+                            <input type="text" class="form-control" placeholder="ID producto">
                         </div>
                     </div>
 
@@ -77,15 +63,25 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Home Address">
+                            <input type="text" class="form-control" placeholder="Dirección">
                         </div>
                     </div>
+                    <br/>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+                        <div class="fg-line">
+
+                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}"
+                                   placeholder="Precio">
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="col-sm-4">
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Landscape">
+                            <input type="text" class="form-control" placeholder="Estado">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-landscape"></i></span>
                     </div>
@@ -94,7 +90,7 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Weather">
+                            <input type="text" class="form-control" placeholder="Nombre">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-sun"></i></span>
                     </div>
@@ -103,7 +99,7 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Flight">
+                            <input type="text" class="form-control" placeholder="Fecha registro">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-airplane"></i></span>
                     </div>
@@ -112,7 +108,7 @@
 
                     <div class="input-group">
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Location">
+                            <input type="text" class="form-control" placeholder="Fecha actualización">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-my-location"></i></span>
                     </div>
@@ -122,7 +118,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-arrow-missed"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Internet">
+                            <input type="text" class="form-control" placeholder="ID padre">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
                     </div>
@@ -132,7 +128,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Notifications">
+                            <input type="text" class="form-control" placeholder="Tipo de producto">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-plus-circle-o"></i></span>
                     </div>
@@ -142,7 +138,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-mail-send"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Layers">
+                            <input type="text" class="form-control" placeholder="Descripcion">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-layers"></i></span>
                     </div>
@@ -155,6 +151,15 @@
                             <input type="text" class="form-control" placeholder="Messages">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi zmdi-dialpad"></i></span>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="input-group">
+                        <span class="btn btn-info">Guardar</span>
                     </div>
                 </div>
             </div>
@@ -237,7 +242,11 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Input Mask <small>An inputmask helps the user with the input by ensuring a predefined format. This can be useful for dates, numerics, phone numbers etc...</small></h2>
+            <h2>Input Mask
+                <small>An inputmask helps the user with the input by ensuring a predefined format. This can be useful
+                    for dates, numerics, phone numbers etc...
+                </small>
+            </h2>
         </div>
 
         <div class="card-body card-padding">
@@ -245,7 +254,8 @@
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Date</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '00/00/0000'}" placeholder="eg: 23/05/2014">
+                        <input type="text" class="form-control" data-input-mask="{mask: '00/00/0000'}"
+                               placeholder="eg: 23/05/2014">
 
                     </div>
                 </div>
@@ -253,77 +263,88 @@
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Time</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '00:00:00'}" placeholder="eg: 23:06:55">
+                        <input type="text" class="form-control" data-input-mask="{mask: '00:00:00'}"
+                               placeholder="eg: 23:06:55">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Date Time</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '00/00/0000 00:00:00'}" placeholder="eg: 00/00/0000 00:00:00">
+                        <input type="text" class="form-control" data-input-mask="{mask: '00/00/0000 00:00:00'}"
+                               placeholder="eg: 00/00/0000 00:00:00">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>CEP</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '00000-000'}" placeholder="eg: 00000-000">
+                        <input type="text" class="form-control" data-input-mask="{mask: '00000-000'}"
+                               placeholder="eg: 00000-000">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Phone Number</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '000-00-0000000'}" placeholder="eg: 000-00-0000000">
+                        <input type="text" class="form-control" data-input-mask="{mask: '000-00-0000000'}"
+                               placeholder="eg: 000-00-0000000">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Phone with Odd</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '(00) 0000-0000'}" placeholder="eg: (00) 0000-0000">
+                        <input type="text" class="form-control" data-input-mask="{mask: '(00) 0000-0000'}"
+                               placeholder="eg: (00) 0000-0000">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>US Phone Number</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '(000) 000-0000'}" placeholder="eg: (000) 000-0000">
+                        <input type="text" class="form-control" data-input-mask="{mask: '(000) 000-0000'}"
+                               placeholder="eg: (000) 000-0000">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>CPF</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000-00'}" placeholder="eg: 000.000.000-00">
+                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000-00'}"
+                               placeholder="eg: 000.000.000-00">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Money</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}" placeholder="eg: 000.000.000.000.000,00">
+                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}"
+                               placeholder="eg: 000.000.000.000.000,00">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>IP Address</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000'}" placeholder="eg: 000.000.000.000">
+                        <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000'}"
+                               placeholder="eg: 000.000.000.000">
                     </div>
                 </div>
 
                 <div class="col-sm-3 m-b-20">
                     <div class="form-group fg-line">
                         <label>Percentage</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '00000,00%'}" placeholder="eg: 00000,00%">
+                        <input type="text" class="form-control" data-input-mask="{mask: '00000,00%'}"
+                               placeholder="eg: 00000,00%">
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group fg-line">
                         <label>Credit Card</label>
-                        <input type="text" class="form-control" data-input-mask="{mask: '0000 0000 0000 0000'}" placeholder="eg: 0000 0000 0000 0000">
+                        <input type="text" class="form-control" data-input-mask="{mask: '0000 0000 0000 0000'}"
+                               placeholder="eg: 0000 0000 0000 0000">
                     </div>
                 </div>
             </div>
@@ -332,7 +353,9 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Chosen <small>Make long, unwieldy select boxes more user friendly.</small></h2>
+            <h2>Chosen
+                <small>Make long, unwieldy select boxes more user friendly.</small>
+            </h2>
         </div>
 
         <div class="card-body card-padding">
@@ -365,7 +388,7 @@
 
                 <div class="col-sm-3 m-b-15">
                     <p class="f-500 c-black m-b-15">Multiple Example</p>
-                    <select  chosen multiple data-placeholder="Select a country..." class="w-100">
+                    <select chosen multiple data-placeholder="Select a country..." class="w-100">
                         <option value="United States">United States</option>
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="Afghanistan">Afghanistan</option>
@@ -400,7 +423,9 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Toggle Switch <small>Material Desing look alike Toggle Switches based on Radio Box.</small></h2>
+            <h2>Toggle Switch
+                <small>Material Desing look alike Toggle Switches based on Radio Box.</small>
+            </h2>
         </div>
 
         <div class="card-body card-padding">
@@ -504,7 +529,11 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Input Slider <small>noUiSlider is a range slider without bloat. It offers a ton off features, and it is as small, lightweight and minimal as possible, which is great for mobile use on the many supported devices.</small></h2>
+            <h2>Input Slider
+                <small>noUiSlider is a range slider without bloat. It offers a ton off features, and it is as small,
+                    lightweight and minimal as possible, which is great for mobile use on the many supported devices.
+                </small>
+            </h2>
         </div>
 
         <div class="card-body card-padding" data-ng-controller="formCtrl as fctrl">
@@ -526,7 +555,8 @@
             <br/>
             <br/>
 
-            <div slider class="input-slider-range" ng-from="fctrl.nouisliderFrom" ng-to="fctrl.nouisliderTo" start=0 end=100></div>
+            <div slider class="input-slider-range" ng-from="fctrl.nouisliderFrom" ng-to="fctrl.nouisliderTo" start=0
+                 end=100></div>
 
             <br/>
             <br/>
@@ -539,30 +569,38 @@
             <br/>
             <br/>
 
-            <div slider class="input-slider m-b-25" ng-model="fctrl.nouisliderRed" start=0 end=100 data-is-color="red"></div>
+            <div slider class="input-slider m-b-25" ng-model="fctrl.nouisliderRed" start=0 end=100
+                 data-is-color="red"></div>
 
             <br/>
 
-            <div slider class="input-slider m-b-25" data-is-color="blue" ng-model="fctrl.nouisliderBlue" start=0 end=100></div>
+            <div slider class="input-slider m-b-25" data-is-color="blue" ng-model="fctrl.nouisliderBlue" start=0
+                 end=100></div>
 
             <br/>
 
-            <div slider class="input-slider m-b-25" data-is-color="cyan" ng-model="fctrl.nouisliderCyan" start=0 end=100></div>
+            <div slider class="input-slider m-b-25" data-is-color="cyan" ng-model="fctrl.nouisliderCyan" start=0
+                 end=100></div>
 
             <br/>
 
-            <div slider class="input-slider m-b-25" data-is-color="amber" ng-model="fctrl.nouisliderAmber" start=0 end=100></div>
+            <div slider class="input-slider m-b-25" data-is-color="amber" ng-model="fctrl.nouisliderAmber" start=0
+                 end=100></div>
 
             <br/>
 
-            <div slider class="input-slider m-b-25" data-is-color="green" ng-model="fctrl.nouisliderGreen" start=0 end=100></div>
+            <div slider class="input-slider m-b-25" data-is-color="green" ng-model="fctrl.nouisliderGreen" start=0
+                 end=100></div>
 
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <h2>Datepicker <small><a target="_blank" class="c-gray" href="http://angular-ui.github.io/bootstrap/#/datepicker">ui.bootstrap.datepicker</a></small></h2>
+            <h2>Datepicker
+                <small><a target="_blank" class="c-gray" href="http://angular-ui.github.io/bootstrap/#/datepicker">ui.bootstrap.datepicker</a>
+                </small>
+            </h2>
 
 
             <ul class="actions">
@@ -582,7 +620,9 @@
 
         <div class="card-body card-padding p-t-0" data-ng-controller="DatepickerDemoCtrl">
 
-            <p>A clean, flexible, and fully customizable date picker. User can navigate through months and years. The datepicker shows dates that come from other than the main month being displayed. These other dates are also selectable. <a href="http://angular-ui.github.io/bootstrap/#/datepicker">Read more...</a></p>
+            <p>A clean, flexible, and fully customizable date picker. User can navigate through months and years. The
+                datepicker shows dates that come from other than the main month being displayed. These other dates are
+                also selectable. <a href="http://angular-ui.github.io/bootstrap/#/datepicker">Read more...</a></p>
 
             <br/>
 
@@ -595,19 +635,22 @@
             <div class="datepicker-demo">
                 <div class="dd-block">
                     <div class="date-picker">
-                        <uib-datepicker show-weeks="false" ng-model="dtInline" min-date="minDate" class="dp-inline"></uib-datepicker>
+                        <uib-datepicker show-weeks="false" ng-model="dtInline" min-date="minDate"
+                                        class="dp-inline"></uib-datepicker>
                     </div>
                 </div>
 
                 <div class="dd-block">
                     <div class="date-picker dp-blue">
-                        <uib-datepicker show-weeks="false" ng-model="dtInline2" min-date="minDate" class="dp-inline"></uib-datepicker>
+                        <uib-datepicker show-weeks="false" ng-model="dtInline2" min-date="minDate"
+                                        class="dp-inline"></uib-datepicker>
                     </div>
                 </div>
 
                 <div class="dd-block">
                     <div class="date-picker dp-red">
-                        <uib-datepicker show-weeks="false" ng-model="dtInline3" min-date="minDate" class="dp-inline"></uib-datepicker>
+                        <uib-datepicker show-weeks="false" ng-model="dtInline3" min-date="minDate"
+                                        class="dp-inline"></uib-datepicker>
                     </div>
                 </div>
 
@@ -629,7 +672,10 @@
                     <div class="date-picker input-group" ng-class="{ 'is-opened': opened == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened == true }">
-                            <input ng-click="open($event, 'opened')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
+                            <input ng-click="open($event, 'opened')" type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup"
+                                   is-open="opened" min-date="minDate" datepicker-options="dateOptions"
+                                   ng-required="true" close-text="Close" placeholder="Select Date"/>
                         </div>
                     </div>
 
@@ -640,7 +686,10 @@
                     <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
-                            <input ng-click="open($event, 'opened2')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup2" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
+                            <input ng-click="open($event, 'opened2')" type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup2"
+                                   is-open="opened2" min-date="minDate" datepicker-options="dateOptions"
+                                   ng-required="true" close-text="Close" placeholder="Select Date"/>
                         </div>
                     </div>
 
@@ -651,7 +700,10 @@
                     <div class="date-picker input-group dp-red" ng-class="{ 'is-opened': opened3 == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened3 == true }">
-                            <input ng-click="open($event, 'opened3')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup3" is-open="opened3" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Date" />
+                            <input ng-click="open($event, 'opened3')" type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup3"
+                                   is-open="opened3" min-date="minDate" datepicker-options="dateOptions"
+                                   ng-required="true" close-text="Close" placeholder="Select Date"/>
                         </div>
                     </div>
 
@@ -674,7 +726,10 @@
                     <div class="date-picker input-group dropup" ng-class="{ 'is-opened': opened4 == true }">
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
                         <div class="fg-line" ng-class="{ 'fg-toggled': opened4 == true }">
-                            <input ng-click="open($event, 'opened4')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtUp" is-open="opened4" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="This is a dropup" />
+                            <input ng-click="open($event, 'opened4')" type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtUp"
+                                   is-open="opened4" min-date="minDate" datepicker-options="dateOptions"
+                                   ng-required="true" close-text="Close" placeholder="This is a dropup"/>
                         </div>
                     </div>
 
@@ -687,7 +742,9 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Color Picker <small>Simplt HEX and HSL color picker with customizable options</small></h2>
+            <h2>Color Picker
+                <small>Simplt HEX and HSL color picker with customizable options</small>
+            </h2>
         </div>
 
         <div class="card-body card-padding" data-ng-controller="formCtrl as fctrl">
@@ -695,12 +752,12 @@
                 <div class="col-sm-6">
 
 
-
                     <div class="cp-container">
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
                             <div class="fg-line dropdown" uib-dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color" uib-dropdown-toggle>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color"
+                                       uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color"></ng-farbtastic>
@@ -717,7 +774,8 @@
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
                             <div class="fg-line dropdown" uib-dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color2" uib-dropdown-toggle>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color2"
+                                       uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color2"></ng-farbtastic>
@@ -734,7 +792,8 @@
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
                             <div class="fg-line dropdown" uib-dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color3" uib-dropdown-toggle>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color3"
+                                       uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color3"></ng-farbtastic>
@@ -751,7 +810,8 @@
                         <div class="input-group form-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
                             <div class="fg-line dropdown" uib-dropdown>
-                                <input type="text" class="form-control cp-value" ng-model="fctrl.color4" uib-dropdown-toggle>
+                                <input type="text" class="form-control cp-value" ng-model="fctrl.color4"
+                                       uib-dropdown-toggle>
 
                                 <div class="dropdown-menu">
                                     <ng-farbtastic ng-model="fctrl.color4"></ng-farbtastic>
@@ -771,7 +831,10 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Simple File Input <small>The file input plugin allows you to create a visually appealing file or image input widgets</small></h2>
+            <h2>Simple File Input
+                <small>The file input plugin allows you to create a visually appealing file or image input widgets
+                </small>
+            </h2>
         </div>
 
         <div class="card-body card-padding">
@@ -810,7 +873,8 @@
 
             <br/>
             <br/>
-            <p><em>Image preview only works in IE10+, FF3.6+, Safari6.0+, Chrome6.0+ and Opera11.1+. In older browsers the filename is shown instead.</em></p>
+            <p><em>Image preview only works in IE10+, FF3.6+, Safari6.0+, Chrome6.0+ and Opera11.1+. In older browsers
+                the filename is shown instead.</em></p>
         </div>
     </div>
 
