@@ -7,9 +7,8 @@ angular.module('materialAdmin')
       	$scope.datos = [];
       	$scope.data = {};	    
 
-	     console.log("Consultando productos...");
-        	    $http.get("http://localhost:8181/producto/").success(function(res){
-
+ $http.get("http://localhost:8181/producto/").success(function(res){
+            console.log("Consultando productos...");
                 $scope.datos=res
 
         	    console.log("La respuesta en consultar: "+res);
@@ -31,6 +30,21 @@ angular.module('materialAdmin')
         	        console.log("El error para insertar producto: "+res);
         	    });
         		};
+
+        $scope.borrarProducto = function (id) {
+
+             console.log("Borrar producto en el controlador "+id);
+
+            $http.delete("http://localhost:8181/producto/"+id,$scope.productoDelete,{})
+                                    .success(function(res){
+                                    $scope.borrarProducto = {};
+
+                                            console.log("La respuesta del backend "+res);
+                                    }).error(function(res){
+                                        console.log("Doesn't work para Borrar producto");
+                                        console.log("El error para borar producto: "+res);
+                                    });
+                                    };
 
   });
 
