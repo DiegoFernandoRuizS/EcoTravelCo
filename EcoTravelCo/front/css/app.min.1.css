@@ -2993,7 +2993,7 @@ th {
 .table > tfoot > tr > td {
   padding: 10px;
   line-height: 1.42857143;
-  vertical-align: top;
+  vertical-align: middle;
   border-top: 1px solid #f0f0f0;
 }
 
@@ -11268,6 +11268,11 @@ body:not(.sw-toggled) #sidebar {
 .lv-img-sm {
   width: 35px;
   height: 35px;
+}
+
+.lv-img-m {
+  width: 100px;
+  height: 100px;
 }
 
 .lv-header {

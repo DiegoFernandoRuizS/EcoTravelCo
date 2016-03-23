@@ -143,7 +143,7 @@ public class ProductoDAO {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
-        JsonUtils.add(params, nuevoProducto.getInteger("id", 0));
+        /*JsonUtils.add(params, nuevoProducto.getString("id", ""));
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
@@ -152,11 +152,28 @@ public class ProductoDAO {
         JsonUtils.add(params, nuevoProducto.getInteger("id_padre", 0));
         JsonUtils.add(params, nuevoProducto.getInteger("id_direccion_id", 0));
         JsonUtils.add(params, nuevoProducto.getInteger("tipo_producto_id", 0));
+        JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
+        JsonUtils.add(params, nuevoProducto.getDouble("precio",0D));*/
 
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id", "")));
+        JsonUtils.add(params, nuevoProducto.getString("estado", ""));
+        JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
+        JsonUtils.add(params, new Date().toInstant());
+        JsonUtils.add(params, new Date().toInstant());
+        //JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("calificacion_promedio", "")));
+        JsonUtils.add(params, 5.0D);
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
+        JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
+        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio","")));
+
+        System.out.println("-------->>>>>>>>>>");
+        System.out.println("-------->>>>>>>>>> ");
         String query = "INSERT INTO public.mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
-                "            id_padre, id_direccion_id, tipo_producto_id)\n" +
-                "    VALUES (?,?,?,to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),?,?,?,?);\n";
+                "            id_padre, id_direccion_id, tipo_producto_id,descripcion,precio)\n" +
+                "    VALUES (?,?,?,to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),?,?,?,?,?,?);\n";
 
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -196,9 +213,12 @@ public class ProductoDAO {
         JsonUtils.add(params, editProducto.getInteger("id_padre", 0));
         JsonUtils.add(params, editProducto.getInteger("id_direccion_id", 0));
         JsonUtils.add(params, editProducto.getInteger("tipo_producto_id", 0));
+        JsonUtils.add(params, editProducto.getString("descripcion",""));
+        JsonUtils.add(params, editProducto.getDouble("precio",0D));
+
         String query = "UPDATE public.mp_producto\n" +
                 "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
-                "       calificacion_promedio=?, id_padre=?, id_direccion_id=?, tipo_producto_id=?\n" +
+                "       calificacion_promedio=?, id_padre=?, id_direccion_id=?, tipo_producto_id=?,descripcion=?,precio=?\n" +
                 " WHERE id=" + id + ";";
 
         dataAccess.getConnection(conn -> {

@@ -1,0 +1,229 @@
+<div class="container" ng-controller="ProductosCtrl">
+    <div class="block-header">
+        <h2>Gestión de productos - Crear producto</h2>
+
+        <ul class="actions">
+            <li>
+                <a href="">
+                    <i class="zmdi zmdi-trending-up"></i>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="zmdi zmdi-check-all"></i>
+                </a>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="">Refresh</a>
+                    </li>
+                    <li>
+                        <a href="">Manage Widgets</a>
+                    </li>
+                    <li>
+                        <a href="">Widgets Settings</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Crear productos
+                <small>Crear productos pertenece a la sección de gestion de productos
+                </small>
+            </h2>
+        </div>
+
+        <div class="card-body card-padding">
+            <p class="c-black f-500 m-b-5">Crear nuevo producto</p>
+            <small>En esta sección usted puede crear un nuevo producto</small>
+
+            <br/><br/>
+
+            <div class="row">
+                <div class="col-sm-4">
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <select chosen data-placeholder="Tipo de producto..." class="w-100"
+                                    ng-model="producto.tipo_producto_id">
+                                <option value="1">Alojamiento</option>
+                                <option value="2">Transporte</option>
+                                <option value="3">Recreacion</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                        <div class="fg-line">
+                            <input type="text-area" class="form-control" placeholder="Nombre"
+                                   ng-model="producto.nombre">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                        <div class="fg-line">
+                            <input type="text" class="form-control" placeholder="ID producto" ng-model="producto.id">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
+                        <div class="fg-line">
+                            <input type="text" class="form-control" placeholder="ID padre" ng-model="producto.id_padre">
+                        </div>
+                    </div>
+                </div>
+                <div class="=col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <textarea class="form-control" rows="4" placeholder="Añadir descripción...."
+                                      ng-model="producto.descripcion"></textarea>
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <br/>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+                        <div class="fg-line">
+                            <input type="text" class="form-control" placeholder="Dirección"
+                                   ng-model="producto.id_direccion_id">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+                        <div class="fg-line">
+
+                            <input type="text" class="form-control" data-input-mask="{mask: '000.000.000.000.000,00'}"
+                                   placeholder="Precio" ng-model="producto.precio">
+                        </div>
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                        <div class="fg-line">
+                            <select chosen data-placeholder="Seleccione estado..." class="w-100"
+                                    ng-model="producto.estado">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="En proceso">En proceso</option>
+                            </select>
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                    </div>
+
+                    <br/>
+
+
+                    <br>
+                </div>
+
+            </div>
+            <br/>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" name="...">
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" name="...">
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" name="...">
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+
+                    <div class="input-group">
+                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

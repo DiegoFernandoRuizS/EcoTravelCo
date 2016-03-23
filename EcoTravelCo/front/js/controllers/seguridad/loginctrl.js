@@ -11,16 +11,11 @@ angular.module('materialAdmin')
 
 console.log("...>>>>>" );
 
-
       	$scope.registrarUsuario = function () {
-
-
  	$http.post("http://localhost:8181/cliente/",$scope.registro,{})
-	    
 	    .success(function(res){
       	$scope.registro = {};
 
-	    
 	    }).error(function(res){	  	  
 	        console.log("Doesn't work");
 	        console.log("Que trae esto: "+res);
