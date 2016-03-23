@@ -23,7 +23,10 @@ public class ProductoDAO {
     //Listar productos
     public CompletableFuture<List<JsonObject>> listarProductos() {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select * from mp_producto";
+        String query = "SELECT p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, \n" +
+                "       p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
+                "  FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
+                "  where p.tipo_producto_id=tp.id;";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -112,7 +115,10 @@ public class ProductoDAO {
     //Listar un producto
     public CompletableFuture<List<JsonObject>> listarProducto(Long id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "SELECT * FROM public.mp_producto where id = " + id;
+        String query = "SELECT p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, \n" +
+                "       p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
+                "  FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
+                "  where p.tipo_producto_id=tp.id and p.id = " + id;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {

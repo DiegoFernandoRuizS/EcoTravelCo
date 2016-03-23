@@ -54,16 +54,34 @@
                             <span ng-if="!w.$edit">{{ w.nombre }}</span>
                             <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.nombre"/></div>
                         </td>
+                        <td data-title="'Descripción servicio'">
+                            <span ng-if="!w.$edit">{{ w.descripcion }}</span>
+                            <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.descripcion"/>
+                            </div>
+                        </td>
+                        <td data-title="'Tipo servicio'">
+                            <span ng-if="!w.$edit">{{ w.tipo }}</span>
+                            <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.tipo"/></div>
+                        </td>
+                        <td data-title="'Precio'">
+                            <span ng-if="!w.$edit">{{ w.precio }}</span>
+                            <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.precio"/></div>
+                        </td>
                         <td data-title="'Última actualización'">
                             <span ng-if="!w.$edit">{{ w.fecha_actualizacion }}</span>
                             <div ng-if="w.$edit"><input class="form-control" type="date"
                                                         ng-model="w.fecha_actualizacion"/></div>
                         </td>
-                        <td data-title="'Acciones'">
-                            <button type="button" class="btn btn-default" ng-if="!w.$edit" ng-click="w.$edit = true"><i
+                        <td>
+                            <button type="button" class="btn btn-info" ng-if="!w.$edit" ng-click="w.$edit = true"><i
                                     class="zmdi zmdi-edit"></i></button>
                             <button type="button" class="btn btn-success" ng-if="w.$edit" ng-click="w.$edit = false"><i
                                     class="zmdi zmdi-check"></i></button>
+                        </td>
+                        <td>
+
+                            <button type="button" class="btn btn-danger" ng-click="borrarProducto(w.id)"><i
+                                    class="zmdi zmdi-delete"></i></button>
                         </td>
                     </tr>
                 </table>
