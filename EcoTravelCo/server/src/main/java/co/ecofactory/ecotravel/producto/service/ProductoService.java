@@ -20,15 +20,6 @@ public class ProductoService extends AbstractVerticle {
                 .put("url", "jdbc:postgresql://localhost:5432/ecotravelco")
                 .put("driver_class", "org.postgresql.Driver")
                 .put("user","postgres").put("password","password")
-            //    .put("url", "jdbc:postgres://54.227.245.197:5432/d5edkisov7ljbj")
-            //    .put("driver_class", "org.postgresql.Driver")
-            //    .put("user","opojrqcxmvacqx").put("password","97KRqSwF2Y3CWkCSI_PGPPzKPD")
-
-              //  .put("user", "postgres").put("password", "eduardo88$")
-                //    .put("url", "jdbc:postgres://54.227.245.197:5432/d5edkisov7ljbj")
-                //    .put("driver_class", "org.postgresql.Driver")
-                //    .put("user","opojrqcxmvacqx").put("password","97KRqSwF2Y3CWkCSI_PGPPzKPD")
-
                 .put("max_pool_size", 30));
 
         // registro los metodos en el bus
@@ -38,7 +29,6 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("insertarProducto", this::insertarProducto);
         this.getVertx().eventBus().consumer("editarProducto", this::editarProducto);
         this.getVertx().eventBus().consumer("borrarProducto", this::borrarProducto);
-
 
         this.getVertx().eventBus().consumer("listarProductosHome", this::listarProductosHome);
         this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);

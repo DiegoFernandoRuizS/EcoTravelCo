@@ -7,7 +7,6 @@ angular.module('materialAdmin')
       	$scope.datos = [];
       	$scope.data = {};	    
 
-	 //   $scope.consultarProductos=function(){
 	     console.log("Consultando productos...");
         	    $http.get("http://localhost:8181/producto/").success(function(res){
 
@@ -18,7 +17,6 @@ angular.module('materialAdmin')
         	        console.log("Doesn't work");
         	        console.log("Que trae esto: "+res);
         	    });
-	   // };
 
 	     $scope.insertarProducto = function () {
 	     console.log("Insertar producto en el controlador");
@@ -35,6 +33,7 @@ angular.module('materialAdmin')
         		};
 
   });
+
 
 angular.module('materialAdmin')
 	.controller('ProductosHomeCtrl', function ($scope, $rootScope, $http, $location) {
@@ -74,12 +73,9 @@ angular.module('materialAdmin')
 
             }).error(function(res){
             console.log("Doesn't work");
-            console.log("Que trae esto: "+res);
+           console.log("Que trae esto: "+res);
 
         });
-
-
-
     });
 
 

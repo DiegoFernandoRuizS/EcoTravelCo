@@ -37,11 +37,17 @@
             <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de productos</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="productos.lista"
-                       data-ng-click="mactrl.sidebarStat($event)">Productos - Servicios</a></li>
+                       data-ng-click="mactrl.sidebarStat($event)">Productos</a></li>
                 <li><a data-ui-sref-active="active" data-ui-sref="productos.crear"
                        data-ng-click="mactrl.sidebarStat($event)">Crear productos</a></li>
             </ul>
         </li>
 
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Canasta</a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="canasta.lista" data-ng-click="mactrl.sidebarStat($event)">Canasta</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
