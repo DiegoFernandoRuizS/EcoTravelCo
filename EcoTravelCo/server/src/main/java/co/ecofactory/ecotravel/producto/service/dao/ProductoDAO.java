@@ -160,7 +160,8 @@ public class ProductoDAO {
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, new Date().toInstant());
-        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("calificacion_promedio", "")));
+        //JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("calificacion_promedio", "")));
+        JsonUtils.add(params, 5.0D);
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
