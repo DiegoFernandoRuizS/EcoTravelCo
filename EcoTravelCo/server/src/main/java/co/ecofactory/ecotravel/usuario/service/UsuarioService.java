@@ -1,5 +1,6 @@
 package co.ecofactory.ecotravel.usuario.service;
 
+import co.ecofactory.ecotravel.init.Conexion;
 import co.ecofactory.ecotravel.usuario.service.dao.UsuarioDAO;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.Message;
@@ -17,11 +18,7 @@ public class UsuarioService extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        dao = new UsuarioDAO(this.getVertx(), new JsonObject()
-                .put("url", "jdbc:postgresql://localhost:5432/ecotravelco")
-                .put("driver_class", "org.postgresql.Driver")
-                .put("user", "postgres").put("password", "eduardo88$")
-                .put("max_pool_size", 30));
+        dao = new UsuarioDAO(this.getVertx(), new Conexion().getConf());
 
         // registro los metodos en el bus
 

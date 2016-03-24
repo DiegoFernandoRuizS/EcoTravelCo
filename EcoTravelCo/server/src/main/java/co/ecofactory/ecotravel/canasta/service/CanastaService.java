@@ -1,6 +1,7 @@
 package co.ecofactory.ecotravel.canasta.service;
 
 import co.ecofactory.ecotravel.canasta.service.dao.CanastaDAO;
+import co.ecofactory.ecotravel.init.Conexion;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
@@ -17,11 +18,7 @@ public class CanastaService extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        dao = new CanastaDAO(this.getVertx(), new JsonObject()
-                    .put("url", "jdbc:postgresql://localhost/ecofactory")
-                .put("driver_class", "org.postgresql.Driver")
-                .put("user","postgres").put("password","1234")
-                .put("max_pool_size", 30));
+        dao = new CanastaDAO(this.getVertx(), new Conexion().getConf());
 
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("listarCanasta", this::listarCanasta);

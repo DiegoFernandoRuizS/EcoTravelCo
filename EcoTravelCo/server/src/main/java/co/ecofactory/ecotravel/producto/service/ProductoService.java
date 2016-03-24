@@ -1,6 +1,7 @@
 package co.ecofactory.ecotravel.producto.service;
 
 import co.ecofactory.ecotravel.producto.service.dao.ProductoDAO;
+import co.ecofactory.ecotravel.init.Conexion;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
@@ -16,11 +17,7 @@ public class ProductoService extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        dao = new ProductoDAO(this.getVertx(), new JsonObject()
-                .put("url", "jdbc:postgresql://localhost:5432/ecotravelco")
-                .put("driver_class", "org.postgresql.Driver")
-                .put("user","postgres").put("password","password")
-                .put("max_pool_size", 30));
+        dao = new ProductoDAO(this.getVertx(), new Conexion().getConf());
 
         // registro los metodos en el bus
         //CRUD productos
