@@ -14,7 +14,7 @@ angular.module('materialAdmin')
       	$scope.data = {};	    
 	    
 	    console.log("Consultando canasta...");
-	    $http.get("http://localhost:8181/canasta/")
+	    $http.get("http://localhost:8181/canasta/?id=1")
 	    
 	    .success(function(res){
         $scope.datos=res
