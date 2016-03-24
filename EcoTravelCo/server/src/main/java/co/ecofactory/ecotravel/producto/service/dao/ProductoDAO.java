@@ -161,7 +161,7 @@ public class ProductoDAO {
         JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
         JsonUtils.add(params, nuevoProducto.getDouble("precio",0D));*/
 
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id", "")));
+        //JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id", "")));
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
@@ -174,12 +174,21 @@ public class ProductoDAO {
         JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio","")));
 
-        System.out.println("-------->>>>>>>>>>");
-        System.out.println("-------->>>>>>>>>> ");
-        String query = "INSERT INTO public.mp_producto(\n" +
+        String query ="INSERT INTO mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
-                "            id_padre, id_direccion_id, tipo_producto_id,descripcion,precio)\n" +
-                "    VALUES (?,?,?,to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),?,?,?,?,?,?);\n";
+                "            id_padre, id_direccion_id, tipo_producto_id, descripcion, precio)\n" +
+                "    VALUES (nextval('mp_producto_id_seq'), \n" +
+                "    ?, \n" +
+                "    ?, \n" +
+                "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
+                "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),\n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?);";
+
 
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
