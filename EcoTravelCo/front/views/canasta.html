@@ -81,23 +81,25 @@
 
                 <tbody>
                 </tbody><thead>
-                    <tr ng-repeat="data in datos">
-                        <td>
-                            <div class="pull-left">
-                                <img class="lv-img-m" data-ng-src="http://www.dilos.com/picture/hotel/19056" alt="" src="http://www.dilos.com/picture/hotel/19056">
-                            </div>
-                        </td>
-                        <td width="50%">
-                            <h5 class="text-uppercase f-400"><a ng-href="#/canasta/{{data.id}}">{{data.nombre}}</a></h5>
-                            <p class="text-muted">Nullam <consectet></consectet>ur dolor nec ullamcorper finibus. Quisque a porta mauris, non venenatis mi. Pellentesque habitant morbi tristique</p>
-                        </td>
-                        <td>$450.00</td>
-                        <td align="center">{{data.cantidad}}</td>
-                        <td class="highlight">{{data.precioTotal}}</td>
-                        <!--<td><a ng-href="#/canasta/{{data.id}}">{{data.id}}</a></td>
-                        <td>{{data.nombre}}</td>-->
-                        <td ><button class="btn bgm-cyan btn-icon waves-effect waves-circle"><i class="zmdi zmdi-delete"></i></button></td>
-                    </tr>
+            <tr ng-repeat="data in datos">
+                <td>
+                    <div class="pull-left">
+                        <img class="lv-img-m" data-ng-src={{data.url}} alt="" src={{data.url}}>
+                    </div>
+                </td>
+                <td width="50%">
+                    <h5 class="text-uppercase f-400"><a ng-href="#/canasta/{{data.id}}">{{data.nombre}}</a></h5>
+                    <p class="text-muted">{{data.descripcion}}</p>
+                </td>
+                <td>${{data.precio}}</td>
+                <td align="center">{{data.cantidad}}</td>
+                <td class="highlight">{{data.precioTotal}}</td>
+                <td>
+                    <button class="btn bgm-cyan btn-icon waves-effect waves-circle" data-ui-sref="canasta.eliminar" data-ng-click="{{data.id}}">
+                        <i class="zmdi zmdi-delete" />
+                    </button>
+                </td>
+            </tr>
 
             <tr>
                 <td colspan="4"></td>

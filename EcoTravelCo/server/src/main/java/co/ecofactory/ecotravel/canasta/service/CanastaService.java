@@ -22,24 +22,19 @@ public class CanastaService extends AbstractVerticle {
 
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("listarCanasta", this::listarCanasta);
-
+        this.getVertx().eventBus().consumer("agregarProductoCanasta", this::agregarProductoCanasta);
+        this.getVertx().eventBus().consumer("modificarProductoCanasta", this::modificarProductoCanasta);
+        this.getVertx().eventBus().consumer("eliminarProductoCanasta", this::eliminarProductoCanasta);
     }
 
     public void listarCanasta(Message<JsonObject> message) {
-        System.out.println("listarCanasta");
         try {
-
-            //CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta(message.body().getString("id"));
-            CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta("1");
-            System.out.println(11);
+            int idPersona = Integer.parseInt(message.body().getString("id"));
+            CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta(idPersona);
             data.whenComplete((ok, error) -> {
-                System.out.println("listarCanasta");
                 if (ok != null) {
-                    System.out.println("listarCanasta:OK" + ok);
                     JsonArray arr = new JsonArray();
-
                     ok.forEach(o -> arr.add(o));
-
                     message.reply(arr);
                 } else {
                     error.printStackTrace();
@@ -51,72 +46,79 @@ public class CanastaService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
-
         }
     }
 
 
-    public void agregarCanasta(Message<JsonObject> message) {
-
-        System.out.println("agregarCanasta");
-
+    public void agregarProductoCanasta(Message<JsonObject> message) {
         try {
+            int idUsuario = Integer.parseInt(message.body().getString("id_usuario"));
+            int idProducto = Integer.parseInt(message.body().getString("id_producto"));
+            int cantidad = Integer.parseInt(message.body().getString("cantidad"));
 
-            CompletableFuture<List<JsonObject>> data = this.dao.agregarCanasta();
-            System.out.println(11);
-            data.whenComplete((ok, error) -> {
-                System.out.println("agregarCanasta");
+            CompletableFuture<JsonObject> canasta = this.dao.crearCanasta(idUsuario);
+
+            canasta.whenComplete((ok, error) -> {
                 if (ok != null) {
-                    System.out.println("agregarCanasta:OK" + ok);
+                    CompletableFuture<JsonObject> item = this.dao.agregarCanasta(idUsuario, idProducto, cantidad);
+                    this.dao.adicionarValorCanasta(idUsuario, idProducto, cantidad);
+                    item.whenComplete((okItem, errorItem) -> {
+                        if (okItem != null) {
+                            message.reply(okItem);
+                        } else {
+                            error.printStackTrace();
+                            message.fail(0, "ERROR in Item");
+                        }
+                    });
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in Carro");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
+
+    public void eliminarProductoCanasta(Message<JsonObject> message) {
+        try {
+            int idOrderItem = Integer.parseInt(message.body().getString("id_orden_item"));
+            this.dao.restarValorCanasta(idOrderItem);
+            CompletableFuture<JsonObject> data = this.dao.eliminarProductoCanasta(idOrderItem);
+
+            data.whenComplete((ok, error) -> {
+                if (ok != null) {
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
+    public void modificarProductoCanasta(Message<JsonObject> message) {
+        try {
+            CompletableFuture<List<JsonObject>> data = this.dao.modificarProductoCanasta(
+                    message.body().getString("id_orden_item"), message.body().getString("cantidad"));
+            data.whenComplete((ok, error) -> {
+                if (ok != null) {
                     JsonArray arr = new JsonArray();
-
                     ok.forEach(o -> arr.add(o));
-
                     message.reply(arr);
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
                 }
             });
-
-
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
-
         }
     }
-
-
-    public void quitarCanasta(Message<JsonObject> message) {
-
-        System.out.println("quitarCanasta");
-
-        try {
-
-            CompletableFuture<List<JsonObject>> data = this.dao.quitarCanasta();
-            System.out.println(11);
-            data.whenComplete((ok, error) -> {
-                System.out.println("quitarCanasta");
-                if (ok != null) {
-                    System.out.println("quitarCanasta:OK" + ok);
-                    JsonArray arr = new JsonArray();
-
-                    ok.forEach(o -> arr.add(o));
-
-                    message.reply(arr);
-                } else {
-                    error.printStackTrace();
-                    message.fail(0, "ERROR in data");
-                }
-            });
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            message.fail(0, "ERROR inside catch");
-
-        }
-    }
-
 }
