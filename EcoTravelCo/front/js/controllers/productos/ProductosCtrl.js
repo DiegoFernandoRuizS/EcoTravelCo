@@ -5,7 +5,8 @@ angular.module('materialAdmin')
   .controller('ProductosCtrl', function ($scope, $rootScope, $http, $location) {
 	  
       	$scope.datos = [];
-      	$scope.data = {};	    
+      	$scope.data = {};
+        $rootScope.load = 0;
 
  $http.get("http://localhost:8181/producto/").success(function(res){
             console.log("Consultando productos...");
@@ -46,31 +47,36 @@ angular.module('materialAdmin')
                                     });
                                     };
 
+	  $scope.queryAllProduct = function () {
+		  //var id = pathArray[pathArray.length-2];
+		  $http({method: 'GET', url: 'http://localhost:8181/producto_home/'})
+			  .success(function(res){
+				  $scope.datos=res
+                  $rootScope.load =1;
+				  console.log(res);
+
+			  }).error(function(res){
+			  console.log("Doesn't work");
+			  console.log("Que trae esto: "+res);
+		  })
+	  };
+
+	  $scope.queryProducts = function () {
+		  $rootScope.busquedaProd=$scope.producto.search;
+	  };
+
+	  if ( $rootScope.load ==0) {
+		  $scope.queryAllProduct();
+	  }
+
+
+	  $scope.detailProd = function (id) {
+		  $rootScope.prodId= id;
+	  };
+
   });
 
 
-angular.module('materialAdmin')
-	.controller('ProductosHomeCtrl', function ($scope, $rootScope, $http, $location) {
-
-		$scope.datos = [];
-		$scope.data = {};
-
-		console.log("Consultando productos...");
-		$http.get("http://localhost:8181/producto_home/")
-
-			.success(function(res){
-				$scope.datos=res
-				console.log(res);
-
-			}).error(function(res){
-			console.log("Doesn't work");
-			console.log("Que trae esto: "+res);
-
-		});
-
-
-
-	});
 
 angular.module('materialAdmin')
     .controller('ProductosDetalle', function ($scope, $rootScope, $http, $location) {
@@ -78,18 +84,57 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.data = {};
 
-        console.log("Consultando productos 22222...");
-        $http.get("http://localhost:8181/producto_detalle/1")
+        $scope.comentario = [];
+        $scope.comentarios = {};
 
-            .success(function(res){
-                $scope.datos=res
-                console.log(res);
+        $scope.detailProd = function () {
 
-            }).error(function(res){
-            console.log("Doesn't work");
-           console.log("Que trae esto: "+res);
+            var id=  $rootScope.prodId;
 
-        });
+            console.log("Entro?"+id);
+            $http({method: 'GET', url: 'http://localhost:8181/producto_detalle/' + id})
+                .success(function(res){
+                    $scope.datos=res
+                    console.log(res);
+
+                }).error(function(res){
+                console.log("Doesn't work");
+                console.log("Que trae esto: "+res);
+            })
+        };
+
+
+            $scope.detailProd();
+
     });
 
+
+
+angular.module('materialAdmin')
+    .controller('ProductosBusqueda', function ($scope, $rootScope, $http, $location) {
+
+        $scope.datos = [];
+        $scope.data = {};
+
+        $scope.comentario = [];
+        $scope.comentarios = {};
+
+        $scope.queryProducts = function () {
+
+
+            var criterios=  $rootScope.busquedaProd;
+            $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
+                .success(function(res){
+                    $scope.datos=res
+                    console.log(res);
+
+                }).error(function(res){
+                console.log("Doesn't work");
+                console.log("Que trae esto: "+res);
+            })
+        };
+
+        $scope.queryProducts();
+
+    });
 

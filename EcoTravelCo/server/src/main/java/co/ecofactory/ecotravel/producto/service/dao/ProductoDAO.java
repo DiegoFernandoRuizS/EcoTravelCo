@@ -84,8 +84,8 @@ public class ProductoDAO {
 
     public CompletableFuture<List<JsonObject>> listarProductosDetalle(String id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        System.out.println("entro");
-        String query = "select a.*, b.*, c.* from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id left join mp_galeria c on a.id=c.producto_id where a.id=" + id;
+        System.out.println("entro id = "+id);
+        String query = "select a.*, b.*, c.* from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id left join mp_galeria c on a.id=c.producto_id where  c.foto_principal=1 and a.id=" + id;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -269,6 +269,62 @@ public class ProductoDAO {
                             } else {
                                 data.cause().printStackTrace();
                                 System.out.println("Error Borrar producto DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+        return res;
+    }
+
+
+    //Listar un producto
+    public CompletableFuture<List<JsonObject>> listarProductosBusqueda(JsonObject criterios) {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        System.out.println("ini");
+       // criterios.getString("search", "")
+        String[] split = criterios.getString("criterios").split("%20");
+        String query = "";
+
+        for (int i=0; split.length>i; i++) {
+            String search = split[i];
+            if (!search.equals("")) {
+                if (i !=0)
+                    query += " UNION ";
+                 query += "SELECT DISTINCT  p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio , pe.nombre\n" +
+                        "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario\n" +
+                        "where UPPER(p.nombre) like UPPER('%"+search+"%') or\n" +
+                        "UPPER(tp.tipo) like UPPER('%"+search+"%') or\n" +
+                         "UPPER(tp.descripcion) like UPPER('%"+search+"%') or\n" +
+                         "UPPER(p.descripcion) like UPPER('%"+search+"%') or\n" +
+                        "UPPER(pe.nombre) like UPPER('%"+search+"%') or\n" +
+                        "UPPER(pe.nombre_sec) like UPPER('%"+search+"%') or\n" +
+                        "UPPER(pe.apellido) like UPPER('%"+search+"%') or\n" +
+                        "UPPER(pe.apellido_sec) like UPPER('%"+search+"%') AND UPPER(p.estado)='ACTIVO'";
+            }
+            
+        }
+        final String queryf=query+";";
+
+        System.out.println("Query"+ queryf);
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(queryf, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                                System.out.println("En el If respuesta listar producto" + data.result().getRows().size());
+                            } else {
+                                System.out.println("err "+ data.cause());
+                                data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
                             }
                         });
