@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ProductoDAO {
     private JDBCClient dataAccess;
+
     public ProductoDAO(Vertx vertx, JsonObject conf) {
         dataAccess = JDBCClient.createShared(vertx, conf);
     }
@@ -154,7 +155,7 @@ public class ProductoDAO {
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, 5.0D);
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
-       // JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
+        // JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
@@ -162,7 +163,7 @@ public class ProductoDAO {
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
-        System.out.println("LA IMAGEN LLEGA? "+ nuevoProducto.getString("imagen",""));
+       // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
 
         String query = "INSERT INTO mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
@@ -271,6 +272,59 @@ public class ProductoDAO {
     }
 
 
+    //Insertar ImagenAsociada al producto
+    public CompletableFuture<JsonObject> insertarImagen(JsonObject nuevoProducto,int productoAsociado) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+
+        JsonArray params3 = new JsonArray();
+
+       // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
+
+        String imagen = nuevoProducto.getString("imagen", "");
+        String tipo ="Imagen" ;
+        String ciudad = nuevoProducto.getString("ciudad", "");
+
+
+        JsonUtils.add(params3,tipo);
+        JsonUtils.add(params3, imagen);
+        JsonUtils.add(params3, ciudad);
+        JsonUtils.add(params3, productoAsociado);
+
+
+
+        String query3 = "INSERT INTO mp_galeria(\n" +
+                "            id, tipo, url, descripcion, producto_id, foto_principal)\n" +
+                "    VALUES (nextval('mp_galeria_id_seq'), \n" +
+                "    ?, \n" +
+                "    ?, \n" +
+                "    ?,\n" +
+                "    ?, \n" +
+                "     nextval('mp_galeria_id_seq'));\n";
+
+        dataAccess.getConnection(conn -> {
+            if (conn.succeeded()) {
+                conn.result().updateWithParams(query3, params3, data -> {
+                    if (data.succeeded()) {
+                        res.complete(data.result().toJson());
+                    } else {
+                        data.cause().printStackTrace();
+                        System.out.println("Error insertar Galeria en DAO producto");
+                        res.completeExceptionally(data.cause());
+                    }
+                });
+            } else {
+                conn.cause().printStackTrace();
+            }
+            try {
+                conn.result().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        return res;
+    }
 
     //Editar un producto
     public CompletableFuture<JsonObject> editarProducto(JsonObject editProducto, Long id) {

@@ -147,6 +147,7 @@ public class ProductoService extends AbstractVerticle {
     public void insertarProducto(Message<JsonObject> message) {
         System.out.println("Service insertarProducto" + message.body());
         final int[] llave = {0};
+        final int[] idProducto = {0};
         try {
             CompletableFuture<JsonObject> data = this.dao.insertarDireccion(message.body());
             data.whenComplete((ok, error) -> {
@@ -155,13 +156,30 @@ public class ProductoService extends AbstractVerticle {
                     System.out.println("La llave de la direccion"+ok.getJsonArray("keys").getValue(0));
                     llave[0] =(int)ok.getJsonArray("keys").getValue(0);
                     System.out.println(llave[0]);
-                    System.out.println("insertarProducto:OK" + ok);
+                    System.out.println("insertarDireccion:OK" + ok);
                     message.reply(ok);
 
                     CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
                     data2.whenComplete((ok2,error2)->{
                         if (ok2 != null) {
                             message.reply(ok2);
+                            System.out.println("El idProducto "+ok2.getJsonArray("keys").getValue(0));
+                            idProducto[0] =(int)ok2.getJsonArray("keys").getValue(0);
+                            System.out.println(idProducto[0]);
+                            System.out.println("insertarProducto:OK" + ok2);
+                            int producto=idProducto[0];
+                            CompletableFuture<JsonObject> dataImagen = this.dao.insertarImagen(message.body(),producto);
+                            dataImagen.whenComplete((ok3,error3)->{
+                                if (ok3!=null){
+                                    message.reply(ok3);
+                                    System.out.println("El idImagen "+ok3.getJsonArray("keys").getValue(0));
+                                    System.out.println("insertarImagen:OK" + ok3);
+                                }
+                                else {
+                                    error3.printStackTrace();
+                                    message.fail(0, "ERROR in data imagen - producto");
+                                }
+                            });
                         }
                         else {
                             error2.printStackTrace();
