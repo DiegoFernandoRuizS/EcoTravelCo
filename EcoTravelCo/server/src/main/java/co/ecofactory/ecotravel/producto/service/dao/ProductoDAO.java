@@ -220,15 +220,6 @@ public class ProductoDAO {
         String departamento = nuevoProducto.getString("departamento", "");
         String ciudad = nuevoProducto.getString("ciudad", "");
 
-        System.out.println("---------------------->>>>>");
-        System.out.println(direccion);
-        System.out.println(latitud);
-        System.out.println(longitud);
-        System.out.println(pais);
-        System.out.println(departamento);
-        System.out.println(ciudad);
-        System.out.println("---------------------->>>>>");
-
         JsonUtils.add(params2, direccion);
         JsonUtils.add(params2, Double.parseDouble(latitud));
         JsonUtils.add(params2, Double.parseDouble(longitud));
@@ -279,13 +270,11 @@ public class ProductoDAO {
 
         JsonArray params3 = new JsonArray();
 
-       // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
-
         String imagen = nuevoProducto.getString("imagen", "");
         String tipo ="Imagen" ;
         String ciudad = nuevoProducto.getString("ciudad", "");
 
-
+        System.out.println("EN EL DAO DE LA IMAGEN");
         JsonUtils.add(params3,tipo);
         JsonUtils.add(params3, imagen);
         JsonUtils.add(params3, ciudad);
@@ -405,5 +394,71 @@ public class ProductoDAO {
         );
         return res;
     }
+    //Borrar imagen
+    public CompletableFuture<JsonObject> borrarImagen(Long id) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+
+        String query = "DELETE FROM mp_galeria\n" +
+                " WHERE producto_id="+id+";";
+
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                                System.out.println("Borrar imagen DAO");
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error Borrar imagen DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+        return res;
+    }
+
+    //Borrar un Direccion
+    public CompletableFuture<JsonObject> borrarDireccion(Long id) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+
+        String query = "DELETE FROM mp_galeria\n" +
+                " WHERE producto_id="+id+";";
+
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                                System.out.println("Borrar producto DAO");
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error Borrar producto DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+        return res;
+    }
+
 
 }

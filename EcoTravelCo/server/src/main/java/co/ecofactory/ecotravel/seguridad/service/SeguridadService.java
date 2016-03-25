@@ -25,7 +25,7 @@ public class SeguridadService extends AbstractVerticle {
         System.out.println(new File("./src/main/java").getAbsolutePath());
 
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                .put("path", "./src/main/java/keystore.jceks")
+                .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
 

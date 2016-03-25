@@ -48,8 +48,8 @@ angular.module('materialAdmin')
                // $scope.producto[0].add('imagen',"Holaaaaa");
                // $scope.producto[0].push('imagen',imagenBytes);
 console.log($scope.producto);
-               $scope.producto.imagen={'imagen' : ""+imagenBytes};
-
+              // $scope.producto.imagen={'imagen' : ""+imagenBytes};
+$scope.producto.imagen=imagenBytes;
 
                 $http.post("http://localhost:8181/producto/", $scope.producto, {})
                         .success(function (res) {
