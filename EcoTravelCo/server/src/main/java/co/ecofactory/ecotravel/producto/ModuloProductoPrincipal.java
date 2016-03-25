@@ -29,11 +29,14 @@ public class ModuloProductoPrincipal implements Modulo {
     public Router getRutas(Vertx vertx) {
         Router rutas = Router.router(vertx);
         rutas.get("/").handler(rc -> {
+
+            //Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+
             vertx.eventBus().send("listarProductosHome", new JsonObject(), res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
-                    System.out.println("servidor correcto" );
-                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+                    System.out.println("servidor correcto");
+                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
 
                 } else {
                     rc.response().end("ERROR en el modulo producto");
