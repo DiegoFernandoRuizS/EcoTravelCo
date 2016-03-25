@@ -20,6 +20,18 @@ angular.module('materialAdmin')
 	     $scope.insertarProducto = function () {
 	     console.log("Insertar producto en el controlador");
 
+
+             var i = document.getElementById( 'imagen1' ).files[0];
+             console.log(i);
+
+             console.log(new FileReader().readAsText);
+
+             var reader = new FileReader();
+
+             console.log(reader.readAsDataURL(i));
+             console.log(reader);
+             console.log(reader.result);
+
 	     $http.post("http://localhost:8181/producto/",$scope.producto,{})
         	    .success(function(res){
               	$scope.insertarProducto = {};
@@ -56,7 +68,10 @@ angular.module('materialAdmin')
 		$scope.data = {};
 
 		console.log("Consultando productos...");
-		$http.get("http://localhost:8181/producto_home/")
+		console.log(sessionStorage.token);
+
+
+		$http.get("http://localhost:8181/producto_home/",{withCredentials: true,headers: {token:sessionStorage.token }})
 
 			.success(function(res){
 				$scope.datos=res
