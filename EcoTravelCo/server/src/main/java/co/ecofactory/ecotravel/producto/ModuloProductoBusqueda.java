@@ -7,36 +7,32 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
-import jdk.nashorn.internal.runtime.JSONFunctions;
-import org.bson.json.JsonWriter;
 
-import java.util.List;
-
-public class ModuloProductoPrincipal implements Modulo {
+public class ModuloProductoBusqueda implements Modulo {
     @Override
     public void inicializar(Vertx vertx) {
         // Inicializando router
-        System.out.println("Inicializando el modulo: ProductoHome");
+        System.out.println("Inicializando el modulo: Productobusqueda");
         DeploymentOptions options = new DeploymentOptions().setWorker(true);
         ProductoService productoService = new ProductoService();
         vertx.deployVerticle(productoService, options);
     }
 
     public String getNombre() {
-        return "/producto_home";
+        return "/producto_busqueda";
     }
 
     public Router getRutas(Vertx vertx) {
         Router rutas = Router.router(vertx);
-        rutas.get("/").handler(rc -> {
-
-            //Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
-
-            vertx.eventBus().send("listarProductosHome", new JsonObject(), res -> {
+        rutas.get("/:criterios").handler(rc -> {
+            JsonObject _params = new JsonObject();
+            final String criterios = rc.request().path().replace("/producto_busqueda/","");
+            _params.put("criterios", criterios);
+            vertx.eventBus().send("listarProductosBusqueda", _params, res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
-                    System.out.println("servidor correcto");
-                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+                    System.out.println("servidor correcto busqueda" );
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
 
                 } else {
                     rc.response().end("ERROR en el modulo producto");
@@ -62,5 +58,6 @@ public class ModuloProductoPrincipal implements Modulo {
 
         return rutas;
     }
+
 
 }

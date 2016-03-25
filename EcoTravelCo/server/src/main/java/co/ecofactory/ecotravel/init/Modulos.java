@@ -7,7 +7,8 @@ public class Modulos {
 
         String[] modulos = new String[]{"co.ecofactory.ecotravel.producto.ModuloProducto"
                 , "co.ecofactory.ecotravel.producto.ModuloProductoPrincipal"
-                , "co.ecofactory.ecotravel.producto.ModuloProductoDetalle",
+                , "co.ecofactory.ecotravel.producto.ModuloProductoDetalle"
+                , "co.ecofactory.ecotravel.producto.ModuloProductoBusqueda",
                 "co.ecofactory.ecotravel.usuario.ModuloUsuario",
                 "co.ecofactory.ecotravel.cliente.ModuloCliente",
                 "co.ecofactory.ecotravel.canasta.ModuloCanasta",

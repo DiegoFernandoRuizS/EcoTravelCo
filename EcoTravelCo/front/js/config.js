@@ -90,6 +90,12 @@ materialAdmin
                 controller: 'ProductosDetalle'
             })
 
+            .state ('productos.busqueda', {
+                url: '/resultados',
+                templateUrl: 'views/lista_productos.html',
+                controller: 'ProductosBusqueda'
+            })
+
             .state ('canasta', {
                 url: '/canasta',
                 templateUrl: 'views/common.html'

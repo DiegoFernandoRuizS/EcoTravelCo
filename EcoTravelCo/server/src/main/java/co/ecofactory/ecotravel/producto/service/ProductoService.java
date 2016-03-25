@@ -26,9 +26,9 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("insertarProducto", this::insertarProducto);
         this.getVertx().eventBus().consumer("editarProducto", this::editarProducto);
         this.getVertx().eventBus().consumer("borrarProducto", this::borrarProducto);
-
         this.getVertx().eventBus().consumer("listarProductosHome", this::listarProductosHome);
         this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);
+        this.getVertx().eventBus().consumer("listarProductosBusqueda", this::listarProductosBusqueda);
 
 
     }
@@ -93,14 +93,14 @@ public class ProductoService extends AbstractVerticle {
 
     public void listarProductosDetalle(Message<JsonObject> message) {
 
-        System.out.println("listarProductos");
+        System.out.println("listarProductosDetalle");
 
         try {
 
             CompletableFuture<List<JsonObject>> data = this.dao.listarProductosDetalle(message.body().getString("id"));
-            System.out.println(11);
+            System.out.println(message.body().getString("id"));
             data.whenComplete((ok, error) -> {
-                System.out.println("listarProductos");
+                System.out.println("listarProductosDetalle");
                 if (ok != null) {
                     System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
@@ -255,6 +255,36 @@ public class ProductoService extends AbstractVerticle {
         }
     }
 
+
+
+    public void listarProductosBusqueda(Message<JsonObject> message) {
+
+        System.out.println("listarProductosBusqueda");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.listarProductosBusqueda(message.body());
+            System.out.println(11);
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProductosbb");
+                if (ok != null) {
+                    System.out.println("listarProductosbusq:OK" + ok);
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
 
 }
 

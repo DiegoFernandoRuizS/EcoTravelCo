@@ -1,4 +1,4 @@
-<header id="header" data-current-skin={{mactrl.currentSkin}} data-ng-include="'template/header.html'" data-ng-controller="headerCtrl as hctrl"></header>
+<header id="header" data-current-skin={{mactrl.currentSkin}} data-ng-include="'template/Ecoheader.html'" data-ng-controller="headerCtrl as hctrl"></header>
 
 <section id="main">
     <aside id="sidebar" data-ng-include="'template/sidebar-left1.html'" data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
@@ -6,7 +6,7 @@
     <aside id="chat" data-ng-include="'template/chat.html'" data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
 
     <section id="content">
-        <div class="container" ng-controller="ProductosHomeCtrl">
+        <div class="container" ng-controller="ProductosCtrl">
             <div class="col-sm-8">
             <div class="card">
                 <div class="card-header bgm-cyan"> <!-- Please refer the Colors page in User Interface for more color classes -->
@@ -27,26 +27,26 @@
                 </div>
             </div>
 
-            <div class="listview p-t-5 ">
-                <a class="lv-item ng-scope" href="" data-ng-repeat="data in datos" style="">
-                <div class="media"  data-ui-sref-active="active"  data-ui-sref="productos.detalle" data-ng-click="{{data.id}}">
-                    <div class="pull-left">
-                        <img class="lv-img-sm" data-ng-src="{{data.url}}" alt="" src="{{data.url}}">
-                    </div>
-                    <div class="media-body">
-                        <div class="lv-title ng-binding">{{data.nombre}}</div>
-                        <small class="lv-small ng-binding">{{data.precio}}</small>
-                    </div>
+                <div class="listview p-t-5 ">
+                    <a class="lv-item ng-scope" href="" data-ng-repeat="data in datos" style="">
+                        <div class="media"  data-ui-sref-active="active"  data-ui-sref="productos.detalle" ng-click="detailProd(data.id)">
+                            <div class="pull-left">
+                                <img class="lv-img-sm" src="{{data.url}}">
+                            </div>
+                            <div class="media-body">
+                                <div class="lv-title ng-binding">{{data.nombre}}</div>
+                                <small class="lv-small ng-binding">{{data.precio}}</small>
+                            </div>
+                        </div>
+                    </a><a class="lv-item ng-scope" href="" data-ng-repeat="w in wctrl.bsResult.list" style="">
+
+
+                    <div class="clearfix"></div>
+
+                    <a class="lv-footer" href="">
+                        View All
+                    </a>
                 </div>
-            </a><a class="lv-item ng-scope" href="" data-ng-repeat="w in wctrl.bsResult.list" style="">
-
-
-                <div class="clearfix"></div>
-
-                <a class="lv-footer" href="">
-                    View All
-                </a>
-            </div>
         </div>
             </div>
             <div class="col-sm-4">

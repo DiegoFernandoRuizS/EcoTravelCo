@@ -99,11 +99,11 @@ CREATE INDEX "mp_persona_login_3484cd3f_like"
   USING btree
   (login COLLATE pg_catalog."default" varchar_pattern_ops);
 
--- Table: "mp_producto"
+-- Table: mp_producto
 
--- DROP TABLE "mp_producto";
+-- DROP TABLE mp_producto;
 
-CREATE TABLE "mp_producto"
+CREATE TABLE mp_producto
 (
   id serial NOT NULL,
   estado character varying(30) NOT NULL,
@@ -116,40 +116,56 @@ CREATE TABLE "mp_producto"
   tipo_producto_id integer,
   descripcion character varying(255) NOT NULL,
   precio double precision NOT NULL,
-  CONSTRAINT "mp_producto_pkey" PRIMARY KEY (id),
-  CONSTRAINT "mp_producto_id_direccion_id_a68deeec_fk_mp_direccion_id" FOREIGN KEY (id_direccion_id)
-      REFERENCES "mp_direccion" (id) MATCH SImpLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
-  CONSTRAINT "mp_producto_tipo_producto_id_4f6166cc_fk_mp_tipo_producto_id" FOREIGN KEY (tipo_producto_id)
-      REFERENCES "mp_tipo_producto" (id) MATCH SImpLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED
+  id_usuario integer NOT NULL,
+  cantidad_actual integer NOT NULL,
+  cantidad_origen integer NOT NULL,
+  CONSTRAINT mp_producto_pkey PRIMARY KEY (id),
+  CONSTRAINT id_usuario FOREIGN KEY (id_usuario)
+  REFERENCES mp_persona (id) MATCH SIMPLE
+  ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT mp_producto_id_direccion_id_a68deeec_fk_mp_direccion_id FOREIGN KEY (id_direccion_id)
+  REFERENCES mp_direccion (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT mp_producto_tipo_producto_id_4f6166cc_fk_mp_tipo_producto_id FOREIGN KEY (tipo_producto_id)
+  REFERENCES mp_tipo_producto (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED
 )
 WITH (
-  OIDS=FALSE
+OIDS=FALSE
 );
-ALTER TABLE "mp_producto"
-  OWNER TO postgres;
+ALTER TABLE mp_producto
+OWNER TO igqcflmodfdggd;
 
--- Index: "mp_producto_9639f13b"
+-- Index: fki_id_usuario
 
--- DROP INDEX "mp_producto_9639f13b";
+-- DROP INDEX fki_id_usuario;
 
-CREATE INDEX "mp_producto_9639f13b"
-  ON "mp_producto"
-  USING btree
-  (id_direccion_id);
+CREATE INDEX fki_id_usuario
+ON mp_producto
+USING btree
+(id_usuario);
 
--- Index: "mp_producto_ab4462f4"
+-- Index: mp_producto_9639f13b
 
--- DROP INDEX "mp_producto_ab4462f4";
+-- DROP INDEX mp_producto_9639f13b;
 
-CREATE INDEX "mp_producto_ab4462f4"
-  ON "mp_producto"
-  USING btree
-  (tipo_producto_id);
-  
-  
-  
+CREATE INDEX mp_producto_9639f13b
+ON mp_producto
+USING btree
+(id_direccion_id);
+
+-- Index: mp_producto_ab4462f4
+
+-- DROP INDEX mp_producto_ab4462f4;
+
+CREATE INDEX mp_producto_ab4462f4
+ON mp_producto
+USING btree
+(tipo_producto_id);
+
+
+
+
 -- Table: "mp_galeria"
 
 -- DROP TABLE "mp_galeria";
