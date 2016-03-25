@@ -2,6 +2,7 @@ package co.ecofactory.ecotravel.seguridad.service;
 
 import co.ecofactory.ecotravel.usuario.service.dao.UsuarioDAO;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.jwt.JWTAuth;
@@ -15,7 +16,20 @@ import java.util.concurrent.CompletableFuture;
  */
 public class SeguridadService extends AbstractVerticle {
 
-    JWTAuth provider;
+    static JWTAuth provider;
+
+    public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
+        if (provider == null) {
+            JsonObject config = new JsonObject().put("keyStore", new JsonObject()
+                    .put("path", "./src/main/java/keystore.jceks")
+                    .put("type", "jceks")
+                    .put("password", "secret"));
+
+            provider = JWTAuth.create(vertx, config);
+        }
+
+        return provider;
+    }
 
     @Override
     public void start() throws Exception {
@@ -24,12 +38,13 @@ public class SeguridadService extends AbstractVerticle {
 
         System.out.println(new File("./src/main/java").getAbsolutePath());
 
-        JsonObject config = new JsonObject().put("keyStore", new JsonObject()
+      JsonObject config = new JsonObject().put("keyStore", new JsonObject()
                 .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
 
         provider = JWTAuth.create(this.getVertx(), config);
+        provider = generateJWTAuthProvider(this.getVertx());
 
     }
 
@@ -46,24 +61,28 @@ public class SeguridadService extends AbstractVerticle {
 
                             JsonObject persona = (JsonObject) res.result().body();
 
+                            if (persona != null) {
+                                if (persona.getString("contrasenia").equals(entrada.getString("contrasenia"))) {
 
-                            if (persona.getString("contrasenia").equals(entrada.getString("contrasenia"))) {
+                                    String token = provider.generateToken(new JsonObject().put("tipo", persona.getString("tipo"))
+                                                    .put("id", persona.getInteger("id"))
+                                            , new JWTOptions());
 
-                                String token = provider.generateToken(new JsonObject().put("tipo", persona.getString("tipo"))
-                                        .put("id", persona.getInteger("id"))
-                                        , new JWTOptions());
+                                    JsonObject response = new JsonObject();
+                                    response.put("nombre", persona.getString("nombre"));
+                                    response.put("apellido", persona.getString("apellido"));
+                                    response.put("correo_electronico", persona.getString("correo_electronico"));
+                                    response.put("token", token);
+                                    message.reply(response);
+                                } else {
+                                    message.fail(401, "Error al autenticar el usuario");
 
-                                JsonObject response = new JsonObject();
-                                response.put("nombre", persona.getString("nombre"));
-                                response.put("apellido", persona.getString("apellido"));
-                                response.put("correo_electronico", persona.getString("correo_electronico"));
-                                response.put("token", token);
-                                message.reply(response);
+
+                                }
                             } else {
                                 message.fail(401, "Error al autenticar el usuario");
-
-
                             }
+
 
                         } else {
                             if (res.cause() != null) {

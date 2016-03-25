@@ -32,6 +32,8 @@ public class ModuloProducto implements Modulo {
 
 
         rutas.get("/").handler(rc -> {
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+            System.out.println("USUARIO AUTENTICADO ----->"+idUsuario);
             vertx.eventBus().send("listarProductos", new JsonObject(), res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
@@ -50,6 +52,10 @@ public class ModuloProducto implements Modulo {
             final Long idAsLong = Long.valueOf(id);
             JsonObject _params = new JsonObject();
             _params.put("id", idAsLong);
+
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+            System.out.println("USUARIO AUTENTICADO ----->"+idUsuario);
+
             vertx.eventBus().send("listarProducto", _params, res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
@@ -66,6 +72,10 @@ public class ModuloProducto implements Modulo {
         rutas.post("/").handler(rc -> {
             JsonObject producto = new JsonObject();
             producto = rc.getBodyAsJson();
+          //  Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+         //   producto.put("id_usuario", idUsuario);
+
+          //  System.out.println("USUARIO AUTENTICADO para crear producto ----->"+idUsuario);
             vertx.eventBus().send("insertarProducto", producto, res -> {
                 System.out.println("servidor insertarProducto: " + res.result().body());
                 if (res.succeeded()) {

@@ -220,6 +220,10 @@ public class ProductoDAO {
         String departamento = nuevoProducto.getString("departamento", "");
         String ciudad = nuevoProducto.getString("ciudad", "");
 
+        System.out.println("------> direccion "+direccion);
+
+        System.out.println("------> latitud  "+latitud);
+
         JsonUtils.add(params2, direccion);
         JsonUtils.add(params2, Double.parseDouble(latitud));
         JsonUtils.add(params2, Double.parseDouble(longitud));
