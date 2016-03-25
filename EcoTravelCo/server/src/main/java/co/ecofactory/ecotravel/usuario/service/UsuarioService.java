@@ -86,12 +86,17 @@ public class UsuarioService extends AbstractVerticle {
 
             CompletableFuture<JsonObject> data = this.dao.consultarUsuarioPorLogin(datos);
             data.whenComplete((ok, error) -> {
-                System.out.println("insertarUsuario");
-                if (ok != null) {
-                    System.out.println("insertarProducto:OK" + ok);
+                System.out.println("consultarUsuarioPorLogin");
+                if (error == null) {
+                    System.out.println("consultarUsuarioPorLogin:OK" + ok);
                     message.reply(ok);
                 } else {
-                    error.printStackTrace();
+                    try{
+                        error.printStackTrace();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
                     message.fail(0, "ERROR in data");
                 }
             });
