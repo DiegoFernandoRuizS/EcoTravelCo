@@ -72,10 +72,10 @@ public class ModuloProducto implements Modulo {
         rutas.post("/").handler(rc -> {
             JsonObject producto = new JsonObject();
             producto = rc.getBodyAsJson();
-          //  Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
-         //   producto.put("id_usuario", idUsuario);
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+            producto.put("id_usuario", idUsuario);
 
-          //  System.out.println("USUARIO AUTENTICADO para crear producto ----->"+idUsuario);
+           System.out.println("USUARIO AUTENTICADO para crear producto ----->"+producto.encodePrettily());
             vertx.eventBus().send("insertarProducto", producto, res -> {
                 System.out.println("servidor insertarProducto: " + res.result().body());
                 if (res.succeeded()) {

@@ -35,7 +35,7 @@ angular.module('materialAdmin')
                  console.log("En la funcion insertar del controlador de insertar");
                  console.log(sessionStorage.token);
 
-                $http.post("http://localhost:8181/producto/", {withCredentials: true,headers: {token:sessionStorage.token }},$scope.producto, {})
+                $http.post("http://localhost:8181/producto/",$scope.producto, {withCredentials: true,headers: {token:sessionStorage.token }})
                         .success(function (res) {
                             $scope.insertarProducto = {};
                             console.log("La respuesta del backend " + res);
@@ -51,7 +51,7 @@ angular.module('materialAdmin')
 
                 console.log("Borrar producto en el controlador " + id);
 
-                $http.delete("http://localhost:8181/producto/" + id,{withCredentials: true,headers: {token:sessionStorage.token }}, $scope.productoDelete, {})
+                $http.delete("http://localhost:8181/producto/" + id, $scope.productoDelete, {withCredentials: true,headers: {token:sessionStorage.token }})
                         .success(function (res) {
                             $scope.borrarProducto = {};
 

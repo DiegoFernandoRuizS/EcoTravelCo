@@ -148,6 +148,8 @@ public class ProductoDAO {
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
 
+        int idUsuario=nuevoProducto.getInteger("id_usuario",0);
+
 
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
@@ -159,7 +161,7 @@ public class ProductoDAO {
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
-        JsonUtils.add(params, 1);//Usuario quemado
+        JsonUtils.add(params, idUsuario);//Usuario quemado
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
@@ -223,6 +225,7 @@ public class ProductoDAO {
         System.out.println("------> direccion "+direccion);
 
         System.out.println("------> latitud  "+latitud);
+
 
         JsonUtils.add(params2, direccion);
         JsonUtils.add(params2, Double.parseDouble(latitud));
