@@ -30,11 +30,13 @@ public class Services {
                     .add("Access-Control-Allow-Credentials", "true")
                     .add("Access-Control-Allow-Origin", "http://localhost:9291");
 
-            String token = r.request().getHeader("token");
+
+            System.out.println(r.request().absoluteURI());
 
             if (!r.request().method().equals(HttpMethod.OPTIONS)) {
-                System.out.println(r.request().absoluteURI());
+                String token = r.request().getHeader("token");
                 System.out.println("token->" + token);
+
 
                 if (token == null) {
                     r.next();
@@ -67,6 +69,8 @@ public class Services {
 
                 }
 
+            }else{
+                r.next();
             }
 
         });
