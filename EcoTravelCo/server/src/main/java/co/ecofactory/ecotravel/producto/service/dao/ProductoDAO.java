@@ -53,7 +53,9 @@ public class ProductoDAO {
 
     public CompletableFuture<List<JsonObject>> listarProductosHome() {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select a.*, b.*, c.* from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id left join mp_galeria c on a.id=c.producto_id";
+        String query = "select  p.id, g.url,  p.nombre,  tp.tipo, p.descripcion, p.precio ,p.fecha_registro\n" +
+                "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1 \n" +
+                "order by p.fecha_registro desc limit 10";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -82,7 +84,16 @@ public class ProductoDAO {
     public CompletableFuture<List<JsonObject>> listarProductosDetalle(String id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("entro id = "+id);
-        String query = "select a.*, b.*, c.* from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id left join mp_galeria c on a.id=c.producto_id where  c.foto_principal=1 and a.id=" + id;
+        String query = "select a.id, a.nombre, a.fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual\n" +
+                ", b.tipo\n" +
+                ", c.url\n" +
+                ", ( pe.nombre ||' '|| pe.nombre_sec ||' '|| pe.apellido||' '|| pe.apellido_sec) as vendedor, pe.foto\n" +
+                ",  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, d.latitud, d.longitud\n" +
+                "from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id \n" +
+                "left join mp_galeria c on c.producto_id=a.id and c.foto_principal=1 \n" +
+                "left join mp_persona pe on pe.id= a.id_usuario\n" +
+                "left join mp_direccion d on d.id= a.id_direccion_id\n" +
+                "where a.id=\n" + id+";";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -478,17 +489,17 @@ public class ProductoDAO {
             if (!search.equals("")) {
                 if (i !=0)
                     query += " UNION ";
-                 query += "SELECT DISTINCT  p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio , pe.nombre\n" +
-                        "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario\n" +
-                        "where UPPER(p.nombre) like UPPER('%"+search+"%') or\n" +
-                        "UPPER(tp.tipo) like UPPER('%"+search+"%') or\n" +
+                 query += "SELECT DISTINCT  p.id, g.url,  p.nombre,  tp.tipo, p.descripcion, p.precio , p.cantidad_actual, ( pe.nombre ||' '|| pe.nombre_sec ||' '|| pe.apellido||' '|| pe.apellido_sec) as vendedor\n" +
+                         "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1 \n" +
+                         "where UPPER(p.nombre) like UPPER('%"+search+"%') or\n" +
+                         "UPPER(tp.tipo) like UPPER('%"+search+"%') or\n" +
                          "UPPER(tp.descripcion) like UPPER('%"+search+"%') or\n" +
                          "UPPER(p.descripcion) like UPPER('%"+search+"%') or\n" +
-                        "UPPER(pe.nombre) like UPPER('%"+search+"%') or\n" +
-                        "UPPER(pe.nombre_sec) like UPPER('%"+search+"%') or\n" +
-                        "UPPER(pe.apellido) like UPPER('%"+search+"%') or\n" +
-                        "UPPER(pe.apellido_sec) like UPPER('%"+search+"%') AND UPPER(p.estado)='ACTIVO'";
-            }
+                         "UPPER(pe.nombre) like UPPER('%"+search+"%') or\n" +
+                         "UPPER(pe.nombre_sec) like UPPER('%"+search+"%') or\n" +
+                         "UPPER(pe.apellido) like UPPER('%"+search+"%') or\n" +
+                         "UPPER(pe.apellido_sec) like UPPER('%"+search+"%') AND UPPER(p.estado)='ACTIVO';\n";
+        }
             
         }
         final String queryf=query+";";
