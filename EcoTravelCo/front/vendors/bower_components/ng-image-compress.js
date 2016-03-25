@@ -5,7 +5,7 @@
  https://github.com/brunobar79/J-I-C
  *********************************/
 
-materialAdmin.directive('image', ['$q',
+app.directive('image', ['$q',
     function ($q) {
 
         var URL = window.URL || window.webkitURL;

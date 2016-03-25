@@ -2,7 +2,6 @@ package co.ecofactory.ecotravel.producto.service.dao;
 
 import co.ecofactory.ecotravel.utils.JsonUtils;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.jdbc.JDBCClient;
@@ -14,9 +13,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ProductoDAO {
     private JDBCClient dataAccess;
-
     public ProductoDAO(Vertx vertx, JsonObject conf) {
-
         dataAccess = JDBCClient.createShared(vertx, conf);
     }
 
@@ -46,7 +43,6 @@ public class ProductoDAO {
                     try {
                         conn.result().close();
                     } catch (Exception e) {
-
                     }
                 }
         );
@@ -63,7 +59,6 @@ public class ProductoDAO {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
                                 System.out.println("En el If respuesta " + res);
-
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
@@ -114,6 +109,7 @@ public class ProductoDAO {
 
     //Listar un producto
     public CompletableFuture<List<JsonObject>> listarProducto(Long id) {
+
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "SELECT p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, \n" +
                 "       p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
@@ -149,34 +145,28 @@ public class ProductoDAO {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
-        /*JsonUtils.add(params, nuevoProducto.getString("id", ""));
-        JsonUtils.add(params, nuevoProducto.getString("estado", ""));
-        JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
-        JsonUtils.add(params, new Date().toInstant());
-        JsonUtils.add(params, new Date().toInstant());
-        JsonUtils.add(params, nuevoProducto.getDouble("calificacion_promedio", 0.0));
-        JsonUtils.add(params, nuevoProducto.getInteger("id_padre", 0));
-        JsonUtils.add(params, nuevoProducto.getInteger("id_direccion_id", 0));
-        JsonUtils.add(params, nuevoProducto.getInteger("tipo_producto_id", 0));
-        JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
-        JsonUtils.add(params, nuevoProducto.getDouble("precio",0D));*/
 
-        //JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id", "")));
+
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, new Date().toInstant());
-        //JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("calificacion_promedio", "")));
         JsonUtils.add(params, 5.0D);
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
+       // JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
-        JsonUtils.add(params, nuevoProducto.getString("descripcion",""));
-        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio","")));
+        JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
+        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
+        JsonUtils.add(params, 1);//Usuario quemado
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
-        String query ="INSERT INTO mp_producto(\n" +
+
+
+
+        String query = "INSERT INTO mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
-                "            id_padre, id_direccion_id, tipo_producto_id, descripcion, precio)\n" +
+                "            id_padre, id_direccion_id, tipo_producto_id, descripcion, precio,id_usuario,cantidad_actual,cantidad_origen)\n" +
                 "    VALUES (nextval('mp_producto_id_seq'), \n" +
                 "    ?, \n" +
                 "    ?, \n" +
@@ -184,10 +174,10 @@ public class ProductoDAO {
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),\n" +
                 "     ?, \n" +
                 "     ?, \n" +
+                "     (SELECT max(id) FROM mp_direccion), \n" +
                 "     ?, \n" +
                 "     ?, \n" +
-                "     ?, \n" +
-                "     ?);";
+                "     ?,?,?,?);";
 
 
         dataAccess.getConnection(conn -> {
@@ -214,6 +204,74 @@ public class ProductoDAO {
         return res;
     }
 
+
+    //Insertar DireccionAsociada al producto
+    public CompletableFuture<JsonObject> insertarDireccion(JsonObject nuevoProducto) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+
+        JsonArray params2 = new JsonArray();
+
+        String direccion = nuevoProducto.getString("nombredireccion", "");
+        String latitud = nuevoProducto.getString("latitud", "");
+        String longitud = nuevoProducto.getString("longitud", "");
+        String pais = nuevoProducto.getString("pais", "");
+        String departamento = nuevoProducto.getString("departamento", "");
+        String ciudad = nuevoProducto.getString("ciudad", "");
+
+        System.out.println("---------------------->>>>>");
+        System.out.println(direccion);
+        System.out.println(latitud);
+        System.out.println(longitud);
+        System.out.println(pais);
+        System.out.println(departamento);
+        System.out.println(ciudad);
+        System.out.println("---------------------->>>>>");
+
+        JsonUtils.add(params2, direccion);
+        JsonUtils.add(params2, Double.parseDouble(latitud));
+        JsonUtils.add(params2, Double.parseDouble(longitud));
+        JsonUtils.add(params2, ciudad);
+        JsonUtils.add(params2, departamento);
+        JsonUtils.add(params2, pais);
+
+
+        String query2 = "INSERT INTO mp_direccion(\n" +
+                "            id, nombre, latitud, longitud, ciudad, departamento, pais)\n" +
+                "    VALUES (nextval('mp_direccion_id_seq'),\n" +
+                "     ?,\n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?, \n" +
+                "     ?);\n";
+
+        dataAccess.getConnection(conn -> {
+            if (conn.succeeded()) {
+                conn.result().updateWithParams(query2, params2, data -> {
+                    if (data.succeeded()) {
+                        res.complete(data.result().toJson());
+                    } else {
+                        data.cause().printStackTrace();
+                        System.out.println("Error insertar direccion en DAO producto");
+                        res.completeExceptionally(data.cause());
+                    }
+                });
+            } else {
+                conn.cause().printStackTrace();
+            }
+            try {
+                conn.result().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        return res;
+    }
+
+
+
     //Editar un producto
     public CompletableFuture<JsonObject> editarProducto(JsonObject editProducto, Long id) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
@@ -228,8 +286,8 @@ public class ProductoDAO {
         JsonUtils.add(params, editProducto.getInteger("id_padre", 0));
         JsonUtils.add(params, editProducto.getInteger("id_direccion_id", 0));
         JsonUtils.add(params, editProducto.getInteger("tipo_producto_id", 0));
-        JsonUtils.add(params, editProducto.getString("descripcion",""));
-        JsonUtils.add(params, editProducto.getDouble("precio",0D));
+        JsonUtils.add(params, editProducto.getString("descripcion", ""));
+        JsonUtils.add(params, editProducto.getDouble("precio", 0D));
 
         String query = "UPDATE public.mp_producto\n" +
                 "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
@@ -293,6 +351,5 @@ public class ProductoDAO {
         );
         return res;
     }
-
 
 }

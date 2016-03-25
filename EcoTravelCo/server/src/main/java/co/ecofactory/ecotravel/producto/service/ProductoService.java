@@ -68,7 +68,6 @@ public class ProductoService extends AbstractVerticle {
         try {
 
             CompletableFuture<List<JsonObject>> data = this.dao.listarProductosHome();
-            System.out.println(11);
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
@@ -147,16 +146,32 @@ public class ProductoService extends AbstractVerticle {
     //Insertar producto
     public void insertarProducto(Message<JsonObject> message) {
         System.out.println("Service insertarProducto" + message.body());
+        final int[] llave = {0};
         try {
-            CompletableFuture<JsonObject> data = this.dao.insertarProducto(message.body());
+            CompletableFuture<JsonObject> data = this.dao.insertarDireccion(message.body());
             data.whenComplete((ok, error) -> {
                 System.out.println("insertarProducto");
                 if (ok != null) {
+                    System.out.println("La llave de la direccion"+ok.getJsonArray("keys").getValue(0));
+                    llave[0] =(int)ok.getJsonArray("keys").getValue(0);
+                    System.out.println(llave[0]);
                     System.out.println("insertarProducto:OK" + ok);
                     message.reply(ok);
+
+                    CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
+                    data2.whenComplete((ok2,error2)->{
+                        if (ok2 != null) {
+                            message.reply(ok2);
+                        }
+                        else {
+                            error2.printStackTrace();
+                            message.fail(0, "ERROR in data producto");
+                        }
+                    });
+
                 } else {
                     error.printStackTrace();
-                    message.fail(0, "ERROR in data");
+                    message.fail(0, "ERROR in data direccion");
                 }
             });
         } catch (Exception e) {

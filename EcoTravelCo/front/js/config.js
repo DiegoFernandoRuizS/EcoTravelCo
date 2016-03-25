@@ -2,7 +2,6 @@ materialAdmin
     .config(function ($stateProvider, $urlRouterProvider){
         $urlRouterProvider.otherwise("/");
 
-
         $stateProvider
         
             //------------------------------
@@ -69,6 +68,7 @@ materialAdmin
                                         {
                                             name: 'vendors',
                                             files: [
+                                                //'js/ng-image-compress.js',
                                                 'vendors/input-mask/input-mask.min.js',
                                                 'vendors/bower_components/nouislider/jquery.nouislider.min.js',
                                                 'vendors/bower_components/moment/min/moment.min.js',

@@ -5,6 +5,9 @@ angular.module('materialAdmin')
 
             $scope.datos = [];
             $scope.data = {};
+            $scope.producto={};
+            $scope.fileinput={};
+
 
             $http.get("http://localhost:8181/producto/").success(function (res) {
                 console.log("Consultando productos...");
@@ -16,9 +19,12 @@ angular.module('materialAdmin')
                 console.log("Que trae esto: " + res);
             });
 
-            $scope.insertarProducto = function () {
-                console.log("Insertar producto en el controlador " +$scope.producto);
-                console.log("Insertar producto en el controlador " +$scope.producto.imagen);
+            $scope.insertarProducto = function (imagen) {
+
+                console.log("Insertar producto en el controlador " +$scope.fileinput);
+
+
+
 
                 $http.post("http://localhost:8181/producto/", $scope.producto, {})
                         .success(function (res) {
