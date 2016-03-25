@@ -5,6 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.jdbc.JDBCClient;
+import jdk.nashorn.internal.objects.NativeURIError;
 
 import java.util.Date;
 import java.util.List;
@@ -161,8 +162,7 @@ public class ProductoDAO {
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
-
-
+        System.out.println("LA IMAGEN LLEGA? "+ nuevoProducto.getString("imagen",""));
 
         String query = "INSERT INTO mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +

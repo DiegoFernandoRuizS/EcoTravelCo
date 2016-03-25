@@ -247,7 +247,7 @@
                     <span class="btn btn-info btn-file">
                         <span class="fileinput-new">Cargar imagen</span>
                         <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" name="..." >
+                        <input type="file" id="imagen1" name="..." ng-model="imagen">
                     </span>
                             <a href="#" class="btn btn-danger fileinput-exists"
                                data-dismiss="fileinput">Remover</a>
@@ -295,7 +295,7 @@
                 <div class="col-md-4">
 
                     <div class="input-group">
-                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="insertarProducto(fileinput);">Guardar</span>
+                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
                     </div>
                 </div>
                 <div class="col-md-4">

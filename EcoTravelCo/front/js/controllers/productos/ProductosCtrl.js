@@ -5,8 +5,7 @@ angular.module('materialAdmin')
 
             $scope.datos = [];
             $scope.data = {};
-            $scope.producto={};
-            $scope.fileinput={};
+
 
 
             $http.get("http://localhost:8181/producto/").success(function (res) {
@@ -19,11 +18,37 @@ angular.module('materialAdmin')
                 console.log("Que trae esto: " + res);
             });
 
-            $scope.insertarProducto = function (imagen) {
+            $scope.insertarProducto = function () {
 
-                console.log("Insertar producto en el controlador " +$scope.fileinput);
+                console.log("Insertar producto en el controlador ");
 
+                var i = document.getElementById('imagen1').files[0];
+               console.log("Imagen");
+               console.log(i);
+               console.log("----->");
+              // console.log(i.result);
 
+                var reader = new FileReader();
+
+                console.log("readAsDataURL");
+                console.log(reader.readAsDataURL(i));
+
+                   console.log("reader");
+                   console.log(reader);
+
+                  console.log("readerResul");
+
+                   console.log(reader);
+                  console.log(reader.result);
+
+                 var imagenBytes=i.result;
+
+                 //.attr('ng-model', attributes.forModel);
+
+               // $scope.producto[0].add('imagen',"Holaaaaa");
+               // $scope.producto[0].push('imagen',imagenBytes);
+console.log($scope.producto);
+               $scope.producto.imagen={'imagen' : ""+imagenBytes};
 
 
                 $http.post("http://localhost:8181/producto/", $scope.producto, {})
