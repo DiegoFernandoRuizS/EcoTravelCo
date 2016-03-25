@@ -42,6 +42,7 @@ public class UsuarioDAO {
                         });
                     } else {
                         conn.cause().printStackTrace();
+                        res.completeExceptionally(conn.cause());
                     }
                     try {
                         conn.result().close();
