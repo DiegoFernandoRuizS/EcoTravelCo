@@ -4,12 +4,11 @@
 angular.module('materialAdmin')
   .controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window) {
       	$scope.registro = {};
-      	$scope.usuario = {login:"seduardojs",contrasenia:"Asdf1234$"};
+      	$scope.usuario = {login:"diego23",contrasenia:"diego23"};
 		this.login = 1;
         this.register = 0;
         this.forgot = 0;
 
-console.log("...>>>>>" );
 
       	$scope.registrarUsuario = function () {
  	$http.post("http://localhost:8181/cliente/",$scope.registro,{})

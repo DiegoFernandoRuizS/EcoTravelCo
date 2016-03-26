@@ -125,7 +125,7 @@ public class ProductoDAO {
 
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "SELECT tp.tipo, p.nombre,p.descripcion, p.precio, p.cantidad_actual as cantidad, p.estado,\n" +
-                "dr.nombre,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,ga.url as imagen,\n" +
+                "dr.nombre as nombredireccion,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,ga.url as imagen,\n" +
                 "p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion\n" +
                 "  FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr,mp_galeria ga\n" +
                 "  where tp.id=p.tipo_producto_id\n" +

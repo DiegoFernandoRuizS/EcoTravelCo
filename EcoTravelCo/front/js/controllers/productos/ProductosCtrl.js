@@ -38,11 +38,11 @@ angular.module('materialAdmin')
         });
 
 angular.module('materialAdmin')
-        .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location) {
+        .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location,$window) {
 
             $scope.datos = [];
             $scope.listaValores = [];
-            $scope.productoEditar=[];
+
 
            //para cargar el combox box de paises
            $scope.combox=function(){
@@ -83,12 +83,13 @@ angular.module('materialAdmin')
                 $scope.producto.imagen = imagenBytes;
                 $scope.producto.imagen2 = imagenBytes2;
                 $scope.producto.imagen3 = imagenBytes3;
-
-
+                    //console.log("Imagen 1");
+                        //console.log($scope.producto.imagen);
                 $http.post("http://localhost:8181/producto/", $scope.producto, {withCredentials: true, headers: {token: sessionStorage.token}})
                         .success(function (res) {
                             $scope.insertarProducto = {};
                             console.log("La respuesta del backend " + res);
+		                    $window.location.href = '/#/productos/productos';
                             $scope.consultarProductos();
 
                         }).error(function (res) {
@@ -110,21 +111,36 @@ angular.module('materialAdmin')
                 });
             };
 
+
+
             $scope.listarProducto = function (id) {
+                        $rootScope.productoEditar=[];
+                        $rootScope.actualProducto={};
                 console.log("Listar producto en el controlador " + id);
                 $http.get("http://localhost:8181/producto/" + id,{withCredentials: true, headers: {token: sessionStorage.token}})
                         .success(function (res) {
-                            $scope.productoEditar = res;
-                            console.log($scope.productoEditar);
+                            $rootScope.productoEditar = res;
+                            $rootScope.actualProducto=res;
+                            console.log($rootScope.productoEditar);
                         }).error(function (res) {
                     console.log("Doesn't work para listar producto");
                     console.log("El error para borar producto: " + res);
                 });
             };
 
+               $scope.editRecord = function (record){
+               console.log("Se llamo a la funcion editar");
+               console.log(record);
+                           $scope.actualProducto=record;
+                           console.log($scope.actualProducto);
+               };
+
             $scope.consultarProductos();
             $scope.combox();
         });
+
+
+
 
 angular.module('materialAdmin')
         .controller('ProductosDetalle', function ($scope, $rootScope, $http, $location) {
