@@ -13,7 +13,8 @@ public class Modulos {
                 "co.ecofactory.ecotravel.cliente.ModuloCliente",
                 "co.ecofactory.ecotravel.canasta.ModuloCanasta",
                 "co.ecofactory.ecotravel.utils.ModuloUtilidadDatos",
-                "co.ecofactory.ecotravel.seguridad.ModuloSeguridad"};
+                "co.ecofactory.ecotravel.seguridad.ModuloSeguridad",
+                "co.ecofactory.ecotravel.galeria.ModuloGaleria"};
 
 
 

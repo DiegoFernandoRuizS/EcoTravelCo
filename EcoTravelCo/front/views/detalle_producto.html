@@ -1,255 +1,142 @@
 <div class="container" ng-controller="ProductosDetalle">
 
 
-       <section id="content" class="page-view ng-scope" data-ui-view="" ng-repeat="data in datos"><div class="container ng-scope">
+    <div class="block-header"  ng-repeat="data in datos" >
+        <h2>{{data.nombre}}<small>{{data.tipo}}</small></h2>
 
-        <div class="block-header">
-            <h2>{{data.nombre}}<small>{{data.descripcion}}</small></h2>
 
-            <ul class="actions m-t-20 hidden-xs">
-                <li class="dropdown" uib-dropdown="">
-                    <a href="" uib-dropdown-toggle="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        <i class="zmdi zmdi-more-vert"></i>
+    </div>
+
+    <div class="card" id="profile-main" ng-repeat="data in datos">
+
+        <div class="pm-overview c-overflow">
+
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a href="">
+                        <img class="img-responsive" src="{{data.url}}" alt="">
                     </a>
 
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li>
-                            <a href="">Privacy Settings</a>
-                        </li>
-                        <li>
-                            <a href="">Account Settings</a>
-                        </li>
-                        <li>
-                            <a href="">Other Settings</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <div class="card ng-scope" id="profile-main" data-ng-controller="profileCtrl as pctrl">
-            <div class="pm-overview c-overflow mCustomScrollbar _mCS_1 mCS-autoHide _mCS_2" style="overflow: visible;"><div id="mCSB_2" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical_horizontal mCSB_outside" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_x_hidden mCS_no_scrollbar_x" style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr"><div id="mCSB_1" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical_horizontal mCSB_outside" tabindex="0"><div id="mCSB_1_container" class="mCSB_container mCS_x_hidden mCS_no_scrollbar_x" style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
-                <div class="pmo-pic">
-                    <div class="p-relative">
-                        <a href="">
-                            <img class="img-responsive mCS_img_loaded" src="{{data.url}}" alt="">
-                        </a>
-
-                        <div class="dropdown pmop-message" uib-dropdown="">
-                            <button uib-dropdown-toggle="" class="btn bgm-white btn-float dropdown-toggle waves-effect waves-circle" aria-haspopup="true" aria-expanded="false">
-                                <i class="zmdi zmdi-comment-text-alt"></i>
-                            </button>
-
-                            <div class="dropdown-menu stop-propagate">
-                                <textarea placeholder="Write something..."></textarea>
-
-                                <button class="btn bgm-green btn-float waves-effect waves-circle"><i class="zmdi zmdi-mail-send"></i></button>
-                            </div>
-                        </div>
-
-                    </div>
+                    <div class="dropdown pmop-message" dropdown>
+                        <button dropdown-toggle class="btn bgm-white btn-float">
+                            <h2 class="m-0 c-green">{{data.calificacion_promedio}}</h2>
+                        </button>
 
 
-                    <div class="pmo-stat">
-                        <h2 class="m-0 c-white">1562</h2>
-                        Total Connections
                     </div>
                 </div>
 
-                <div class="pmo-block pmo-contact hidden-xs">
-                    <h2>Contact</h2>
-
-                    <ul>
-                        <li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>
-                        <li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>
-                        <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway</li>
-                        <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda (twitter.com/malinda)</li>
-                        <li>
-                            <i class="zmdi zmdi-pin"></i>
-                            <address class="m-b-0 ng-binding">
-                                44-46 Morningside Road, <br>
-                                Edinburgh, <br>
-                                Scotland
-                            </address>
-                        </li>
-                    </ul>
+                <div class="pmo-stat">
+                    Calificación
                 </div>
+            </div>
 
-                <div class="pmo-block pmo-items hidden-xs">
-                    <h2>Connections</h2>
+            <div class="pmo-block pmo-contact hidden-xs">
+                <h2>Información</h2>
 
-                    <div class="pmob-body">
-                        <div class="row">
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/1.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/2.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/3.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/4.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/5.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/6.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/7.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/8.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/1.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/2.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/3.jpg" alt="">
-                            </a>
-                            <a href="" class="col-xs-2">
-                                <img class="img-circle mCS_img_loaded" src="img/profile-pics/4.jpg" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 50px; display: block; height: 570px; max-height: 665px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 50px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 50px; width: 0px; left: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 50px; display: block; height: 601px; max-height: 683px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 50px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_2_scrollbar_horizontal" class="mCSB_scrollTools mCSB_2_scrollbar mCS-minimal-dark mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 50px; width: 0px; left: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
 
-            <div class="pm-body clearfix">
-                <!-- ngInclude: 'template/profile-menu.html' --><!-- ngInclude: 'template/profile-menu.html' --><ul class="tab-nav tn-justified ng-scope" data-ng-include="'template/profile-menu.html'"><li class="btn-wave ng-scope" data-ui-sref-active="active"><a data-ui-sref="pages.profile.profile-about" href="#/pages/profile/profile-about">About</a></li><li class="btn-wave ng-scope" data-ui-sref-active="active"><a data-ui-sref="pages.profile.profile-timeline" href="#/pages/profile/profile-timeline">Timeline</a></li><li class="btn-wave ng-scope" data-ui-sref-active="active"><a data-ui-sref="pages.profile.profile-photos" href="#/pages/profile/profile-photos">Photos</a></li><li class="btn-wave ng-scope" data-ui-sref-active="active"><a data-ui-sref="pages.profile.profile-connections" href="#/pages/profile/profile-connections">Connections</a></li></ul>
 
-                <!-- uiView:  --><!-- uiView:  --><data ui-view="" class="ng-scope"><div class="pmb-block ng-scope">
-                <div class="pmbb-header">
-                    <h2><i class="zmdi zmdi-equalizer m-r-5"></i> Summary</h2>
-
-                    <!-- ngIf: pctrl.editSummary === 0 --><!-- ngIf: pctrl.editSummary === 0 --><ul class="actions ng-scope" data-ng-if="pctrl.editSummary === 0">
-                    <li class="dropdown" uib-dropdown="">
-                        <a href="" uib-dropdown-toggle="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                            <i class="zmdi zmdi-more-vert"></i>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a data-ng-click="pctrl.editSummary = 1" href="">Edit</a>
-                            </li>
-                        </ul>
+                <ul>
+                    <li><i class="zmdi zmdi-calendar"></i> {{ data.fecha_registro }}</li>
+                    <li><i class="zmdi zmdi-local-offer"></i> {{ data.tipo }}</li>
+                    <li>
+                        <i class="zmdi zmdi-pin"></i>
+                        <address class="m-b-0">
+                            {{ data.direccion }}
+                        </address>
                     </li>
-                </ul><!-- end ngIf: pctrl.editSummary === 0 --><!-- end ngIf: pctrl.editSummary === 0 -->
-                </div>
-                <div class="pmbb-body p-l-30">
-                    <!-- ngIf: pctrl.editSummary === 0 --><!-- ngIf: pctrl.editSummary === 0 --><div class="pmbb-view ng-binding ng-scope" data-ng-if="pctrl.editSummary === 0">
-                    Sed eu est vulputate, fringilla ligula ac, maximus arcu. Donec sed felis vel magna mattis ornare ut non turpis. Sed id arcu elit. Sed nec sagittis tortor. Mauris ante urna, ornare sit amet mollis eu, aliquet ac ligula. Nullam dolor metus, suscipit ac imperdiet nec, consectetur sed ex. Sed cursus porttitor leo.
-                </div><!-- end ngIf: pctrl.editSummary === 0 --><!-- end ngIf: pctrl.editSummary === 0 -->
+                </ul>
 
-                    <!-- ngIf: pctrl.editSummary === 1 -->
+
+
+
+            </div>
+
+            <div class="pmo-block pmo-items hidden-xs">
+                <h2>Vendedor</h2>
+
+                <div class="pmob-body">
+                    <div class="row">
+                        <a href="" class="col-xs-2">
+                            <img class="img-circle" src="{{data.foto}}" alt="">
+                        </a>
+                        <li>{{data.vendedor}}</li>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card pt-inner">
+                <div class="pti-footer">
+                    <h2><i class="zmdi zmdi-local-grocery-store m-r-5"></i> Agregar a Carrito </h2>
+                    <a href="" class="bgm-green"><i class="zmdi zmdi-plus"></i></a>
                 </div>
             </div>
 
 
-                <div class="card picture-list">
-                    <div class="card-header">
-                        <h2>Photos <small>Cras congue nec lorem eget posuere</small></h2>
+        </div>
 
-                        <ul class="actions">
-                            <li class="dropdown action-show" uib-dropdown="">
-                                <a href="" uib-dropdown-toggle="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                                    <i class="zmdi zmdi-more-vert"></i>
-                                </a>
 
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <a href="">Refresh</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Manage Widgets</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Widgets Settings</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+
+        <div class="pm-body clearfix">
+
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2><i class="zmdi zmdi-equalizer m-r-5"></i> Información básica </h2>
+                    </br>
+
+                    <div class="card pt-inner">
+                        <div class="pti-header bgm-green">
+                            <h2>Precio: ${{data.precio}} <small>| pesos</small></h2>
+                            <div class="ptih-title">Cantidad disponible: {{data.cantidad_actual}}</div>
+                        </div>
+
+
+                        <div class="pti-body">
+                            <div class="ptib-item">
+                                {{data.descripcion}}
+                            </div>
+                        </div>
+
+
+
                     </div>
 
-                    <div class="pl-body">
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/1.png" alt="">
-                            </a>
-                        </div>
 
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/2.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/3.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/4.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/5.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/6.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/7.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/8.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/9.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/1.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/2.png" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="">
-                                <img src="img/headers/square/3.png" alt="">
-                            </a>
+                </div>
+
+            </div>
+
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2><i class="zmdi zmdi-instagram m-r-5"></i> Galería </h2>
+                    </br></br>
+                    <div class="card">
+                        <div class="card-body card-padding p-t-0" data-ng-controller="ProductosDetalle">
+
+                            <carousel interval="myInterval">
+                                <slide ng-repeat="w in galeria" active="slide.active">
+                                    <img ng-src="{{w.url}}">
+                                    <div class="carousel-caption" data-ng-if="w.descripcion.length > 0">
+                                        <h3>{{w.descripcion}}</h3>
+                                    </div>
+                                </slide>
+                            </carousel>
+
+
+
+
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2><i class="zmdi zmdi-person m-r-5"></i> Basic Information</h2>
 
-                <div class="pmb-block ng-scope">
-                    <div class="pmbb-header">
-                        <h2><i class="zmdi zmdi-person m-r-5"></i> Basic Information</h2>
-
-                        <!-- ngIf: pctrl.editInfo === 0 --><!-- ngIf: pctrl.editInfo === 0 --><ul class="actions ng-scope" data-ng-if="pctrl.editInfo === 0">
-                        <li class="dropdown" uib-dropdown="">
-                            <a href="" uib-dropdown-toggle="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    <ul class="actions" data-ng-if="pctrl.editInfo === 0">
+                        <li class="dropdown" dropdown>
+                            <a href="" dropdown-toggle>
                                 <i class="zmdi zmdi-more-vert"></i>
                             </a>
 
@@ -259,205 +146,228 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul><!-- end ngIf: pctrl.editInfo === 0 --><!-- end ngIf: pctrl.editInfo === 0 -->
-                    </div>
-                    <div class="pmbb-body p-l-30">
-                        <!-- ngIf: pctrl.editInfo === 0 --><!-- ngIf: pctrl.editInfo === 0 --><div class="pmbb-view ng-scope" data-ng-if="pctrl.editInfo === 0">
+                    </ul>
+                </div>
+                <div class="pmbb-body p-l-30">
+                    <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
                         <dl class="dl-horizontal">
                             <dt>Full Name</dt>
-                            <dd class="ng-binding">Mallinda Hollaway</dd>
+                            <dd>{{ pctrl.fullName }}</dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt>Gender</dt>
-                            <dd class="ng-binding">female</dd>
+                            <dd>{{ pctrl.gender }}</dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt>Birthday</dt>
-                            <dd class="ng-binding">23/06/1988</dd>
+                            <dd>{{ pctrl.birthDay }}</dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt>Martial Status</dt>
-                            <dd class="ng-binding">Single</dd>
+                            <dd>{{ pctrl.martialStatus }}</dd>
                         </dl>
-                    </div><!-- end ngIf: pctrl.editInfo === 0 --><!-- end ngIf: pctrl.editInfo === 0 -->
-
-                        <!-- ngIf: pctrl.editInfo === 1 -->
                     </div>
+
+                    <form data-ng-submit="pctrl.submit('profileInfo', 'Profile Information')" class="pmbb-edit" data-ng-if="pctrl.editInfo === 1">
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Full Name</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <input data-ng-model="pctrl.fullName" type="text" class="form-control" value="{{ pctrl.fullName }}" placeholder="eg. Mallinda Hollaway">
+                                </div>
+
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Gender</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <select class="form-control">
+                                        <option>Female</option>
+                                        <option>Male</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Birthday</dt>
+                            <dd>
+                                <div class="dtp-container dropdown fg-line">
+                                    <input type='text' class="form-control" data-dt-picker="DD/MM/YYYY" dropdown-toggle placeholder="eg. 23/06/1988">
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Martial Status</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <select class="form-control">
+                                        <option>Single</option>
+                                        <option>Married</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            </dd>
+                        </dl>
+
+                        <div class="m-t-30">
+                            <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                            <button class="btn btn-link btn-sm" data-ng-click="pctrl.editInfo = 0" >Cancel</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-
-                <div class="pmb-block ng-scope">
-                    <div class="pmbb-header">
-                        <h2><i class="zmdi zmdi-phone m-r-5"></i> Contact Information</h2>
-
-                        <!-- ngIf: pctrl.editContact === 0 --><!-- ngIf: pctrl.editContact === 0 --><ul class="actions ng-scope" data-ng-if="pctrl.editContact === 0">
-                        <li class="dropdown" uib-dropdown="">
-                            <a href="" uib-dropdown-toggle="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a data-ng-click="pctrl.editContact = 1" href="">Edit</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul><!-- end ngIf: pctrl.editContact === 0 --><!-- end ngIf: pctrl.editContact === 0 -->
-                    </div>
-                    <div class="pmbb-body p-l-30">
-
-                        <div class="ms-body">
-                            <div class="listview lv-message">
-                                <div class="lv-header-alt clearfix">
-                                    <div id="ms-menu-trigger" data-ng-class="{ 'open': mactrl.lvMenuStat }" data-ng-click="mactrl.lvMenuStat = (mactrl.lvMenuStat===true ? false : true )">
-                                        <div class="line-wrap">
-                                            <div class="line top"></div>
-                                            <div class="line center"></div>
-                                            <div class="line bottom"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="lvh-label hidden-xs">
-                                        <div class="lv-avatar pull-left">
-                                            <img src="img/profile-pics/1.jpg" alt="">
-                                        </div>
-                                        <span class="c-black">David Parbell</span>
-                                    </div>
-
-                                    <ul class="lv-actions actions">
-                                        <li>
-                                            <a href="">
-                                                <i class="zmdi zmdi-delete"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="zmdi zmdi-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="zmdi zmdi-time"></i>
-                                            </a>
-                                        </li>
-                                        <li class="dropdown" uib-dropdown="">
-                                            <a href="" uib-dropdown-toggle="" aria-expanded="false" class="dropdown-toggle" aria-haspopup="true">
-                                                <i class="zmdi zmdi-sort"></i>
-                                            </a>
-
-                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                <li>
-                                                    <a href="">Latest</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Oldest</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown" uib-dropdown="">
-                                            <a href="" uib-dropdown-toggle="" aria-expanded="false" class="dropdown-toggle" aria-haspopup="true">
-                                                <i class="zmdi zmdi-more-vert"></i>
-                                            </a>
-
-                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                <li>
-                                                    <a href="">Refresh</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Message Settings</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="lv-body">
-                                    <div class="lv-item media">
-                                        <div class="lv-avatar pull-left">
-                                            <img src="img/profile-pics/1.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="ms-item">
-                                                Quisque consequat arcu eget odio cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna non, lacinia pellentesque orci. Proin semper sagittis erat, eget condimentum sapien viverra et. Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
-                                            </div>
-                                            <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:00</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="lv-item media right">
-                                        <div class="lv-avatar pull-right">
-                                            <img src="img/profile-pics/8.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="ms-item">
-                                                Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
-                                            </div>
-                                            <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:30</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="lv-item media">
-                                        <div class="lv-avatar pull-left">
-                                            <img src="img/profile-pics/1.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="ms-item">
-                                                Etiam ex arcumentum
-                                            </div>
-                                            <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:33</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="lv-item media right">
-                                        <div class="lv-avatar pull-right">
-                                            <img src="img/profile-pics/8.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="ms-item">
-                                                Etiam nec facilisis lacus. Nulla imperdiet augue ullamcorper dui ullamcorper, eu laoreet sem consectetur. Aenean et ligula risus. Praesent sed posuere sem. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                            </div>
-                                            <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 10:10</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="lv-item media">
-                                        <div class="lv-avatar pull-left">
-                                            <img src="img/profile-pics/1.jpg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="ms-item">
-                                                Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ac tortor ut elit sodales varius. Mauris id ipsum id mauris malesuada tincidunt. Vestibulum elit massa, pulvinar at sapien sed, luctus vestibulum eros. Etiam finibus tristique ante, vitae rhoncus sapien volutpat eget
-                                            </div>
-                                            <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 10:24</small>
-                                        </div>
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2><i class="zmdi zmdi-person m-r-5"></i> Preguntas </h2>
+                    <div class="ms-body">
+                        <div class="listview lv-message">
+                            <div class="lv-header-alt clearfix">
+                                <div id="ms-menu-trigger"  data-ng-class="{ 'open': mactrl.lvMenuStat }" data-ng-click="mactrl.lvMenuStat = (mactrl.lvMenuStat===true ? false : true )">
+                                    <div class="line-wrap">
+                                        <div class="line top"></div>
+                                        <div class="line center"></div>
+                                        <div class="line bottom"></div>
                                     </div>
                                 </div>
 
-                                <div class="clearfix"></div>
+                                <div class="lvh-label hidden-xs">
+                                    <div class="lv-avatar pull-left">
+                                        <img src="img/profile-pics/1.jpg" alt="">
+                                    </div>
+                                    <span class="c-black">David Parbell</span>
+                                </div>
 
-                                <div class="lv-footer ms-reply">
-                                    <textarea placeholder="What's on your mind..."></textarea>
-                                    <button><i class="zmdi zmdi-mail-send"></i></button>
+                                <ul class="lv-actions actions">
+                                    <li>
+                                        <a href="">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <i class="zmdi zmdi-check"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <i class="zmdi zmdi-time"></i>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown" dropdown>
+                                        <a href="" dropdown-toggle aria-expanded="true">
+                                            <i class="zmdi zmdi-sort"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="">Latest</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Oldest</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" dropdown>
+                                        <a href="" dropdown-toggle aria-expanded="true">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="">Refresh</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Message Settings</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="lv-body">
+                                <div class="lv-item media">
+                                    <div class="lv-avatar pull-left">
+                                        <img src="img/profile-pics/1.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="ms-item">
+                                            Quisque consequat arcu eget odio cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna non, lacinia pellentesque orci. Proin semper sagittis erat, eget condimentum sapien viverra et. Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+                                        </div>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:00</small>
+                                    </div>
+                                </div>
+
+                                <div class="lv-item media right">
+                                    <div class="lv-avatar pull-right">
+                                        <img src="img/profile-pics/8.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="ms-item">
+                                            Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+                                        </div>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:30</small>
+                                    </div>
+                                </div>
+
+                                <div class="lv-item media">
+                                    <div class="lv-avatar pull-left">
+                                        <img src="img/profile-pics/1.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="ms-item">
+                                            Etiam ex arcumentum
+                                        </div>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:33</small>
+                                    </div>
+                                </div>
+
+                                <div class="lv-item media right">
+                                    <div class="lv-avatar pull-right">
+                                        <img src="img/profile-pics/8.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="ms-item">
+                                            Etiam nec facilisis lacus. Nulla imperdiet augue ullamcorper dui ullamcorper, eu laoreet sem consectetur. Aenean et ligula risus. Praesent sed posuere sem. Cum sociis natoque penatibus et magnis dis parturient montes,
+                                        </div>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 10:10</small>
+                                    </div>
+                                </div>
+
+                                <div class="lv-item media">
+                                    <div class="lv-avatar pull-left">
+                                        <img src="img/profile-pics/1.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="ms-item">
+                                            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ac tortor ut elit sodales varius. Mauris id ipsum id mauris malesuada tincidunt. Vestibulum elit massa, pulvinar at sapien sed, luctus vestibulum eros. Etiam finibus tristique ante, vitae rhoncus sapien volutpat eget
+                                        </div>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 10:24</small>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="lv-footer ms-reply">
+                                <textarea placeholder="What's on your mind..."></textarea>
+
+                                <button><i class="zmdi zmdi-mail-send"></i></button>
+                            </div>
                         </div>
-
-                    </div><!-- end ngIf: pctrl.editContact === 0 --><!-- end ngIf: pctrl.editContact === 0 -->
-
-                        <!-- ngIf: pctrl.editContact === 1 -->
                     </div>
                 </div>
-            </data>
             </div>
+
+
         </div>
+
+
+
+
+
+
+
     </div>
-
-
-
-
-
-
-    </section>
-
-
-</div>
