@@ -111,35 +111,60 @@ angular.module('materialAdmin')
                 });
             };
 
-
-
             $scope.listarProducto = function (id) {
                         $rootScope.productoEditar=[];
                         $rootScope.actualProducto={};
                 console.log("Listar producto en el controlador " + id);
                 $http.get("http://localhost:8181/producto/" + id,{withCredentials: true, headers: {token: sessionStorage.token}})
                         .success(function (res) {
-                            $rootScope.productoEditar = res;
                             $rootScope.actualProducto=res;
-                            console.log($rootScope.productoEditar);
+                            console.log($rootScope.actualProducto);
+                            $rootScope.actualProducto.cantidad=""+$rootScope.actualProducto.cantidad;
+                            $rootScope.actualProducto.latitud=""+$rootScope.actualProducto.latitud;
+                            $rootScope.actualProducto.longitud=""+$rootScope.actualProducto.longitud;
+                            $rootScope.actualProducto.precio=""+$rootScope.actualProducto.precio;
+
+                            console.log($rootScope.actualProducto);
                         }).error(function (res) {
                     console.log("Doesn't work para listar producto");
                     console.log("El error para borar producto: " + res);
                 });
             };
 
-               $scope.editRecord = function (record){
-               console.log("Se llamo a la funcion editar");
-               console.log(record);
-                           $scope.actualProducto=record;
-                           console.log($scope.actualProducto);
-               };
+            $scope.actualizarProducto = function (id) {
+                          //  var i = document.getElementById('imagen').files[0];
+                           // var i2 = document.getElementById('imagen2').files[0];
+                           // var i3 = document.getElementById('imagen3').files[0];
+
+                         //   var imagenBytes = i.result;
+                           /* var imagenBytes2 = i2.result;
+                            var imagenBytes3 = i3.result;
+                            $scope.producto.imagen = imagenBytes;
+                            $scope.producto.imagen2 = imagenBytes2;
+                            $scope.producto.imagen3 = imagenBytes3;*/
+                          //  console.log("Imagen 1");
+                          //  console.log(imagenBytes);
+                          //  $scope.actualProducto.imagen = imagenBytes;
+                         //  console.log("el id para editar "+id);
+                          // console.log($scope.actualProducto);
+                          console.log("Actualizado....")
+                          console.log($scope.actualProducto);
+                            $http.put("http://localhost:8181/producto/"+id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
+                                    .success(function (res) {
+                                        $scope.actualProducto = {};
+                                        console.log("La respuesta del backend " + res);
+            		                    $window.location.href = '/#/productos/productos';
+                                        $scope.consultarProductos();
+
+                                    }).error(function (res) {
+                                console.log("Doesn't work para actualizar producto");
+                                console.log("El error para actualizar producto: " + res);
+                            });
+                        };
 
             $scope.consultarProductos();
             $scope.combox();
         });
-
-
 
 
 angular.module('materialAdmin')

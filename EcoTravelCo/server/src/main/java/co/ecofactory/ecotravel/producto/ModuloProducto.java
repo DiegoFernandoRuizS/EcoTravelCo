@@ -33,7 +33,11 @@ public class ModuloProducto implements Modulo {
         rutas.get("/").handler(rc -> {
             Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
             System.out.println("USUARIO AUTENTICADO ----->" + idUsuario);
-            vertx.eventBus().send("listarProductos", new JsonObject(), res -> {
+
+            JsonObject usuario = new JsonObject();
+            usuario.put("id_usuario", idUsuario);
+
+            vertx.eventBus().send("listarProductos", usuario, res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto");

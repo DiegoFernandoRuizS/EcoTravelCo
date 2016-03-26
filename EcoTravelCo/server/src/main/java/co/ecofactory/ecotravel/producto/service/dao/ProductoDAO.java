@@ -20,12 +20,16 @@ public class ProductoDAO {
     }
 
     //Listar productos
-    public CompletableFuture<List<JsonObject>> listarProductos() {
+    public CompletableFuture<List<JsonObject>> listarProductos(JsonObject usuario) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+
+        int idUsuario=usuario.getInteger("id_usuario",0);
+        System.out.println("Usuario en el dao "+idUsuario);
         String query = "SELECT p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, \n" +
-                "       p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
-                "  FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
-                "  where p.tipo_producto_id=tp.id;";
+                "                    p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
+                "                FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
+                "                 where p.tipo_producto_id=tp.id\n" +
+                "                 and p.id_usuario="+idUsuario;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -290,22 +294,29 @@ public class ProductoDAO {
 
         JsonArray params2 = new JsonArray();
 
-        String id = nuevoProducto.getString("id_direccion","");
+        int id = nuevoProducto.getInteger("id_direccion",0);
         String direccion = nuevoProducto.getString("nombredireccion", "");
-        String latitud = nuevoProducto.getString("latitud", "");
-        String longitud = nuevoProducto.getString("longitud", "");
+        double latitud = Double.parseDouble(nuevoProducto.getString("latitud", ""));
+
+        double longitud = Double.parseDouble(nuevoProducto.getString("longitud", ""));
         String pais = nuevoProducto.getString("pais", "");
         String departamento = nuevoProducto.getString("departamento", "");
         String ciudad = nuevoProducto.getString("ciudad", "");
 
-        System.out.println("------> direccion " + direccion);
+        System.out.println("DATOS PARA ACTUALIZAR direccion");
 
-        System.out.println("------> latitud  " + latitud);
+        System.out.println(id);
+        System.out.println(direccion);
+        System.out.println(latitud);
+        System.out.println(longitud);
+        System.out.println(pais);
+        System.out.println(departamento);
+        System.out.println(ciudad);
 
 
         JsonUtils.add(params2, direccion);
-        JsonUtils.add(params2, Double.parseDouble(latitud));
-        JsonUtils.add(params2, Double.parseDouble(longitud));
+        JsonUtils.add(params2, (latitud));
+        JsonUtils.add(params2, (longitud));
         JsonUtils.add(params2, ciudad);
         JsonUtils.add(params2, departamento);
         JsonUtils.add(params2, pais);
@@ -339,7 +350,6 @@ public class ProductoDAO {
 
         return res;
     }
-
 
     //Actualizar ImagenAsociada al producto
     public CompletableFuture<JsonObject> actualizarImagen(JsonObject nuevoProducto, int productoAsociado) {
@@ -454,7 +464,6 @@ public class ProductoDAO {
     }
 
     //Editar un producto
-    //Insertar un producto
     public CompletableFuture<JsonObject> editarProducto(JsonObject nuevoProducto) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
@@ -462,29 +471,26 @@ public class ProductoDAO {
 
         int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
 
+        int idProducto2 = nuevoProducto.getInteger("id_producto", 0);
 
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
-        //JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
-        // JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
+
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_tipo_producto", "")));
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
-        JsonUtils.add(params, idUsuario);//Usuario quemado
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
         // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
 
         int idProducto = nuevoProducto.getInteger("id_producto", 0);
 
-
         String query="UPDATE mp_producto\n" +
                 "   SET estado=?, nombre=?, fecha_actualizacion=?, \n" +
                 "       id_direccion_id=?, tipo_producto_id=?, \n" +
-                "       descripcion=?, precio=?, id_usuario=?, cantidad_actual=?, cantidad_origen=?\n" +
+                "       descripcion=?, precio=?, cantidad_origen=?\n" +
                 " WHERE id="+idProducto;
 
         dataAccess.getConnection(conn -> {
@@ -494,7 +500,7 @@ public class ProductoDAO {
                                 res.complete(data.result().toJson());
                             } else {
                                 data.cause().printStackTrace();
-                                System.out.println("Error insertar producto DAO print");
+                                System.out.println("Error actualizar producto DAO print");
                                 res.completeExceptionally(data.cause());
                             }
                         });

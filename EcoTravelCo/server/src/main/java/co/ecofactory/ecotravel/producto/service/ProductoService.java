@@ -33,9 +33,9 @@ public class ProductoService extends AbstractVerticle {
     }
 
     public void listarProductos(Message<JsonObject> message) {
-        System.out.println("listarProductos");
+        System.out.println("listarProductosProveedor");
         try {
-            CompletableFuture<List<JsonObject>> data = this.dao.listarProductos();
+            CompletableFuture<List<JsonObject>> data = this.dao.listarProductos(message.body());
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
@@ -205,12 +205,12 @@ public class ProductoService extends AbstractVerticle {
         try {
             CompletableFuture<JsonObject> data = this.dao.actualizarDireccion(message.body());
             data.whenComplete((ok, error) -> {
-                System.out.println("insertarProducto");
+                System.out.println("actualizar producto");
                 if (ok != null) {
                     System.out.println("La llave de la direccion"+ok.getJsonArray("keys").getValue(0));
                     llave[0] =(int)ok.getJsonArray("keys").getValue(0);
                     System.out.println(llave[0]);
-                    System.out.println("insertarDireccion:OK" + ok);
+                    System.out.println("actualizar producto:OK" + ok);
                     message.reply(ok);
 
                     CompletableFuture<JsonObject> data2 = this.dao.editarProducto(message.body());
@@ -221,35 +221,34 @@ public class ProductoService extends AbstractVerticle {
                             System.out.println(idProducto[0]);
                             // System.out.println("insertarProducto:OK" + ok2);
 
-
                             message.reply(ok2);
                             CompletableFuture<JsonObject> dataImagen = this.dao.actualizarImagen(message.body(),idProducto[0]);
                             dataImagen.whenComplete((ok3,error3)->{
                                 if (ok3!=null){
                                     message.reply(ok3);
                                     System.out.println("El idImagen "+ok3.getJsonArray("keys").getValue(0));
-                                    System.out.println("insertarImagen:OK" + ok3);
+                                    System.out.println("actualizar Imagen:OK" + ok3);
                                 }
                                 else {
                                     error3.printStackTrace();
-                                    message.fail(0, "ERROR in data imagen - producto");
+                                    message.fail(0, "ERROR in data imagen - producto - actualizar");
                                 }
                             });
                         }
                         else {
                             error2.printStackTrace();
-                            message.fail(0, "ERROR in data producto");
+                            message.fail(0, "ERROR in data producto actualizar");
                         }
                     });
 
                 } else {
                     error.printStackTrace();
-                    message.fail(0, "ERROR in data direccion");
+                    message.fail(0, "ERROR in data direccion actualizar");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            message.fail(0, "ERROR inside catch");
+            message.fail(0, "ERROR inside catch actualizar");
         }
     }
     //Borrar producto con un id como paramento
