@@ -1,6 +1,4 @@
-<!--<script type="text/javascript" language="javascript" src="{% static 'js/ng-image-compress.js'%}"></script>-->
-
-<div class="container" ng-controller="ProductosCtrl">
+<div class="container" ng-controller="ProductosCtrlProveedor">
     <div class="block-header">
         <h2>Gestión de productos - Crear producto</h2>
 
@@ -272,12 +270,16 @@
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
-
                     <div class="input-group">
-                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="btn btn-warning btn-file m-r-10" data-ui-sref="productos.lista">Cancelar</span>
+                    </div>
+                </div>
+                <div class="col-md-1">
                 </div>
             </div>
 

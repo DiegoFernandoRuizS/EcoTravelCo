@@ -30,7 +30,7 @@ public class UtilidadDatosService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("Listar Paises");
                 if (ok != null) {
-                      System.out.println("ListarPaises:OK" + ok);
+                   //   System.out.println("ListarPaises:OK" + ok);
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);

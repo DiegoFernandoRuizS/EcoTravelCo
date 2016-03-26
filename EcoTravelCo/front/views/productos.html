@@ -1,4 +1,4 @@
-<div class="container" ng-controller="ProductosCtrl">
+<div class="container" ng-controller="ProductosCtrlProveedor">
     <div class="block-header">
         <h2>SERVICIOS - PRODUCTOS</h2>
 
@@ -73,9 +73,8 @@
                                                         ng-model="w.fecha_actualizacion"/></div>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-info"><i
-                                    class="zmdi zmdi-edit"></i>
-                                <a data-ui-sref-active="active" data-ui-sref="productos.editar">Editar</a>
+                            <button type="button" class="btn btn-info" ng-click="listarProducto(w.id)" data-ui-sref="productos.editar"><i class="zmdi zmdi-edit"></i>
+                                <a data-ui-sref-active="active">Editar</a>
                                <!-- <button type="button" class="btn btn-info"><i
                                         class="zmdi zmdi-edit"></i>
                                     <a data-ui-sref-active="active" data-ui-sref="productos.editar"
@@ -84,7 +83,7 @@
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger" ng-click="borrarProducto(w.id)"><i
+                            <button type="button" class="btn btn-danger" ng-click="borrarProducto(w.id)" data-ui-sref="productos.lista"><i
                                     class="zmdi zmdi-delete"></i>
                                 <a>Borrar</a>
                             </button>

@@ -29,7 +29,7 @@ public class UtilidadDatosDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                                System.out.println("En el If respuesta " + res);
+                              //  System.out.println("En el If respuesta " + res);
 
                             } else {
                                 data.cause().printStackTrace();

@@ -52,8 +52,8 @@ public class ModuloProducto implements Modulo {
             JsonObject _params = new JsonObject();
             _params.put("id", idAsLong);
 
-            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
-            System.out.println("USUARIO AUTENTICADO ----->" + idUsuario);
+           // Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+         //   System.out.println("USUARIO AUTENTICADO ----->" + idUsuario);
 
             vertx.eventBus().send("listarProducto", _params, res -> {
                 System.out.println("servidor: " + res);

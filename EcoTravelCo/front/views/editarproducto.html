@@ -1,6 +1,4 @@
-<!--<script type="text/javascript" language="javascript" src="{% static 'js/ng-image-compress.js'%}"></script>-->
-
-<div class="container" ng-controller="ProductosCtrl">
+<div class="container" ng-controller="ProductosCtrlProveedor">
     <div class="block-header">
         <h2>Gestión de productos - Editar producto</h2>
 
@@ -37,7 +35,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h2>Editar productos
+            <h2>Editar producto
                 <small>Editar productos pertenece a la sección de gestion de productos
                 </small>
             </h2>
@@ -62,17 +60,15 @@
                                 <option value="4">Paseos Ecológicos</option>
                             </select>
                         </div>
-
                     </div>
-
                 </div>
                 <div class="col-sm-8">
-                    <div class="=col-sm-8" ng-repeat="producto in datos">
+                    <div class="=col-sm-8" >
                         <div class="input-group">
                             <span class="input-group-addon last"><i class="zmdi"></i></span>
-                            <div class="fg-line">
+                            <div class="fg-line" >
                                 <input class="form-control" rows="4"
-                                       ng-model="producto.nombre">
+                                       ng-model="producto.descripcion">
                             </div>
                             <span class="input-group-addon last"><i class="zmdi"></i></span>
 
@@ -84,7 +80,7 @@
             </div>
             <br>
             <!--segundo row-->
-            <div class="row">
+            <div class="row" >
 
                 <div class="=col-sm-12">
                     <div class="input-group">
@@ -99,7 +95,7 @@
                 </div>
             </div>
             <br>
-            <div class="row">
+            <div class="row" >
          <br/>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -269,15 +265,21 @@
             <br>
             <br>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
 
                     <div class="input-group">
-                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="#">Guardar cambios</span>
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="#">Guardar cambios</span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+
+                    <div class="input-group">
+                        <span class="btn btn-warning btn-file m-r-10" data-ui-sref="productos.lista">Cancelar</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
                 </div>
             </div>
 

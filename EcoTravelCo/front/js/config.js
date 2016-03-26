@@ -44,12 +44,12 @@ materialAdmin
                     .state('productos.lista', {
                         url: '/productos',
                         templateUrl: 'views/productos.html',
-                        controller: 'ProductosCtrl'
+                        controller: 'ProductosCtrlProveedor'
                     })
                     .state('productos.crear', {
                         url: '/crearproducto',
                         templateUrl: 'views/crearproducto.html',
-                        controller: 'ProductosCtrl',
+                        controller: 'ProductosCtrlProveedor',
                         resolve: {
                             loadPlugin: function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
@@ -67,7 +67,6 @@ materialAdmin
                                     {
                                         name: 'vendors',
                                         files: [
-                                            //'js/ng-image-compress.js',
                                             'vendors/input-mask/input-mask.min.js',
                                             'vendors/bower_components/nouislider/jquery.nouislider.min.js',
                                             'vendors/bower_components/moment/min/moment.min.js',
@@ -86,7 +85,7 @@ materialAdmin
                     .state('productos.editar', {
                                             url: '/editarproducto',
                                             templateUrl: 'views/editarproducto.html',
-                                            controller: 'ProductosCtrl',
+                                            controller: 'ProductosCtrlProveedor',
                                             resolve: {
                                                 loadPlugin: function ($ocLazyLoad) {
                                                     return $ocLazyLoad.load([
@@ -104,7 +103,6 @@ materialAdmin
                                                         {
                                                             name: 'vendors',
                                                             files: [
-                                                                //'js/ng-image-compress.js',
                                                                 'vendors/input-mask/input-mask.min.js',
                                                                 'vendors/bower_components/nouislider/jquery.nouislider.min.js',
                                                                 'vendors/bower_components/moment/min/moment.min.js',
