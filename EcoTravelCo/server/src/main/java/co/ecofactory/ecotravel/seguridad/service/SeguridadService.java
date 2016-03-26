@@ -36,10 +36,11 @@ public class SeguridadService extends AbstractVerticle {
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("autenticarUsuario", this::autenticarUsuario);
 
-       // System.out.println(new File("./src/main/java").getAbsolutePath());
-      //  System.out.println("VARRR "+System.getenv("KEY_STORE"));
-      JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                .put("path", System.getenv("KEY_STORE")+"\\keystore.jceks")
+        // System.out.println(new File("./src/main/java").getAbsolutePath());
+        //  System.out.println("VARRR "+System.getenv("KEY_STORE"));
+        JsonObject config = new JsonObject().put("keyStore", new JsonObject()
+                .put("path", System.getenv("KEY_STORE") + "\\keystore.jceks")
+                // .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
 
