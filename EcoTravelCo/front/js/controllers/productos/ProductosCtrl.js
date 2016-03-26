@@ -208,8 +208,6 @@ angular.module('materialAdmin')
     });
 
 
-
-
 angular.module('materialAdmin')
 
     .controller('ProductosBusqueda', function ($scope, $rootScope, $http, $location, $filter, $sce, ngTableParams, tableService) {
