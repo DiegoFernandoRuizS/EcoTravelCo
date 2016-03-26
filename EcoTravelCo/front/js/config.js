@@ -85,6 +85,7 @@ materialAdmin
                     .state('productos.editar', {
                                             url: '/editarproducto',
                                             templateUrl: 'views/editarproducto.html',
+                                            //controller: 'editar',
                                             controller: 'ProductosCtrlProveedor',
                                             resolve: {
                                                 loadPlugin: function ($ocLazyLoad) {
