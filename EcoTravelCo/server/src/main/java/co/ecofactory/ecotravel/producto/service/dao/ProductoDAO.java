@@ -88,7 +88,7 @@ public class ProductoDAO {
     public CompletableFuture<List<JsonObject>> listarProductosDetalle(String id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("entro id = " + id);
-        String query = "select a.id, a.nombre, a.fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual\n" +
+        String query = "select a.id, a.nombre, to_char(a.fecha_registro, 'YYYY-MM-DD') as fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual\n" +
                 ", b.tipo\n" +
                 ", c.url\n" +
                 ", ( pe.nombre ||' '|| pe.nombre_sec ||' '|| pe.apellido||' '|| pe.apellido_sec) as vendedor, pe.foto\n" +
