@@ -12,6 +12,7 @@ public class Modulos {
                 "co.ecofactory.ecotravel.usuario.ModuloUsuario",
                 "co.ecofactory.ecotravel.cliente.ModuloCliente",
                 "co.ecofactory.ecotravel.canasta.ModuloCanasta",
+                "co.ecofactory.ecotravel.utils.ModuloUtilidadDatos",
                 "co.ecofactory.ecotravel.seguridad.ModuloSeguridad"};
 
 

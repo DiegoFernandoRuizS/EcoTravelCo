@@ -30,7 +30,6 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);
         this.getVertx().eventBus().consumer("listarProductosBusqueda", this::listarProductosBusqueda);
 
-
     }
 
     public void listarProductos(Message<JsonObject> message) {
@@ -70,7 +69,7 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
-                    System.out.println("listarProductos:OK" + ok);
+                    //System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
 
                     ok.forEach(o -> arr.add(o));
@@ -102,7 +101,7 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductosDetalle");
                 if (ok != null) {
-                    System.out.println("listarProductos:OK" + ok);
+                   // System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);
@@ -128,7 +127,7 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
                 if (ok != null) {
-                    System.out.println("listarProducto:OK" + ok);
+                  //  System.out.println("listarProducto:OK" + ok);
                     message.reply(ok.get(0));
                 } else {
                     error.printStackTrace();
@@ -164,7 +163,7 @@ public class ProductoService extends AbstractVerticle {
                             System.out.println("El idProducto "+ok2.getJsonArray("keys").getValue(0));
                             idProducto[0] =(int)ok2.getJsonArray("keys").getValue(0);
                             System.out.println(idProducto[0]);
-                            System.out.println("insertarProducto:OK" + ok2);
+                           // System.out.println("insertarProducto:OK" + ok2);
 
 
                             message.reply(ok2);
@@ -200,25 +199,59 @@ public class ProductoService extends AbstractVerticle {
 
     //Editar producto
     public void editarProducto(Message<JsonObject> message) {
-
+        System.out.println("Service editar producto" + message.body());
+        final int[] llave = {0};
+        final int[] idProducto = {0};
         try {
-            CompletableFuture<JsonObject> data = this.dao.editarProducto(message.body(),message.body().getLong("id"));
+            CompletableFuture<JsonObject> data = this.dao.actualizarDireccion(message.body());
             data.whenComplete((ok, error) -> {
-                System.out.println("editarProducto");
+                System.out.println("insertarProducto");
                 if (ok != null) {
-                    System.out.println("editarProducto:OK" + ok);
+                    System.out.println("La llave de la direccion"+ok.getJsonArray("keys").getValue(0));
+                    llave[0] =(int)ok.getJsonArray("keys").getValue(0);
+                    System.out.println(llave[0]);
+                    System.out.println("insertarDireccion:OK" + ok);
                     message.reply(ok);
+
+                    CompletableFuture<JsonObject> data2 = this.dao.editarProducto(message.body());
+                    data2.whenComplete((ok2,error2)->{
+                        if (ok2 != null) {
+                            System.out.println("El idProducto "+ok2.getJsonArray("keys").getValue(0));
+                            idProducto[0] =(int)ok2.getJsonArray("keys").getValue(0);
+                            System.out.println(idProducto[0]);
+                            // System.out.println("insertarProducto:OK" + ok2);
+
+
+                            message.reply(ok2);
+                            CompletableFuture<JsonObject> dataImagen = this.dao.actualizarImagen(message.body(),idProducto[0]);
+                            dataImagen.whenComplete((ok3,error3)->{
+                                if (ok3!=null){
+                                    message.reply(ok3);
+                                    System.out.println("El idImagen "+ok3.getJsonArray("keys").getValue(0));
+                                    System.out.println("insertarImagen:OK" + ok3);
+                                }
+                                else {
+                                    error3.printStackTrace();
+                                    message.fail(0, "ERROR in data imagen - producto");
+                                }
+                            });
+                        }
+                        else {
+                            error2.printStackTrace();
+                            message.fail(0, "ERROR in data producto");
+                        }
+                    });
+
                 } else {
                     error.printStackTrace();
-                    message.fail(0, "ERROR in data editarProducto");
+                    message.fail(0, "ERROR in data direccion");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            message.fail(0, "ERROR inside catch editarProducto");
+            message.fail(0, "ERROR inside catch");
         }
     }
-
     //Borrar producto con un id como paramento
     public void borrarProducto(Message<JsonObject> message) {
         System.out.println("borrarProducto ID: " + message.body().getLong("id"));
@@ -285,6 +318,8 @@ public class ProductoService extends AbstractVerticle {
 
         }
     }
+
+
 
 }
 

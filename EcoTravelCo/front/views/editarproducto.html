@@ -1,6 +1,6 @@
 <div class="container" ng-controller="ProductosCtrlProveedor">
     <div class="block-header">
-        <h2>Gestión de productos - Crear producto</h2>
+        <h2>Gestión de productos - Editar producto</h2>
 
         <ul class="actions">
             <li>
@@ -35,21 +35,20 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h2>Crear productos
-                <small>Crear productos pertenece a la sección de gestion de productos
+            <h2>Editar producto
+                <small>Editar productos pertenece a la sección de gestion de productos
                 </small>
             </h2>
         </div>
 
         <div class="card-body card-padding">
-            <p class="c-black f-500 m-b-5">Crear nuevo producto</p>
+            <p class="c-black f-500 m-b-5">Editar nuevo producto</p>
             <small>En esta sección usted puede crear un nuevo producto</small>
 
             <br/><br/>
 
             <div class="row">
                 <div class="col-sm-4">
-
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
@@ -61,17 +60,15 @@
                                 <option value="4">Paseos Ecológicos</option>
                             </select>
                         </div>
-
                     </div>
-
                 </div>
                 <div class="col-sm-8">
-                    <div class="=col-sm-8">
+                    <div class="=col-sm-8" >
                         <div class="input-group">
                             <span class="input-group-addon last"><i class="zmdi"></i></span>
-                            <div class="fg-line">
-                                <input class="form-control" rows="4" placeholder="Nombre del producto...."
-                                       ng-model="producto.nombre">
+                            <div class="fg-line" >
+                                <input class="form-control" rows="4"
+                                       ng-model="producto.descripcion">
                             </div>
                             <span class="input-group-addon last"><i class="zmdi"></i></span>
 
@@ -82,7 +79,8 @@
 
             </div>
             <br>
-            <div class="row">
+            <!--segundo row-->
+            <div class="row" >
 
                 <div class="=col-sm-12">
                     <div class="input-group">
@@ -97,7 +95,7 @@
                 </div>
             </div>
             <br>
-            <div class="row">
+            <div class="row" >
          <br/>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -267,19 +265,21 @@
             <br>
             <br>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+
                     <div class="input-group">
-                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="#">Guardar cambios</span>
                     </div>
                 </div>
                 <div class="col-md-3">
+
                     <div class="input-group">
                         <span class="btn btn-warning btn-file m-r-10" data-ui-sref="productos.lista">Cancelar</span>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-3">
                 </div>
             </div>
 
