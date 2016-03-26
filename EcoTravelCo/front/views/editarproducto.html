@@ -2,7 +2,7 @@
 
 <div class="container" ng-controller="ProductosCtrl">
     <div class="block-header">
-        <h2>Gestión de productos - Crear producto</h2>
+        <h2>Gestión de productos - Editar producto</h2>
 
         <ul class="actions">
             <li>
@@ -37,21 +37,20 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h2>Crear productos
-                <small>Crear productos pertenece a la sección de gestion de productos
+            <h2>Editar productos
+                <small>Editar productos pertenece a la sección de gestion de productos
                 </small>
             </h2>
         </div>
 
         <div class="card-body card-padding">
-            <p class="c-black f-500 m-b-5">Crear nuevo producto</p>
+            <p class="c-black f-500 m-b-5">Editar nuevo producto</p>
             <small>En esta sección usted puede crear un nuevo producto</small>
 
             <br/><br/>
 
             <div class="row">
                 <div class="col-sm-4">
-
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
@@ -68,11 +67,11 @@
 
                 </div>
                 <div class="col-sm-8">
-                    <div class="=col-sm-8">
+                    <div class="=col-sm-8" ng-repeat="producto in datos">
                         <div class="input-group">
                             <span class="input-group-addon last"><i class="zmdi"></i></span>
                             <div class="fg-line">
-                                <input class="form-control" rows="4" placeholder="Nombre del producto...."
+                                <input class="form-control" rows="4"
                                        ng-model="producto.nombre">
                             </div>
                             <span class="input-group-addon last"><i class="zmdi"></i></span>
@@ -84,6 +83,7 @@
 
             </div>
             <br>
+            <!--segundo row-->
             <div class="row">
 
                 <div class="=col-sm-12">
@@ -274,7 +274,7 @@
                 <div class="col-md-4">
 
                     <div class="input-group">
-                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
+                        <span class="btn btn-primary btn-file m-r-10" data-ng-click="#">Guardar cambios</span>
                     </div>
                 </div>
                 <div class="col-md-4">

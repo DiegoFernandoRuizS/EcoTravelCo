@@ -13,16 +13,12 @@ angular.module('materialAdmin')
                                 headers: {token: sessionStorage.token}
                             }).success(function (res) {
                                 $scope.listaValores = res
-
-                                console.log( res);
                             }).error(function (res) {
                                 console.log("Doesn't work");
                                 console.log("Que trae esto paises " + res);
                             });
 
         $scope.consultarProductos = function () {
-
-      //  $scope.consultarPaises();
             $http.get("http://localhost:8181/producto/", {
                 withCredentials: true,
                 headers: {token: sessionStorage.token}
@@ -30,19 +26,25 @@ angular.module('materialAdmin')
                 console.log("Consultando productos...");
                 $scope.datos = res
 
-                console.log("La respuesta en consultar: " + res);
+              //  console.log("La respuesta en consultar: " + res);
             }).error(function (res) {
                 console.log("Doesn't work");
                 console.log("Que trae esto: " + res);
             });
         };
 
-
         $scope.insertarProducto = function () {
-            var i = document.getElementById('imagen1').files[0];
-            var reader = new FileReader();
+            var i = document.getElementById('imagen').files[0];
+            var i2 = document.getElementById('imagen2').files[0];
+            var i3 = document.getElementById('imagen3').files[0];
+
             var imagenBytes=i.result;
+            var imagenBytes2=i2.result;
+            var imagenBytes3=i3.result;
             $scope.producto.imagen=imagenBytes;
+            $scope.producto.imagen2=imagenBytes2;
+            $scope.producto.imagen3=imagenBytes3;
+
 
             $http.post("http://localhost:8181/producto/",$scope.producto, {withCredentials: true,headers: {token:sessionStorage.token }})
                 .success(function (res) {
@@ -61,11 +63,12 @@ angular.module('materialAdmin')
             $http.delete("http://localhost:8181/producto/" + id, $scope.productoDelete, {withCredentials: true,headers: {token:sessionStorage.token }})
                 .success(function (res) {
                     $scope.borrarProducto = {};
-                    console.log("La respuesta del backend " + res);
+                    //console.log("La respuesta del backend " + res);
                 }).error(function (res) {
                 console.log("Doesn't work para Borrar producto");
                 console.log("El error para borar producto: " + res);
             });
+            $scope.consultarProductos();
         };
 
         $scope.queryAllProduct = function () {
@@ -74,8 +77,6 @@ angular.module('materialAdmin')
                 .success(function(res){
                     $scope.datos=res
                     $rootScope.load =1;
-                    console.log(res);
-
                 }).error(function(res){
                 console.log("Doesn't work");
                 console.log("Que trae esto: "+res);

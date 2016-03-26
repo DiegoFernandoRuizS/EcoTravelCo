@@ -73,15 +73,23 @@
                                                         ng-model="w.fecha_actualizacion"/></div>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-info" ng-if="!w.$edit" ng-click="w.$edit = true"><i
-                                    class="zmdi zmdi-edit"></i></button>
-                            <button type="button" class="btn btn-success" ng-if="w.$edit" ng-click="w.$edit = false"><i
-                                    class="zmdi zmdi-check"></i></button>
+                            <button type="button" class="btn btn-info"><i
+                                    class="zmdi zmdi-edit"></i>
+                                <a data-ui-sref-active="active" data-ui-sref="productos.editar">Editar</a>
+                               <!-- <button type="button" class="btn btn-info"><i
+                                        class="zmdi zmdi-edit"></i>
+                                    <a data-ui-sref-active="active" data-ui-sref="productos.editar"
+                                       data-ng-click="mactrl.sidebarStat($event)">Editar</a>
+                                </button>-->
+                            </button>
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger" ng-click="borrarProducto(w.id)"><i
-                                    class="zmdi zmdi-delete"></i></button>
+                                    class="zmdi zmdi-delete"></i>
+                                <a>Borrar</a>
+                            </button>
                         </td>
+
                     </tr>
                 </table>
             </div>

@@ -83,7 +83,7 @@ public class ProductoDAO {
 
     public CompletableFuture<List<JsonObject>> listarProductosDetalle(String id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        System.out.println("entro id = "+id);
+        System.out.println("entro id = " + id);
         String query = "select a.id, a.nombre, a.fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual\n" +
                 ", b.tipo\n" +
                 ", c.url\n" +
@@ -93,7 +93,7 @@ public class ProductoDAO {
                 "left join mp_galeria c on c.producto_id=a.id and c.foto_principal=1 \n" +
                 "left join mp_persona pe on pe.id= a.id_usuario\n" +
                 "left join mp_direccion d on d.id= a.id_direccion_id\n" +
-                "where a.id=\n" + id+";";
+                "where a.id=\n" + id + ";";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -159,7 +159,7 @@ public class ProductoDAO {
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
 
-        int idUsuario=nuevoProducto.getInteger("id_usuario",0);
+        int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
 
 
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
@@ -176,7 +176,7 @@ public class ProductoDAO {
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
-       // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
+        // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
 
         String query = "INSERT INTO mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
@@ -233,9 +233,9 @@ public class ProductoDAO {
         String departamento = nuevoProducto.getString("departamento", "");
         String ciudad = nuevoProducto.getString("ciudad", "");
 
-        System.out.println("------> direccion "+direccion);
+        System.out.println("------> direccion " + direccion);
 
-        System.out.println("------> latitud  "+latitud);
+        System.out.println("------> latitud  " + latitud);
 
 
         JsonUtils.add(params2, direccion);
@@ -282,22 +282,29 @@ public class ProductoDAO {
 
 
     //Insertar ImagenAsociada al producto
-    public CompletableFuture<JsonObject> insertarImagen(JsonObject nuevoProducto,int productoAsociado) {
+    public CompletableFuture<JsonObject> insertarImagen(JsonObject nuevoProducto, int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
 
         JsonArray params3 = new JsonArray();
 
         String imagen = nuevoProducto.getString("imagen", "");
-        String tipo ="Imagen" ;
+        String tipo = "Imagen";
         String ciudad = nuevoProducto.getString("ciudad", "");
 
+        String imagen2 = nuevoProducto.getString("imagen2", "");
+        String tipo2 = "Imagen";
+        String ciudad2 = nuevoProducto.getString("ciudad", "");
+
+        String imagen3 = nuevoProducto.getString("imagen3", "");
+        String tipo3 = "Imagen";
+        String ciudad3 = nuevoProducto.getString("ciudad", "");
+
         System.out.println("EN EL DAO DE LA IMAGEN");
-        JsonUtils.add(params3,tipo);
+        JsonUtils.add(params3, tipo);
         JsonUtils.add(params3, imagen);
         JsonUtils.add(params3, ciudad);
         JsonUtils.add(params3, productoAsociado);
-
 
 
         String query3 = "INSERT INTO mp_galeria(\n" +
@@ -344,7 +351,7 @@ public class ProductoDAO {
         JsonUtils.add(params, editProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, editProducto.getDouble("calificacion_promedio", 0.0));
-       // JsonUtils.add(params, editProducto.getInteger("id_padre", 0));
+        // JsonUtils.add(params, editProducto.getInteger("id_padre", 0));
         JsonUtils.add(params, editProducto.getInteger("id_direccion_id", 0));
         JsonUtils.add(params, editProducto.getInteger("tipo_producto_id", 0));
         JsonUtils.add(params, editProducto.getString("descripcion", ""));
@@ -412,12 +419,13 @@ public class ProductoDAO {
         );
         return res;
     }
+
     //Borrar imagen
     public CompletableFuture<JsonObject> borrarImagen(Long id) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
 
         String query = "DELETE FROM mp_galeria\n" +
-                " WHERE producto_id="+id+";";
+                " WHERE producto_id=" + id + ";";
 
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
@@ -450,7 +458,7 @@ public class ProductoDAO {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
 
         String query = "DELETE FROM mp_galeria\n" +
-                " WHERE producto_id="+id+";";
+                " WHERE producto_id=" + id + ";";
 
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
@@ -483,31 +491,31 @@ public class ProductoDAO {
     public CompletableFuture<List<JsonObject>> listarProductosBusqueda(JsonObject criterios) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("ini");
-       // criterios.getString("search", "")
+        // criterios.getString("search", "")
         String[] split = criterios.getString("criterios").split("%20");
         String query = "";
 
-        for (int i=0; split.length>i; i++) {
+        for (int i = 0; split.length > i; i++) {
             String search = split[i];
             if (!search.equals("")) {
-                if (i !=0)
+                if (i != 0)
                     query += " UNION ";
-                 query += "SELECT DISTINCT  p.id, g.url,  p.nombre,  tp.tipo, p.descripcion, p.precio , p.cantidad_actual, ( pe.nombre ||' '|| pe.nombre_sec ||' '|| pe.apellido||' '|| pe.apellido_sec) as vendedor\n" +
-                         "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1 \n" +
-                         "where UPPER(p.nombre) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(tp.tipo) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(tp.descripcion) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(p.descripcion) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(pe.nombre) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(pe.nombre_sec) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(pe.apellido) like UPPER('%"+search+"%') or\n" +
-                         "UPPER(pe.apellido_sec) like UPPER('%"+search+"%') AND UPPER(p.estado)='ACTIVO';\n";
-        }
-            
-        }
-        final String queryf=query+";";
+                query += "SELECT DISTINCT  p.id, g.url,  p.nombre,  tp.tipo, p.descripcion, p.precio , p.cantidad_actual, ( pe.nombre ||' '|| pe.nombre_sec ||' '|| pe.apellido||' '|| pe.apellido_sec) as vendedor\n" +
+                        "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1 \n" +
+                        "where UPPER(p.nombre) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(tp.tipo) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(tp.descripcion) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(p.descripcion) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(pe.nombre) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(pe.nombre_sec) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(pe.apellido) like UPPER('%" + search + "%') or\n" +
+                        "UPPER(pe.apellido_sec) like UPPER('%" + search + "%') AND UPPER(p.estado)='ACTIVO';\n";
+            }
 
-        System.out.println("Query"+ queryf);
+        }
+        final String queryf = query + ";";
+
+        System.out.println("Query" + queryf);
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -516,7 +524,7 @@ public class ProductoDAO {
                                 res.complete(data.result().getRows());
                                 System.out.println("En el If respuesta listar producto" + data.result().getRows().size());
                             } else {
-                                System.out.println("err "+ data.cause());
+                                System.out.println("err " + data.cause());
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
                             }
