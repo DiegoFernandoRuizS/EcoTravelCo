@@ -6,8 +6,23 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.data = {};
         $rootScope.load = 0;
+        $scope.listaValores=[];
+
+                $http.get("http://localhost:8181/datos", {
+                                withCredentials: true,
+                                headers: {token: sessionStorage.token}
+                            }).success(function (res) {
+                                $scope.listaValores = res
+
+                                console.log( res);
+                            }).error(function (res) {
+                                console.log("Doesn't work");
+                                console.log("Que trae esto paises " + res);
+                            });
 
         $scope.consultarProductos = function () {
+
+      //  $scope.consultarPaises();
             $http.get("http://localhost:8181/producto/", {
                 withCredentials: true,
                 headers: {token: sessionStorage.token}
@@ -20,25 +35,14 @@ angular.module('materialAdmin')
                 console.log("Doesn't work");
                 console.log("Que trae esto: " + res);
             });
-
-            console.log("Antes de insertar");
-            console.log(sessionStorage.token);
         };
 
+
         $scope.insertarProducto = function () {
-
-            console.log("Insertar producto en el controlador ");
-
             var i = document.getElementById('imagen1').files[0];
-
             var reader = new FileReader();
-
             var imagenBytes=i.result;
-            console.log($scope.producto);
             $scope.producto.imagen=imagenBytes;
-
-            console.log("En la funcion insertar del controlador de insertar");
-            console.log(sessionStorage.token);
 
             $http.post("http://localhost:8181/producto/",$scope.producto, {withCredentials: true,headers: {token:sessionStorage.token }})
                 .success(function (res) {
@@ -53,13 +57,10 @@ angular.module('materialAdmin')
         };
 
         $scope.borrarProducto = function (id) {
-
             console.log("Borrar producto en el controlador " + id);
-
             $http.delete("http://localhost:8181/producto/" + id, $scope.productoDelete, {withCredentials: true,headers: {token:sessionStorage.token }})
                 .success(function (res) {
                     $scope.borrarProducto = {};
-
                     console.log("La respuesta del backend " + res);
                 }).error(function (res) {
                 console.log("Doesn't work para Borrar producto");
@@ -93,6 +94,7 @@ angular.module('materialAdmin')
         $scope.detailProd = function (id) {
             $rootScope.prodId= id;
         };
+
 
     });
 
@@ -141,8 +143,8 @@ angular.module('materialAdmin')
 
         $scope.queryProducts = function () {
 
-
             var criterios=  $rootScope.busquedaProd;
+
             $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
                 .success(function(res){
                     $scope.datos=res

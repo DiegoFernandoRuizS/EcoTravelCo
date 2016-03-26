@@ -167,7 +167,7 @@ public class ProductoDAO {
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, 5.0D);
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
+        //JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_padre", "")));
         // JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion_id", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
@@ -187,7 +187,7 @@ public class ProductoDAO {
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),\n" +
                 "     ?, \n" +
-                "     ?, \n" +
+                "     null, \n" +
                 "     (SELECT max(id) FROM mp_direccion), \n" +
                 "     ?, \n" +
                 "     ?, \n" +
@@ -307,7 +307,7 @@ public class ProductoDAO {
                 "    ?, \n" +
                 "    ?,\n" +
                 "    ?, \n" +
-                "     nextval('mp_galeria_id_seq'));\n";
+                "    1);\n";
 
         dataAccess.getConnection(conn -> {
             if (conn.succeeded()) {
@@ -344,7 +344,7 @@ public class ProductoDAO {
         JsonUtils.add(params, editProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
         JsonUtils.add(params, editProducto.getDouble("calificacion_promedio", 0.0));
-        JsonUtils.add(params, editProducto.getInteger("id_padre", 0));
+       // JsonUtils.add(params, editProducto.getInteger("id_padre", 0));
         JsonUtils.add(params, editProducto.getInteger("id_direccion_id", 0));
         JsonUtils.add(params, editProducto.getInteger("tipo_producto_id", 0));
         JsonUtils.add(params, editProducto.getString("descripcion", ""));
@@ -533,6 +533,5 @@ public class ProductoDAO {
         );
         return res;
     }
-
 
 }

@@ -30,7 +30,6 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);
         this.getVertx().eventBus().consumer("listarProductosBusqueda", this::listarProductosBusqueda);
 
-
     }
 
     public void listarProductos(Message<JsonObject> message) {
@@ -70,7 +69,7 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
-                    System.out.println("listarProductos:OK" + ok);
+                    //System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
 
                     ok.forEach(o -> arr.add(o));
@@ -102,7 +101,7 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductosDetalle");
                 if (ok != null) {
-                    System.out.println("listarProductos:OK" + ok);
+                   // System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);
@@ -128,7 +127,7 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
                 if (ok != null) {
-                    System.out.println("listarProducto:OK" + ok);
+                  //  System.out.println("listarProducto:OK" + ok);
                     message.reply(ok.get(0));
                 } else {
                     error.printStackTrace();
@@ -164,7 +163,7 @@ public class ProductoService extends AbstractVerticle {
                             System.out.println("El idProducto "+ok2.getJsonArray("keys").getValue(0));
                             idProducto[0] =(int)ok2.getJsonArray("keys").getValue(0);
                             System.out.println(idProducto[0]);
-                            System.out.println("insertarProducto:OK" + ok2);
+                           // System.out.println("insertarProducto:OK" + ok2);
 
 
                             message.reply(ok2);
@@ -285,6 +284,8 @@ public class ProductoService extends AbstractVerticle {
 
         }
     }
+
+
 
 }
 

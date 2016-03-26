@@ -35,7 +35,6 @@
         </ul>
 
     </div>
-
     <div class="card">
         <div class="card-header">
             <h2>Crear productos
@@ -86,15 +85,8 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="input-group">
-                        <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
-                        <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="ID padre" ng-model="producto.id_padre">
-                        </div>
-                    </div>
-                </div>
-                <div class="=col-sm-8">
+
+                <div class="=col-sm-12">
                     <div class="input-group">
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
                         <div class="fg-line">
@@ -108,39 +100,24 @@
             </div>
             <br>
             <div class="row">
-                <br/>
+         <br/>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+                        <span class="input-group-addon last"><i class="zmdi zmdi-money"></i></span>
                         <div class="fg-line">
-                            <input type="text" class="form-control" placeholder="Dirección"
-                                   ng-model="producto.id_direccion_id">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <div class="fg-line">
-
                             <input type="text" class="form-control" data-input-mask="{mask: '000000000'}"
                                    placeholder="Precio" ng-model="producto.precio">
                         </div>
-
                     </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="input-group">
-
                             <div class="fg-line">
-
                                 <input type="text" class="form-control" data-input-mask="{mask: '0000'}"
                                        placeholder="Cantidad" ng-model="producto.cantidad">
                             </div>
-
-
                         </div>
                 </div>
-
 
                 <div class="col-sm-4">
                     <div class="input-group">
@@ -166,7 +143,7 @@
                 <p class="c-black f-500 m-b-5">Direccion</p>
                 <small>En esta sección usted puede asignar la dirección de su producto</small>
 
-                <br/><br/>
+                <br/>
 
                 <div class="row">
                     <div class="col-sm-4">
@@ -198,17 +175,18 @@
                     </div>
                     <br/>
                     <br/>
+                    <br/>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="zmdi"></i></span>
                                 <div class="fg-line">
-                                    <select chosen data-placeholder="País..." class="w-100"
-                                            ng-model="producto.pais">
-                                        <option value="ARGENTINA">ARGENTINA</option>
-                                        <option value="COLOMBIA">COLOMBIA</option>
-                                        <option value="PANAMA">PANAMA</option>
-                                        <option value="CHILE">CHILE</option>
+                                    <select ng-model="producto.pais" placeholder="Seleccione pais..." >
+                                        <option ng-selected="{{producto.pais == operator.valor}}"
+                                                ng-repeat="operator in listaValores"
+                                                value="{{operator.valor}}">
+                                            {{operator.valor}}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
