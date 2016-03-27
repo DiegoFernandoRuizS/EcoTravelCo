@@ -127,17 +127,18 @@ angular.module('materialAdmin')
             };
             //para actualizr el producto en la gestion
             $scope.actualizarProducto = function (id) {
-                //  var i = document.getElementById('imagen').files[0];
-                // var i2 = document.getElementById('imagen2').files[0];
-                // var i3 = document.getElementById('imagen3').files[0];
 
-                //   var imagenBytes = i.result;
-                /* var imagenBytes2 = i2.result;
+                 var i = document.getElementById('imagen').files[0];
+                 var i2 = document.getElementById('imagen1').files[0];
+                 var i3 = document.getElementById('imagen2').files[0];
+                    console.log(i);
+                  var imagenBytes = i.result;
+                 var imagenBytes2 = i2.result;
                  var imagenBytes3 = i3.result;
-                 $scope.producto.imagen = imagenBytes;
-                 $scope.producto.imagen2 = imagenBytes2;
-                 $scope.producto.imagen3 = imagenBytes3;*/
-                //  console.log("Imagen 1");
+                 $scope.actualProducto.imagen = imagenBytes;
+                 $scope.actualProducto.imagen1 = imagenBytes2;
+                 $scope.actualProducto.imagen2 = imagenBytes3;
+                  console.log("Imagen 1");
                 //  console.log(imagenBytes);
                 //  $scope.actualProducto.imagen = imagenBytes;
                 //  console.log("el id para editar "+id);

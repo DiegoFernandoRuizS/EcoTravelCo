@@ -142,7 +142,10 @@ public class ProductoDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                              //  System.out.println("En el If respuesta listar producto" + data.result().getRows().size());
+                                System.out.println("En el If respuesta listar producto");
+                                System.out.println(data.result().getRows().size());
+                                System.out.println(data.result().getRows());
+
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
@@ -168,7 +171,6 @@ public class ProductoDAO {
         JsonArray params = new JsonArray();
 
         int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
-
 
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
@@ -357,28 +359,46 @@ public class ProductoDAO {
 
         JsonArray params3 = new JsonArray();
 
+        int idProducto=nuevoProducto.getInteger("id_producto",0);
         String imagen = nuevoProducto.getString("imagen", "");
         String tipo = "Imagen";
         String ciudad = nuevoProducto.getString("ciudad", "");
 
-        String imagen2 = nuevoProducto.getString("imagen2", "");
+        String imagen2 = nuevoProducto.getString("imagen1", "");
         String tipo2 = "Imagen";
         String ciudad2 = nuevoProducto.getString("ciudad", "");
 
-        String imagen3 = nuevoProducto.getString("imagen3", "");
+        String imagen3 = nuevoProducto.getString("imagen2", "");
         String tipo3 = "Imagen";
         String ciudad3 = nuevoProducto.getString("ciudad", "");
 
-        System.out.println("EN EL DAO DE LA IMAGEN");
+        System.out.println("EN EL DAO DE LA IMAGEN ");
+        System.out.println(imagen);
+
         JsonUtils.add(params3, tipo);
         JsonUtils.add(params3, imagen);
         JsonUtils.add(params3, ciudad);
 
+        JsonUtils.add(params3, tipo2);
+        JsonUtils.add(params3, imagen2);
+        JsonUtils.add(params3, ciudad);
 
+        JsonUtils.add(params3, tipo3);
+        JsonUtils.add(params3, imagen3);
+        JsonUtils.add(params3, ciudad);
+
+        System.out.println("Producto a editar asociado");
+        System.out.println(idProducto);
 
         String query3 = "UPDATE mp_galeria\n" +
                 "   SET tipo=?, url=?, descripcion=?, foto_principal=1\n" +
-                " WHERE producto_id="+productoAsociado;
+                " WHERE producto_id="+idProducto+";"+
+                "UPDATE mp_galeria\n" +
+                "   SET tipo=?, url=?, descripcion=?, foto_principal=0\n" +
+                " WHERE producto_id="+idProducto+";"+
+                "UPDATE mp_galeria\n" +
+                "   SET tipo=?, url=?, descripcion=?, foto_principal=0\n" +
+                " WHERE producto_id="+idProducto+";";
 
         dataAccess.getConnection(conn -> {
             if (conn.succeeded()) {
@@ -429,6 +449,16 @@ public class ProductoDAO {
         JsonUtils.add(params3, ciudad);
         JsonUtils.add(params3, productoAsociado);
 
+        JsonUtils.add(params3, tipo);
+        JsonUtils.add(params3, imagen2);
+        JsonUtils.add(params3, ciudad);
+        JsonUtils.add(params3, productoAsociado);
+
+        JsonUtils.add(params3, tipo);
+        JsonUtils.add(params3, imagen3);
+        JsonUtils.add(params3, ciudad);
+        JsonUtils.add(params3, productoAsociado);
+
 
         String query3 = "INSERT INTO mp_galeria(\n" +
                 "            id, tipo, url, descripcion, producto_id, foto_principal)\n" +
@@ -437,7 +467,22 @@ public class ProductoDAO {
                 "    ?, \n" +
                 "    ?,\n" +
                 "    ?, \n" +
-                "    1);\n";
+                "    1);\n" +  "INSERT INTO mp_galeria(\n" +
+                "            id, tipo, url, descripcion, producto_id, foto_principal)\n" +
+                "    VALUES (nextval('mp_galeria_id_seq'), \n" +
+                "    ?, \n" +
+                "    ?, \n" +
+                "    ?,\n" +
+                "    ?, \n" +
+                "    0);\n" +  "INSERT INTO mp_galeria(\n" +
+                "            id, tipo, url, descripcion, producto_id, foto_principal)\n" +
+                "    VALUES (nextval('mp_galeria_id_seq'), \n" +
+                "    ?, \n" +
+                "    ?, \n" +
+                "    ?,\n" +
+                "    ?, \n" +
+                "    0);\n";
+
 
         dataAccess.getConnection(conn -> {
             if (conn.succeeded()) {
@@ -484,7 +529,7 @@ public class ProductoDAO {
         int idProducto = nuevoProducto.getInteger("id_producto", 0);
 
         String query="UPDATE mp_producto\n" +
-                "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh12:mi:ss'), \n" +
+                "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
                 "       id_direccion_id=?, tipo_producto_id=?, \n" +
                 "       descripcion=?, precio=?, cantidad_origen=?\n" +
                 " WHERE id="+idProducto;
@@ -611,7 +656,6 @@ public class ProductoDAO {
         );
         return res;
     }
-
 
     //Listar un producto
     public CompletableFuture<List<JsonObject>> listarProductosBusqueda(JsonObject criterios) {
