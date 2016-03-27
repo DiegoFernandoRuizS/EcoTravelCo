@@ -49,78 +49,75 @@
 
             <div class="row">
                 <div class="col-sm-4">
-
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
                             <select chosen data-placeholder="Tipo de producto..." class="w-100"
                                     ng-model="producto.tipo_producto_id">
-                                <option value="1">Alojamiento</option>
-                                <option value="2">Alimentación</option>
-                                <option value="3">Transporte</option>
-                                <option value="4">Paseos Ecológicos</option>
+                                <option value="1">ALOJAMIENTO</option>
+                                <option value="2">ALIMENTACION</option>
+                                <option value="3">TRANSPORTE</option>
+                                <option value="4">PASEOS ECOLÓGICOS</option>
                             </select>
                         </div>
 
                     </div>
 
                 </div>
-                <div class="col-sm-8">
-                    <div class="=col-sm-8">
-                        <div class="input-group">
-                            <span class="input-group-addon last"><i class="zmdi"></i></span>
-                            <div class="fg-line">
-                                <input class="form-control" rows="4" placeholder="Nombre del producto...."
-                                       ng-model="producto.nombre">
-                            </div>
-                            <span class="input-group-addon last"><i class="zmdi"></i></span>
-
+                <div class="=col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="nombreCrear">Nombre del producto</label>
+                            <input class="form-control" rows="4" placeholder="Nombre del producto...."
+                                   ng-model="producto.nombre" id="nombreCrear">
                         </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
                     </div>
                 </div>
 
-
             </div>
-            <br>
+            <br/><br/>
             <div class="row">
-
                 <div class="=col-sm-12">
                     <div class="input-group">
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
                         <div class="fg-line">
+                            <label for="descripcionCrear">Descripción del producto</label>
                             <textarea class="form-control" rows="4" placeholder="Añadir descripción...."
-                                      ng-model="producto.descripcion"></textarea>
+                                      ng-model="producto.descripcion" id="descripcionCrear"></textarea>
                         </div>
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
 
                     </div>
                 </div>
             </div>
-            <br>
+            <br/><br/>
             <div class="row">
-         <br/>
+                <br/>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon last"><i class="zmdi zmdi-money"></i></span>
                         <div class="fg-line">
+                            <label for="precioCrear">Precio por producto</label>
                             <input type="text" class="form-control" data-input-mask="{mask: '000000000'}"
-                                   placeholder="Precio" ng-model="producto.precio">
+                                   placeholder="Precio" ng-model="producto.precio" id="precioCrear">
                         </div>
                     </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <div class="fg-line">
-                                <input type="text" class="form-control" data-input-mask="{mask: '0000'}"
-                                       placeholder="Cantidad" ng-model="producto.cantidad">
-                            </div>
-                        </div>
                 </div>
-
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="cantidadCrear">Cantidad disponible</label>
+                            <input type="text" class="form-control" data-input-mask="{mask: '0000'}"
+                                   placeholder="Cantidad" ng-model="producto.cantidad" id="cantidadCrear">
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-4">
                     <div class="input-group">
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
-
                         <div class="fg-line">
                             <select chosen data-placeholder="Seleccione estado..." class="w-100"
                                     ng-model="producto.estado">
@@ -133,33 +130,62 @@
                     <br/>
                     <br>
                 </div>
-
             </div>
-
+            <br/><br/>
             <!-- DIRECCION-->
             <div class="card-body card-padding">
                 <p class="c-black f-500 m-b-5">Direccion</p>
                 <small>En esta sección usted puede asignar la dirección de su producto</small>
-
                 <br/>
-
+                <br/>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
                             <div class="fg-line">
+                                <label for="direccionCrear">Dirección</label>
                                 <input type="text" class="form-control"
-                                       placeholder="Direccion" ng-model="producto.nombredireccion">
+                                       placeholder="Direccion" ng-model="producto.nombredireccion" id="direccionCrear">
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-4">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi"></i></span>
                             <div class="fg-line">
-                                <input type="text" class="form-control" data-input-mask="{mask: '000000000'}"
-                                       placeholder="Latitud" ng-model="producto.latitud">
+                                <label for="latitudCrear">Latitud</label>
 
+                                <input type="text" class="form-control"
+                                       placeholder="Latitud" ng-model="producto.latitud" id="latitudCrear">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi"></i></span>
+                            <div class="fg-line">
+                                <label for="longitudCrear">Longitud</label>
+
+                                <input type="text" class="form-control"
+                                       placeholder="Longitud" ng-model="producto.longitud" id="longitudCrear">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <div class="fg-line">
+                                <label for="paisCrear">Seleccione pais</label>
+                                <select ng-model="producto.pais" placeholder="Seleccione pais..." id="paisCrear">
+                                    <option ng-selected="{{producto.pais == operator.valor}}"
+                                            ng-repeat="operator in listaValores"
+                                            value="{{operator.valor}}">
+                                        {{operator.valor}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -167,52 +193,29 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi"></i></span>
                             <div class="fg-line">
-                                <input type="text" class="form-control" data-input-mask="{mask: '000000000'}"
-                                       placeholder="Longitud" ng-model="producto.longitud">
+                                <label for="departamentoCrear">Departamento</label>
+                                <input type="text" class="form-control"
+                                       placeholder="Departamento" ng-model="producto.departamento"
+                                       id="departamentoCrear">
                             </div>
                         </div>
                     </div>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
-                                <div class="fg-line">
-                                    <select ng-model="producto.pais" placeholder="Seleccione pais..." >
-                                        <option ng-selected="{{producto.pais == operator.valor}}"
-                                                ng-repeat="operator in listaValores"
-                                                value="{{operator.valor}}">
-                                            {{operator.valor}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
-                                <div class="fg-line">
-                                    <input type="text" class="form-control"
-                                           placeholder="Departamento" ng-model="producto.departamento">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
-                                <div class="fg-line">
-                                    <input type="text" class="form-control"
-                                           placeholder="Ciudad" ng-model="producto.ciudad">
-                                </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi"></i></span>
+                            <div class="fg-line">
+                                <label for="ciudadCrear">Ciudad</label>
+
+                                <input type="text" class="form-control"
+                                       placeholder="Ciudad" ng-model="producto.ciudad" id="ciudadCrear">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!--IMAGNES-->
-            <br/>
+            <br>
+            <br>
 
             <div class="row">
                 <div class="col-md-4">
@@ -249,7 +252,6 @@
                 </div>
                 <div class="col-md-4">
                     <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
                         <div>
@@ -269,17 +271,18 @@
             <div class="row">
                 <div class="col-md-4">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="input-group">
                         <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
                     </div>
+
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="input-group">
                         <span class="btn btn-warning btn-file m-r-10" data-ui-sref="productos.lista">Cancelar</span>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-4">
                 </div>
             </div>
 

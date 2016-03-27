@@ -29,7 +29,7 @@ public class ModuloUtilidadDatos implements Modulo {
         rutas.get("/").handler(rc -> {
 
             vertx.eventBus().send("listarPaises", new JsonObject(), res -> {
-               // System.out.println("servidor: " + res);
+                System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto");
                     rc.response().end(((JsonArray) res.result().body()).encodePrettily());
