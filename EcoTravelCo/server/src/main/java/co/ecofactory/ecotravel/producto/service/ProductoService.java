@@ -134,6 +134,7 @@ public class ProductoService extends AbstractVerticle {
                     if (ok.size() > 1) {
                         for (int i = 1; i < ok.size(); i++) {
                             conImagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
+                            conImagenes.put("id_imagen" + i, ok.get(i).getInteger("id_imagen", 0));
                         }
                     }
                     message.reply(conImagenes);

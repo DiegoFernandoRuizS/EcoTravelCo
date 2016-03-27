@@ -130,7 +130,7 @@ public class ProductoDAO {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "SELECT tp.tipo, p.nombre,p.descripcion, p.precio, p.cantidad_origen as cantidad, p.estado,\n" +
                 "dr.nombre as nombredireccion,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,ga.url as imagen,\n" +
-                "p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion\n" +
+                "p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion,ga.id as id_imagen\n" +
                 "  FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr,mp_galeria ga\n" +
                 "  where tp.id=p.tipo_producto_id\n" +
                 "  and ga.producto_id=p.id\n" +
@@ -357,70 +357,78 @@ public class ProductoDAO {
     public CompletableFuture<JsonObject> actualizarImagen(JsonObject nuevoProducto, int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
 
-        JsonArray params3 = new JsonArray();
+        JsonArray params0 = new JsonArray();
+        JsonArray params2 = new JsonArray();
+        JsonArray params1 = new JsonArray();
 
         int idProducto=nuevoProducto.getInteger("id_producto",0);
         String imagen = nuevoProducto.getString("imagen", "");
         String tipo = "Imagen";
         String ciudad = nuevoProducto.getString("ciudad", "");
+        int id_imagen = nuevoProducto.getInteger("id_imagen", 0);
 
         String imagen2 = nuevoProducto.getString("imagen1", "");
         String tipo2 = "Imagen";
         String ciudad2 = nuevoProducto.getString("ciudad", "");
+        int id_imagen2 = nuevoProducto.getInteger("id_imagen1", 0);
+
 
         String imagen3 = nuevoProducto.getString("imagen2", "");
         String tipo3 = "Imagen";
         String ciudad3 = nuevoProducto.getString("ciudad", "");
+        int id_imagen3 = nuevoProducto.getInteger("id_imagen2", 0);
+
 
         System.out.println("EN EL DAO DE LA IMAGEN ");
         System.out.println(imagen);
 
-        JsonUtils.add(params3, tipo);
-        JsonUtils.add(params3, imagen);
-        JsonUtils.add(params3, ciudad);
+        JsonUtils.add(params0, tipo);
+        JsonUtils.add(params0, imagen);
+        JsonUtils.add(params0, ciudad);
 
-        JsonUtils.add(params3, tipo2);
-        JsonUtils.add(params3, imagen2);
-        JsonUtils.add(params3, ciudad);
 
-        JsonUtils.add(params3, tipo3);
-        JsonUtils.add(params3, imagen3);
-        JsonUtils.add(params3, ciudad);
+        JsonUtils.add(params1, tipo2);
+        JsonUtils.add(params1, imagen2);
+        JsonUtils.add(params1, ciudad);
 
-        System.out.println("Producto a editar asociado");
-        System.out.println(idProducto);
+        JsonUtils.add(params2, tipo3);
+        JsonUtils.add(params2, imagen3);
+        JsonUtils.add(params2, ciudad);
 
-        String query3 = "UPDATE mp_galeria\n" +
+        String query0 = "UPDATE mp_galeria\n" +
                 "   SET tipo=?, url=?, descripcion=?, foto_principal=1\n" +
-                " WHERE producto_id="+idProducto+";"+
-                "UPDATE mp_galeria\n" +
-                "   SET tipo=?, url=?, descripcion=?, foto_principal=0\n" +
-                " WHERE producto_id="+idProducto+";"+
-                "UPDATE mp_galeria\n" +
-                "   SET tipo=?, url=?, descripcion=?, foto_principal=0\n" +
-                " WHERE producto_id="+idProducto+";";
+                " WHERE producto_id="+idProducto+" and id="+id_imagen+";";
+        String query1 = "UPDATE mp_galeria\n" +
+                "   SET tipo=?, url=?, descripcion=?, foto_principal=1\n" +
+                " WHERE producto_id="+idProducto+" and id="+id_imagen2+";";
+        String query2 = "UPDATE mp_galeria\n" +
+                "   SET tipo=?, url=?, descripcion=?, foto_principal=1\n" +
+                " WHERE producto_id="+idProducto+" and id="+id_imagen3+";";
 
-        dataAccess.getConnection(conn -> {
-            if (conn.succeeded()) {
-                conn.result().updateWithParams(query3, params3, data -> {
-                    if (data.succeeded()) {
-                        res.complete(data.result().toJson());
-                    } else {
-                        data.cause().printStackTrace();
-                        System.out.println("Error actualizar Galeria en DAO producto");
-                        res.completeExceptionally(data.cause());
-                    }
-                });
-            } else {
-                conn.cause().printStackTrace();
-            }
-            try {
-                conn.result().close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
+        for (int i=0;i<3;i++) {
+            String query = "query"+i;
+            dataAccess.getConnection(conn -> {
+                if (conn.succeeded()) {
+                    conn.result().updateWithParams(query, params0, data -> {
+                        if (data.succeeded()) {
+                            res.complete(data.result().toJson());
+                            System.out.println("Actualizar imagen "+query);
+                        } else {
+                            data.cause().printStackTrace();
+                            System.out.println("Error actualizar Galeria en DAO producto");
+                            res.completeExceptionally(data.cause());
+                        }
+                    });
+                } else {
+                    conn.cause().printStackTrace();
+                }
+                try {
+                    conn.result().close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
         return res;
     }
 
