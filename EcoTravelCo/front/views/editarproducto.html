@@ -52,12 +52,14 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
-                            <select data-placeholder="Tipo de producto..." class="w-100"
+                            <label for="tipoCrear">Seleccione tipo de producto</label>
+                            <select required id="tipoCrear"
                                     ng-model="actualProducto.tipo_producto_id">
                                 <option value="1">ALOJAMIENTO</option>
                                 <option value="2">ALIMENTACION</option>
                                 <option value="3">TRANSPORTE</option>
                                 <option value="4">PASEOS ECOLÓGICOS</option>
+                                <option value="5" selected="selected">PAQUETE</option>
                             </select>
                         </div>
                     </div>
@@ -122,10 +124,12 @@
 
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
 
                         <div class="fg-line">
-                            <select data-placeholder="Seleccione estado..." class="w-100"
+                            <label for="tipoEstado">Seleccione el estado de su producto</label>
+
+                            <select data-placeholder="Seleccione estado..." class="w-100" id="tipoEstado"
                                     ng-model="actualProducto.estado">
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
