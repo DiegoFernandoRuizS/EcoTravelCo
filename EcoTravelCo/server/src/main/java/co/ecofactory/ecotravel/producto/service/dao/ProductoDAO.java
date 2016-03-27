@@ -407,7 +407,7 @@ public class ProductoDAO {
                         res.complete(data.result().toJson());
                     } else {
                         data.cause().printStackTrace();
-                        System.out.println("Error insertar Galeria en DAO producto");
+                        System.out.println("Error actualizar Galeria en DAO producto");
                         res.completeExceptionally(data.cause());
                     }
                 });

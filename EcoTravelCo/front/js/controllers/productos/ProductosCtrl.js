@@ -131,18 +131,30 @@ angular.module('materialAdmin')
                  var i = document.getElementById('imagen').files[0];
                  var i2 = document.getElementById('imagen1').files[0];
                  var i3 = document.getElementById('imagen2').files[0];
-                    console.log(i);
-                  var imagenBytes = i.result;
-                 var imagenBytes2 = i2.result;
-                 var imagenBytes3 = i3.result;
-                 $scope.actualProducto.imagen = imagenBytes;
-                 $scope.actualProducto.imagen1 = imagenBytes2;
-                 $scope.actualProducto.imagen2 = imagenBytes3;
-                  console.log("Imagen 1");
-                //  console.log(imagenBytes);
-                //  $scope.actualProducto.imagen = imagenBytes;
-                //  console.log("el id para editar "+id);
-                // console.log($scope.actualProducto);
+             console.log(i);
+          if (i === undefined) {
+          } else {
+              var imagenBytes = i.result;
+              $scope.actualProducto.imagen = imagenBytes;
+              console.log("cambia 1 ");
+              console.log($scope.actualProducto.imagen);
+          }
+          if (i2 === undefined) {
+          } else {
+              var imagenBytes2 = i2.result;
+              $scope.actualProducto.imagen1 = imagenBytes2;
+              console.log("cambia 2 ");
+                            console.log($scope.actualProducto.imagen1);
+          }
+          if (i3 === undefined) {
+          } else {
+              var imagenBytes3 = i3.result;
+              $scope.actualProducto.imagen2 = imagenBytes3;
+              console.log("cambia 3 ");
+                            console.log($scope.actualProducto.imagen2);
+          }
+
+
                 console.log("Actualizado....")
                 console.log($scope.actualProducto);
                 $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
