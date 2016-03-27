@@ -1,0 +1,125 @@
+
+
+<div class="pmb-block">
+    <div class="pmbb-header">
+        <h2><i class="zmdi zmdi-person m-r-5"></i> Información Básica</h2>
+
+        <ul class="actions" data-ng-if="pctrl.editInfo === 0">
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a data-ng-click="pctrl.editInfo = 1" href="">Editar</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="pmbb-body p-l-30">
+        <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
+            <dl class="dl-horizontal">
+                <dt>Primer Nombre</dt>
+                <dd>{{ datos.nombre }}</dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Segundo Nombre</dt>
+                <dd>{{ datos.nombre_sec }}</dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Primer Apellido</dt>
+                <dd>{{ datos.apellido }}</dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Segundo Apellido</dt>
+                <dd>{{ datos.apellido_sec }}</dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Teléfono</dt>
+                <dd>{{ datos.telefono }}</dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Correo Electrónico</dt>
+                <dd>{{ datos.correo_electronico }}</dd>
+            </dl>
+
+
+
+        </div>
+
+        <form data-ng-submit="pctrl.submit('profileInfo', 'Profile Information')" class="pmbb-edit" data-ng-if="pctrl.editInfo === 1">
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Primer Nombre</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="datos.nombre" type="text" class="form-control" value="{{ datos.nombre }}" >
+                    </div>
+
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Segundo Nombre</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="datos.nombre_sec" type="text" class="form-control" value="{{ datos.nombre_sec }}" >
+                    </div>
+
+                </dd>
+            </dl>
+
+
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Primer Apellido</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="datos.apellido" type="text" class="form-control" value="{{ datos.apellido }}" >
+                    </div>
+
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Segundo Apellido</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="datos.apellido_sec" type="text" class="form-control" value="{{ datos.apellido_sec }}" >
+                    </div>
+
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Teléfono</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="datos.telefono" type="text" class="form-control" value="{{ datos.telefono }}" >
+                    </div>
+
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt class="p-t-10">Correo Eletrónico</dt>
+                <dd>
+                    <div class="fg-line">
+                        <input data-ng-model="datos.correo_electronico" type="text" class="form-control" value="{{ datos.correo_electronico }}" >
+                    </div>
+
+                </dd>
+            </dl>
+
+            <div class="m-t-30">
+                <button class="btn btn-primary btn-sm" data-ng-click="actualizar();">Guardar</button>
+                <button class="btn btn-link btn-sm" data-ng-click="pctrl.editInfo = 0" >Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

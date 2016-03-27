@@ -19,6 +19,41 @@ public class UsuarioDAO {
     }
 
 
+    public CompletableFuture<JsonObject> consultarUsuarioPorId(Integer id) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
+        String query = "SELECT * FROM public.mp_persona where id = ?";
+        JsonArray params = new JsonArray();
+        params.add(id);
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+
+                                JsonObject usuario = null;
+
+                                if (data.result() != null && data.result().getRows() != null && data.result().getRows().size() > 0) {
+                                    usuario = data.result().getRows().get(0);
+                                }
+                                res.complete(usuario);
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                        res.completeExceptionally(conn.cause());
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
     public CompletableFuture<JsonObject> consultarUsuarioPorLogin(String login) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
         String query = "SELECT * FROM public.mp_persona where login = ?";
@@ -54,7 +89,7 @@ public class UsuarioDAO {
         return res;
     }
 
-    //Insertar un producto
+    //Insertar un usuario
     public CompletableFuture<JsonObject> insertarUsuario(JsonObject dataIn) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
         String query = "insert into public.mp_persona (nombre,nombre_sec,apellido,apellido_sec,telefono,correo_electronico,tipo,foto,fecha_registro,fecha_actualizacion,login,contrasenia,id_direccion_id) " +
@@ -82,6 +117,79 @@ public class UsuarioDAO {
                             } else {
                                 data.cause().printStackTrace();
                                 System.out.println("Error insertar producto DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
+    //Actualizar un usuario
+    public CompletableFuture<JsonObject> actualizarUsuario(JsonObject dataIn) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
+        String query = "update  public.mp_persona set nombre=?,nombre_sec=?,apellido=?,apellido_sec=?,telefono=?,correo_electronico=?,foto=?,fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),id_direccion_id=? where id = ? ";
+        JsonArray params = new JsonArray();
+        JsonUtils.add(params, dataIn.getString("nombre"));
+        JsonUtils.add(params, dataIn.getString("nombre_sec"));
+        JsonUtils.add(params, dataIn.getString("apellido"));
+        JsonUtils.add(params, dataIn.getString("apellido_sec"));
+        JsonUtils.add(params, dataIn.getString("telefono"));
+        JsonUtils.add(params, dataIn.getString("correo_electronico"));
+        JsonUtils.add(params, dataIn.getString("foto"));
+        JsonUtils.add(params, new Date().toInstant());
+        JsonUtils.add(params, dataIn.getString("id_direccion_id"));
+        JsonUtils.add(params, dataIn.getLong("id"));
+
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error actualizar usuario DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
+    public CompletableFuture<JsonObject> actualizarFoto(JsonObject dataIn) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
+        String query = "update  public.mp_persona set foto=?,fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss') where id = ? ";
+        JsonArray params = new JsonArray();
+
+        JsonUtils.add(params, dataIn.getString("foto"));
+        JsonUtils.add(params, new Date().toInstant());
+        JsonUtils.add(params, dataIn.getLong("id"));
+
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error actualizar usuario DAO print");
                                 res.completeExceptionally(data.cause());
                             }
                         });
