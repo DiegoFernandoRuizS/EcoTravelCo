@@ -37,6 +37,25 @@ materialAdmin
             })
 
 
+//------------------------------
+            // HEADERS PARA PRODUCTOS
+            //------------------------------
+            .state ('proveedores', {
+                url: '/proveedores',
+                templateUrl: 'views/common.html'
+            })
+			.state ('proveedores.lista', {
+                url: '/proveedores',
+                templateUrl: 'views/proveedores/proveedores.html',
+				controller: 'ProveedoresCtrl'
+            })
+
+            .state ('proveedores.crear', {
+                            url: '/proveedor',
+                            templateUrl: 'views/proveedores/crear.html',
+            				controller: 'CrearProveedorCtrl'
+                        })
+
             //------------------------------
             // HEADERS PARA PRODUCTOS
             //------------------------------

@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.jdbc.JDBCClient;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -35,6 +36,42 @@ public class UsuarioDAO {
                                     usuario = data.result().getRows().get(0);
                                 }
                                 res.complete(usuario);
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                        res.completeExceptionally(conn.cause());
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
+    public CompletableFuture<List> listarProveedores() {
+        final CompletableFuture<List> res = new CompletableFuture<List>();
+        String query = "SELECT * FROM public.mp_persona where tipo = 'PROVEEDOR'";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+
+                                System.out.println("Retorno Consulta: listarProveedores" + data.result());
+
+                                List proveedores = new ArrayList<JsonObject>();
+
+                                if (data.result() != null && data.result().getRows() != null && data.result().getRows().size() > 0) {
+                                    proveedores = data.result().getRows();
+                                }
+                                res.complete(proveedores);
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
@@ -99,7 +136,7 @@ public class UsuarioDAO {
         JsonUtils.add(params, dataIn.getString("nombre_sec"));
         JsonUtils.add(params, dataIn.getString("apellido"));
         JsonUtils.add(params, dataIn.getString("apellido_sec"));
-        JsonUtils.add(params, dataIn.getInteger("telefono"));
+        JsonUtils.add(params, dataIn.getString("telefono"));
         JsonUtils.add(params, dataIn.getString("correo_electronico"));
         JsonUtils.add(params, dataIn.getString("tipo"));
         JsonUtils.add(params, dataIn.getString("foto"));

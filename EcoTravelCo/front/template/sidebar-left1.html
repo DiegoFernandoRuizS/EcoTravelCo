@@ -1,4 +1,4 @@
-<div class="sidebar-inner c-overflow" ng-controller="ProductosCtrlProveedor">
+<div class="sidebar-inner c-overflow" ng-controller="ProductosCtrl">
     <div class="profile-menu">
         <a href="" toggle-submenu>
             <div class="profile-pic">
@@ -44,5 +44,14 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="canasta.lista" data-ng-click="mactrl.sidebarStat($event)">Canasta</a></li>
             </ul>
         </li>
+
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('proveedor') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Proveedores</a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="proveedores.lista" data-ng-click="mactrl.sidebarStat($event)">Lista de Proveedores</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="proveedores.crear" data-ng-click="mactrl.sidebarStat($event)">Crear</a></li>
+            </ul>
+        </li>
+
     </ul>
 </div>

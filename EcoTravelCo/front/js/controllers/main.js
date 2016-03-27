@@ -6,6 +6,10 @@ materialAdmin
     .controller('materialadminCtrl', function($timeout, $state, $scope, growlService){
         //Welcome Message
         growlService.growl('Bienvenido!', 'inverse')
+
+        this.getNombreUsuario=function(){
+        return sessionStorage.getItem("nombreusuario");
+        }
         
         
         // Detact Mobile Browser

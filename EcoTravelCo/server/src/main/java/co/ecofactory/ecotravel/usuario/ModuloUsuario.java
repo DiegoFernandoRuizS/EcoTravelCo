@@ -39,6 +39,21 @@ public class ModuloUsuario implements Modulo {
             });
         });
 
+
+        //Listar proveedores
+        rutas.get("/proveedores").handler(rc -> {
+            vertx.eventBus().send("listarProveedores", new JsonObject(), res -> {
+                System.out.println("servidor: " + res);
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto");
+                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+
+                } else {
+                    rc.response().end("ERROR en el modulo usuarios");
+                }
+            });
+        });
+
         //Listar producto
         rutas.get("/consultar").handler(rc -> {
 
@@ -55,7 +70,7 @@ public class ModuloUsuario implements Modulo {
                     System.out.println("servidor correcto consultarUsuario -> : " + res.result().body());
                     rc.response().end(((JsonObject) res.result().body()).encodePrettily());
                 } else {
-                    if (res.cause() != null){
+                    if (res.cause() != null) {
                         res.cause().printStackTrace();
                     }
 
@@ -66,7 +81,7 @@ public class ModuloUsuario implements Modulo {
         });
 
 
-        //Agregar nuevo producto
+        //Agregar nuevo cliente
         rutas.post("/").handler(rc -> {
 
             JsonObject _params = rc.getBodyAsJson();
@@ -79,6 +94,25 @@ public class ModuloUsuario implements Modulo {
                     rc.response().end(((JsonObject) res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo producto insertar un usuario");
+                }
+
+            });
+
+        });
+
+        //Agregar nuevo proveedor
+        rutas.post("/proveedor").handler(rc -> {
+
+            JsonObject _params = rc.getBodyAsJson();
+
+            vertx.eventBus().send("insertarProveedor", _params, res -> {
+
+
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto insertarProveedor -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo producto insertar un proveedor");
                 }
 
             });
@@ -107,7 +141,7 @@ public class ModuloUsuario implements Modulo {
 
             JsonObject _params = rc.getBodyAsJson();
             Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
-            _params.put("id",idUsuario);
+            _params.put("id", idUsuario);
 
             vertx.eventBus().send("actualizarFoto", _params, res -> {
 
