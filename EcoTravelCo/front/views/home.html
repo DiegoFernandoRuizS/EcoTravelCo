@@ -8,96 +8,113 @@
     <section id="content">
         <div class="container" ng-controller="ProductosCtrl">
             <div class="col-sm-8">
-            <div class="card">
-                <div class="card-header bgm-cyan"> <!-- Please refer the Colors page in User Interface for more color classes -->
-                    <h2>Text with custom header <small>Nam at dui sed lacus lacinia lobortis</small></h2>
+
+                <div class="card">
+                    <div class="card-body card-padding p-t-0" data-ng-controller="CarouselDemoCtrl">
+
+                        <br/>
+
+                        <carousel interval="myInterval">
+                            <slide ng-repeat="w in slides" active="slide.active">
+                                <img ng-src="img/EcoGaleria/{{w.img}}">
+                                <div class="carousel-caption" data-ng-if="w.title.length > 0">
+                                    <h3>{{w.title}}</h3>
+                                    <p>{{w.text}}</p>
+                                </div>
+                            </slide>
+                        </carousel>
+
+
+                    </div>
                 </div>
 
-                <div class="card-body card-padding">
-                    Cras leo sem, egestas a accumsan eget, euismod at nunc. Praesent vel mi blandit, tempus ex gravida, accumsan dui. Sed sed aliquam augue. Nullam vel suscipit purus, eu facilisis ante. Mauris nec commodo felis. Donec eget felis et sem scelerisque euismod eget sit amet nunc.
-                </div>
-            </div>
-            <div id="best-selling" class="dash-widget-item ng-scope" data-ng-controller="bestsellingCtrl as wctrl">
-            <div class="dash-widget-header">
-                <div class="dash-widget-title">Los mejores planes</div>
-                <img src="img/widgets/alpha.jpg" alt="">
-                <div class="main-item">
-                    <small>Samsung Galaxy Alpha</small>
-                    <h2>$799.99</h2>
-                </div>
-            </div>
 
-                <div class="listview p-t-5 ">
-                    <a class="lv-item ng-scope" href="" data-ng-repeat="data in datos" style="">
-                        <div class="media"  data-ui-sref-active="active"  data-ui-sref="productos.detalle" ng-click="detailProd(data.id)">
-                            <div class="pull-left">
-                                <img class="lv-img-m" src="{{ data.url }}" alt="" />
+                <div id="best-selling" >
+                    <div class="card-header bgm-green"> <!-- Please refer the Colors page in User Interface for more color classes -->
+                        <h2>Productos Nuevos</h2>
+                    </div>
+
+                    <div class="listview p-t-5 ">
+                        <a class="lv-item ng-scope" href="" data-ng-repeat="data in datos" style="">
+                            <div class="media"  data-ui-sref-active="active"  data-ui-sref="productos.detalle" ng-click="detailProd(data.id)">
+                                <div class="pull-left">
+                                    <img class="lv-img-m" src="{{ data.url }}" alt="" />
+                                </div>
+                                <div class="media-body">
+                                    <div class="lv-title ng-binding">{{data.nombre}}</div>
+                                    <small class="lv-small ng-binding">{{data.precio}}</small>
+                                </div>
                             </div>
-                            <div class="media-body">
-                                <div class="lv-title ng-binding">{{data.nombre}}</div>
-                                <small class="lv-small ng-binding">{{data.precio}}</small>
-                            </div>
-                        </div>
-                    </a><a class="lv-item ng-scope" href="" data-ng-repeat="w in wctrl.bsResult.list" style="">
-
-
-                    <div class="clearfix"></div>
-
-                    <a class="lv-footer" href="">
-                        View All
-                    </a>
+                        </a>
+                    </div>
                 </div>
-        </div>
             </div>
             <div class="col-sm-4">
                 <div class="card go-social">
                     <div class="card-header">
-                        <h2>Social with us <small>Nunc sit amet dapibus tellus</small></h2>
+                        <h2>Nuestras Redes sociales</small></h2>
                     </div>
 
                     <div class="card-body clearfix">
-                        <a class="col-xs-4" href="">
+                        <a class="col-xs-4" href="https://www.facebook.com/EcoFactoryCo">
                             <img src="img/social/facebook-128.png" class="img-responsive" alt="">
                         </a>
 
-                        <a class="col-xs-4" href="">
+                        <a class="col-xs-4" href="https://twitter.com/EcoFactoryCo">
                             <img src="img/social/twitter-128.png" class="img-responsive" alt="">
                         </a>
 
-                        <a class="col-xs-4" href="">
+                        <a class="col-xs-4" href="https://github.com/MISO4204-201620/EcoTravelCo/wiki">
                             <img src="img/social/googleplus-128.png" class="img-responsive" alt="">
                         </a>
 
-                        <a class="col-xs-4" href="">
+                        <a class="col-xs-4" href="https://github.com/MISO4204-201620/EcoTravelCo/wiki">
                             <img src="img/social/linkedin-128.png" class="img-responsive" alt="">
                         </a>
 
-                        <a class="col-xs-4" href="">
+                        <a class="col-xs-4" href="https://github.com/MISO4204-201620/EcoTravelCo/wiki">
                             <img src="img/social/youtube-128.png" class="img-responsive" alt="">
                         </a>
 
-                        <a class="col-xs-4" href="">
+                        <a class="col-xs-4" href="https://github.com/MISO4204-201620/EcoTravelCo/wiki">
                             <img src="img/social/blogger-128.png" class="img-responsive" alt="">
                         </a>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-header ch-alt">
-                        <h2>Contact Information <small>Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec velit libero</small></h2>
+                        <h2>Eco-Turismo en colombia </br></br><small> Colombia es un país rico en biodiversidad, recursos naturales y tierras fértiles, anímate a conocerlo.
+
+                        </small></h2></br>
+                    </div>
+                    <div class="card-body card-padding">
+
+                        <div class="embed-responsive embed-responsive-4by3">
+                            <iframe class="embed-responsive-item" src="http://www.youtube.com/embed/etx-RWBY8js"></iframe>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header ch-alt">
+                        <h2>Información de contacto </br></br><small>Nada más nos place comunicarnos contigo, para esto puedes hacer uso de los siguientes medios.</small></h2></br>
                     </div>
                     <div class="card-body card-padding">
                         <div class="pmo-contact">
                             <ul>
-                                <li class="ng-binding"><i class="zmdi zmdi-phone"></i> 00971123456789</li>
-                                <li class="ng-binding"><i class="zmdi zmdi-email"></i> malinda.h@gmail.com</li>
-                                <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway</li>
-                                <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @malinda (twitter.com/malinda)</li>
+                                <li class="ng-binding"><i class="zmdi zmdi-phone"></i> (1) 3394949</li>
+                                <li class="ng-binding"><i class="zmdi zmdi-email"></i> ecoTravel@uniandes.edu.co</li>
+                                <li class="ng-binding"><i class="zmdi zmdi-facebook-box"></i>EcoFactoryCo</li>
+                                <li class="ng-binding"><i class="zmdi zmdi-twitter"></i> @EcoFactoryCo</li>
                                 <li>
                                     <i class="zmdi zmdi-pin"></i>
                                     <address class="m-b-0 ng-binding">
-                                        44-46 Morningside Road,<br>
-                                        Edinburgh,<br>
-                                        Scotland
+                                        Carrera Primera #18A-12,<br>
+                                        Bogotá,<br>
+                                        Colombia
                                     </address>
                                 </li>
                             </ul>
@@ -111,7 +128,6 @@
             </div>
         </div>
 
-        </div>
     </section>
 
 </section>
