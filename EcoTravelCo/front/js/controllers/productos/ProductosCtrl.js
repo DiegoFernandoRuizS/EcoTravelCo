@@ -161,8 +161,6 @@ angular.module('materialAdmin')
               console.log("cambia 3 ");
                             console.log($scope.actualProducto.imagen2);
           }
-
-
                 console.log("Actualizado....")
                 console.log($scope.actualProducto);
                 $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
@@ -180,6 +178,11 @@ angular.module('materialAdmin')
             //autocarga de los productos en la gestion
             $scope.consultarProductos();
             $scope.combox();
+
+            $scope.detailProd = function (id) {
+                        $rootScope.prodId = id;
+            };
+
         });
 
 angular.module('materialAdmin')
