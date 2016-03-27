@@ -52,7 +52,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
-                            <select chosen data-placeholder="Tipo de producto..." class="w-100"
+                            <select data-placeholder="Tipo de producto..." class="w-100"
                                     ng-model="actualProducto.tipo_producto_id">
                                 <option value="1">ALOJAMIENTO</option>
                                 <option value="2">ALIMENTACION</option>
@@ -125,7 +125,7 @@
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
 
                         <div class="fg-line">
-                            <select chosen data-placeholder="Seleccione estado..." class="w-100"
+                            <select data-placeholder="Seleccione estado..." class="w-100"
                                     ng-model="actualProducto.estado">
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
@@ -183,7 +183,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
+                                <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
                                 <div class="fg-line">
                                     <label for="paisCrear">Seleccione pais</label>
                                     <select ng-model="actualProducto.pais" placeholder="Seleccione pais..." id="paisCrear">
@@ -198,7 +198,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
+                                <span class="input-group-addon last"><i class="zmdi zmdi-city-alt"></i></span>
                                 <div class="fg-line">
                                     <label for="departamentoCrear">Departamento</label>
                                     <input type="text" class="form-control"
@@ -208,7 +208,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
+                                <span class="input-group-addon last"><i class="zmdi zmdi-city"></i></span>
+
                                 <div class="fg-line">
                                     <label for="ciudadCrear">Ciudad</label>
 
@@ -224,25 +225,9 @@
             <br/><br/>
             <div class="row">
                 <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                            <img src="{{actualProducto.imagen}}">
-                        </div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen" name="..." >
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
 
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-preview thumbnail" data-trigger="fileinput">
                             <img src="{{actualProducto.imagen1}}">
@@ -260,6 +245,7 @@
                 </div>
                 <div class="col-md-4">
                     <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
 
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-preview thumbnail" data-trigger="fileinput">
@@ -270,6 +256,25 @@
                         <span class="fileinput-new">Cargar imagen</span>
                         <span class="fileinput-exists">Cambiar</span>
                         <input type="file" id="imagen2" name="..." >
+                    </span>
+                            <a href="#" class="btn btn-danger fileinput-exists"
+                               data-dismiss="fileinput">Remover</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                            <img src="{{actualProducto.imagen3}}">
+                        </div>
+                        <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Cargar imagen</span>
+                        <span class="fileinput-exists">Cambiar</span>
+                        <input type="file" id="imagen3" name="..." >
                     </span>
                             <a href="#" class="btn btn-danger fileinput-exists"
                                data-dismiss="fileinput">Remover</a>
