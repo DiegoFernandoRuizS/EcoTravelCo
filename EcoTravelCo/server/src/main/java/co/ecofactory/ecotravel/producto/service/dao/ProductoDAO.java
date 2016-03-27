@@ -31,7 +31,7 @@ public class ProductoDAO {
                 "                    p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
                 "                FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
                 "                 where p.tipo_producto_id=tp.id\n" +
-                "                 and p.id_usuario=" + idUsuario;
+                "                 and p.id_usuario=" + idUsuario+" order by p.fecha_actualizacion desc";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -506,7 +506,7 @@ public class ProductoDAO {
         JsonUtils.add(params, new Date().toInstant());
 
         JsonUtils.add(params, nuevoProducto.getInteger("id_direccion", 0));
-        JsonUtils.add(params, nuevoProducto.getInteger("id_tipo_producto", 0));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));

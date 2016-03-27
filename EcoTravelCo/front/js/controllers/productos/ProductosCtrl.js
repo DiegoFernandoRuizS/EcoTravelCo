@@ -36,7 +36,7 @@ angular.module('materialAdmin')
     });
 
 angular.module('materialAdmin')
-        .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location, $window) {
+        .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location, $window,growlService) {
             $scope.datos = [];
             $scope.listaValores = [];
             //para cargar el combox box de paises
@@ -66,6 +66,7 @@ angular.module('materialAdmin')
                   //    console.log(productosTotal);
                     //  console.log("La respuesta en consultar: " + res);
                 }).error(function (res) {
+                                             growlService.growl(' Ocurrió un error consultando la información.', 'inverse');
                     console.log("Doesn't work");
                     console.log("Que trae esto: " + res);
                 });
@@ -90,12 +91,14 @@ angular.module('materialAdmin')
                console.log(imagenBytes3);
                 $http.post("http://localhost:8181/producto/", $scope.producto, {withCredentials: true, headers: {token: sessionStorage.token}})
                         .success(function (res) {
+                        growlService.growl('Se guardo correctamente la información.', 'inverse');
                             $scope.insertarProducto = {};
                             console.log("La respuesta del backend " + res);
                             $window.location.href = '/#/productos/productos';
                             $scope.consultarProductos();
 
                         }).error(function (res) {
+                    growlService.growl(' Ocurrió un error guardando la información.', 'inverse');
                     console.log("Doesn't work para insertar producto");
                     console.log("El error para insertar producto: " + res);
                 });
@@ -108,7 +111,10 @@ angular.module('materialAdmin')
                             $scope.borrarProducto = {};
                             $scope.consultarProductos();
                             //console.log("La respuesta del backend " + res);
+                            growlService.growl('Se borró correctamente la información.', 'inverse');
+
                         }).error(function (res) {
+                      growlService.growl(' Ocurrió un error borrando la información.', 'inverse');
                     console.log("Doesn't work para Borrar producto");
                     console.log("El error para borar producto: " + res);
                 });
@@ -126,6 +132,7 @@ angular.module('materialAdmin')
                             $rootScope.actualProducto.latitud = "" + $rootScope.actualProducto.latitud;
                             $rootScope.actualProducto.longitud = "" + $rootScope.actualProducto.longitud;
                             $rootScope.actualProducto.precio = "" + $rootScope.actualProducto.precio;
+                            $rootScope.actualProducto.id_tipo_producto = "" + $rootScope.actualProducto.id_tipo_producto;
 
                             console.log($rootScope.actualProducto);
                         }).error(function (res) {
@@ -165,12 +172,15 @@ angular.module('materialAdmin')
                 console.log($scope.actualProducto);
                 $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
                         .success(function (res) {
-                            $scope.actualProducto = {};
+                            growlService.growl('Se actualizó correctamente la información.', 'inverse');
+                            console.log("Que tiene el combobox "+$scope.actualProducto.tipo_producto_id);
                             console.log("La respuesta del backend " + res);
+                            $scope.actualProducto = {};
                             $window.location.href = '/#/productos/productos';
                             $scope.consultarProductos();
 
                         }).error(function (res) {
+                        growlService.growl(' Ocurrió un error actualizando la información.', 'inverse');
                     console.log("Doesn't work para actualizar producto");
                     console.log("El error para actualizar producto: " + res);
                 });
