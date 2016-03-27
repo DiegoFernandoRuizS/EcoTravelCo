@@ -64,23 +64,21 @@
                     </div>
 
                 </div>
-                <div class="col-sm-8">
-                    <div class="=col-sm-8">
-                        <div class="input-group">
-                            <span class="input-group-addon last"><i class="zmdi"></i></span>
-                            <div class="fg-line">
-                                <label for="nombreCrear">Nombre del producto</label>
-                                <input class="form-control" rows="4" placeholder="Nombre del producto...."
-                                       ng-model="producto.nombre" id="nombreCrear">
-                            </div>
-                            <span class="input-group-addon last"><i class="zmdi"></i></span>
-
+                <div class="=col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="nombreCrear">Nombre del producto</label>
+                            <input class="form-control" rows="4" placeholder="Nombre del producto...."
+                                   ng-model="producto.nombre" id="nombreCrear">
                         </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
                     </div>
                 </div>
 
             </div>
-            <br>
+            <br/><br/>
             <div class="row">
                 <div class="=col-sm-12">
                     <div class="input-group">
@@ -95,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <br>
+            <br/><br/>
             <div class="row">
                 <br/>
                 <div class="col-md-4">
@@ -133,7 +131,7 @@
                     <br>
                 </div>
             </div>
-
+            <br/><br/>
             <!-- DIRECCION-->
             <div class="card-body card-padding">
                 <p class="c-black f-500 m-b-5">Direccion</p>
@@ -197,7 +195,8 @@
                             <div class="fg-line">
                                 <label for="departamentoCrear">Departamento</label>
                                 <input type="text" class="form-control"
-                                       placeholder="Departamento" ng-model="producto.departamento" id="departamentoCrear">
+                                       placeholder="Departamento" ng-model="producto.departamento"
+                                       id="departamentoCrear">
                             </div>
                         </div>
                     </div>
@@ -215,7 +214,8 @@
                 </div>
             </div>
             <!--IMAGNES-->
-            <br/>
+            <br>
+            <br>
 
             <div class="row">
                 <div class="col-md-4">
@@ -271,17 +271,18 @@
             <div class="row">
                 <div class="col-md-4">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="input-group">
                         <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
                     </div>
+
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="input-group">
                         <span class="btn btn-warning btn-file m-r-10" data-ui-sref="productos.lista">Cancelar</span>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-4">
                 </div>
             </div>
 
