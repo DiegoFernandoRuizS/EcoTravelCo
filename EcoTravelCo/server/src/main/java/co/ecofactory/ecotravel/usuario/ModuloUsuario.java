@@ -40,23 +40,26 @@ public class ModuloUsuario implements Modulo {
         });
 
         //Listar producto
-        rutas.get("/:id").handler(rc -> {
+        rutas.get("/consultar").handler(rc -> {
 
-            final String id = rc.request().getParam("id");
-            final Long idAsLong = Long.valueOf(id);
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
 
             JsonObject _params = new JsonObject();
 
-            _params.put("id", idAsLong);
+            _params.put("id", idUsuario);
 
-            vertx.eventBus().send("listarProducto", _params, res -> {
+            vertx.eventBus().send("consultarUsuarioPorId", _params, res -> {
 
-                System.out.println("servidor: " + res);
+
                 if (res.succeeded()) {
-                    System.out.println("servidor correcto -> : " + res.result().body());
+                    System.out.println("servidor correcto consultarUsuario -> : " + res.result().body());
                     rc.response().end(((JsonObject) res.result().body()).encodePrettily());
                 } else {
-                    rc.response().end("ERROR en el modulo producto consultando un producto");
+                    if (res.cause() != null){
+                        res.cause().printStackTrace();
+                    }
+
+                    rc.response().end("ERROR en el modulo usuario > consultar usuario");
                 }
 
             });
@@ -76,6 +79,44 @@ public class ModuloUsuario implements Modulo {
                     rc.response().end(((JsonObject) res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo producto insertar un usuario");
+                }
+
+            });
+
+        });
+
+        rutas.put("/cliente").handler(rc -> {
+
+            JsonObject _params = rc.getBodyAsJson();
+
+            vertx.eventBus().send("actualizarCliente", _params, res -> {
+
+
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto actualizar usuario/cliente -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo producto actualizar un usuario/cliente");
+                }
+
+            });
+
+        });
+
+        rutas.put("/cliente/foto").handler(rc -> {
+
+            JsonObject _params = rc.getBodyAsJson();
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+            _params.put("id",idUsuario);
+
+            vertx.eventBus().send("actualizarFoto", _params, res -> {
+
+
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto actualizar usuario/cliente foto -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo producto actualizar un usuario/cliente");
                 }
 
             });
