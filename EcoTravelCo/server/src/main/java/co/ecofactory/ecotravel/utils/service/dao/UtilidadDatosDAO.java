@@ -21,7 +21,7 @@ public class UtilidadDatosDAO {
     //Listar paises
     public CompletableFuture<List<JsonObject>> listaPaises() {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "SELECT id, tipo, codigo, valor, id_padre\n" +
+        String query = "SELECT id, tipo, codigo, UPPER(valor) as valor, id_padre\n" +
                 "  FROM mp_lista_valores ORDER BY VALOR ASC;";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
@@ -29,7 +29,7 @@ public class UtilidadDatosDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                              //  System.out.println("En el If respuesta " + res);
+                                System.out.println("paises " + res);
 
                             } else {
                                 data.cause().printStackTrace();
