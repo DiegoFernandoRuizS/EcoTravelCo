@@ -44,5 +44,14 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="canasta.lista" data-ng-click="mactrl.sidebarStat($event)">Canasta</a></li>
             </ul>
         </li>
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Preguntas</a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="preguntas.mis" data-ng-click="mactrl.sidebarStat($event)">Mis Preguntas</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="preguntas.res" data-ng-click="mactrl.sidebarStat($event)">Responder Preguntas</a></li>
+            </ul>
+
+        </li>
+
     </ul>
 </div>

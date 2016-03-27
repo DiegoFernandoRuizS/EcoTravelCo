@@ -255,6 +255,7 @@ angular.module('materialAdmin')
             $http.post("http://localhost:8181/preguntas/",  $scope.addPreg  , $scope.manejador)
                 .success(function (res) {
                     $scope.buscarPreg($rootScope.prodId);
+                    document.getElementById('textoPregunta').value ='';
                 }).error(function (res) {
                 console.log("Doesn't work para insertar pregunta");
                 console.log("El error para insertar pregunta: " + res);
@@ -295,7 +296,6 @@ angular.module('materialAdmin')
 
             var criterios = $rootScope.busquedaProd;
 
-            var criterios=  $rootScope.busquedaProd;
             $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
                 .success(function(res){
                     $scope.datos=res;
