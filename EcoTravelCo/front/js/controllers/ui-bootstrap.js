@@ -43,17 +43,31 @@ materialAdmin
         $scope.myInterval = 0;
         $scope.slides = [
             {
-                img: 'c-1.jpg',
-                title: 'First Slide Label',
-                text: 'Some sample text goes here...'
+                img: 'a1.jpg',
+                title: 'Descubre la magia de la naturaleza'
             },
             {
-                img: 'c-2.jpg',
-                title: 'Second Slide Label',
-                text: 'Some sample text goes here...'
+                img: 'a2.jpg',
+                title: 'Vive experiencias únicas'
             },
             {
-                img: 'c-3.jpg'
+                img: 'a3.jpg',
+                title: 'Siente la magia de tu entorno'
+            },{
+                img: 'a4.jpg',
+                title: 'Disfruta de los olores y sonidos del ecosistema'
+            },{
+                img: 'a5.jpg',
+                title: 'Conoce nuevos amigos'
+            },{
+                img: 'a6.jpg',
+                title: 'Relájate y vive nuevas experiencias'
+            },{
+                img: 'a7.jpg',
+                title: 'Descubre un nuevo mundo'
+            },{
+                img: 'a8.jpg',
+                title: 'Disfruta de EcoTravel…'
             }
         ];
 

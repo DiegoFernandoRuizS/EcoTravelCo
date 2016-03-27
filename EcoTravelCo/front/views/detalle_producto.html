@@ -221,7 +221,8 @@
 
             <div class="pmb-block">
                 <div class="pmbb-header">
-                    <h2><i class="zmdi zmdi-person m-r-5"></i> Preguntas </h2>
+                    <h2><i class="zmdi zmdi-help-outline m-r-5"></i> Preguntas </h2>
+                    </br> </br>
                     <div class="ms-body">
                         <div class="listview lv-message">
                             <div class="lv-header-alt clearfix">
@@ -235,126 +236,50 @@
 
                                 <div class="lvh-label hidden-xs">
                                     <div class="lv-avatar pull-left">
-                                        <img src="img/profile-pics/1.jpg" alt="">
+                                        <img src="img/profile-pics/2.jpg" alt="">
                                     </div>
-                                    <span class="c-black">David Parbell</span>
+                                    <span class="c-black">Usuario Anonimo</span>
                                 </div>
 
-                                <ul class="lv-actions actions">
-                                    <li>
-                                        <a href="">
-                                            <i class="zmdi zmdi-delete"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <i class="zmdi zmdi-check"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <i class="zmdi zmdi-time"></i>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown" dropdown>
-                                        <a href="" dropdown-toggle aria-expanded="true">
-                                            <i class="zmdi zmdi-sort"></i>
-                                        </a>
 
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li>
-                                                <a href="">Latest</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Oldest</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown" dropdown>
-                                        <a href="" dropdown-toggle aria-expanded="true">
-                                            <i class="zmdi zmdi-more-vert"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li>
-                                                <a href="">Refresh</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Message Settings</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
                             </div>
 
-                            <div class="lv-body">
+                            <div class="lv-body" data-ng-repeat="pre in preguntas">
                                 <div class="lv-item media">
                                     <div class="lv-avatar pull-left">
-                                        <img src="img/profile-pics/1.jpg" alt="">
+                                        <img src="{{pre.foto}}" alt="" ng-show="pre.foto != null">
+                                        <img src="img/profile-pics/2.jpg" alt="" ng-show="pre.foto == null">
                                     </div>
+                                    <span class="c-black">{{pre.usuario}}</span>
                                     <div class="media-body">
                                         <div class="ms-item">
-                                            Quisque consequat arcu eget odio cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna non, lacinia pellentesque orci. Proin semper sagittis erat, eget condimentum sapien viverra et. Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+                                            {{pre.pregunta}}
                                         </div>
-                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:00</small>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i>{{pre.fecha_registro}}</small>
                                     </div>
                                 </div>
 
-                                <div class="lv-item media right">
+                                <div class="lv-item media right" ng-show="pre.respuesta != null">
                                     <div class="lv-avatar pull-right">
-                                        <img src="img/profile-pics/8.jpg" alt="">
+                                        <img src="{{data.foto}}" alt="">
                                     </div>
+                                    <span class="c-black">{{data.vendedor}}</span>
                                     <div class="media-body">
                                         <div class="ms-item">
-                                            Mauris volutpat magna nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem pulvinar lobortis.
+                                            {{pre.respuesta}}
                                         </div>
-                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:30</small>
+                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> {{pre.fecha_respuesta}}</small>
                                     </div>
                                 </div>
 
-                                <div class="lv-item media">
-                                    <div class="lv-avatar pull-left">
-                                        <img src="img/profile-pics/1.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="ms-item">
-                                            Etiam ex arcumentum
-                                        </div>
-                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 09:33</small>
-                                    </div>
-                                </div>
-
-                                <div class="lv-item media right">
-                                    <div class="lv-avatar pull-right">
-                                        <img src="img/profile-pics/8.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="ms-item">
-                                            Etiam nec facilisis lacus. Nulla imperdiet augue ullamcorper dui ullamcorper, eu laoreet sem consectetur. Aenean et ligula risus. Praesent sed posuere sem. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                        </div>
-                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 10:10</small>
-                                    </div>
-                                </div>
-
-                                <div class="lv-item media">
-                                    <div class="lv-avatar pull-left">
-                                        <img src="img/profile-pics/1.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="ms-item">
-                                            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam ac tortor ut elit sodales varius. Mauris id ipsum id mauris malesuada tincidunt. Vestibulum elit massa, pulvinar at sapien sed, luctus vestibulum eros. Etiam finibus tristique ante, vitae rhoncus sapien volutpat eget
-                                        </div>
-                                        <small class="ms-date"><i class="zmdi zmdi-time"></i> 20/02/2015 at 10:24</small>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="clearfix"></div>
 
                             <div class="lv-footer ms-reply">
-                                <textarea placeholder="What's on your mind..."></textarea>
+                                <textarea placeholder="Cuéntanos tus dudas…" id="textoPregunta"></textarea>
 
-                                <button><i class="zmdi zmdi-mail-send"></i></button>
+                                <button ng-click="crearPreg()"><i class="zmdi zmdi-mail-send"></i></button>
                             </div>
                         </div>
                     </div>

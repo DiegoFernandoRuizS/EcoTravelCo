@@ -436,44 +436,50 @@ CREATE INDEX "mp_mensaje_88a52d1b"
 CREATE INDEX "mp_mensaje_da6b3ccd"
   ON "mp_mensaje"
   USING btree
-  (id_remitente_id);  
-  
+  (id_remitente_id);
 
 
-CREATE TABLE "mp_preguntas"
+-- Table: mp_preguntas
+
+-- DROP TABLE mp_preguntas;
+
+CREATE TABLE mp_preguntas
 (
   id serial NOT NULL,
-  pregunta character varying(255) NOT NULL,
+  pregunta text NOT NULL,
   id_padre integer,
   fecha_registro timestamp with time zone NOT NULL,
-  id_persona_id integer NOT NULL,
+  id_persona_id integer,
   id_producto integer NOT NULL,
-  CONSTRAINT "mp_preguntas_pkey" PRIMARY KEY (id),
-  CONSTRAINT "mp_preguntas_id_persona_id_c9b15c64_fk_mp_persona_id" FOREIGN KEY (id_persona_id)
-      REFERENCES "mp_persona" (id) MATCH SImpLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
-  CONSTRAINT "mp_preguntas_id_producto_c9b15c64_fk_mp_persona_id" FOREIGN KEY (id_producto)
-      REFERENCES "mp_producto" (id) MATCH SImpLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED
+  respuesta text,
+  CONSTRAINT mp_preguntas_pkey PRIMARY KEY (id),
+  CONSTRAINT mp_preguntas_id_persona_id_c9b15c64_fk_mp_persona_id FOREIGN KEY (id_persona_id)
+  REFERENCES mp_persona (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT mp_preguntas_id_producto_c9b15c64_fk_mp_persona_id FOREIGN KEY (id_producto)
+  REFERENCES mp_producto (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED
 )
 WITH (
-  OIDS=FALSE
+OIDS=FALSE
 );
-ALTER TABLE "mp_preguntas"
-  OWNER TO postgres;
+ALTER TABLE mp_preguntas
+OWNER TO igqcflmodfdggd;
 
--- Index: "mp_preguntas_43a005b1"
+-- Index: mp_preguntas_43a005b1
 
--- DROP INDEX "mp_preguntas_43a005b1";
+-- DROP INDEX mp_preguntas_43a005b1;
 
-CREATE INDEX "mp_preguntas_43a005b1"
-  ON "mp_preguntas"
-  USING btree
-  (id_persona_id);
+CREATE INDEX mp_preguntas_43a005b1
+ON mp_preguntas
+USING btree
+(id_persona_id);
 
-  CREATE INDEX "mp_preguntas_43a005b2"
-  ON "mp_preguntas"
-  USING btree
-  (id_producto);
+-- Index: mp_preguntas_43a005b2
 
-  COMMIT;
+-- DROP INDEX mp_preguntas_43a005b2;
+
+CREATE INDEX mp_preguntas_43a005b2
+ON mp_preguntas
+USING btree
+(id_producto);

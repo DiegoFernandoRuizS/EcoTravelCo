@@ -14,7 +14,8 @@ public class Modulos {
                 "co.ecofactory.ecotravel.canasta.ModuloCanasta",
                 "co.ecofactory.ecotravel.utils.ModuloUtilidadDatos",
                 "co.ecofactory.ecotravel.seguridad.ModuloSeguridad",
-                "co.ecofactory.ecotravel.galeria.ModuloGaleria"};
+                "co.ecofactory.ecotravel.galeria.ModuloGaleria",
+                "co.ecofactory.ecotravel.preguntas.ModuloPreguntas"};
 
 
 
