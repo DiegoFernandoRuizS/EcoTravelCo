@@ -45,7 +45,13 @@ public class ModuloPreguntas implements Modulo {
             JsonObject mensaje = new JsonObject();
             mensaje = rc.getBodyAsJson();
             JsonObject _params = new JsonObject();
-            _params.put("id_usuario", mensaje.getValue("usuario"));
+
+            if (mensaje.getValue("usuario") .equals(0))
+                _params.put("id_usuario", mensaje.getValue("usuario"));
+            else
+                _params.put("id_usuario",Integer.parseInt(rc.request().params().get("user-id")));
+
+
             _params.put("id_producto", mensaje.getValue("producto"));
             _params.put("pregunta", mensaje.getValue("pregunta"));
 

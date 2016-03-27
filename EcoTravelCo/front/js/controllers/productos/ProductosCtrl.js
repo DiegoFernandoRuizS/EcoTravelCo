@@ -189,6 +189,14 @@ angular.module('materialAdmin')
         $scope.comentario = [];
         $scope.comentarios = {};
 
+        if (sessionStorage.token != null) {
+            $scope.lok = 1;
+            $scope.nombreUsr= sessionStorage.nombreusuario;
+        }
+        else
+            $scope.lok = 0;
+
+
         $scope.detailProd = function () {
 
             var id=  $rootScope.prodId;
@@ -225,15 +233,26 @@ angular.module('materialAdmin')
         $scope.crearPreg = function () {
 
 
+
+            if (sessionStorage.token != null){
+                $scope.idUser = 1;
+                $scope.manejador = {withCredentials: true, headers: {token: sessionStorage.token}};
+            }else {
+                $scope.idUser = 0;
+                $scope.manejador ="";
+
+
+            }
+
             $scope.addPreg = {
-                usuario : 0,
+                usuario : $scope.idUser,
                 producto : $rootScope.prodId,
                 pregunta : document.getElementById('textoPregunta').value
             }
 
 
 
-            $http.post("http://localhost:8181/preguntas/",  $scope.addPreg )
+            $http.post("http://localhost:8181/preguntas/",  $scope.addPreg  , $scope.manejador)
                 .success(function (res) {
                     $scope.buscarPreg($rootScope.prodId);
                 }).error(function (res) {
