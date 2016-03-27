@@ -36,7 +36,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Productos encontrados en el sistema
+            <h2>{{cantidadProductos}} Productos encontrados en el sistema
                 <small>Descripción de mis productos</small>
             </h2>
         </div>
@@ -69,7 +69,7 @@
                         <td data-title="'Edición'">
                             <button type="button" class="btn btn-info" ng-click="listarProducto(w.id)"
                                     data-ui-sref="productos.editar"><i class="zmdi zmdi-edit"></i>
-                                <a>Editar</a>
+                                <!--<a>Editar</a>-->
                             </button>
                         </td>
                         <td data-title="'Borrar'">
@@ -77,7 +77,7 @@
                         <button type="button" class="btn btn-danger" ng-click="borrarProducto(w.id)"
                                     data-ui-sref="productos.lista"><i
                                     class="zmdi zmdi-delete"></i>
-                                <a>Borrar</a>
+                               <!-- <a>Borrar</a>-->
                             </button>
                         </td>
 
