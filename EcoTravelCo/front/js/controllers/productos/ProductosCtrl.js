@@ -53,13 +53,17 @@ angular.module('materialAdmin')
             };
             //para consultar los productos en la gestion de productos
             $scope.consultarProductos = function () {
+            $rootScope.cantidadProductos={};
                 $http.get("http://localhost:8181/producto/", {
                     withCredentials: true,
                     headers: {token: sessionStorage.token}
                 }).success(function (res) {
                     console.log("Consultando productos...");
-                    $scope.datos = res
-
+                    $scope.datos = res;
+                    $rootScope.cantidadProductos=res;
+                    var productosTotal = Object.keys($rootScope.cantidadProductos).length;
+                    $rootScope.cantidadProductos=productosTotal;
+                  //    console.log(productosTotal);
                     //  console.log("La respuesta en consultar: " + res);
                 }).error(function (res) {
                     console.log("Doesn't work");
@@ -78,8 +82,12 @@ angular.module('materialAdmin')
                 $scope.producto.imagen = imagenBytes;
                 $scope.producto.imagen2 = imagenBytes2;
                 $scope.producto.imagen3 = imagenBytes3;
-                //console.log("Imagen 1");
-                //console.log($scope.producto.imagen);
+               console.log("Imagen1");
+               console.log(imagenBytes);
+               console.log("Imagen2");
+               console.log(imagenBytes2);
+               console.log("Imagen3");
+               console.log(imagenBytes3);
                 $http.post("http://localhost:8181/producto/", $scope.producto, {withCredentials: true, headers: {token: sessionStorage.token}})
                         .success(function (res) {
                             $scope.insertarProducto = {};
@@ -128,33 +136,31 @@ angular.module('materialAdmin')
             //para actualizr el producto en la gestion
             $scope.actualizarProducto = function (id) {
 
-                 var i = document.getElementById('imagen').files[0];
-                 var i2 = document.getElementById('imagen1').files[0];
-                 var i3 = document.getElementById('imagen2').files[0];
+                 var i = document.getElementById('imagen1').files[0];
+                 var i2 = document.getElementById('imagen2').files[0];
+                 var i3 = document.getElementById('imagen3').files[0];
              console.log(i);
           if (i === undefined) {
           } else {
               var imagenBytes = i.result;
-              $scope.actualProducto.imagen = imagenBytes;
+              $scope.actualProducto.imagen1 = imagenBytes;
               console.log("cambia 1 ");
               console.log($scope.actualProducto.imagen);
           }
           if (i2 === undefined) {
           } else {
               var imagenBytes2 = i2.result;
-              $scope.actualProducto.imagen1 = imagenBytes2;
+              $scope.actualProducto.imagen2 = imagenBytes2;
               console.log("cambia 2 ");
                             console.log($scope.actualProducto.imagen1);
           }
           if (i3 === undefined) {
           } else {
               var imagenBytes3 = i3.result;
-              $scope.actualProducto.imagen2 = imagenBytes3;
+              $scope.actualProducto.imagen3 = imagenBytes3;
               console.log("cambia 3 ");
                             console.log($scope.actualProducto.imagen2);
           }
-
-
                 console.log("Actualizado....")
                 console.log($scope.actualProducto);
                 $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
@@ -172,6 +178,11 @@ angular.module('materialAdmin')
             //autocarga de los productos en la gestion
             $scope.consultarProductos();
             $scope.combox();
+
+            $scope.detailProd = function (id) {
+                        $rootScope.prodId = id;
+            };
+
         });
 
 angular.module('materialAdmin')

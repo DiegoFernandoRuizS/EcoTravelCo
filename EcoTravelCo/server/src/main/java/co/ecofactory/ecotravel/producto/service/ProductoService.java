@@ -131,9 +131,11 @@ public class ProductoService extends AbstractVerticle {
 
                     conImagenes.mergeIn(ok.get(0));
                     //Agregando las imagenes
-                    if (ok.size() > 1) {
-                        for (int i = 1; i < ok.size(); i++) {
-                            conImagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
+                    if (ok.size() > 0) {
+                        for (int i = 0; i < ok.size(); i++) {
+                            int j = 1;
+                            conImagenes.put("imagen" + (i + j), ok.get(i).getString("imagen", ""));
+                            conImagenes.put("id_imagen" + (i + j), ok.get(i).getInteger("id_imagen", 0));
                         }
                     }
                     message.reply(conImagenes);
@@ -275,17 +277,43 @@ public class ProductoService extends AbstractVerticle {
                 if (ok2 != null) {
                     System.out.println("borrarImagen:OK" + ok2);
                     message.reply(ok2);
-                    //borrar producto
-                    CompletableFuture<JsonObject> data = this.dao.borrarProducto(message.body().getLong("id"));
+                    //borrar preguntas asociadas al producto
+                    CompletableFuture<JsonObject> data = this.dao.borrarPreguntas(message.body().getLong("id"));
                     data.whenComplete((ok, error) -> {
-                        System.out.println("borrarProducto");
+                        System.out.println("borrarPreguntas");
                         if (ok != null) {
-                            System.out.println("borrarProducto:OK" + ok);
+                            System.out.println("borrarPreguntas:OK" + ok);
                             message.reply(ok);
+                            //borrar direccion asociada al producto
+                            CompletableFuture<JsonObject> data3 = this.dao.borrarDireccion(message.body().getLong("id"));
+                            data.whenComplete((ok3, error3) -> {
+                                System.out.println("borrarDireccion");
+                                if (ok3 != null) {
+                                    System.out.println("borrarDireccion:OK" + ok3);
+                                    message.reply(ok3);
+                                    //borrar producto
+                                    CompletableFuture<JsonObject> data4 = this.dao.borrarProducto(message.body().getLong("id"));
+                                    data.whenComplete((ok4, error4) -> {
+                                        System.out.println("borrarProducto");
+                                        if (ok4 != null) {
+                                            System.out.println("borrarProducto:OK" + ok4);
+                                            message.reply(ok4);
+
+                                        } else {
+                                            error4.printStackTrace();
+                                            message.fail(0, "ERROR in data producto");
+                                        }
+                                    });
+
+                                } else {
+                                    error3.printStackTrace();
+                                    message.fail(0, "ERROR in data direccion");
+                                }
+                            });
 
                         } else {
                             error.printStackTrace();
-                            message.fail(0, "ERROR in data producto");
+                            message.fail(0, "ERROR in data preguntas");
                         }
                     });
 

@@ -97,7 +97,4 @@ public class PreguntasDAO {
         return res;
     }
 
-
-
-
 }
