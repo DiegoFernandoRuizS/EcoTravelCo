@@ -35,7 +35,7 @@ public class Services {
 
             if (!r.request().method().equals(HttpMethod.OPTIONS)) {
                 String token = r.request().getHeader("token");
-                System.out.println("token->" + token);
+               // System.out.println("token->" + token);
 
 
                 if (token == null) {
@@ -49,10 +49,10 @@ public class Services {
                         if (response.failed()) {
                             r.response().end("ERROR");
                         } else {
-                            System.out.println(response.result());
+                           // System.out.println(response.result());
                             JWTUser user = (JWTUser) response.result();
 
-                            System.out.println(user.principal());
+                         //   System.out.println(user.principal());
 
                             try {
                                 r.request().params().add("user-id", new String(user.principal().getInteger("id").toString()));
