@@ -170,6 +170,8 @@ angular.module('materialAdmin')
         $scope.myInterval = 0;
         $scope.galeria = [];
 
+        $scope.preguntas = [];
+
 
         $scope.comentario = [];
         $scope.comentarios = {};
@@ -200,8 +202,47 @@ angular.module('materialAdmin')
                 console.log("Que trae esto: "+res);
             })
 
+
+            $scope.buscarPreg(id);
+
+
+
         };
 
+        $scope.crearPreg = function () {
+
+
+            $scope.addPreg = {
+                usuario : 0,
+                producto : $rootScope.prodId,
+                pregunta : document.getElementById('textoPregunta').value
+            }
+
+
+
+            $http.post("http://localhost:8181/preguntas/",  $scope.addPreg )
+                .success(function (res) {
+                    $scope.buscarPreg($rootScope.prodId);
+                }).error(function (res) {
+                console.log("Doesn't work para insertar pregunta");
+                console.log("El error para insertar pregunta: " + res);
+            });
+
+
+
+        };
+
+        $scope.buscarPreg = function (id) {
+            $http({method: 'GET', url: 'http://localhost:8181/preguntas/' + id})
+                .success(function (res) {
+                    $scope.preguntas = res
+                    console.log(res);
+
+                }).error(function (res) {
+                console.log("Doesn't work");
+                console.log("Que trae esto: " + res);
+            })
+        };
 
         $scope.detailProd();
 
