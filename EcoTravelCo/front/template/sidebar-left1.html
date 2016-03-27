@@ -6,7 +6,7 @@
             </div>
 
             <div class="profile-info">
-                Malinda Hollaway
+                {{mactrl.getNombreUsuario()}}
 
                 <i class="zmdi zmdi-caret-down"></i>
             </div>
@@ -15,16 +15,11 @@
         <ul class="main-menu">
             <li>
                 <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)"><i
-                        class="zmdi zmdi-account"></i> View Profile</a>
+                        class="zmdi zmdi-account"></i>Perfil</a>
             </li>
+
             <li>
-                <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
-            </li>
-            <li>
-                <a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
-            </li>
-            <li>
-                <a href=""><i class="zmdi zmdi-time-restore"></i> Logout</a>
+                <a href="/login.html"><i class="zmdi zmdi-time-restore"></i>Salir</a>
             </li>
         </ul>
     </div>

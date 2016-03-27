@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('materialAdmin')
+materialAdmin
   .controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window) {
       	$scope.registro = {};
       	$scope.usuario = {login:"diego23",contrasenia:"diego23"};
@@ -15,39 +15,46 @@ angular.module('materialAdmin')
 	    .success(function(res){
       	$scope.registro = {};
 
-	    }).error(function(res){	  	  
+	    }).error(function(res){
 	        console.log("Doesn't work");
 	        console.log("Que trae esto: "+res);
 
 	    });
-		
-		};	
+
+		};
 
 $scope.autenticarUsuario = function () {
 
 
  	$http.post("http://localhost:8181/seguridad/autenticar",$scope.usuario,{})
-	    
+
 	    .success(function(res){
       	$scope.registro = {};
 	    console.log(jwtHelper.decodeToken(res.token));
 
 		sessionStorage.token = res.token;
+		sessionStorage.setItem ("nombreusuario",res.nombre + " " + res.apellido) ;
+		sessionStorage.setItem ("correousuario",res.correo_electronico) ;
+		console.log(sessionStorage.getItem("nombreusuario"));
+		console.log(res);
+
 		$window.location.href = '/#/home';
 	    console.log(sessionStorage.token);
 
-	    
-	    }).error(function(res){	  	  
+
+
+
+
+	    }).error(function(res){
 	        console.log("Doesn't work");
 	        console.log("Que trae esto: "+res);
 
 	    });
-		
-		};	     	    
 
-    
+		};
+
+
   });
-  
-  
-  
-  
+
+
+
