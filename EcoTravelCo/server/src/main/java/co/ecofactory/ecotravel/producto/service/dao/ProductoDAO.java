@@ -91,7 +91,7 @@ public class ProductoDAO {
         String query = "select a.id, a.nombre, to_char(a.fecha_registro, 'YYYY-MM-DD') as fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual\n" +
                 ", b.tipo\n" +
                 ", c.url\n" +
-                ", ( pe.nombre ||' '|| pe.nombre_sec ||' '|| pe.apellido||' '|| pe.apellido_sec) as vendedor, pe.foto\n" +
+                ", (case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as vendedor, pe.foto\n" +
                 ",  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, d.latitud, d.longitud\n" +
                 "from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id \n" +
                 "left join mp_galeria c on c.producto_id=a.id and c.foto_principal=1 \n" +
