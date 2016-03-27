@@ -32,13 +32,13 @@ public class ModuloProducto implements Modulo {
 
         rutas.get("/").handler(rc -> {
             Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
-            System.out.println("USUARIO AUTENTICADO ----->" + idUsuario);
+          //  System.out.println("USUARIO AUTENTICADO ----->" + idUsuario);
 
             JsonObject usuario = new JsonObject();
             usuario.put("id_usuario", idUsuario);
 
             vertx.eventBus().send("listarProductos", usuario, res -> {
-                System.out.println("servidor: " + res);
+              //  System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto");
                     rc.response().end(((JsonArray) res.result().body()).encodePrettily());
@@ -62,7 +62,7 @@ public class ModuloProducto implements Modulo {
             vertx.eventBus().send("listarProducto", _params, res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
-                    System.out.println("servidor correcto -> : " + res.result().body());
+                    System.out.println("servidor correcto LISTAR PRODUCTO -> : " + res.result().body());
                     rc.response().end(((JsonObject) res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo producto consultando un producto");

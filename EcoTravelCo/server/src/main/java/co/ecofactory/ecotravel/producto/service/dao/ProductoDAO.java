@@ -36,7 +36,7 @@ public class ProductoDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                                System.out.println("En el If respuesta " + res);
+                              //  System.out.println("En el If respuesta " + res);
 
                             } else {
                                 data.cause().printStackTrace();
@@ -104,7 +104,7 @@ public class ProductoDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                                System.out.println("En el If respuesta " + res);
+                             //   System.out.println("En el If respuesta " + res);
 
                             } else {
                                 data.cause().printStackTrace();
@@ -128,7 +128,7 @@ public class ProductoDAO {
     public CompletableFuture<List<JsonObject>> listarProducto(Long id) {
 
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "SELECT tp.tipo, p.nombre,p.descripcion, p.precio, p.cantidad_actual as cantidad, p.estado,\n" +
+        String query = "SELECT tp.tipo, p.nombre,p.descripcion, p.precio, p.cantidad_origen as cantidad, p.estado,\n" +
                 "dr.nombre as nombredireccion,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,ga.url as imagen,\n" +
                 "p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion\n" +
                 "  FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr,mp_galeria ga\n" +
@@ -142,7 +142,7 @@ public class ProductoDAO {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
-                                System.out.println("En el If respuesta listar producto" + data.result().getRows().size());
+                              //  System.out.println("En el If respuesta listar producto" + data.result().getRows().size());
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());
@@ -373,7 +373,7 @@ public class ProductoDAO {
         JsonUtils.add(params3, tipo);
         JsonUtils.add(params3, imagen);
         JsonUtils.add(params3, ciudad);
-        JsonUtils.add(params3, productoAsociado);
+
 
 
         String query3 = "UPDATE mp_galeria\n" +
@@ -464,31 +464,27 @@ public class ProductoDAO {
     }
 
     //Editar un producto
-    public CompletableFuture<JsonObject> editarProducto(JsonObject nuevoProducto) {
+    public CompletableFuture<JsonObject> editarProducto(JsonObject nuevoProducto,int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
 
         int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
 
-        int idProducto2 = nuevoProducto.getInteger("id_producto", 0);
-
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
 
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_direccion", "")));
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("id_tipo_producto", "")));
+        JsonUtils.add(params, nuevoProducto.getInteger("id_direccion", 0));
+        JsonUtils.add(params, nuevoProducto.getInteger("id_tipo_producto", 0));
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
-        // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
-
         int idProducto = nuevoProducto.getInteger("id_producto", 0);
 
         String query="UPDATE mp_producto\n" +
-                "   SET estado=?, nombre=?, fecha_actualizacion=?, \n" +
+                "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh12:mi:ss'), \n" +
                 "       id_direccion_id=?, tipo_producto_id=?, \n" +
                 "       descripcion=?, precio=?, cantidad_origen=?\n" +
                 " WHERE id="+idProducto;
