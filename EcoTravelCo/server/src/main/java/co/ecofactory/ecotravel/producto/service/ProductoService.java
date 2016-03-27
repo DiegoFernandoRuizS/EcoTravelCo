@@ -120,14 +120,23 @@ public class ProductoService extends AbstractVerticle {
 
     //Listar producto con un id como paramento
     public void listarProducto(Message<JsonObject> message) {
+
         System.out.println("listarProducto ID: " + message.body().getLong("id"));
         try {
             CompletableFuture<List<JsonObject>> data = this.dao.listarProducto(message.body().getLong("id"));
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
                 if (ok != null) {
-                    //  System.out.println("listarProducto:OK" + ok);
-                    message.reply(ok.get(0));
+                    JsonObject conImagenes = new JsonObject();
+
+                    conImagenes.mergeIn(ok.get(0));
+                    //Agregando las imagenes
+                    if (ok.size() > 1) {
+                        for (int i = 1; i < ok.size(); i++) {
+                            conImagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
+                        }
+                    }
+                    message.reply(conImagenes);
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
@@ -155,6 +164,7 @@ public class ProductoService extends AbstractVerticle {
                     System.out.println(llave[0]);
                     System.out.println("insertarDireccion:OK");
                     message.reply(ok);
+
 
                     CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
                     data2.whenComplete((ok2, error2) -> {
@@ -202,7 +212,7 @@ public class ProductoService extends AbstractVerticle {
         try {
             CompletableFuture<JsonObject> data = this.dao.actualizarDireccion(message.body());
             data.whenComplete((ok, error) -> {
-                System.out.println("actualizar producto 1 "+ data);
+                System.out.println("actualizar producto 1 " + data);
                 if (ok != null) {
                     System.out.println("La llave de la direccion" + ok.getJsonArray("keys").getValue(0));
                     llave[0] = (int) ok.getJsonArray("keys").getValue(0);
