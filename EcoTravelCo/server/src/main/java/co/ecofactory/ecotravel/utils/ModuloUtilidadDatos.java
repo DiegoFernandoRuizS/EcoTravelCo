@@ -34,7 +34,21 @@ public class ModuloUtilidadDatos implements Modulo {
                     System.out.println("servidor correcto");
                     rc.response().end(((JsonArray) res.result().body()).encodePrettily());
                 } else {
-                    rc.response().end("ERROR en el modulo producto");
+                    rc.response().end("ERROR en el modulo datos");
+                }
+            });
+        });
+
+        //Listar tipoproducto
+        rutas.get("/tipo").handler(rc -> {
+
+            vertx.eventBus().send("listaTipoProducto", new JsonObject(), res -> {
+                System.out.println("servidor: " + res);
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto");
+                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo datos");
                 }
             });
         });

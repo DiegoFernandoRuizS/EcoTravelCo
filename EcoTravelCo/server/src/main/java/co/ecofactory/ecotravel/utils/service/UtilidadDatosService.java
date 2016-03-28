@@ -21,6 +21,8 @@ public class UtilidadDatosService extends AbstractVerticle {
         // registro los metodos en el bus
 
         this.getVertx().eventBus().consumer("listarPaises", this::listarPaises);
+        this.getVertx().eventBus().consumer("listaTipoProducto", this::listaTipoProducto);
+
 
     }
     public void listarPaises(Message<JsonObject> message) {
@@ -31,6 +33,28 @@ public class UtilidadDatosService extends AbstractVerticle {
                 System.out.println("Listar Paises");
                 if (ok != null) {
                    //   System.out.println("ListarPaises:OK" + ok);
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
+    public void listaTipoProducto(Message<JsonObject> message) {
+        System.out.println("listar tipo producto");
+        try {
+            CompletableFuture<List<JsonObject>> data = this.dao.listaTipoProducto();
+            data.whenComplete((ok, error) -> {
+                System.out.println("Listar producto");
+                if (ok != null) {
+                       System.out.println("tipoproducto:OK" + ok);
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);

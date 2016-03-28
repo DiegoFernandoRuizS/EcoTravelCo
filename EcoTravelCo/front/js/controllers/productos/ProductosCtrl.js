@@ -39,6 +39,8 @@ angular.module('materialAdmin')
         .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location, $window,growlService) {
             $scope.datos = [];
             $scope.listaValores = [];
+                        $scope.listaTipo = [];
+
             //para cargar el combox box de paises
             $scope.combox = function () {
                 $http.get("http://localhost:8181/datos", {
@@ -51,6 +53,18 @@ angular.module('materialAdmin')
                     console.log("Que trae esto paises " + res);
                 });
             };
+            //para cargar el combox box de tipoproducto
+                        $scope.comboxTipo = function () {
+                            $http.get("http://localhost:8181/datos/tipo", {
+                                withCredentials: true,
+                                headers: {token: sessionStorage.token}
+                            }).success(function (res) {
+                                $scope.listaTipo = res
+                            }).error(function (res) {
+                                console.log("Doesn't work");
+                                console.log("Que trae esto paises " + res);
+                            });
+                        };
             //para consultar los productos en la gestion de productos
             $scope.consultarProductos = function () {
             $rootScope.cantidadProductos={};
@@ -132,7 +146,6 @@ angular.module('materialAdmin')
                             $rootScope.actualProducto.latitud = "" + $rootScope.actualProducto.latitud;
                             $rootScope.actualProducto.longitud = "" + $rootScope.actualProducto.longitud;
                             $rootScope.actualProducto.precio = "" + $rootScope.actualProducto.precio;
-                            $rootScope.actualProducto.id_tipo_producto = "" + $rootScope.actualProducto.id_tipo_producto;
 
                             console.log($rootScope.actualProducto);
                         }).error(function (res) {
@@ -188,6 +201,7 @@ angular.module('materialAdmin')
             //autocarga de los productos en la gestion
             $scope.consultarProductos();
             $scope.combox();
+            $scope.comboxTipo();
 
             $scope.detailProd = function (id) {
                         $rootScope.prodId = id;
@@ -276,6 +290,7 @@ angular.module('materialAdmin')
             $http.post("http://localhost:8181/preguntas/",  $scope.addPreg  , $scope.manejador)
                 .success(function (res) {
                     $scope.buscarPreg($rootScope.prodId);
+                    document.getElementById('textoPregunta').value ='';
                 }).error(function (res) {
                 console.log("Doesn't work para insertar pregunta");
                 console.log("El error para insertar pregunta: " + res);
@@ -316,7 +331,6 @@ angular.module('materialAdmin')
 
             var criterios = $rootScope.busquedaProd;
 
-            var criterios=  $rootScope.busquedaProd;
             $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
                 .success(function(res){
                     $scope.datos=res;
