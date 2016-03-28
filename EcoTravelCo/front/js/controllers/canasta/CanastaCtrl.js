@@ -14,21 +14,22 @@ angular.module('materialAdmin')
 		$scope.data = {};
 		$scope.error = [];
 
-		console.log("Consultando canasta...");
-		$http.get("http://localhost:8181/canasta/", {
+		if(sessionStorage.token != undefined){
+			console.log("Consultando canasta...");
+			$http.get("http://localhost:8181/canasta/", {
 				withCredentials: true,
 				headers: {token: sessionStorage.token}
-			}).success(function(res){
-				$rootScope.canasta=res;
-				if($rootScope.canasta.length > 0){
+			}).success(function (res) {
+				$rootScope.canasta = res;
+				if ($rootScope.canasta.length > 0) {
 					$rootScope.idOrdenCanasta = $rootScope.canasta[0].idorden;
 				}
 				console.log($scope.datos);
-			}).error(function(res){
-			console.log("Doesn't work");
-			console.log("Que trae esto: "+res);
-		});
-		
+			}).error(function (res) {
+				console.log("Doesn't work");
+				console.log("Que trae esto: " + res);
+			});
+		}
 
 		$scope.borrarProductoCanasta = function (idItem) {
 			$http.delete("http://localhost:8181/canasta/?id_orden_item="+idItem)
