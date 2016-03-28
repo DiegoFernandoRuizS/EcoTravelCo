@@ -132,12 +132,11 @@ public class ProductoDAO {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "SELECT tp.tipo, p.nombre,p.descripcion, p.precio, p.cantidad_origen as cantidad, p.estado,\n" +
                 "dr.nombre as nombredireccion,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,ga.url as imagen,\n" +
-                "p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion,ga.id as id_imagen\n" +
-                "  FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr,mp_galeria ga\n" +
-                "  where tp.id=p.tipo_producto_id\n" +
-                "  and ga.producto_id=p.id\n" +
-                "  and p.id_direccion_id=dr.id\n" +
-                "  and p.id=" + id;
+                "               p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion,ga.id as id_imagen,tp.tipo as tipo\n" +
+                "                 FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr,mp_galeria ga\n" +
+                "                 where tp.id=p.tipo_producto_id\n" +
+                "                and ga.producto_id=p.id\n" +
+                "                 and p.id_direccion_id=dr.id and p.id=" + id;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
@@ -505,8 +504,21 @@ public class ProductoDAO {
         JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
         JsonUtils.add(params, new Date().toInstant());
 
+        String tipo1=nuevoProducto.getString("tipo","");
+        String tipo2=nuevoProducto.getString("tipo","");
+        String tipo3=nuevoProducto.getString("tipo","");
+        String tipo4=nuevoProducto.getString("tipo","");
+        String tipo5=nuevoProducto.getString("tipo","");
+        int tipo_producto_id=0;
+        if (tipo1.equals("Alimentación")){tipo_producto_id=2;}
+        if (tipo2.equals("Alojamiento")){tipo_producto_id=1;}
+        if (tipo3.equals("Paquete")){tipo_producto_id=5;}
+        if (tipo4.equals("Transporte")){tipo_producto_id=3;}
+        if (tipo5.equals("Paseos Ecológicos")){tipo_producto_id=4;}
+
+
         JsonUtils.add(params, nuevoProducto.getInteger("id_direccion", 0));
-        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("tipo_producto_id", "")));
+        JsonUtils.add(params, tipo_producto_id);
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
