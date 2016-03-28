@@ -15,7 +15,7 @@ angular.module('materialAdmin')
 
         $scope.queryPreguntas = function () {
 
-           $http.get("http://localhost:8181/preguntas/usuario/",  {withCredentials: true, headers: {token: sessionStorage.token}})
+            $http.get("http://localhost:8181/preguntas/usuario/",  {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
                     $scope.datos=res;
 
@@ -32,9 +32,9 @@ angular.module('materialAdmin')
                     );
                     console.log(res);
                 }).error(function (res) {
-                    console.log("Doesn't work para insertar pregunta");
-                    console.log("El error para insertar pregunta: " + res);
-                });
+                console.log("Doesn't work para insertar pregunta");
+                console.log("El error para insertar pregunta: " + res);
+            });
 
         }
 
@@ -82,6 +82,28 @@ angular.module('materialAdmin')
             });
 
         }
+
+
+
+        $scope.responder = function (id) {
+
+
+            $scope.upPreg = {
+                respuesta : document.getElementById('respuesta').value,
+                pregunta : id
+            }
+
+            $http.put("http://localhost:8181/preguntas/",$scope.upPreg,{withCredentials: true,headers: {token:sessionStorage.token }})
+                .success(function(res){
+                    $scope.queryPreguntas();
+                    growlService.growl('Se actualizó correctamente la información.', 'inverse');
+
+                }).error(function(res){
+                growlService.growl(' Ocurrió un error actualizando la información.', 'inverse');
+
+            });
+
+        };
 
 
         $scope.detailProd = function (id) {

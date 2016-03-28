@@ -66,12 +66,32 @@ public class ModuloPreguntas implements Modulo {
             });
         });
 
+        rutas.put("/").handler(rc -> {
 
+            JsonObject mensaje = new JsonObject();
+            mensaje = rc.getBodyAsJson();
+            JsonObject _params = new JsonObject();
+            _params.put("id_pregunta", mensaje.getValue("pregunta"));
+            _params.put("respuesta", mensaje.getValue("respuesta"));
+
+            vertx.eventBus().send("responderPregunta", _params, res -> {
+
+
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto  responder pregunta -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo producto actualizar un usuario/cliente");
+                }
+
+            });
+
+        });
 
 
         //Agregar
         rutas.post("/").handler(rc -> {
-            System.out.println("Agregar Canasta - POST");
+            System.out.println("Agregar pregunta - POST");
             JsonObject mensaje = new JsonObject();
             mensaje = rc.getBodyAsJson();
             JsonObject _params = new JsonObject();
