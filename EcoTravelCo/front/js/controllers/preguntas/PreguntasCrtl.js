@@ -15,7 +15,7 @@ angular.module('materialAdmin')
 
         $scope.queryPreguntas = function () {
 
-           $http.get("http://localhost:8181/preguntas/usuario",  {withCredentials: true, headers: {token: sessionStorage.token}})
+           $http.get("http://localhost:8181/preguntas/usuario/",  {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
                     $scope.datos=res;
 
