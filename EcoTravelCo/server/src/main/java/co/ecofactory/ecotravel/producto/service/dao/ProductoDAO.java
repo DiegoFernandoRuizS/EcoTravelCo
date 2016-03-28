@@ -709,7 +709,7 @@ public class ProductoDAO {
                         "UPPER(pe.nombre) like UPPER('%" + search + "%') or\n" +
                         "UPPER(pe.nombre_sec) like UPPER('%" + search + "%') or\n" +
                         "UPPER(pe.apellido) like UPPER('%" + search + "%') or\n" +
-                        "UPPER(pe.apellido_sec) like UPPER('%" + search + "%') AND UPPER(p.estado)='ACTIVO';\n";
+                        "UPPER(pe.apellido_sec) like UPPER('%" + search + "%') AND UPPER(p.estado)='ACTIVO'\n";
             }
 
         }
