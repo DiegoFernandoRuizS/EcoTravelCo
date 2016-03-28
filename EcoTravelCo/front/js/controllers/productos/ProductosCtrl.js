@@ -315,7 +315,7 @@ angular.module('materialAdmin')
 
         $scope.queryProducts = function () {
 
-            var criterios = $rootScope.busquedaProd;
+            var criterios = document.getElementById('criterios').value
 
             $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
                 .success(function(res){
@@ -338,11 +338,6 @@ angular.module('materialAdmin')
                 console.log("Doesn't work");
                 console.log("Que trae esto: " + res);
             })
-        };
-
-
-        $scope.detailProd = function (id) {
-            $rootScope.prodId= id;
         };
 
         $scope.queryProducts();

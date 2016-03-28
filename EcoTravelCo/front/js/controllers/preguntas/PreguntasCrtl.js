@@ -13,12 +13,10 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.data = {};
 
-        $scope.queryProducts = function () {
+        $scope.queryPreguntas = function () {
 
-            var criterios = $rootScope.busquedaProd;
-
-            $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
-                .success(function(res){
+           $http.get("http://localhost:8181/preguntas/usuario",  {withCredentials: true, headers: {token: sessionStorage.token}})
+                .success(function (res) {
                     $scope.datos=res;
 
                     $scope.tableBasic = new ngTableParams(
@@ -32,20 +30,17 @@ angular.module('materialAdmin')
                             }
                         }
                     );
-
                     console.log(res);
                 }).error(function (res) {
-                console.log("Doesn't work");
-                console.log("Que trae esto: " + res);
-            })
-        };
+                    console.log("Doesn't work para insertar pregunta");
+                    console.log("El error para insertar pregunta: " + res);
+                });
+
+        }
 
 
-        $scope.detailProd = function (id) {
-            $rootScope.prodId= id;
-        };
 
-        $scope.queryProducts();
+        $scope.queryPreguntas();
 
     });
 
@@ -54,17 +49,13 @@ angular.module('materialAdmin')
 angular.module('materialAdmin')
 
     .controller('ResPreguntasCtrl', function ($scope, $rootScope, $http, $location, $filter, $sce, ngTableParams, tableService) {
-
         $scope.datos = [];
         $scope.data = {};
 
+        $scope.queryPreguntas = function () {
 
-        $scope.queryProducts = function () {
-
-            var criterios = $rootScope.busquedaProd;
-
-            $http({method: 'GET', url: 'http://localhost:8181/producto_busqueda/' + criterios})
-                .success(function(res){
+            $http.get("http://localhost:8181/preguntas/usuario",  {withCredentials: true, headers: {token: sessionStorage.token}})
+                .success(function (res) {
                     $scope.datos=res;
 
                     $scope.tableBasic = new ngTableParams(
@@ -78,20 +69,18 @@ angular.module('materialAdmin')
                             }
                         }
                     );
-
                     console.log(res);
                 }).error(function (res) {
-                console.log("Doesn't work");
-                console.log("Que trae esto: " + res);
-            })
-        };
+                console.log("Doesn't work para insertar pregunta");
+                console.log("El error para insertar pregunta: " + res);
+            });
+
+        }
 
 
-        $scope.detailProd = function (id) {
-            $rootScope.prodId= id;
-        };
 
-        $scope.queryProducts();
+        $scope.queryPreguntas();
+
 
     });
 

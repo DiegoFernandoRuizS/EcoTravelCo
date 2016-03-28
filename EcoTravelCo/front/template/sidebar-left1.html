@@ -1,8 +1,8 @@
-<div class="sidebar-inner c-overflow" ng-controller="ProductosCtrlProveedor">
+<div class="sidebar-inner c-overflow">
     <div class="profile-menu">
         <a href="" toggle-submenu>
             <div class="profile-pic">
-                <img src="img/profile-pics/1.jpg" alt="">
+                <img src="img/logo.png" alt="">
             </div>
 
             <div class="profile-info">
@@ -12,7 +12,7 @@
             </div>
         </a>
 
-        <ul class="main-menu">
+        <ul class="main-menu" ng-show="mactrl.getNombreUsuario()!=null">
             <li>
                 <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)"><i
                         class="zmdi zmdi-account"></i>Perfil</a>
@@ -28,7 +28,7 @@
         <li data-ui-sref-active="active">
             <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i>Inicio</a>
         </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('productos') }">
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('productos') }" ng-show="mactrl.getNombreUsuario()!=null">
             <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de productos</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="productos.lista"
@@ -38,13 +38,13 @@
             </ul>
         </li>
 
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }">
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }" ng-show="mactrl.getNombreUsuario()!=null">
             <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Canasta</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="canasta.lista" data-ng-click="mactrl.sidebarStat($event)">Canasta</a></li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }">
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }" ng-show="mactrl.getNombreUsuario()!=null">
             <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Preguntas</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="preguntas.mis" data-ng-click="mactrl.sidebarStat($event)">Mis Preguntas</a></li>

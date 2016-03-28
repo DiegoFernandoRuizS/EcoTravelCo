@@ -53,6 +53,42 @@ public class PreguntasDAO {
         return res;
     }
 
+
+
+    public CompletableFuture<List<JsonObject>> listarPreguntasByUser(int idUsuario) {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        String query = "select  a.pregunta, to_char(a.fecha_registro, 'YYYY-MM-DD HH24:MI:SS') as fecha_registro, a.respuesta, to_char(a.fecha_respuesta, 'YYYY-MM-DD HH24:MI:SS') as fecha_respuesta ,\n" +
+                "(case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as usuario\n" +
+                ",pe.foto\n" +
+                "from mp_preguntas a left join mp_persona pe on a.id_persona_id=pe.id\n" +
+                "where a.id_persona_id= ? order by fecha_registro desc;\n";
+        JsonArray params = new JsonArray();
+        JsonUtils.add(params, idUsuario);
+
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try{
+                        conn.result().close();
+                    }catch(Exception e){
+
+                    }
+                }
+        );
+        return res;
+    }
+
+
     public CompletableFuture<JsonObject> agregarPregunta(int idUsuario, int idProducto, String pregunta) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
 
