@@ -39,6 +39,9 @@ angular.module('materialAdmin')
         }
 
 
+        $scope.detailProd = function (id) {
+            $rootScope.prodId= id;
+        };
 
         $scope.queryPreguntas();
 
@@ -52,9 +55,12 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.data = {};
 
+        $scope.datos = [];
+        $scope.data = {};
+
         $scope.queryPreguntas = function () {
 
-            $http.get("http://localhost:8181/preguntas/usuario",  {withCredentials: true, headers: {token: sessionStorage.token}})
+            $http.get("http://localhost:8181/preguntas/proveedor/",  {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
                     $scope.datos=res;
 
@@ -78,6 +84,9 @@ angular.module('materialAdmin')
         }
 
 
+        $scope.detailProd = function (id) {
+            $rootScope.prodId= id;
+        };
 
         $scope.queryPreguntas();
 

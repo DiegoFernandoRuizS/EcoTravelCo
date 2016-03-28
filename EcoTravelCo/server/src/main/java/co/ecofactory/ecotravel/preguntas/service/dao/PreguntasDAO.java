@@ -55,19 +55,25 @@ public class PreguntasDAO {
 
 
 
-    public CompletableFuture<List<JsonObject>> listarPreguntasByUser(int idUsuario) {
+    public CompletableFuture<List<JsonObject>> listarPreguntasByUser(int idUsuario, int tipo) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select a.id, a.pregunta, to_char(a.fecha_registro, 'YYYY-MM-DD HH24:MI:SS') as fecha_registro, a.respuesta, to_char(a.fecha_respuesta, 'YYYY-MM-DD HH24:MI:SS') as fecha_respuesta ,\n" +
-                "(case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as usuario\n" +
-                ",pe.foto\n" +
-                "from mp_preguntas a left join mp_persona pe on a.id_persona_id=pe.id\n" +
-                "where a.id_persona_id= ? order by fecha_registro desc;\n";
+
+        String query="";
+        if(tipo == 0)
+            query = "select   a.pregunta, to_char(a.fecha_registro, 'YYYY-MM-DD HH24:MI:SS') as fecha_registro, a.respuesta, to_char(a.fecha_respuesta, 'YYYY-MM-DD HH24:MI:SS') as fecha_respuesta , p.nombre, p.id, g.url\n" +
+                    "from mp_preguntas a left join mp_producto p on a.id_producto=p.id left join mp_galeria g on g.producto_id=p.id and foto_principal =1\n" +
+                    "where a.id_persona_id= ? order by fecha_registro desc\n";
+        else
+            query = "select   a.pregunta, to_char(a.fecha_registro, 'YYYY-MM-DD HH24:MI:SS') as fecha_registro, a.respuesta, to_char(a.fecha_respuesta, 'YYYY-MM-DD HH24:MI:SS') as fecha_respuesta , p.nombre, p.id, g.url\n" +
+                    "from mp_preguntas a left join mp_producto p on a.id_producto=p.id left join mp_galeria g on g.producto_id=p.id and foto_principal =1\n" +
+                    "where p.id_usuario= ? order by fecha_registro desc";
         JsonArray params = new JsonArray();
         JsonUtils.add(params, idUsuario);
 
+        final String finalQuery = query;
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
-                        conn.result().queryWithParams(query, params, data -> {
+                        conn.result().queryWithParams(finalQuery, params, data -> {
                             if (data.succeeded()) {
                                 res.complete(data.result().getRows());
                             } else {

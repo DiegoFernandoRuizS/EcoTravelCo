@@ -49,7 +49,8 @@ public class PreguntasService extends AbstractVerticle {
     public void listarPreguntasByUser(Message<JsonObject> message) {
         try {
             int idUsuario = Integer.parseInt(message.body().getString("id"));
-            CompletableFuture<List<JsonObject>> data = this.dao.listarPreguntasByUser(idUsuario);
+            int tipo = Integer.parseInt(message.body().getString("tipo"));
+            CompletableFuture<List<JsonObject>> data = this.dao.listarPreguntasByUser(idUsuario,tipo);
             data.whenComplete((ok, error) -> {
                 if (ok != null) {
                     JsonArray arr = new JsonArray();

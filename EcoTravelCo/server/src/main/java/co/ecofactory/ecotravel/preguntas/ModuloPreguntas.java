@@ -42,6 +42,21 @@ public class ModuloPreguntas implements Modulo {
             System.out.println("Listar listarPreguntasByUser - GET");
             JsonObject _params = new JsonObject();
             _params.put("id", rc.request().params().get("user-id"));
+            _params.put("tipo", "0");
+            vertx.eventBus().send("listarPreguntasByUser", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo preguntas");
+                }
+            });
+        });
+
+        rutas.get("/proveedor").handler(rc -> {
+            System.out.println("Listar listarPreguntasByUser - GET");
+            JsonObject _params = new JsonObject();
+            _params.put("id", rc.request().params().get("user-id"));
+            _params.put("tipo", "1");
             vertx.eventBus().send("listarPreguntasByUser", _params, res -> {
                 if (res.succeeded()) {
                     rc.response().end(((JsonArray)res.result().body()).encodePrettily());

@@ -157,7 +157,7 @@ materialAdmin
 
             .state('preguntas.res', {
                 url: '/res',
-                templateUrl: 'views/preguntas.html',
+                templateUrl: 'views/respuestas.html',
                 controller: 'ResPreguntasCtrl'
             })
 
