@@ -29,6 +29,7 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarProductosHome", this::listarProductosHome);
         this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);
         this.getVertx().eventBus().consumer("listarProductosBusqueda", this::listarProductosBusqueda);
+        this.getVertx().eventBus().consumer("listarCalificacion", this::listarCalificacion);
 
     }
 
@@ -340,6 +341,36 @@ public class ProductoService extends AbstractVerticle {
                 System.out.println("listarProductosbb");
                 if (ok != null) {
                     System.out.println("listarProductosbusq:OK" + ok);
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+
+
+    public void listarCalificacion(Message<JsonObject> message) {
+
+        System.out.println("listarCalificacion");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.listarCalificacion(message.body().getString("id"));
+            System.out.println(message.body().getString("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarCalificacion");
+                if (ok != null) {
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);

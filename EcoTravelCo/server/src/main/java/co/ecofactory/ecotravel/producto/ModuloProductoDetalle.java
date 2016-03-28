@@ -24,6 +24,7 @@ public class ModuloProductoDetalle implements Modulo {
 
     public Router getRutas(Vertx vertx) {
         Router rutas = Router.router(vertx);
+
         rutas.get("/:id").handler(rc -> {
             JsonObject _params = new JsonObject();
             final String id = rc.request().getParam("id");
@@ -40,9 +41,23 @@ public class ModuloProductoDetalle implements Modulo {
             });
         });
 
-        rutas.get("/:id").handler(rc -> {
-            rc.response().write("OK");
+
+        rutas.get("/calificacion/:id").handler(rc -> {
+            JsonObject _params = new JsonObject();
+            final String id = rc.request().getParam("id");
+            _params.put("id", id);
+            vertx.eventBus().send("listarCalificacion", _params, res -> {
+                System.out.println("servidor: " + res);
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto" );
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+
+                } else {
+                    rc.response().end("ERROR en el modulo producto");
+                }
+            });
         });
+
 
         rutas.put("/:id").handler(rc -> {
             // TODO Add a new product...

@@ -210,7 +210,7 @@ angular.module('materialAdmin')
     });
 
 angular.module('materialAdmin')
-    .controller('ProductosDetalle', function ($scope, $rootScope, $http, $location) {
+    .controller('ProductosDetalle', function ($scope, $rootScope, $http, $location, $filter, $sce, ngTableParams, tableService) {
 
         $scope.datos = [];
         $scope.data = {};
@@ -220,9 +220,9 @@ angular.module('materialAdmin')
 
         $scope.preguntas = [];
 
+        $scope.calificaciones = [];
+        $scope.showCalificaciones = 0;
 
-        $scope.comentario = [];
-        $scope.comentarios = {};
 
         if (sessionStorage.token != null) {
             $scope.lok = 1;
@@ -252,6 +252,28 @@ angular.module('materialAdmin')
                 .success(function(res){
                     $scope.galeria=res
                     console.log(res);
+
+                }).error(function(res){
+                console.log("Doesn't work");
+                console.log("Que trae esto: "+res);
+            })
+
+            $http({method: 'GET', url: 'http://localhost:8181/producto_detalle/calificacion/' + id})
+                .success(function(res){
+                    $scope.calificaciones=res
+                    if(res.length > 0)
+                        $scope.showCalificaciones = 1;
+                    $scope.tableBasic = new ngTableParams(
+                        {page: 1, count: 5},
+                        {
+                            total: res.length,
+                            getData: function ($defer, params) {
+
+                                $defer.resolve(res.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+
+                            }
+                        }
+                    );
 
                 }).error(function(res){
                 console.log("Doesn't work");
@@ -317,6 +339,12 @@ angular.module('materialAdmin')
         $scope.getLok = function () {
             return $scope.lok;
         };
+
+        $scope.getShowCalificaciones = function () {
+            return $scope.showCalificaciones;
+        };
+
+
 
     });
 
