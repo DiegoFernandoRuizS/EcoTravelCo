@@ -23,13 +23,13 @@ public class CanastaService extends AbstractVerticle {
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("listarCanasta", this::listarCanasta);
         this.getVertx().eventBus().consumer("agregarProductoCanasta", this::agregarProductoCanasta);
-        this.getVertx().eventBus().consumer("modificarProductoCanasta", this::modificarProductoCanasta);
         this.getVertx().eventBus().consumer("eliminarProductoCanasta", this::eliminarProductoCanasta);
+        this.getVertx().eventBus().consumer("confirmarCanasta", this::confirmarCanasta);
     }
 
     public void listarCanasta(Message<JsonObject> message) {
         try {
-            int idPersona = Integer.parseInt(message.body().getString("id"));
+            int idPersona = message.body().getInteger("id");
             CompletableFuture<List<JsonObject>> data = this.dao.listarCanasta(idPersona);
             data.whenComplete((ok, error) -> {
                 if (ok != null) {
@@ -52,7 +52,7 @@ public class CanastaService extends AbstractVerticle {
 
     public void agregarProductoCanasta(Message<JsonObject> message) {
         try {
-            int idUsuario = Integer.parseInt(message.body().getString("id_usuario"));
+            int idUsuario = message.body().getInteger("id_usuario");
             int idProducto = Integer.parseInt(message.body().getString("id_producto"));
             int cantidad = Integer.parseInt(message.body().getString("cantidad"));
 
@@ -85,12 +85,45 @@ public class CanastaService extends AbstractVerticle {
     public void eliminarProductoCanasta(Message<JsonObject> message) {
         try {
             int idOrderItem = Integer.parseInt(message.body().getString("id_orden_item"));
-            this.dao.restarValorCanasta(idOrderItem);
-            CompletableFuture<JsonObject> data = this.dao.eliminarProductoCanasta(idOrderItem);
+            CompletableFuture<JsonObject> resta = this.dao.restarValorCanasta(idOrderItem);
 
-            data.whenComplete((ok, error) -> {
-                if (ok != null) {
-                    message.reply(ok);
+            resta.whenComplete((okResta, errorResta) -> {
+                if(okResta != null){
+                    CompletableFuture<JsonObject> data = this.dao.eliminarProductoCanasta(idOrderItem);
+                    data.whenComplete((ok, error) -> {
+                        if (ok != null) {
+                            message.reply(ok);
+                        } else {
+                            error.printStackTrace();
+                            message.fail(0, "ERROR in data");
+                        }
+                    });
+                } else {
+                    errorResta.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
+
+    public void confirmarCanasta(Message<JsonObject> message) {
+        try {
+            int idUsuario = message.body().getInteger("id_usuario");
+            CompletableFuture<List<JsonObject>> productosNoDiponible = this.dao.validarDisponibilidadProductos(idUsuario);
+
+            productosNoDiponible.whenComplete((ok, error) -> {
+                if(ok != null){
+                    if(ok.isEmpty()){
+                        this.cambioEstadoCanasta(message);
+                    } else {
+                        JsonArray arr = new JsonArray();
+                        ok.forEach(o -> arr.add(o));
+                        message.reply(arr);
+                    }
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
@@ -102,19 +135,26 @@ public class CanastaService extends AbstractVerticle {
         }
     }
 
-    public void modificarProductoCanasta(Message<JsonObject> message) {
+    private void cambioEstadoCanasta(Message<JsonObject> message){
         try {
-            CompletableFuture<List<JsonObject>> data = this.dao.modificarProductoCanasta(
-                    message.body().getString("id_orden_item"), message.body().getString("cantidad"));
-            data.whenComplete((ok, error) -> {
-                if (ok != null) {
-                    JsonArray arr = new JsonArray();
-                    ok.forEach(o -> arr.add(o));
-                    message.reply(arr);
-                } else {
-                    error.printStackTrace();
-                    message.fail(0, "ERROR in data");
-                }
+            int idUsuario = message.body().getInteger("id_usuario");
+            CompletableFuture<JsonObject> descontarCantidad = this.dao.descontarCantidadProductos(idUsuario);
+            descontarCantidad.whenComplete((ok, error) -> {
+                if(ok != null){
+                    CompletableFuture<JsonObject> data = this.dao.confirmarCanasta(idUsuario);
+                    data.whenComplete((okConf, errorConf) -> {
+                        if (okConf != null) {
+                            message.reply(okConf);
+                        } else {
+                            errorConf.printStackTrace();
+                            message.fail(0, "ERROR in data");
+                            }
+                        });
+                    } else {
+                        JsonArray arr = new JsonArray();
+                        ok.forEach(o -> arr.add(o));
+                        message.reply(arr);
+                    }
             });
         } catch (Exception e) {
             e.printStackTrace();

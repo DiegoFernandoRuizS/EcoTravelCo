@@ -205,6 +205,7 @@ angular.module('materialAdmin')
 
         $scope.detailProd = function (id) {
             $rootScope.prodId = id;
+            $rootScope.cantidadCanasta = 1;
         };
 
     });

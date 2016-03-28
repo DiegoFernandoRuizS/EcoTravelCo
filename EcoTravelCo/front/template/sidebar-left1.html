@@ -39,9 +39,9 @@
         </li>
 
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }" ng-show="mactrl.getNombreUsuario()!=null">
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Canasta</a>
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Compras</a>
             <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="canasta.lista" data-ng-click="mactrl.sidebarStat($event)">Canasta</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="orden.lista" data-ng-click="mactrl.sidebarStat($event)">Historico Compras</a></li>
             </ul>
         </li>
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }" ng-show="mactrl.getNombreUsuario()!=null">
