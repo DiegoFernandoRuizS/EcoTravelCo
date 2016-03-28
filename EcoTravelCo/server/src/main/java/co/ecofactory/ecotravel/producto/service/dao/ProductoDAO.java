@@ -709,7 +709,7 @@ public class ProductoDAO {
                         "UPPER(pe.nombre) like UPPER('%" + search + "%') or\n" +
                         "UPPER(pe.nombre_sec) like UPPER('%" + search + "%') or\n" +
                         "UPPER(pe.apellido) like UPPER('%" + search + "%') or\n" +
-                        "UPPER(pe.apellido_sec) like UPPER('%" + search + "%') AND UPPER(p.estado)='ACTIVO';\n";
+                        "UPPER(pe.apellido_sec) like UPPER('%" + search + "%') AND UPPER(p.estado)='ACTIVO'\n";
             }
 
         }
@@ -741,5 +741,39 @@ public class ProductoDAO {
         );
         return res;
     }
+
+
+
+    public CompletableFuture<List<JsonObject>> listarCalificacion(String id) {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        String query = "select c.calificacion, to_char(c.fecha, 'YYYY-MM-DD HH24:MI:SS') as fecha, c.comentario ,pe.foto\n" +
+                ",(case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as usuario\n" +
+                "  from mp_calificacion c left join mp_persona pe on pe.id=c.id_cliente_id where id_producto_id=" + id + ";";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                                //   System.out.println("En el If respuesta " + res);
+
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
 
 }

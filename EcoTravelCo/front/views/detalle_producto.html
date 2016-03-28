@@ -66,9 +66,25 @@
             </div>
 
             <div class="card pt-inner">
-                <div class="pti-footer">
+                <div class="pti-footer" >
                     <h2><i class="zmdi zmdi-local-grocery-store m-r-5"></i> Agregar a Carrito </h2>
-                    <a href="" class="bgm-green"><i class="zmdi zmdi-plus"></i></a>
+                    <div class="pm-body clearfix"></div>
+                    <div class="pmo-pic">
+                        <div class="p-relative">
+                            <div class="dropdown pmop-message" dropdown>
+                                <button dropdown-toggle class="btn bgm-green btn-float">
+                                    <i class="zmdi zmdi-plus"></i>
+                                </button>
+
+                                <div class="dropdown-menu stop-propagate">
+                                    <h4 class="text-center">Cantidad Disponible: {{data.cantidad_actual}}</h4>
+                                    <input class="align-center" id="cantidad" type="number" value="1" min="1" ng-model="$root.cantidadCanasta"
+                                           max="{{data.cantidad_actual}}"></input>
+                                    <button class="btn bgm-green btn-float" ng-controller="CanastaCtrl" ng-click="adicionarProductoCanasta()"><i class="zmdi zmdi-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -130,92 +146,35 @@
                 </div>
             </div>
 
-            <div class="pmb-block">
+            <div class="pmb-block"">
                 <div class="pmbb-header">
-                    <h2><i class="zmdi zmdi-person m-r-5"></i> Basic Information</h2>
+                    <h2><i class="zmdi zmdi-star-outline m-r-5"></i> Calificaciones y comentarios </h2> </br> </br>
 
-                    <ul class="actions" data-ng-if="pctrl.editInfo === 0">
-                        <li class="dropdown" dropdown>
-                            <a href="" dropdown-toggle>
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
+                    <h2 ng-show="getShowCalificaciones() == 0"> El producto no ha sido calificado aún, se el primero en calificarlo!!!</h2>
+                        <div class="card-body" ng-show="getShowCalificaciones() == 1">
+                        <div class="table-responsive">
+                            <table ng-table="tableBasic" class="table table-striped table-vmiddle">
+                                <tr ng-repeat="a in $data">
+                                    <td data-title="'Usuario'">
 
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a data-ng-click="pctrl.editInfo = 1" href="">Edit</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="pmbb-body p-l-30">
-                    <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
-                        <dl class="dl-horizontal">
-                            <dt>Full Name</dt>
-                            <dd>{{ pctrl.fullName }}</dd>
-                        </dl>
-                        <dl class="dl-horizontal">
-                            <dt>Gender</dt>
-                            <dd>{{ pctrl.gender }}</dd>
-                        </dl>
-                        <dl class="dl-horizontal">
-                            <dt>Birthday</dt>
-                            <dd>{{ pctrl.birthDay }}</dd>
-                        </dl>
-                        <dl class="dl-horizontal">
-                            <dt>Martial Status</dt>
-                            <dd>{{ pctrl.martialStatus }}</dd>
-                        </dl>
+                                        <img class="lv-img-m" src="{{ a.foto }}" alt="" />   {{ a.usuario }}
+
+                                    </td>
+                                    <td data-title="'Calificación'">
+                                        {{ a.calificacion }}
+                                    </td>
+                                    <td data-title="'Comentario'">
+                                        {{ a.comentario }}
+                                    </td>
+                                    <td data-title="'Fecha'">
+                                        {{ a.fecha }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
-                    <form data-ng-submit="pctrl.submit('profileInfo', 'Profile Information')" class="pmbb-edit" data-ng-if="pctrl.editInfo === 1">
-                        <dl class="dl-horizontal">
-                            <dt class="p-t-10">Full Name</dt>
-                            <dd>
-                                <div class="fg-line">
-                                    <input data-ng-model="pctrl.fullName" type="text" class="form-control" value="{{ pctrl.fullName }}" placeholder="eg. Mallinda Hollaway">
-                                </div>
 
-                            </dd>
-                        </dl>
-                        <dl class="dl-horizontal">
-                            <dt class="p-t-10">Gender</dt>
-                            <dd>
-                                <div class="fg-line">
-                                    <select class="form-control">
-                                        <option>Female</option>
-                                        <option>Male</option>
-                                        <option>Other</option>
-                                    </select>
-                                </div>
-                            </dd>
-                        </dl>
-                        <dl class="dl-horizontal">
-                            <dt class="p-t-10">Birthday</dt>
-                            <dd>
-                                <div class="dtp-container dropdown fg-line">
-                                    <input type='text' class="form-control" data-dt-picker="DD/MM/YYYY" dropdown-toggle placeholder="eg. 23/06/1988">
-                                </div>
-                            </dd>
-                        </dl>
-                        <dl class="dl-horizontal">
-                            <dt class="p-t-10">Martial Status</dt>
-                            <dd>
-                                <div class="fg-line">
-                                    <select class="form-control">
-                                        <option>Single</option>
-                                        <option>Married</option>
-                                        <option>Other</option>
-                                    </select>
-                                </div>
-                            </dd>
-                        </dl>
-
-                        <div class="m-t-30">
-                            <button class="btn btn-primary btn-sm" type="submit">Save</button>
-                            <button class="btn btn-link btn-sm" data-ng-click="pctrl.editInfo = 0" >Cancel</button>
-                        </div>
-                    </form>
                 </div>
             </div>
 
@@ -234,14 +193,14 @@
                                     </div>
                                 </div>
 
-                                <div class="lvh-label hidden-xs" ng-show="$scope.lok == 0">
+                                <div class="lvh-label hidden-xs" ng-show="getLok() == 0">
                                     <div class="lv-avatar pull-left">
                                         <img src="img/profile-pics/2.jpg" alt="">
                                     </div>
                                     <span class="c-black">Usuario Anonimo</span>
                                 </div>
 
-                                <div class="lvh-label hidden-xs" ng-show="$scope.lok != 1">
+                                <div class="lvh-label hidden-xs" ng-show="getLok() == 1">
                                     <div class="lv-avatar bgm-red pull-left">
                                         a
                                     </div>

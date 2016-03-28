@@ -21,6 +21,8 @@ public class PreguntasService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarPreguntas", this::listarPreguntas);
         this.getVertx().eventBus().consumer("agregarPregunta", this::agregarPregunta);
         this.getVertx().eventBus().consumer("listarPreguntasByUser", this::listarPreguntasByUser);
+        this.getVertx().eventBus().consumer("responderPregunta", this::responderPregunta);
+
     }
 
     public void listarPreguntas(Message<JsonObject> message) {
@@ -49,7 +51,8 @@ public class PreguntasService extends AbstractVerticle {
     public void listarPreguntasByUser(Message<JsonObject> message) {
         try {
             int idUsuario = Integer.parseInt(message.body().getString("id"));
-            CompletableFuture<List<JsonObject>> data = this.dao.listarPreguntasByUser(idUsuario);
+            int tipo = Integer.parseInt(message.body().getString("tipo"));
+            CompletableFuture<List<JsonObject>> data = this.dao.listarPreguntasByUser(idUsuario,tipo);
             data.whenComplete((ok, error) -> {
                 if (ok != null) {
                     JsonArray arr = new JsonArray();
@@ -68,6 +71,29 @@ public class PreguntasService extends AbstractVerticle {
         }
     }
 
+
+    public void responderPregunta(Message<JsonObject> message) {
+        try {
+            int id_pregunta = message.body().getInteger("id_pregunta");
+            String respuesta = message.body().getString("respuesta");
+            CompletableFuture<JsonObject> data = this.dao.responderPregunta(id_pregunta,respuesta);
+            data.whenComplete((ok, error) -> {
+                if (ok != null) {
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
 
 
     public void agregarPregunta(Message<JsonObject> message) {

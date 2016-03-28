@@ -157,8 +157,25 @@ materialAdmin
 
             .state('preguntas.res', {
                 url: '/res',
-                templateUrl: 'views/preguntas.html',
+                templateUrl: 'views/respuestas.html',
                 controller: 'ResPreguntasCtrl'
+            })
+
+            .state('orden', {
+                url: '/orden',
+                templateUrl: 'views/common.html'
+            })
+
+            .state('orden.lista', {
+                url: '/orden',
+                templateUrl: 'views/lista_orden.html',
+                controller: 'OrdenCtrl'
+            })
+
+            .state('orden.detalle', {
+                url: '/detalle',
+                templateUrl: 'views/orden.html',
+                controller: 'OrdenCtrl'
             })
 
 

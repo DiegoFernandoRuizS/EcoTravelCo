@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Resultado de la busqueda <small>Selecciona la pregunta que desees para ir al detalle del producto.</small></h2>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table ng-table="tableBasic" class="table table-striped table-vmiddle">
+                <tr ng-repeat="a in $data" >
+
+                    <td data-title="'Pregunta'">
+                        {{ a.pregunta }}
+                    </td>
+                    <td data-title="'Fecha Pregunta'">
+                        {{ a.fecha_registro }}
+                    </td>
+                    <td data-title="'Respuesta'">
+                        {{ a.respuesta }}
+                        <div ng-if="a.$edit"><input class="form-control" type="text" ng-model="a.respuesta" id="respuesta" /></div>
+                    </td>
+                    <td data-title="'Fecha Respuesta'">
+                        {{ a.fecha_respuesta }}
+                    </td>
+                    <td data-title="'Usuario'">
+                        {{ a.usuario == "" ? "Usuario Anonimo" : a.usuario  }}
+                    </td>
+                    <td data-title="'Producto'" data-ui-sref="productos.detalle" ng-click="detailProd(a.id)">
+                        <img class="lv-img-m" src="{{ a.url }}" alt="" />  <small> {{ a.nombre }}</small>
+                    </td>
+
+                    <td data-title="'Responder'">
+                        <button type="button" class="btn btn-default" ng-if="!a.$edit" ng-click="a.$edit = true"><i class="zmdi zmdi-edit"></i></button>
+                        <button type="button" class="btn btn-success" ng-if="a.$edit" ng-click="a.$edit = false; responder(a.identificador);"><i class="zmdi zmdi-check"></i></button>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
