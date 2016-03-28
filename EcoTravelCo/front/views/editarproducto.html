@@ -52,14 +52,13 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
-                            <label for="tipoCrear">Seleccione tipo de producto</label>
-                            <select required id="tipoCrear"
-                                    ng-model="actualProducto.tipo_producto_id">
-                                <option value="1">ALOJAMIENTO</option>
-                                <option value="2">ALIMENTACION</option>
-                                <option value="3">TRANSPORTE</option>
-                                <option value="4">PASEOS ECOLÓGICOS</option>
-                                <option value="5" selected="selected">PAQUETE</option>
+                            <label for="tipoCrear2">Seleccione tipo de producto</label>
+                            <select ng-model="actualProducto.tipo" placeholder="Seleccione tipo..." id="tipoCrear2">
+                                <option ng-selected="{{tipo.tipo_producto == operator.tipo}}"
+                                        ng-repeat="operator in listaTipo"
+                                        value="{{operator.tipo}}">
+                                    {{operator.tipo}}
+                                </option>
                             </select>
                         </div>
                     </div>
