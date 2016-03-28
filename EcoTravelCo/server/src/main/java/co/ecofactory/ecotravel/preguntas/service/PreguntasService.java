@@ -20,6 +20,7 @@ public class PreguntasService extends AbstractVerticle {
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("listarPreguntas", this::listarPreguntas);
         this.getVertx().eventBus().consumer("agregarPregunta", this::agregarPregunta);
+        this.getVertx().eventBus().consumer("listarPreguntasByUser", this::listarPreguntasByUser);
     }
 
     public void listarPreguntas(Message<JsonObject> message) {
@@ -43,6 +44,30 @@ public class PreguntasService extends AbstractVerticle {
             message.fail(0, "ERROR inside catch");
         }
     }
+
+
+    public void listarPreguntasByUser(Message<JsonObject> message) {
+        try {
+            int idUsuario = Integer.parseInt(message.body().getString("id"));
+            CompletableFuture<List<JsonObject>> data = this.dao.listarPreguntasByUser(idUsuario);
+            data.whenComplete((ok, error) -> {
+                if (ok != null) {
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
 
 
     public void agregarPregunta(Message<JsonObject> message) {

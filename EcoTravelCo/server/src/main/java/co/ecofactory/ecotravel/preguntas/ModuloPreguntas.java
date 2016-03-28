@@ -38,6 +38,21 @@ public class ModuloPreguntas implements Modulo {
             });
         });
 
+        rutas.get("/usuario").handler(rc -> {
+            System.out.println("Listar listarPreguntasByUser - GET");
+            JsonObject _params = new JsonObject();
+            _params.put("id", Integer.parseInt(rc.request().params().get("user-id")));
+            vertx.eventBus().send("listarPreguntasByUser", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo preguntas");
+                }
+            });
+        });
+
+
+
 
         //Agregar
         rutas.post("/").handler(rc -> {

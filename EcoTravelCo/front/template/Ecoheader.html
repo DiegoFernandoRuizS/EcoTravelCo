@@ -188,10 +188,10 @@
 </ul>
 
 <!-- Top Search Content -->
-<div id="top-search-wrap" ng-controller="ProductosCtrl">
+<div id="top-search-wrap">
     <div class="tsw-inner">
-        <i id="top-search-close" class="zmdi zmdi-arrow-left" data-ui-sref="productos.busqueda" data-ng-click="queryProducts();hctrl.closeSearch();"></i>
-        <input type="text" ng-model="producto.search">
+        <i id="top-search-close" class="zmdi zmdi-arrow-left" data-ui-sref="productos.busqueda" data-ng-click="hctrl.closeSearch();" ui-sref-opts="{reload: true}"></i>
+        <input type="text" ng-model="producto.search" id="criterios" >
     </div>
 
 
