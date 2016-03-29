@@ -45,7 +45,7 @@
         <div class="clearfix"></div>
 
         <div class="modal-footer">
-            <button class="btn bgm-cyan waves-effect " ng-click="" ng-if="productos[0].estado == 'PENDIENTE PAGO'">
+            <button class="btn bgm-cyan waves-effect " ng-click="pagar()" ng-if="productos[0].estado == 'PENDIENTE PAGO'">
                 <i class="zmdi zmdi-money-box zmdi-hc-fw" />
                 Pagar
             </button>
@@ -64,7 +64,7 @@
 
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL CALIFICAR -->
     <div class="card">
         <script type="text/ng-template" id="myModalContent.html">
             <div class="modal-header">
@@ -118,6 +118,31 @@
             <div class="modal-footer">
                 <button class="btn btn-link" ng-click="ok()">Confirmar</button>
                 <button class="btn btn-link" ng-click="cancel()">Cancelar</button>
+            </div>
+        </script>
+    </div>
+
+    <!-- MODAL PAGAR -->
+    <div class="card">
+        <script type="text/ng-template" id="myModalPagar.html">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Pago PSE</h4>
+                <br>
+                <div class="modal-body ng-scope">
+
+                    <img class="lv-img-m " data-ng-src="http://www.autosuperior.com.co/imagenes/Boton%20PSE1.png"
+                         alt="" src="http://www.autosuperior.com.co/imagenes/Boton%20PSE1.png">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-success waves-effect" ng-click="pagarOrden()" data-ui-sref="orden.lista">
+                                <i class="zmdi zmdi-money-box"></i>
+                                Confirmar</button>
+                        </div>
+                        <div class="col-xs-6"><button class="btn btn-danger waves-effect" ng-click="cancel()">
+                            <i class="zmdi zmdi-close"></i>
+                            Cancelar</button></div>
+                    </div>
+                </div>
             </div>
         </script>
     </div>
