@@ -75,6 +75,21 @@ public class ModuloOrden implements Modulo {
             });
         });
 
+        //Pagar
+        rutas.put("/").handler(rc -> {
+            System.out.println("Pagar Orden - PUT");
+            JsonObject _params = new JsonObject();
+            _params.put("id_orden", rc.request().getParam("id"));
+
+            vertx.eventBus().send("pagarOrden", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonObject)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR!! en el modulo orden pagandola");
+                }
+            });
+        });
+
 
         rutas.get("/detalle/").handler(rc -> {
             System.out.println("Detalle Orden - GET");

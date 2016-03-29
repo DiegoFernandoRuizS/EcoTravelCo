@@ -95,6 +95,28 @@ angular.module('materialAdmin')
 		$rootScope.idItemMod = id_item;
 		modalInstances();
 	}
+		
+		$scope.pagar = function () {
+			$rootScope.idOrdenPagar = $rootScope.idOrden;
+			modalInstancesPagar();
+		}
+
+		//Create Modal
+		function modalInstancesPagar() {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'myModalPagar.html',
+				controller: 'ModalCtrlPagar',
+				size: "sm",
+				backdrop: true,
+				keyboard: true,
+				resolve: {
+					content: function () {
+						return $rootScope.idOrden;
+					}
+				}
+			});
+		}
 })
 
 		
@@ -158,3 +180,31 @@ angular.module('materialAdmin')
 			$modalInstance.dismiss('cancel');
 		};
 })
+
+angular.module('materialAdmin')
+	.controller('ModalCtrlPagar', function ($scope, $rootScope, $modalInstance, $http) {
+		
+		$scope.pagarOrden = function () {
+			$http.put("http://localhost:8181/orden/?id="+$rootScope.idOrdenPagar)
+				.success(function(res){
+					var cancelar = res;
+					$http.get("http://localhost:8181/orden/", {
+						withCredentials: true,
+						headers: {token: sessionStorage.token}
+					}).success(function(res){
+						$scope.ordenes=res;
+						console.log($scope.datos)
+					}).error(function(res){
+						console.log("Doesn't work");
+						console.log("Que trae esto: "+res);
+					});
+				}).error(function(res){
+			});
+
+			$modalInstance.dismiss('cancel');
+		}
+
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
+	})

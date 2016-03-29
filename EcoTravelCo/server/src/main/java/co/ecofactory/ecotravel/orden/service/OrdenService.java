@@ -24,6 +24,7 @@ public class OrdenService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarOrden", this::listarOrden);
         this.getVertx().eventBus().consumer("detalleOrden", this::detalleOrden);
         this.getVertx().eventBus().consumer("cancelarOrden", this::cancelarOrden);
+        this.getVertx().eventBus().consumer("pagarOrden", this::pagarOrden);
         this.getVertx().eventBus().consumer("calificarServicio", this::calificarServicio);
     }
 
@@ -89,6 +90,24 @@ public class OrdenService extends AbstractVerticle {
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in Calificar");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
+    public void pagarOrden(Message<JsonObject> message) {
+        try {
+            int idOrden = Integer.parseInt(message.body().getString("id_orden"));
+            CompletableFuture<JsonObject> can = this.dao.pagarOrden(idOrden);
+            can.whenComplete((ok, error) -> {
+                if (ok != null) {
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in Item");
                 }
             });
         } catch (Exception e) {
