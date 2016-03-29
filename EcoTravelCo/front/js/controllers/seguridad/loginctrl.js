@@ -4,18 +4,22 @@
 materialAdmin
   .controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window) {
       	$scope.registro = {};
-      	$scope.usuario = {login:"diego23",contrasenia:"diego23"};
+      	$scope.usuario = {login:"",contrasenia:""};
 		this.login = 1;
         this.register = 0;
         this.forgot = 0;
 
 
       	$scope.registrarUsuario = function () {
+
  	$http.post("http://localhost:8181/cliente/",$scope.registro,{})
 	    .success(function(res){
-      	$scope.registro = {};
+      		$scope.registro = {};
 
-	    }).error(function(res){
+			$scope.usuario = {login:document.getElementById("login").value,contrasenia:document.getElementById("pass").value};
+			$scope.autenticarUsuario();
+
+		}).error(function(res){
 	        console.log("Doesn't work");
 	        console.log("Que trae esto: "+res);
 
@@ -23,7 +27,7 @@ materialAdmin
 
 		};
 
-$scope.autenticarUsuario = function () {
+	$scope.autenticarUsuario = function () {
 
 
  	$http.post("http://localhost:8181/seguridad/autenticar",$scope.usuario,{})
@@ -52,6 +56,13 @@ $scope.autenticarUsuario = function () {
 	    });
 
 		};
+
+	  $scope.limpiarSesion = function () {
+
+		  sessionStorage.clear();
+	  }
+
+	  $scope.limpiarSesion();
 
 
   });
