@@ -1,5 +1,4 @@
 <div class="container">
-
     <div class="card" id="profile-main" data-ng-controller="ProfileCtrl as pctrl">
         <div class="pm-overview c-overflow">
             <div class="pmo-pic">
@@ -7,6 +6,14 @@
                     <a href="">
                         <img class="img-responsive" src="{{datos.foto}}" alt="">
                     </a>
+
+                    <div class="dropdown pmop-message" uib-dropdown>
+                        <button uib-dropdown-toggle class="btn bgm-white btn-float">
+                            <i class="zmdi zmdi-comment-text-alt"></i>
+                        </button>
+                    </div>
+
+
                     <div class="pmop-edit">
                         <i class="zmdi zmdi-camera"></i>
                         <span class="hidden-xs">Actuallizar Foto de Perfil</span>
@@ -23,16 +30,7 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
             </div>
-
 
             <div class="pmo-block pmo-contact hidden-xs">
                 <h2>Contacto</h2>
@@ -50,8 +48,6 @@
             <ul class="tab-nav tn-justified" >
 
                 <li class="btn-wave" data-ui-sref-active="active"><a data-ui-sref="pages.profile.profile-about">Información Básica</a></li>
-
-
 
             </ul>
 

@@ -20,6 +20,15 @@
 
             <li ng-show="mactrl.getNombreUsuario()!=null">
                 <a href="/login.html" data-ng-click="sessionStorage.clear();"><i class="zmdi zmdi-time-restore"></i>Salir</a>
+
+            <li>
+                <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)"><i
+                        class="zmdi zmdi-account"></i>Perfil</a>
+            </li>
+
+            <li>
+                <a href="/login.html"><i class="zmdi zmdi-time-restore"></i>Salir</a>
+
             </li>
 
             <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar sesión</a></li>
@@ -52,11 +61,19 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="orden.lista" data-ng-click="mactrl.sidebarStat($event)">Historico Compras</a></li>
             </ul>
         </li>
+
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }" ng-show="mactrl.getNombreUsuario()!=null">
             <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Preguntas</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="preguntas.mis" data-ng-click="mactrl.sidebarStat($event)">Mis Preguntas</a></li>
                 <li><a data-ui-sref-active="active" data-ui-sref="preguntas.res" data-ng-click="mactrl.sidebarStat($event)">Responder Preguntas</a></li>
+            </ul>
+
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('proveedor') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Proveedores</a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="proveedores.lista" data-ng-click="mactrl.sidebarStat($event)">Lista de Proveedores</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="proveedores.crear" data-ng-click="mactrl.sidebarStat($event)">Crear</a></li>
             </ul>
 
         </li>

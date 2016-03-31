@@ -34,6 +34,25 @@ materialAdmin
             })
 
 
+//------------------------------
+            // HEADERS PARA PRODUCTOS
+            //------------------------------
+            .state ('proveedores', {
+                url: '/proveedores',
+                templateUrl: 'views/common.html'
+            })
+			.state ('proveedores.lista', {
+                url: '/proveedores',
+                templateUrl: 'views/proveedores/proveedores.html',
+				controller: 'ProveedoresCtrl'
+            })
+
+            .state ('proveedores.crear', {
+                            url: '/proveedor',
+                            templateUrl: 'views/proveedores/crear.html',
+            				controller: 'CrearProveedorCtrl'
+                        })
+
             //------------------------------
             // HEADERS PARA PRODUCTOS
             //------------------------------
@@ -560,13 +579,13 @@ materialAdmin
 
             //Profile
 
-            .state ('pages.profile', {
+            .state('pages.profile', {
                 url: '/profile',
                 templateUrl: 'views/profile.html',
                 controller: 'ProfileCtrl',
                 resolve: {
-                    loadPlugin: function($ocLazyLoad) {
-                        return $ocLazyLoad.load ([
+                    loadPlugin: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load([
                             {
                                 name: 'css',
                                 insertBefore: '#app-level',
@@ -598,10 +617,12 @@ materialAdmin
 
             })
 
-            .state('pages.profile.profile-about', {
-                url: '/profile-about',
-                templateUrl: 'views/profile-about.html'
-            })
+                    .state('pages.profile.profile-about', {
+                        url: '/profile-about',
+                        templateUrl: 'views/profile-about.html'
+                    })
+
+
 
             .state('pages.profile.profile-timeline', {
                 url: '/profile-timeline',
