@@ -40,6 +40,7 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.listaValores = [];
         $scope.listaTipo = [];
+        $scope.image=[{id:1},{id:2}];
 
         //para cargar el combox box de paises
         $scope.combox = function () {
