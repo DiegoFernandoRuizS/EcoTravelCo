@@ -40,7 +40,35 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.listaValores = [];
         $scope.listaTipo = [];
-        $scope.image=[{id:1},{id:2}];
+        $scope.imagenes=[];
+        $scope.stepsModel = [];
+
+        $scope.imageUpload = function(event){
+                 var files = event.target.files; //FileList object
+                  $scope.stepsModel = [];
+
+                 for (var i = 0; i < files.length; i++) {
+                     var file = files[i];
+                         var reader = new FileReader();
+                         reader.onload = $scope.imageIsLoaded;
+                         reader.readAsDataURL(file);
+                 }
+        }
+
+        $scope.imageIsLoaded = function(e){
+                $scope.$apply(function() {
+                    $scope.stepsModel.push(e.target.result);
+                });
+        }
+
+
+        $scope.enviar=function(){
+           $scope.imagenes=[];
+             for (var i = 0; i < $scope.stepsModel.length; i++) {
+                 $scope.imagenes.push($scope.stepsModel[i]);
+                 }
+              };
+
 
         //para cargar el combox box de paises
         $scope.combox = function () {
@@ -88,22 +116,8 @@ angular.module('materialAdmin')
         };
         //para insertar los productos
         $scope.insertarProducto = function () {
-            var i = document.getElementById('imagen').files[0];
-            var i2 = document.getElementById('imagen2').files[0];
-            var i3 = document.getElementById('imagen3').files[0];
-
-            var imagenBytes = i.result;
-            var imagenBytes2 = i2.result;
-            var imagenBytes3 = i3.result;
-            $scope.producto.imagen = imagenBytes;
-            $scope.producto.imagen2 = imagenBytes2;
-            $scope.producto.imagen3 = imagenBytes3;
-            console.log("Imagen1");
-            console.log(imagenBytes);
-            console.log("Imagen2");
-            console.log(imagenBytes2);
-            console.log("Imagen3");
-            console.log(imagenBytes3);
+            $scope.enviar();
+            $scope.producto.imagen=$scope.imagenes;
             $http.post("http://localhost:8181/producto/", $scope.producto, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
                     growlService.growl('Se guardo correctamente la información.', 'inverse');
@@ -111,7 +125,6 @@ angular.module('materialAdmin')
                     console.log("La respuesta del backend " + res);
                     $window.location.href = '/#/productos/productos';
                     $scope.consultarProductos();
-
                 }).error(function (res) {
                 growlService.growl(' Ocurrió un error guardando la información.', 'inverse');
                 console.log("Doesn't work para insertar producto");
@@ -123,11 +136,8 @@ angular.module('materialAdmin')
             console.log("Borrar producto en el controlador " + id);
             $http.delete("http://localhost:8181/producto/" + id, $scope.productoDelete, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
-                    $scope.borrarProducto = {};
                     $scope.consultarProductos();
-                    //console.log("La respuesta del backend " + res);
                     growlService.growl('Se borró correctamente la información.', 'inverse');
-
                 }).error(function (res) {
                 growlService.growl(' Ocurrió un error borrando la información.', 'inverse');
                 console.log("Doesn't work para Borrar producto");
@@ -156,7 +166,6 @@ angular.module('materialAdmin')
         };
         //para actualizr el producto en la gestion
         $scope.actualizarProducto = function (id) {
-
             var i = document.getElementById('imagen1').files[0];
             var i2 = document.getElementById('imagen2').files[0];
             var i3 = document.getElementById('imagen3').files[0];

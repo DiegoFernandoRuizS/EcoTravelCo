@@ -221,57 +221,18 @@
             </div>
             <!--IMAGNES-->
             <br>
-            <br>
-
             <div class="row">
-                <div class="col-md-4" data-ng-repeat="imagenes in image">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen" name="..." ng-model="imagen">
+                <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
+                <span class="btn btn-success btn-file m-r-10">Cargar imágenes
+                <input type='file'  ng-model-instant onchange="angular.element(this).scope().imageUpload(event)"
+                       multiple/>
                     </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen2" name="..." ng-model="imagen2">
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen3" name="..." ng-model="imagen3">
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
+                <div class="col-md-12">
+                    <div ng-repeat="step in stepsModel">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-preview thumbnail">
+                                <img ng-src="{{step}}"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,6 +256,8 @@
                 <div class="col-md-4">
                 </div>
             </div>
+
+
 
             <!--
             prueba para captura la ubicacion del servicio
