@@ -54,12 +54,31 @@ angular.module('materialAdmin')
 			if(sessionStorage.token == undefined){
 				$location.path( "/login.html" );
 			} else {
-				$http.post("http://localhost:8181/canasta/?" +
-					"id_producto=" + $rootScope.prodId + "&cantidad=" + $rootScope.cantidadCanasta, {
-					withCredentials: true,
-					headers: {token: sessionStorage.token}
-				}).success(function (res) {
-					//Good
+				$scope.infoProducto = {
+					id_producto : $rootScope.prodId,
+					cantidad : $rootScope.cantidadCanasta
+				}
+				
+				$scope.sesion = {withCredentials: true,	headers: {token: sessionStorage.token}}
+
+
+				$http.post("http://localhost:8181/canasta/", $scope.infoProducto, $scope.sesion
+				).success(function (res) {
+					$scope.mensaje = "Producto Agregado al Carro."
+
+					$http.get("http://localhost:8181/canasta/", {
+						withCredentials: true,
+						headers: {token: sessionStorage.token}
+					}).success(function (res) {
+						$rootScope.canasta = res;
+						if ($rootScope.canasta.length > 0) {
+							$rootScope.idOrdenCanasta = $rootScope.canasta[0].idorden;
+						}
+						console.log($scope.datos);
+					}).error(function (res) {
+						console.log("Doesn't work");
+						console.log("Que trae esto: " + res);
+					});
 				}).error(function (res) {
 					console.log("Doesn't work");
 					console.log("Que trae esto: " + res);
@@ -71,10 +90,9 @@ angular.module('materialAdmin')
 		$scope.confirmarCanasta = function () {
 			$scope.error = [];
 			$scope.detalle="";
-			$http.post("http://localhost:8181/canasta/confirmar/?pru=p", {
-				withCredentials: true,
-				headers: {token: sessionStorage.token}
-			}).success(function(res){
+			$scope.sesion = {withCredentials: true,	headers: {token: sessionStorage.token}}
+			$http.post("http://localhost:8181/canasta/confirmar/", {}, $scope.sesion, {}
+			).success(function(res){
 					if(res instanceof Array){
 						$scope.error=res;
 						

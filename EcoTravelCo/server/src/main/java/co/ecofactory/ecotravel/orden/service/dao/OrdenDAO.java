@@ -220,6 +220,38 @@ public class OrdenDAO {
         return res;
     }
 
+    public CompletableFuture<JsonObject> pagarOrden(int idOrden) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
+
+        String query = "UPDATE mp_orden SET estado = (SELECT mp_lista_valores.valor FROM mp_lista_valores WHERE mp_lista_valores.codigo = 'PAGO')" +
+                " WHERE mp_orden.id = ? AND mp_orden.estado = (SELECT mp_lista_valores.valor FROM mp_lista_valores WHERE mp_lista_valores.codigo = 'PENDIENTE')";
+
+        JsonArray params = new JsonArray();
+        JsonUtils.add(params, idOrden);
+
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try{
+                        conn.result().close();
+                    }catch(Exception e){
+
+                    }
+                }
+        );
+        return res;
+    }
+
     public CompletableFuture<JsonObject> devolverDisponibilidadProductos(int idOrden) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
 

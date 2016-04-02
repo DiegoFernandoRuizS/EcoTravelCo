@@ -47,9 +47,13 @@ public class ModuloCanasta implements Modulo {
 
             Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
 
+            JsonObject mensaje = new JsonObject();
+            mensaje = rc.getBodyAsJson();
+
+
             _params.put("id_usuario", idUsuario);
-            _params.put("id_producto", rc.request().getParam("id_producto"));
-            _params.put("cantidad", rc.request().getParam("cantidad"));
+            _params.put("id_producto", mensaje.getValue("id_producto"));
+            _params.put("cantidad", mensaje.getValue("cantidad"));
 
             vertx.eventBus().send("agregarProductoCanasta", _params, res -> {
                 if (res.succeeded()) {
@@ -83,7 +87,7 @@ public class ModuloCanasta implements Modulo {
 
             Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
 
-            _params.put("id_usuario", idUsuario);
+            _params.put("id_usuario",  idUsuario);
 
             vertx.eventBus().send("confirmarCanasta", _params, res -> {
                 if (res.succeeded()) {

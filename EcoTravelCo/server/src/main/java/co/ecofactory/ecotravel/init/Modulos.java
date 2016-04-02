@@ -16,8 +16,8 @@ public class Modulos {
                 "co.ecofactory.ecotravel.seguridad.ModuloSeguridad",
                 "co.ecofactory.ecotravel.galeria.ModuloGaleria",
                 "co.ecofactory.ecotravel.preguntas.ModuloPreguntas",
-                "co.ecofactory.ecotravel.orden.ModuloOrden"};
-
+                "co.ecofactory.ecotravel.orden.ModuloOrden",
+                "co.ecofactory.ecotravel.seguridad.ModuloSeguridad"};
 
 
         for (String nombreModulo : modulos) {

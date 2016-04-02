@@ -53,8 +53,8 @@ public class CanastaService extends AbstractVerticle {
     public void agregarProductoCanasta(Message<JsonObject> message) {
         try {
             int idUsuario = message.body().getInteger("id_usuario");
-            int idProducto = Integer.parseInt(message.body().getString("id_producto"));
-            int cantidad = Integer.parseInt(message.body().getString("cantidad"));
+            int idProducto = message.body().getInteger("id_producto");
+            int cantidad = message.body().getInteger("cantidad");
 
             CompletableFuture<JsonObject> canasta = this.dao.crearCanasta(idUsuario);
 

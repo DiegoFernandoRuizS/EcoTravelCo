@@ -40,6 +40,37 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.listaValores = [];
         $scope.listaTipo = [];
+        $scope.imagenes=[];
+        $scope.stepsModel = [];
+        $scope.isUpdate=false;
+
+        $scope.imageUpload = function(event){
+                $scope.isUpdate=true;
+                 var files = event.target.files; //FileList object
+                  $scope.stepsModel = [];
+                  $rootScope.imagenesCargadas=[];
+                 for (var i = 0; i < files.length; i++) {
+                     var file = files[i];
+                         var reader = new FileReader();
+                         reader.onload = $scope.imageIsLoaded;
+                         reader.readAsDataURL(file);
+                 }
+        }
+
+        $scope.imageIsLoaded = function(e){
+                $scope.$apply(function() {
+                    $scope.stepsModel.push(e.target.result);
+                    $rootScope.imagenesCargadas.push(e.target.result);
+                });
+        }
+
+        $scope.enviar=function(){
+           $scope.imagenes=[];
+             for (var i = 0; i < $scope.stepsModel.length; i++) {
+                 $scope.imagenes.push($scope.stepsModel[i]);
+                 }
+              };
+
 
         //para cargar el combox box de paises
         $scope.combox = function () {
@@ -77,8 +108,6 @@ angular.module('materialAdmin')
                 $rootScope.cantidadProductos=res;
                 var productosTotal = Object.keys($rootScope.cantidadProductos).length;
                 $rootScope.cantidadProductos=productosTotal;
-                //    console.log(productosTotal);
-                //  console.log("La respuesta en consultar: " + res);
             }).error(function (res) {
                 growlService.growl(' Ocurrió un error consultando la información.', 'inverse');
                 console.log("Doesn't work");
@@ -87,22 +116,8 @@ angular.module('materialAdmin')
         };
         //para insertar los productos
         $scope.insertarProducto = function () {
-            var i = document.getElementById('imagen').files[0];
-            var i2 = document.getElementById('imagen2').files[0];
-            var i3 = document.getElementById('imagen3').files[0];
-
-            var imagenBytes = i.result;
-            var imagenBytes2 = i2.result;
-            var imagenBytes3 = i3.result;
-            $scope.producto.imagen = imagenBytes;
-            $scope.producto.imagen2 = imagenBytes2;
-            $scope.producto.imagen3 = imagenBytes3;
-            console.log("Imagen1");
-            console.log(imagenBytes);
-            console.log("Imagen2");
-            console.log(imagenBytes2);
-            console.log("Imagen3");
-            console.log(imagenBytes3);
+            $scope.enviar();
+            $scope.producto.imagen=$scope.imagenes;
             $http.post("http://localhost:8181/producto/", $scope.producto, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
                     growlService.growl('Se guardo correctamente la información.', 'inverse');
@@ -110,7 +125,6 @@ angular.module('materialAdmin')
                     console.log("La respuesta del backend " + res);
                     $window.location.href = '/#/productos/productos';
                     $scope.consultarProductos();
-
                 }).error(function (res) {
                 growlService.growl(' Ocurrió un error guardando la información.', 'inverse');
                 console.log("Doesn't work para insertar producto");
@@ -122,11 +136,8 @@ angular.module('materialAdmin')
             console.log("Borrar producto en el controlador " + id);
             $http.delete("http://localhost:8181/producto/" + id, $scope.productoDelete, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
-                    $scope.borrarProducto = {};
                     $scope.consultarProductos();
-                    //console.log("La respuesta del backend " + res);
                     growlService.growl('Se borró correctamente la información.', 'inverse');
-
                 }).error(function (res) {
                 growlService.growl(' Ocurrió un error borrando la información.', 'inverse');
                 console.log("Doesn't work para Borrar producto");
@@ -134,20 +145,22 @@ angular.module('materialAdmin')
             });
         };
         //para listar el producto a editar
-        $scope.listarProducto = function (id) {
+        $scope.listarProducto = function (id){
             $rootScope.productoEditar = [];
             $rootScope.actualProducto = {};
             console.log("Listar producto en el controlador " + id);
             $http.get("http://localhost:8181/producto/" + id, {withCredentials: true, headers: {token: sessionStorage.token}})
-                .success(function (res) {
+                .success(function (res){
+                $rootScope.imagenesCargadas=[]; //$scope.imagenes=[];
                     $rootScope.actualProducto = res;
                     console.log($rootScope.actualProducto);
                     $rootScope.actualProducto.cantidad = "" + $rootScope.actualProducto.cantidad;
                     $rootScope.actualProducto.latitud = "" + $rootScope.actualProducto.latitud;
                     $rootScope.actualProducto.longitud = "" + $rootScope.actualProducto.longitud;
                     $rootScope.actualProducto.precio = "" + $rootScope.actualProducto.precio;
-
-                    console.log($rootScope.actualProducto);
+                    for(var i=0;i<$rootScope.actualProducto.galeria.length;i++){
+                      $rootScope.imagenesCargadas.push($rootScope.actualProducto.galeria[i]);
+                    }
                 }).error(function (res) {
                 console.log("Doesn't work para listar producto");
                 console.log("El error para borar producto: " + res);
@@ -155,38 +168,19 @@ angular.module('materialAdmin')
         };
         //para actualizr el producto en la gestion
         $scope.actualizarProducto = function (id) {
+            if($scope.isUpdate){
+            $scope.enviar();
+            $scope.actualProducto.imagen=$scope.imagenes;
+            $scope.actualProducto.isUpdate=true;
+            console.log("Se cambiaron imagenes");
+            }else{
+            $scope.actualProducto.isUpdate=true;
+            console.log("No se cambiaron imagenes");}
 
-            var i = document.getElementById('imagen1').files[0];
-            var i2 = document.getElementById('imagen2').files[0];
-            var i3 = document.getElementById('imagen3').files[0];
-            console.log(i);
-            if (i === undefined) {
-            } else {
-                var imagenBytes = i.result;
-                $scope.actualProducto.imagen1 = imagenBytes;
-                console.log("cambia 1 ");
-                console.log($scope.actualProducto.imagen);
-            }
-            if (i2 === undefined) {
-            } else {
-                var imagenBytes2 = i2.result;
-                $scope.actualProducto.imagen2 = imagenBytes2;
-                console.log("cambia 2 ");
-                console.log($scope.actualProducto.imagen1);
-            }
-            if (i3 === undefined) {
-            } else {
-                var imagenBytes3 = i3.result;
-                $scope.actualProducto.imagen3 = imagenBytes3;
-                console.log("cambia 3 ");
-                console.log($scope.actualProducto.imagen2);
-            }
-            console.log("Actualizado....")
             console.log($scope.actualProducto);
             $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {
                     growlService.growl('Se actualizó correctamente la información.', 'inverse');
-                    console.log("Que tiene el combobox "+$scope.actualProducto.tipo_producto_id);
                     console.log("La respuesta del backend " + res);
                     $scope.actualProducto = {};
                     $window.location.href = '/#/productos/productos';

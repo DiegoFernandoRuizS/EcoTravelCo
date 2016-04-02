@@ -27,72 +27,10 @@
             <li class="dropdown" uib-dropdown>
                 <a uib-dropdown-toggle href="">
                     <i class="tm-icon zmdi zmdi-email"></i>
-                    <i class="tmn-counts">6</i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg stop-propagate pull-right">
-                    <div class="listview">
-                        <div class="lv-header">
-                            Messages
-                        </div>
-                        <div class="lv-body">
-                            <a class="lv-item" ng-href="" ng-repeat="w in hctrl.messageResult.list">
-                                <div class="media">
-                                    <div class="pull-left">
-                                        <img class="lv-img-sm" ng-src="img/profile-pics/{{ w.img }}" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lv-title">{{ w.user }}</div>
-                                        <small class="lv-small">{{ w.text }}</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
 
-                        <div class="clearfix"></div>
-
-                        <a class="lv-footer" href="">View All</a>
-                    </div>
-                </div>
             </li>
-            <li class="dropdown" uib-dropdown>
-                <a uib-dropdown-toggle href="">
-                    <i class="tm-icon zmdi zmdi-notifications"></i>
-                    <i class="tmn-counts">9</i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg stop-propagate pull-right">
-                    <div class="listview" id="notifications">
-                        <div class="lv-header">
-                            Notification
 
-                            <ul class="actions">
-                                <li>
-                                    <a href="" data-ng-click="hctrl.clearNotification($event)">
-                                        <i class="zmdi zmdi-check-all"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="lv-body">
-                            <a class="lv-item" ng-href="" ng-repeat="w in hctrl.messageResult.list">
-                                <div class="media">
-                                    <div class="pull-left">
-                                        <img class="lv-img-sm" ng-src="img/profile-pics/{{ w.img }}" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lv-title">{{ w.user }}</div>
-                                        <small class="lv-small">{{ w.text }}</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="clearfix"></div>
-
-                        <a class="lv-footer" href="">View Previous</a>
-                    </div>
-
-                </div>
-            </li>
             <li class="dropdown hidden-xs" uib-dropdown ng-controller="CanastaCtrl" data-ng-class="tableCanastaHeader">
                 <a uib-dropdown-toggle href="">
                     <i class="tm-icon zmdi zmdi-local-grocery-store"></i>
@@ -133,27 +71,23 @@
                     <i class="tm-icon zmdi zmdi-more-vert"></i>
                 </a>
                 <ul class="dropdown-menu dm-icon pull-right">
-                    <li class="skin-switch hidden-xs">
-                        <span ng-repeat="w in mactrl.skinList | limitTo : 6" class="ss-skin bgm-{{ w }}" data-ng-click="mactrl.skinSwitch(w)"></span>
-                    </li>
-                    <li class="divider hidden-xs"></li>
+
                     <li class="hidden-xs">
-                        <a data-ng-click="hctrl.fullScreen()" href=""><i class="zmdi zmdi-fullscreen"></i> Toggle Fullscreen</a>
+                        <a data-ng-click="hctrl.fullScreen()" href=""><i class="zmdi zmdi-fullscreen"></i> Pantalla Completa</a>
                     </li>
-                    <li>
-                        <a data-ng-click="hctrl.clearLocalStorage()" href=""><i class="zmdi zmdi-delete"></i> Clear Local Storage</a>
+                    <li ng-show="mactrl.getNombreUsuario()!=null">
+                        <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)" ><i
+                                class="zmdi zmdi-account"></i>Perfil</a>
                     </li>
-                    <li>
-                        <a href=""><i class="zmdi zmdi-face"></i> Privacy Settings</a>
+
+                    <li ng-show="mactrl.getNombreUsuario()!=null">
+                        <a href="/login.html" data-ng-click="sessionStorage.clear();"><i class="zmdi zmdi-time-restore"></i>Salir</a>
                     </li>
-                    <li>
-                        <a href=""><i class="zmdi zmdi-settings"></i> Other Settings</a>
-                    </li>
+
+                    <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar sesión</a></li>
                 </ul>
             </li>
-            <li class="hidden-xs" data-target="chat" data-toggle-sidebar data-model-right="mactrl.sidebarToggle.right" data-ng-class="{ 'open': mactrl.sidebarToggle.right === true }">
-                <a href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i></a>
-            </li>
+
         </ul>
     </li>
 </ul>

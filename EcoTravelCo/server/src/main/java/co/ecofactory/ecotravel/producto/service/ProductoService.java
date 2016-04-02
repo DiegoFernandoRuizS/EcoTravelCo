@@ -129,15 +129,21 @@ public class ProductoService extends AbstractVerticle {
                 System.out.println("listarProducto");
                 if (ok != null) {
                     JsonObject conImagenes = new JsonObject();
-
+                    JsonArray imagenes = new JsonArray();
                     conImagenes.mergeIn(ok.get(0));
-                    //Agregando las imagenes
+                    conImagenes.remove("imagen");
+                    conImagenes.remove("id_imagen");
+                    //Agregando las imagenes al producto
                     if (ok.size() > 0) {
+                        int numeroImagenes = 0;
                         for (int i = 0; i < ok.size(); i++) {
-                            int j = 1;
-                            conImagenes.put("imagen" + (i + j), ok.get(i).getString("imagen", ""));
-                            conImagenes.put("id_imagen" + (i + j), ok.get(i).getInteger("id_imagen", 0));
+                           // imagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
+                            conImagenes.put("id_imagen" + i, ok.get(i).getInteger("id_imagen", 0));
+                            imagenes.add(ok.get(i).getString("imagen", ""));
+                            numeroImagenes++;
                         }
+                        conImagenes.put("galeria",imagenes);
+                        conImagenes.put("cantidadImagenes", numeroImagenes);
                     }
                     message.reply(conImagenes);
                 } else {
@@ -148,7 +154,6 @@ public class ProductoService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
-
         }
     }
 
@@ -227,7 +232,6 @@ public class ProductoService extends AbstractVerticle {
                     message.fail(0, "ERROR in data direccion actualizar");
                 }
             });
-            //--------------------
 
             CompletableFuture<JsonObject> data2 = this.dao.editarProducto(message.body(), idProducto[0]);
             data2.whenComplete((ok2, error2) -> {
@@ -247,19 +251,34 @@ public class ProductoService extends AbstractVerticle {
                     message.fail(0, "ERROR in data producto actualizar");
                 }
                 //-----
-                CompletableFuture<JsonObject> dataImagen = this.dao.actualizarImagen(message.body(), idProducto[0]);
-                dataImagen.whenComplete((ok3, error3) -> {
-                    if (ok3 != null) {
-                        message.reply(ok3);
-                        System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                        System.out.println("actualizar Imagen:OK" + ok3);
-                        System.out.println("actualizar producto 4 " + ok3);
+                if(message.body().getBoolean("isUpdate")){
 
-                    } else {
-                        error3.printStackTrace();
-                        message.fail(0, "ERROR in data imagen - producto - actualizar");
-                    }
-                });
+                    CompletableFuture<JsonObject> borrarImagenes = this.dao.borrarImagen(message.body().getLong("id_producto"));
+                    borrarImagenes.whenComplete((ok3, error3) -> {
+                        if (ok3 != null) {
+                            message.reply(ok3);
+                            System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
+                        } else {
+                            error3.printStackTrace();
+                            message.fail(0, "ERROR in data imagen - producto - actualizar");
+                        }
+                    });
+
+                    CompletableFuture<JsonObject> dataImagen = this.dao.insertarImagen(message.body(), idProducto[0]);
+                    dataImagen.whenComplete((ok3, error3) -> {
+                        if (ok3 != null) {
+                            message.reply(ok3);
+                            System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
+                            System.out.println("actualizar Imagen:OK" + ok3);
+                            System.out.println("actualizar producto 4 " + ok3);
+
+                        } else {
+                            error3.printStackTrace();
+                            message.fail(0, "ERROR in data imagen - producto - actualizar");
+                        }
+                    });
+                }
+
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -357,7 +376,6 @@ public class ProductoService extends AbstractVerticle {
 
         }
     }
-
 
 
     public void listarCalificacion(Message<JsonObject> message) {

@@ -1,0 +1,169 @@
+<div class="container" ng-controller="CrearProveedorCtrl">
+    <div class="block-header">
+        <h2>Gestión de Proveedores - Editar Proveedor</h2>
+
+        <ul class="actions">
+            <li>
+                <a href="">
+                    <i class="zmdi zmdi-trending-up"></i>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="zmdi zmdi-check-all"></i>
+                </a>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="">Refresh</a>
+                    </li>
+                    <li>
+                        <a href="">Manage Widgets</a>
+                    </li>
+                    <li>
+                        <a href="">Widgets Settings</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Crear Proveedor
+                <small>Crear proveedor
+                </small>
+            </h2>
+        </div>
+
+        <div class="card-body card-padding">
+            <p class="c-black f-500 m-b-5">Crear nuevo Proveedor</p>
+            <small>En esta sección usted puede crear un nuevo proveedor</small>
+
+            <br/><br/>
+            <div class="row">
+                <br/>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="primerNombre">Primer Nombre</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.nombre" id="primernombre">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="segundoNombre">Segundo Nombre</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.nombre_sec" id="segundoNombre">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <br/>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="primerApellido">Primer Apellido</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.apellido" id="primerApellido">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="primerNombre">Segundo Apellido</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.apellido_sec" id="segundoApellido">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <br/>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.telefono" id="telefono">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="correo">Correo Electrónico</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.correo_electronico" id="correo">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <br/>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="login">Login</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.login" id="login">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="fg-line">
+                            <label for="contrasena">Contraseña</label>
+                            <input type="text" class="form-control"
+                                   ng-model="data.contrasenia" id="contrasena">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <br/><br/>
+
+            <br>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="registrar();">Guardar</span>
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="btn btn-warning btn-file m-r-10" data-ui-sref="productos.lista">Cancelar</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
