@@ -138,35 +138,13 @@ public class ProductoService extends AbstractVerticle {
                         int numeroImagenes = 0;
                         for (int i = 0; i < ok.size(); i++) {
                            // imagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
-                          //  imagenes.put("id_imagen" + i, ok.get(i).getInteger("id_imagen", 0));
+                            conImagenes.put("id_imagen" + i, ok.get(i).getInteger("id_imagen", 0));
                             imagenes.add(ok.get(i).getString("imagen", ""));
                             numeroImagenes++;
                         }
                         conImagenes.put("galeria",imagenes);
                         conImagenes.put("cantidadImagenes", numeroImagenes);
                     }
-                    //Traer las imagenes asociadas al producto
-
-                   /* CompletableFuture<List<JsonObject>> imagenes = this.dao.listarImagenes(message.body().getLong("id"));
-                    imagenes.whenComplete((ok2, error2) -> {
-                        System.out.println("listarImagenes");
-                        if (ok2 != null) {
-                            JsonObject imagenesProducto = new JsonObject();
-                            if (ok2.size() > 0) {
-
-                                for (int i = 0; i < ok2.size(); i++) {
-                                    conImagenes.put("imagen" + i, ok2.get(i).getString("imagen", ""));
-                                    conImagenes.put("id_imagen" + i, ok2.get(i).getInteger("id_imagen", 0));
-                                }
-
-                            }
-
-                            message.reply(conImagenes);
-                        } else {
-                            error2.printStackTrace();
-                            message.fail(0, "ERROR in data");
-                        }
-                    });*/
                     message.reply(conImagenes);
                 } else {
                     error.printStackTrace();
@@ -273,19 +251,34 @@ public class ProductoService extends AbstractVerticle {
                     message.fail(0, "ERROR in data producto actualizar");
                 }
                 //-----
-                CompletableFuture<JsonObject> dataImagen = this.dao.actualizarImagen(message.body(), idProducto[0]);
-                dataImagen.whenComplete((ok3, error3) -> {
-                    if (ok3 != null) {
-                        message.reply(ok3);
-                        System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                        System.out.println("actualizar Imagen:OK" + ok3);
-                        System.out.println("actualizar producto 4 " + ok3);
+                if(message.body().getBoolean("isUpdate")){
 
-                    } else {
-                        error3.printStackTrace();
-                        message.fail(0, "ERROR in data imagen - producto - actualizar");
-                    }
-                });
+                    CompletableFuture<JsonObject> borrarImagenes = this.dao.borrarImagen(message.body().getLong("id_producto"));
+                    borrarImagenes.whenComplete((ok3, error3) -> {
+                        if (ok3 != null) {
+                            message.reply(ok3);
+                            System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
+                        } else {
+                            error3.printStackTrace();
+                            message.fail(0, "ERROR in data imagen - producto - actualizar");
+                        }
+                    });
+
+                    CompletableFuture<JsonObject> dataImagen = this.dao.insertarImagen(message.body(), idProducto[0]);
+                    dataImagen.whenComplete((ok3, error3) -> {
+                        if (ok3 != null) {
+                            message.reply(ok3);
+                            System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
+                            System.out.println("actualizar Imagen:OK" + ok3);
+                            System.out.println("actualizar producto 4 " + ok3);
+
+                        } else {
+                            error3.printStackTrace();
+                            message.fail(0, "ERROR in data imagen - producto - actualizar");
+                        }
+                    });
+                }
+
             });
         } catch (Exception e) {
             e.printStackTrace();

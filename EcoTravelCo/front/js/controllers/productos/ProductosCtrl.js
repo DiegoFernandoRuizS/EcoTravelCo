@@ -42,10 +42,13 @@ angular.module('materialAdmin')
         $scope.listaTipo = [];
         $scope.imagenes=[];
         $scope.stepsModel = [];
+        $scope.isUpdate=false;
 
         $scope.imageUpload = function(event){
+                $scope.isUpdate=true;
                  var files = event.target.files; //FileList object
                   $scope.stepsModel = [];
+                  $rootScope.imagenesCargadas=[];
                  for (var i = 0; i < files.length; i++) {
                      var file = files[i];
                          var reader = new FileReader();
@@ -57,6 +60,7 @@ angular.module('materialAdmin')
         $scope.imageIsLoaded = function(e){
                 $scope.$apply(function() {
                     $scope.stepsModel.push(e.target.result);
+                    $rootScope.imagenesCargadas.push(e.target.result);
                 });
         }
 
@@ -147,7 +151,7 @@ angular.module('materialAdmin')
             console.log("Listar producto en el controlador " + id);
             $http.get("http://localhost:8181/producto/" + id, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res){
-                $rootScope.imagenesCargadas=[];
+                $rootScope.imagenesCargadas=[]; //$scope.imagenes=[];
                     $rootScope.actualProducto = res;
                     console.log($rootScope.actualProducto);
                     $rootScope.actualProducto.cantidad = "" + $rootScope.actualProducto.cantidad;
@@ -164,6 +168,15 @@ angular.module('materialAdmin')
         };
         //para actualizr el producto en la gestion
         $scope.actualizarProducto = function (id) {
+            if($scope.isUpdate){
+            $scope.enviar();
+            $scope.actualProducto.imagen=$scope.imagenes;
+            $scope.actualProducto.isUpdate=true;
+            console.log("Se cambiaron imagenes");
+            }else{
+            $scope.actualProducto.isUpdate=true;
+            console.log("No se cambiaron imagenes");}
+
             console.log($scope.actualProducto);
             $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {

@@ -354,60 +354,6 @@ public class ProductoDAO {
         return res;
     }
 
-    //Actualizar ImagenAsociada al producto
-    public CompletableFuture<JsonObject> actualizarImagen(JsonObject nuevoProducto, int productoAsociado) {
-        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
-        for (int i = 1; i < 4; i++) {
-
-            JsonArray params = new JsonArray();
-            String imagenJ = "imagen" + i;
-            String imagenIdJ = "id_imagen" + i;
-
-            int idProducto = nuevoProducto.getInteger("id_producto", 0);
-            String imagen = nuevoProducto.getString(imagenJ, "");
-            String tipo = "Imagen";
-            String ciudad = nuevoProducto.getString("ciudad", "");
-            int id_imagen = nuevoProducto.getInteger(imagenIdJ, 0);
-
-            JsonUtils.add(params, tipo);
-            JsonUtils.add(params, imagen);
-            JsonUtils.add(params, ciudad);
-            String query;
-            if (i == 1) {
-                query = "UPDATE mp_galeria\n" +
-                        "   SET tipo=?, url=?, descripcion=?, foto_principal=1\n" +
-                        " WHERE producto_id=" + idProducto + " and id=" + id_imagen + ";";
-            } else {
-                query = "UPDATE mp_galeria\n" +
-                        "   SET tipo=?, url=?, descripcion=?, foto_principal=0\n" +
-                        " WHERE producto_id=" + idProducto + " and id=" + id_imagen + ";";
-            }
-
-            dataAccess.getConnection(conn -> {
-                if (conn.succeeded()) {
-                    conn.result().updateWithParams(query, params, data -> {
-                        if (data.succeeded()) {
-                            res.complete(data.result().toJson());
-                            System.out.println("Actualizar imagen " + query);
-                        } else {
-                            data.cause().printStackTrace();
-                            System.out.println("Error actualizar Galeria en DAO producto");
-                            res.completeExceptionally(data.cause());
-                        }
-                    });
-                } else {
-                    conn.cause().printStackTrace();
-                }
-                try {
-                    conn.result().close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        return res;
-    }
-
     //Insertar ImagenAsociada al producto
     public CompletableFuture<JsonObject> insertarImagen(JsonObject nuevoProducto, int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();

@@ -232,6 +232,11 @@
 
             <div class="row">
                 <div class="col-md-4">
+                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
+                <span class="btn btn-success btn-file m-r-10">Actualizar imágenes
+                <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(event)"
+                       multiple/>
+                    </span>
                     <div ng-repeat="step in imagenesCargadas">
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-preview thumbnail">
