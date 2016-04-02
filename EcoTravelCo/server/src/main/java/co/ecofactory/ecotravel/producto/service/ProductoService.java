@@ -129,16 +129,44 @@ public class ProductoService extends AbstractVerticle {
                 System.out.println("listarProducto");
                 if (ok != null) {
                     JsonObject conImagenes = new JsonObject();
-
+                    JsonArray imagenes = new JsonArray();
                     conImagenes.mergeIn(ok.get(0));
-                    //Agregando las imagenes
+                    conImagenes.remove("imagen");
+                    conImagenes.remove("id_imagen");
+                    //Agregando las imagenes al producto
                     if (ok.size() > 0) {
+                        int numeroImagenes = 0;
                         for (int i = 0; i < ok.size(); i++) {
-                            int j = 1;
-                            conImagenes.put("imagen" + (i + j), ok.get(i).getString("imagen", ""));
-                            conImagenes.put("id_imagen" + (i + j), ok.get(i).getInteger("id_imagen", 0));
+                           // imagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
+                          //  imagenes.put("id_imagen" + i, ok.get(i).getInteger("id_imagen", 0));
+                            imagenes.add(ok.get(i).getString("imagen", ""));
+                            numeroImagenes++;
                         }
+                        conImagenes.put("galeria",imagenes);
+                        conImagenes.put("cantidadImagenes", numeroImagenes);
                     }
+                    //Traer las imagenes asociadas al producto
+
+                   /* CompletableFuture<List<JsonObject>> imagenes = this.dao.listarImagenes(message.body().getLong("id"));
+                    imagenes.whenComplete((ok2, error2) -> {
+                        System.out.println("listarImagenes");
+                        if (ok2 != null) {
+                            JsonObject imagenesProducto = new JsonObject();
+                            if (ok2.size() > 0) {
+
+                                for (int i = 0; i < ok2.size(); i++) {
+                                    conImagenes.put("imagen" + i, ok2.get(i).getString("imagen", ""));
+                                    conImagenes.put("id_imagen" + i, ok2.get(i).getInteger("id_imagen", 0));
+                                }
+
+                            }
+
+                            message.reply(conImagenes);
+                        } else {
+                            error2.printStackTrace();
+                            message.fail(0, "ERROR in data");
+                        }
+                    });*/
                     message.reply(conImagenes);
                 } else {
                     error.printStackTrace();
@@ -148,7 +176,6 @@ public class ProductoService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
-
         }
     }
 
@@ -227,7 +254,6 @@ public class ProductoService extends AbstractVerticle {
                     message.fail(0, "ERROR in data direccion actualizar");
                 }
             });
-            //--------------------
 
             CompletableFuture<JsonObject> data2 = this.dao.editarProducto(message.body(), idProducto[0]);
             data2.whenComplete((ok2, error2) -> {
@@ -357,7 +383,6 @@ public class ProductoService extends AbstractVerticle {
 
         }
     }
-
 
 
     public void listarCalificacion(Message<JsonObject> message) {

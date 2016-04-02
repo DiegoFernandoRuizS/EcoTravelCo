@@ -412,14 +412,6 @@ public class ProductoDAO {
     public CompletableFuture<JsonObject> insertarImagen(JsonObject nuevoProducto, int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
         //Definicion de los datos a guardar del producto
-
-        System.out.println("EN EL DAO DE LA IMAGEN");
-        System.out.println("------------------------------------------------");
-        System.out.println("------------------------------------------------");
-        System.out.println(nuevoProducto.getJsonArray("imagen").size());
-        System.out.println("------------------------------------------------");
-        System.out.println("------------------------------------------------");
-
         for (int i = 0; i < nuevoProducto.getJsonArray("imagen").size(); i++) {
             int fotoPrincipal=0;
             if (i == 0) {
@@ -506,7 +498,6 @@ public class ProductoDAO {
             tipo_producto_id = 4;
         }
 
-
         JsonUtils.add(params, nuevoProducto.getInteger("id_direccion", 0));
         JsonUtils.add(params, tipo_producto_id);
         JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
@@ -545,24 +536,24 @@ public class ProductoDAO {
         return res;
     }
 
-    //Borrar un producto
-    public CompletableFuture<JsonObject> borrarProducto(Long id) {
-        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+    //Listar Imagenes
+    public CompletableFuture<List<JsonObject>> listarImagenes(Long id) {
 
-
-        String query = "DELETE FROM public.mp_producto\n" +
-                " WHERE id=" + id + ";";
-
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        String query = "select * from mp_galeria mp\n" +
+                "where mp.producto_id=" + id;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
-                        conn.result().updateWithParams(query, params, data -> {
+                        conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
-                                res.complete(data.result().toJson());
-                                System.out.println("Borrar producto DAO");
+                                res.complete(data.result().getRows());
+                                System.out.println("En el If respuesta listar imagenes");
+                                System.out.println(data.result().getRows().size());
+                                System.out.println(data.result().getRows());
+
                             } else {
                                 data.cause().printStackTrace();
-                                System.out.println("Error Borrar producto DAO print");
                                 res.completeExceptionally(data.cause());
                             }
                         });
@@ -732,6 +723,39 @@ public class ProductoDAO {
         return res;
     }
 
+    //borrar producto
+    public CompletableFuture<JsonObject> borrarProducto(Long id) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+
+
+        String query = "DELETE FROM public.mp_producto\n" +
+                " WHERE id=" + id + ";";
+
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                                System.out.println("Borrar producto DAO");
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error Borrar producto DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+        return res;
+    }
 
     public CompletableFuture<List<JsonObject>> listarCalificacion(String id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
@@ -763,6 +787,5 @@ public class ProductoDAO {
         );
         return res;
     }
-
 
 }
