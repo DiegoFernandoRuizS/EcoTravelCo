@@ -1,15 +1,36 @@
 'use strict';
 
 angular.module('materialAdmin')
-    .controller('paquetectrl', function ($scope, $rootScope, $http, $location) {
+    .controller('paquetectrl', function ($scope, $rootScope, $http, $location, $window,growlService) {
 
        $scope.paquetes=[];
+       //Datos del paquete a crear
+       $scope.paquete={};
        $scope.datos = [];
+       var cuantos=0;
        this.mostrar=true;
        $rootScope.agregado=[];
        console.log("Entro al controlador de paquetes");
+       //Insertando el paquete
        $scope.insertarPaquete=function(){
        console.log("inserto paquete");
+       //Agregar productos asociados al paquete
+        $scope.paquete.cuantos=cuantos;
+        $scope.paquete.productos=$rootScope.agregado;
+        console.log($scope.paquete);
+
+        $http.post("http://localhost:8181/paquete/", $scope.paquete, {withCredentials: true, headers: {token: sessionStorage.token}})
+                       .success(function (res) {
+                           growlService.growl('Se guardo correctamente la información.', 'inverse');
+                           $scope.paquete = {};
+                           console.log("La respuesta del backend " + res);
+                           $window.location.href = '/#/paquetes/paquetes';
+                          // $scope.consultarProductos();
+                       }).error(function (res) {
+                       growlService.growl(' Ocurrió un error guardando la información.', 'inverse');
+                       console.log("Doesn't work para insertar paquete");
+                       console.log("El error para insertar paquete: " + res);
+                   });
        };
        $scope.listar = function (){
                    $http.get("http://localhost:8181/paquete", {

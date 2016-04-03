@@ -41,19 +41,25 @@ public class ModuloPaquete implements Modulo {
             });
         });
 
-        //Listar tipoproducto
-        rutas.get("/tipo").handler(rc -> {
-
-            vertx.eventBus().send("listaTipoProducto", new JsonObject(), res -> {
-                System.out.println("servidor: " + res);
+        //Agregar nuevo paquete
+        rutas.post("/").handler(rc -> {
+            JsonObject producto = new JsonObject();
+            producto = rc.getBodyAsJson();
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+            producto.put("id_usuario", idUsuario);
+            System.out.println("USUARIO AUTENTICADO para crear paquete ----->" + producto.encodePrettily());
+            vertx.eventBus().send("insertarPaquete", producto, res -> {
+                System.out.println("servidor insertarPaquete: " + res.result().body());
                 if (res.succeeded()) {
-                    System.out.println("servidor correcto");
-                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+                    System.out.println("servidor correcto insertarPaquete -> : " + res.result().body());
+                    rc.response().end("Se inserto correctamente " + ((JsonObject) res.result().body()).encodePrettily());
                 } else {
-                    rc.response().end("ERROR en el modulo datos");
+                    rc.response().end("ERROR en el modulo producto insertar un producto");
                 }
             });
         });
+
+
         return rutas;
     }
 

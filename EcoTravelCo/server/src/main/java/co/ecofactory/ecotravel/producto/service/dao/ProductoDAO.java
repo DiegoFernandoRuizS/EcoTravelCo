@@ -31,7 +31,7 @@ public class ProductoDAO {
                 "                    p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
                 "                FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
                 "                 where p.tipo_producto_id=tp.id\n" +
-                "                 and p.id_usuario=" + idUsuario + " order by p.fecha_actualizacion desc";
+                "                 and p.id_usuario=" + idUsuario + " and p.tipo_producto_id not in (5) order by p.fecha_actualizacion desc";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
