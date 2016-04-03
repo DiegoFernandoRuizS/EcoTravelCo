@@ -94,7 +94,7 @@ public class ProductoDAO {
                 ", b.tipo\n" +
                 ", c.url\n" +
                 ", (case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as vendedor, pe.foto\n" +
-                ",  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, d.latitud, d.longitud\n" +
+                ",  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, a.estado, d.latitud, d.longitud, d.pais, d.departamento, d.ciudad, d.nombre as nombredireccion\n" +
                 "from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id \n" +
                 "left join mp_galeria c on c.producto_id=a.id and c.foto_principal=1 \n" +
                 "left join mp_persona pe on pe.id= a.id_usuario\n" +
@@ -127,26 +127,24 @@ public class ProductoDAO {
     }
 
     //Listar un producto
-    public CompletableFuture<List<JsonObject>> listarProducto(Long id) {
+    public CompletableFuture<JsonObject> listarProducto(Long id) {
 
-        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
         String query = "SELECT tp.tipo, p.nombre,p.descripcion, p.precio, p.cantidad_origen as cantidad, p.estado,\n" +
-                "dr.nombre as nombredireccion,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,ga.url as imagen,\n" +
-                "               p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion,ga.id as id_imagen,tp.tipo as tipo\n" +
-                "                 FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr,mp_galeria ga\n" +
+                "dr.nombre as nombredireccion,dr.latitud,dr.longitud,dr.ciudad,dr.departamento,dr.pais,\n" +
+                "     p.tipo_producto_id as id_tipo_producto,p.id as id_producto,dr.id as id_direccion,tp.tipo as tipo\n" +
+                "                 FROM mp_producto p, mp_tipo_producto tp,mp_direccion dr\n" +
                 "                 where tp.id=p.tipo_producto_id\n" +
-                "                and ga.producto_id=p.id\n" +
-                "                 and p.id_direccion_id=dr.id and p.id=" + id;
+                "                and p.id_direccion_id=dr.id and p.id=" + id;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
                         conn.result().queryWithParams(query, params, data -> {
                             if (data.succeeded()) {
-                                res.complete(data.result().getRows());
+                                res.complete(data.result().toJson());
                                 System.out.println("En el If respuesta listar producto");
                                 System.out.println(data.result().getRows().size());
                                 System.out.println(data.result().getRows());
-
                             } else {
                                 data.cause().printStackTrace();
                                 res.completeExceptionally(data.cause());

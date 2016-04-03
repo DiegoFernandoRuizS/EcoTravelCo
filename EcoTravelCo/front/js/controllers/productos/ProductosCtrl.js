@@ -147,20 +147,25 @@ angular.module('materialAdmin')
         //para listar el producto a editar
         $scope.listarProducto = function (id){
             $rootScope.productoEditar = [];
-            $rootScope.actualProducto = {};
+            $rootScope.actualProducto = [];
             console.log("Listar producto en el controlador " + id);
-            $http.get("http://localhost:8181/producto/" + id, {withCredentials: true, headers: {token: sessionStorage.token}})
+            $http.get("http://localhost:8181/producto_detalle/" + id )
                 .success(function (res){
-                $rootScope.imagenesCargadas=[]; //$scope.imagenes=[];
-                    $rootScope.actualProducto = res;
+                   $http({method: 'GET', url: 'http://localhost:8181/galeria/' + id})
+                                .success(function(resGaleria){
+                                    $rootScope.imagenesCargadas=[];
+                                    $rootScope.imagenesCargadas=resGaleria;
+                                }).error(function(resGaleria){
+                                console.log("Doesn't work");
+                                console.log("Que trae esto: "+resGaleria);
+                            })
+                    $rootScope.actualProducto = res[0];
                     console.log($rootScope.actualProducto);
-                    $rootScope.actualProducto.cantidad = "" + $rootScope.actualProducto.cantidad;
+                    $rootScope.actualProducto.cantidad = "" + $rootScope.actualProducto.cantidad_actual;
                     $rootScope.actualProducto.latitud = "" + $rootScope.actualProducto.latitud;
                     $rootScope.actualProducto.longitud = "" + $rootScope.actualProducto.longitud;
                     $rootScope.actualProducto.precio = "" + $rootScope.actualProducto.precio;
-                    for(var i=0;i<$rootScope.actualProducto.galeria.length;i++){
-                      $rootScope.imagenesCargadas.push($rootScope.actualProducto.galeria[i]);
-                    }
+
                 }).error(function (res) {
                 console.log("Doesn't work para listar producto");
                 console.log("El error para borar producto: " + res);

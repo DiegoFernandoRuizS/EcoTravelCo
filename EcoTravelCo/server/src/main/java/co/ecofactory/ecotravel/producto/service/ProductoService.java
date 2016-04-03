@@ -120,32 +120,14 @@ public class ProductoService extends AbstractVerticle {
     }
 
     //Listar producto con un id como paramento
-    public void listarProducto(Message<JsonObject> message) {
-
+    public void listarProducto(Message<JsonObject> message){
         System.out.println("listarProducto ID: " + message.body().getLong("id"));
         try {
-            CompletableFuture<List<JsonObject>> data = this.dao.listarProducto(message.body().getLong("id"));
+            CompletableFuture<JsonObject> data = this.dao.listarProducto(message.body().getLong("id"));
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
-                if (ok != null) {
-                    JsonObject conImagenes = new JsonObject();
-                    JsonArray imagenes = new JsonArray();
-                    conImagenes.mergeIn(ok.get(0));
-                    conImagenes.remove("imagen");
-                    conImagenes.remove("id_imagen");
-                    //Agregando las imagenes al producto
-                    if (ok.size() > 0) {
-                        int numeroImagenes = 0;
-                        for (int i = 0; i < ok.size(); i++) {
-                           // imagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
-                            conImagenes.put("id_imagen" + i, ok.get(i).getInteger("id_imagen", 0));
-                            imagenes.add(ok.get(i).getString("imagen", ""));
-                            numeroImagenes++;
-                        }
-                        conImagenes.put("galeria",imagenes);
-                        conImagenes.put("cantidadImagenes", numeroImagenes);
-                    }
-                    message.reply(conImagenes);
+                if (ok != null){
+                    message.reply(ok);
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
