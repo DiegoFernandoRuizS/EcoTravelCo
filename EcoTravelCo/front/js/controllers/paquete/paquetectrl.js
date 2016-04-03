@@ -8,7 +8,7 @@ angular.module('materialAdmin')
             $scope.paquete = {};
             $scope.datos = [];
             var cuantos = 0;
-            this.mostrar = true;
+            $rootScope.mostrar = false;
             $rootScope.agregado = [];
             console.log("Entro al controlador de paquetes");
             //Insertando el paquete
@@ -49,7 +49,7 @@ angular.module('materialAdmin')
 
             //para consultar los productos en la gestion de productos
             $scope.consultarProductos = function () {
-                this.mostrar = true;
+                $rootScope.mostrar = true;
                 console.log(this.mostrar);
                 $rootScope.cantidadProductos = {};
                 $http.get("http://localhost:8181/producto/", {
