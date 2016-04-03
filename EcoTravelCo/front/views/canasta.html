@@ -1,6 +1,6 @@
-<div class="container" ng-controller="CanastaCtrl">
+<div class="container" ng-controller="CanastaCtrl" data-ng-class="container">
     <div class="block-header">
-        <h2>Table</h2>
+        <h2>CARRO DE COMPRAS</h2>
 
         <ul class="actions">
             <li>
@@ -38,39 +38,7 @@
         <div class="card-body card-padding">
             <div class="clearfix"></div>
 
-            <div class="row m-t-25 p-0 m-b-25">
-                <div class="col-xs-3">
-                    <div class="bgm-amber brd-2 p-15">
-                        <div class="c-white m-b-5">Invoice#</div>
-                        <h2 class="m-0 c-white f-300">456213</h2>
-                    </div>
-                </div>
-
-                <div class="col-xs-3">
-                    <div class="bgm-blue brd-2 p-15">
-                        <div class="c-white m-b-5">Date</div>
-                        <h2 class="m-0 c-white f-300">20/06/2015</h2>
-                    </div>
-                </div>
-
-                <div class="col-xs-3">
-                    <div class="bgm-green brd-2 p-15">
-                        <div class="c-white m-b-5">Whatever</div>
-                        <h2 class="m-0 c-white f-300">472-000</h2>
-                    </div>
-                </div>
-
-                <div class="col-xs-3">
-                    <div class="bgm-red brd-2 p-15">
-                        <div class="c-white m-b-5">Grand Total</div>
-                        <h2 class="m-0 c-white f-300">$23,980</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <table class="table i-table m-t-25 m-b-25">
+            <table class="table i-table m-t-25 m-b-25" ng-table="tableCanasta">
                 <thead class="text-uppercase">
                 <tr><th class="c-gray">Servicio</th>
                     <th/>
@@ -81,32 +49,45 @@
 
                 <tbody>
                 </tbody><thead>
-            <tr ng-repeat="data in datos">
-                <td>
-                    <div class="pull-left">
-                        <img class="lv-img-m" data-ng-src={{data.url}} alt="" src={{data.url}}>
-                    </div>
-                </td>
-                <td width="50%">
-                    <h5 class="text-uppercase f-400"><a ng-href="#/canasta/{{data.id}}">{{data.nombre}}</a></h5>
-                    <p class="text-muted">{{data.descripcion}}</p>
-                </td>
-                <td>${{data.precio}}</td>
-                <td align="center">{{data.cantidad}}</td>
-                <td class="highlight">{{data.precioTotal}}</td>
-                <td>
-                    <button class="btn bgm-cyan btn-icon waves-effect waves-circle" data-ui-sref="canasta.eliminar" data-ng-click="{{data.id}}">
-                        <i class="zmdi zmdi-delete" />
-                    </button>
-                </td>
-            </tr>
+                    <tr ng-repeat="data in canasta" class="{{data.clase}}">
+                        <td>
+                            <div class="pull-left">
+                                <img class="lv-img-m" data-ng-src={{data.url}} alt="" src={{data.url}}>
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <div class="c-red text-center">{{data.error}}</div>
+                            <h5 class="text-uppercase f-400"><a href="#" data-ui-sref="productos.detalle" ng-click="detailProd(data.id_producto)"> {{data.nombre}} </a></h5>
+                            {{data.descripcion}}
+                        </td>
+                        <td>${{data.precio | number}}</td>
+                        <td align="center">{{data.cantidad}}</td>
+                        <td class="highlight">${{data.precio_total | number}}</td>
+                        <td>
+                            <button class="btn bgm-cyan btn-icon waves-effect waves-circle" ng-click="borrarProductoCanasta(data.id_item)">
+                                <i class="zmdi zmdi-delete" />
+                            </button>
+                        </td>
+                    </tr>
 
             <tr>
                 <td colspan="4"></td>
-                <td class="highlight" >$20,092.00</td>
+                <td class="highlight" ><b>${{canasta[0].preciocanasta | number}}</b></td>
             </tr>
             </thead>
             </table>
         </div>
+
+        <div class="clearfix"></div>
+
+        <div class="modal-footer">
+            <button class="btn bgm-cyan waves-effect " ng-click="confirmarCanasta()" ng-if="canasta.length > 0">
+                <i class="zmdi zmdi-money-box zmdi-hc-fw" />
+                Completar Transacción
+            </button>
+        </div>
+
+        <div class="clearfix"><br></div>
+
     </div>
 </div>

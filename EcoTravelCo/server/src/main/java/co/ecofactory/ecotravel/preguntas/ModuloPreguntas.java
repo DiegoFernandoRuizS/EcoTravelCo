@@ -38,14 +38,70 @@ public class ModuloPreguntas implements Modulo {
             });
         });
 
+        rutas.get("/usuario").handler(rc -> {
+            System.out.println("Listar listarPreguntasByUser - GET");
+            JsonObject _params = new JsonObject();
+            _params.put("id", rc.request().params().get("user-id"));
+            _params.put("tipo", "0");
+            vertx.eventBus().send("listarPreguntasByUser", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo preguntas");
+                }
+            });
+        });
 
-        //Agregar
-        rutas.post("/").handler(rc -> {
-            System.out.println("Agregar Canasta - POST");
+        rutas.get("/proveedor").handler(rc -> {
+            System.out.println("Listar listarPreguntasByUser - GET");
+            JsonObject _params = new JsonObject();
+            _params.put("id", rc.request().params().get("user-id"));
+            _params.put("tipo", "1");
+            vertx.eventBus().send("listarPreguntasByUser", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo preguntas");
+                }
+            });
+        });
+
+        rutas.put("/").handler(rc -> {
+
             JsonObject mensaje = new JsonObject();
             mensaje = rc.getBodyAsJson();
             JsonObject _params = new JsonObject();
-            _params.put("id_usuario", mensaje.getValue("usuario"));
+            _params.put("id_pregunta", mensaje.getValue("pregunta"));
+            _params.put("respuesta", mensaje.getValue("respuesta"));
+
+            vertx.eventBus().send("responderPregunta", _params, res -> {
+
+
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto  responder pregunta -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo producto actualizar un usuario/cliente");
+                }
+
+            });
+
+        });
+
+
+        //Agregar
+        rutas.post("/").handler(rc -> {
+            System.out.println("Agregar pregunta - POST");
+            JsonObject mensaje = new JsonObject();
+            mensaje = rc.getBodyAsJson();
+            JsonObject _params = new JsonObject();
+
+            if (mensaje.getValue("usuario") .equals(0))
+                _params.put("id_usuario", mensaje.getValue("usuario"));
+            else
+                _params.put("id_usuario",Integer.parseInt(rc.request().params().get("user-id")));
+
+
             _params.put("id_producto", mensaje.getValue("producto"));
             _params.put("pregunta", mensaje.getValue("pregunta"));
 

@@ -56,8 +56,7 @@ public class ModuloProducto implements Modulo {
             JsonObject _params = new JsonObject();
             _params.put("id", idAsLong);
 
-           // Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
-         //   System.out.println("USUARIO AUTENTICADO ----->" + idUsuario);
+
 
             vertx.eventBus().send("listarProducto", _params, res -> {
                 System.out.println("servidor: " + res);
@@ -69,7 +68,6 @@ public class ModuloProducto implements Modulo {
                 }
             });
         });
-
 
         //Agregar nuevo producto
         rutas.post("/").handler(rc -> {
@@ -83,7 +81,7 @@ public class ModuloProducto implements Modulo {
                 System.out.println("servidor insertarProducto: " + res.result().body());
                 if (res.succeeded()) {
                     System.out.println("servidor correcto insertarProducto -> : " + res.result().body());
-                    rc.response().end("Se inserto correctamente " + ((JsonObject) res.result().body()).encodePrettily());
+                    rc.response().end(((JsonObject)res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo producto insertar un producto");
                 }
@@ -98,7 +96,7 @@ public class ModuloProducto implements Modulo {
             producto = rc.getBodyAsJson();
             producto.put("id", idAsLong);
             vertx.eventBus().send("editarProducto", producto, res -> {
-                System.out.println("servidor editarProducto: " + res.result().body());
+                // System.out.println("servidor editarProducto: " + res.result().body());
                 if (res.succeeded()) {
                     System.out.println("servidor correcto editarProducto -> : " + res.result().body());
                     if (((JsonObject) res.result().body()).getInteger("updated", 0) != 0) {
@@ -108,7 +106,9 @@ public class ModuloProducto implements Modulo {
                     }
 
                 } else {
+
                     rc.response().end("ERROR en el modulo producto editar un producto");
+
                 }
             });
         });

@@ -494,7 +494,7 @@ body.login-content:before {
   position: absolute;
   top: 0;
   left: 0;
-  background: #00bcd4;
+  background: #4caf50;
   content: "";
   z-index: 0;
 }

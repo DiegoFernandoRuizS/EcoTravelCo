@@ -10,9 +10,7 @@ import io.vertx.core.json.JsonObject;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * Created by samuel on 2/15/16.
- */
+
 public class UsuarioService extends AbstractVerticle {
     private UsuarioDAO dao;
 
@@ -23,21 +21,51 @@ public class UsuarioService extends AbstractVerticle {
         // registro los metodos en el bus
 
         this.getVertx().eventBus().consumer("insertarCliente", this::insertarCliente);
+        this.getVertx().eventBus().consumer("listarProveedores", this::listarProveedores);
         this.getVertx().eventBus().consumer("insertarProveedor", this::insertarProveedor);
         this.getVertx().eventBus().consumer("consultarUsuarioPorLogin", this::consultarUsuarioPorLogin);
         this.getVertx().eventBus().consumer("consultarUsuarioPorId", this::consultarUsuarioPorId);
         this.getVertx().eventBus().consumer("actualizarCliente", this::actualizarCliente);
         this.getVertx().eventBus().consumer("actualizarFoto", this::actualizarFoto);
 
+    }
 
+    public void listarProveedores(Message<JsonObject> message) {
+        System.out.println("Service listarProveedores" + message.body());
+        try {
+
+            CompletableFuture<List> data = this.dao.listarProveedores();
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProveedores");
+                if (ok != null) {
+                    System.out.println("listarProveedores:OK" + ok);
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+
+                    message.reply(arr);
+
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
     }
 
     //Insertar usuario
     public void insertarProveedor(Message<JsonObject> message) {
-        System.out.println("Service insertarUsuario" + message.body());
+        System.out.println("Service insertarProveedor" + message.body());
         try {
 
-            CompletableFuture<JsonObject> data = this.dao.insertarUsuario(message.body());
+            JsonObject datos = message.body();
+            datos.put("tipo", "PROVEEDOR");
+
+            CompletableFuture<JsonObject> data = this.dao.insertarUsuario(datos);
             data.whenComplete((ok, error) -> {
                 System.out.println("insertarUsuario");
                 if (ok != null) {

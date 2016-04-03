@@ -48,5 +48,33 @@ public class UtilidadDatosDAO {
         return res;
     }
 
+    //Listar tipo producto
+    public CompletableFuture<List<JsonObject>> listaTipoProducto() {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        String query = "select * from mp_tipo_producto where id not in (5) order by tipo asc;";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                                System.out.println("tipos producto " + res);
+
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                    }
+                }
+        );
+        return res;
+    }
 
 }

@@ -1,0 +1,69 @@
+<div class="container" ng-controller="OrdenCtrl">
+    <div class="block-header">
+        <h2>SERVICIOS - ORDENES</h2>
+
+        <ul class="actions">
+            <li>
+                <a href="">
+                    <i class="zmdi zmdi-trending-up"></i>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="zmdi zmdi-check-all"></i>
+                </a>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="">Refresh</a>
+                    </li>
+                    <li>
+                        <a href="">Manage Widgets</a>
+                    </li>
+                    <li>
+                        <a href="">Widgets Settings</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Ordenes encontradas en el sistema</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table ng-table="tctrl.tableEdit" class="table table-striped table-vmiddle">
+                    <tr ng-repeat="orden in ordenes | orderBy: 'id': true" ng-class="active">
+                        <td data-title="'Identificador'">
+                            <span>{{orden.id}}</span>
+                        </td>
+                        <td data-title="'Estado'">
+                            <span>{{ orden.estado }}</span>
+                        </td>
+                        <td data-title="'Cantidad'">
+                            <span>{{ orden.cantidad | number}}</span>
+                        </td>
+                        <td data-title="'Precio Total'" >
+                            <span>${{ orden.preciototal | number}}</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info" data-ui-sref="orden.detalle"  ng-click="detalleOrden(orden.id)">
+                                <i class="zmdi zmdi-eye"></i></button>
+                            <button type="button" class="btn btn-danger" ng-click="cancelarOrden(orden.id)" ng-if="orden.estado == 'PENDIENTE PAGO'">
+                                <i class="zmdi zmdi-close"></i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

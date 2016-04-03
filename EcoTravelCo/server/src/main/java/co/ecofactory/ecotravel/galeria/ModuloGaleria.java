@@ -38,6 +38,43 @@ public class ModuloGaleria implements Modulo {
             });
         });
 
+        rutas.post("/").handler(rc -> {
+            System.out.println("Insertar Imagen - POST");
+            JsonObject _params = new JsonObject();
+
+            JsonObject mensaje = new JsonObject();
+            mensaje = rc.getBodyAsJson();
+
+            _params.put("imagen", mensaje.getValue("imagen"));
+            _params.put("idProducto", mensaje.getValue("id_producto"));
+            _params.put("principal", mensaje.getValue("principal"));
+
+            vertx.eventBus().send("insertarImagen", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonObject)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo galeria");
+                }
+            });
+        });
+
+
+        rutas.delete("/:id").handler(rc -> {
+            System.out.println("Eliminar Imagen - DELETE");
+            JsonObject _params = new JsonObject();
+
+            final int idImagen = Integer.parseInt(rc.request().getParam("id"));
+
+            _params.put("idImagen", idImagen);
+
+            vertx.eventBus().send("eliminarImagen", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonObject)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo galeria");
+                }
+            });
+        });
 
         return rutas;
     }

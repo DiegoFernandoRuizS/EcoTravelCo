@@ -52,12 +52,13 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
-                            <select chosen data-placeholder="Tipo de producto..." class="w-100"
-                                    ng-model="actualProducto.tipo_producto_id">
-                                <option value="1">ALOJAMIENTO</option>
-                                <option value="2">ALIMENTACION</option>
-                                <option value="3">TRANSPORTE</option>
-                                <option value="4">PASEOS ECOLÓGICOS</option>
+                            <label for="tipoCrear2">Seleccione tipo de producto</label>
+                            <select ng-model="actualProducto.tipo" placeholder="Seleccione tipo..." id="tipoCrear2">
+                                <option ng-selected="{{tipo.tipo_producto == operator.tipo}}"
+                                        ng-repeat="operator in listaTipo"
+                                        value="{{operator.tipo}}">
+                                    {{operator.tipo}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -122,10 +123,12 @@
 
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
 
                         <div class="fg-line">
-                            <select chosen data-placeholder="Seleccione estado..." class="w-100"
+                            <label for="tipoEstado">Seleccione el estado de su producto</label>
+
+                            <select data-placeholder="Seleccione estado..." class="w-100" id="tipoEstado"
                                     ng-model="actualProducto.estado">
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
@@ -152,7 +155,8 @@
                                 <label for="direccionCrear">Dirección</label>
 
                                 <input type="text" class="form-control"
-                                       placeholder="Direccion" ng-model="actualProducto.nombredireccion" id="direccionCrear">
+                                       placeholder="Direccion" ng-model="actualProducto.nombredireccion"
+                                       id="direccionCrear">
                             </div>
                         </div>
                     </div>
@@ -183,10 +187,11 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
+                                <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
                                 <div class="fg-line">
                                     <label for="paisCrear">Seleccione pais</label>
-                                    <select ng-model="actualProducto.pais" placeholder="Seleccione pais..." id="paisCrear">
+                                    <select ng-model="actualProducto.pais" placeholder="Seleccione pais..."
+                                            id="paisCrear">
                                         <option ng-selected="{{producto.pais == operator.valor}}"
                                                 ng-repeat="operator in listaValores"
                                                 value="{{operator.valor}}">
@@ -198,17 +203,19 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
+                                <span class="input-group-addon last"><i class="zmdi zmdi-city-alt"></i></span>
                                 <div class="fg-line">
                                     <label for="departamentoCrear">Departamento</label>
                                     <input type="text" class="form-control"
-                                           placeholder="Departamento" ng-model="actualProducto.departamento" id="departamentoCrear">
+                                           placeholder="Departamento" ng-model="actualProducto.departamento"
+                                           id="departamentoCrear">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="zmdi"></i></span>
+                                <span class="input-group-addon last"><i class="zmdi zmdi-city"></i></span>
+
                                 <div class="fg-line">
                                     <label for="ciudadCrear">Ciudad</label>
 
@@ -221,71 +228,43 @@
                 </div>
             </div>
             <!--IMAGNES-->
-            <br/><br/>
-            <div class="row">
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                            <img src="{{actualProducto.imagen}}">
-                        </div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen" name="..." >
+            <div class="card-body card-padding">
+                <div class="col-xs-1">
+                    <span class=" btn btn-success btn-file m-r-10" style="cursor: pointer">
+                        <i class="zmdi zmdi-plus zmdi-hc-fw"></i>
+                        <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUploadEdit(event)" multiple />
                     </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                            <img src="{{actualProducto.imagen1}}">
-                        </div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen1" name="..." >
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
+                <div class="col-xs-6">
+                    <p class="c-black f-500 m-b-5">Galeria</p>
+                    <small>Adicionar Imagen</small>
                 </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
+                <div class="clearfix"></div>
+            </div>
 
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                            <img src="{{actualProducto.imagen2}}">
-                        </div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen2" name="..." >
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
+            <div class="card-body card-padding">
+                <div class="lightbox photos">
+                    <div class="fileinput fileinput-new col-xs-3" data-provides="fileinput" ng-repeat="imagen in imagenesCargadas">
+                        <div class="fileinput-preview thumbnail">
+                            <img ng-src="{{imagen.url}}"/><div class="clearfix"></div>
+                            <a ng-click="eliminarFotoEdit(imagen.$$hashKey)"><i class="zmdi zmdi-delete zmdi-hc-fw"></i></a>
+                            <i class="zmdi zmdi-star zmdi-hc-fw" ng-if="imagen.foto_principal == 1"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <br>
-            <br>
+            <div class="clearfix"></div>
+
+
+            <!-- Botones -->
             <div class="row">
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="btn btn-success btn-file m-r-10"
-                              data-ng-click="actualizarProducto(actualProducto.id_producto);">Actualizar</span>
+                              data-ng-click="actualizarProducto(actualProducto.id);">Actualizar</span>
                     </div>
                 </div>
                 <div class="col-md-2">

@@ -36,9 +36,9 @@ public class GaleriaDAO {
                     } else {
                         conn.cause().printStackTrace();
                     }
-                    try{
+                    try {
                         conn.result().close();
-                    }catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -47,6 +47,140 @@ public class GaleriaDAO {
     }
 
 
+    //Insertar Imagen producto
+    public CompletableFuture<JsonObject> insertarImagen(String imagen, int idProducto, int fotoPrincipal) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+        JsonArray params = new JsonArray();
 
+        JsonUtils.add(params, "Imagen");
+        JsonUtils.add(params, imagen);
+        JsonUtils.add(params, "");
+        JsonUtils.add(params, idProducto);
+        JsonUtils.add(params, fotoPrincipal);
 
+        String query = "INSERT INTO mp_galeria(id, tipo, url, descripcion, producto_id, foto_principal) " +
+                "VALUES (nextval('mp_galeria_id_seq'), ?, ?, ?, ?, ?);";
+
+        dataAccess.getConnection(conn -> {
+            if (conn.succeeded()) {
+                conn.result().updateWithParams(query, params, data -> {
+                    if (data.succeeded()) {
+                        res.complete(data.result().toJson());
+                    } else {
+                        data.cause().printStackTrace();
+                        System.out.println("Error insertar Galeria en DAO Galeria");
+                        res.completeExceptionally(data.cause());
+                    }
+                });
+            } else {
+                conn.cause().printStackTrace();
+            }
+            try {
+                conn.result().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return res;
+    }
+
+    //Eliminar Imagen producto
+    public CompletableFuture<JsonObject> eliminarImagen(int idImagen) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+        JsonArray params = new JsonArray();
+        JsonUtils.add(params, idImagen);
+
+        String query = "DELETE FROM mp_galeria WHERE id = ?;";
+
+        dataAccess.getConnection(conn -> {
+            if (conn.succeeded()) {
+                conn.result().updateWithParams(query, params, data -> {
+                    if (data.succeeded()) {
+                        res.complete(data.result().toJson());
+                    } else {
+                        data.cause().printStackTrace();
+                        System.out.println("Error eliminar Galeria en DAO Galeria");
+                        res.completeExceptionally(data.cause());
+                    }
+                });
+            } else {
+                conn.cause().printStackTrace();
+            }
+            try {
+                conn.result().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return res;
+    }
+
+    //Consultar Imagen
+    public CompletableFuture<JsonObject> consultarImagen(int idGaleria) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+        JsonArray params = new JsonArray();
+
+        JsonUtils.add(params, idGaleria);
+
+        String query = "SELECT * FROM mp_galeria WHERE id = ?";
+
+        dataAccess.getConnection(conn -> {
+            if (conn.succeeded()) {
+                conn.result().queryWithParams(query, params, data -> {
+                    if (data.succeeded()) {
+                        res.complete(data.result().toJson());
+                    } else {
+                        data.cause().printStackTrace();
+                        System.out.println("Error insertar Galeria en DAO Galeria");
+                        res.completeExceptionally(data.cause());
+                    }
+                });
+            } else {
+                conn.cause().printStackTrace();
+            }
+            try {
+                conn.result().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return res;
+    }
+
+    //Asignar Nueva Imagen Principal
+    public CompletableFuture<JsonObject> asignarImagenPrincipal(int idProducto) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+        JsonArray params = new JsonArray();
+
+        JsonUtils.add(params, idProducto);
+
+        String query = "UPDATE mp_galeria SET foto_principal = 1 WHERE id = " +
+                "(SELECT id FROM mp_galeria WHERE producto_id = ? ORDER BY id LIMIT 1)";
+
+        dataAccess.getConnection(conn -> {
+            if (conn.succeeded()) {
+                conn.result().queryWithParams(query, params, data -> {
+                    if (data.succeeded()) {
+                        res.complete(data.result().toJson());
+                    } else {
+                        data.cause().printStackTrace();
+                        System.out.println("Error insertar Galeria en DAO Galeria");
+                        res.completeExceptionally(data.cause());
+                    }
+                });
+            } else {
+                conn.cause().printStackTrace();
+            }
+            try {
+                conn.result().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return res;
+    }
 }

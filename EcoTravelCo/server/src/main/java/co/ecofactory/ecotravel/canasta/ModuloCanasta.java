@@ -26,9 +26,11 @@ public class ModuloCanasta implements Modulo {
         Router rutas = Router.router(vertx);
         rutas.get("/").handler(rc -> {
             System.out.println("Listar Canasta - GET");
+
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+
             JsonObject _params = new JsonObject();
-            final String id = rc.request().getParam("id");
-            _params.put("id", id);
+            _params.put("id", idUsuario);
             vertx.eventBus().send("listarCanasta", _params, res -> {
                 if (res.succeeded()) {
                     rc.response().end(((JsonArray)res.result().body()).encodePrettily());
@@ -42,32 +44,22 @@ public class ModuloCanasta implements Modulo {
         rutas.post("/").handler(rc -> {
             System.out.println("Agregar Canasta - POST");
             JsonObject _params = new JsonObject();
-            _params.put("id_usuario", rc.request().getParam("id_usuario"));
-            _params.put("id_producto", rc.request().getParam("id_producto"));
-            _params.put("cantidad", rc.request().getParam("cantidad"));
+
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+
+            JsonObject mensaje = new JsonObject();
+            mensaje = rc.getBodyAsJson();
+
+
+            _params.put("id_usuario", idUsuario);
+            _params.put("id_producto", mensaje.getValue("id_producto"));
+            _params.put("cantidad", mensaje.getValue("cantidad"));
 
             vertx.eventBus().send("agregarProductoCanasta", _params, res -> {
                 if (res.succeeded()) {
                     rc.response().end(((JsonObject) res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo canasta adicionando Item");
-                }
-            });
-        });
-
-        //Modificar
-        rutas.put("/").handler(rc -> {
-            System.out.println("Modificar Canasta - PUT");
-            JsonObject _params = new JsonObject();
-
-            _params.put("id_orden_item", rc.request().getParam("id"));
-            _params.put("cantidad", rc.request().getParam("cantidad"));
-
-            vertx.eventBus().send("modificarCanasta", _params, res -> {
-                if (res.succeeded()) {
-                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
-                } else {
-                    rc.response().end("ERROR en el modulo canasta modificando Item");
                 }
             });
         });
@@ -87,6 +79,29 @@ public class ModuloCanasta implements Modulo {
                 }
             });
         });
+
+        //Confirmar Canasta
+        rutas.post("/confirmar/").handler(rc -> {
+            System.out.println("Confirmar Canasta - POST");
+            JsonObject _params = new JsonObject();
+
+            Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+
+            _params.put("id_usuario",  idUsuario);
+
+            vertx.eventBus().send("confirmarCanasta", _params, res -> {
+                if (res.succeeded()) {
+                    if(res.result().body() instanceof JsonArray){
+                        rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+                    } else {
+                        rc.response().end(((JsonObject)res.result().body()).encodePrettily());
+                    }
+                } else {
+                    rc.response().end("ERROR en el modulo canasta confirmandola");
+                }
+            });
+        });
+
         return rutas;
     }
 }

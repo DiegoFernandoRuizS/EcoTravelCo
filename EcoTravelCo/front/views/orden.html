@@ -1,0 +1,149 @@
+<div class="container" ng-controller="OrdenCtrl" data-ng-class="container">
+    <div class="card">
+        <div class="card-body card-padding">
+            <div class="clearfix"></div>
+
+            <table class="table i-table m-t-25 m-b-25">
+                <thead class="text-uppercase">
+                <tr><th class="c-gray">Servicio</th>
+                    <th/>
+                    <th class="c-gray" align="center">Precio Unitario</th>
+                    <th class="c-gray" align="center">Cantidad</th>
+                    <th class="highlight" align="center">Total</th>
+                </tr></thead>
+
+                <tbody>
+                </tbody><thead>
+                    <tr ng-repeat="data in productos">
+                        <td>
+                            <div class="pull-left">
+                                <img class="lv-img-m" data-ng-src={{data.url}} alt="" src={{data.url}}>
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <h5 class="text-uppercase f-400"> {{data.nombre}} </h5>
+                            {{data.descripcion}}
+                        </td>
+                        <td>${{data.precio | number}}</td>
+                        <td align="center">{{data.cantidad}}</td>
+                        <td class="highlight">${{data.precio_total | number}}</td>
+                        <td>
+                            <button type="button" class="btn btn-info" ng-click="open(data.url, data.nombre, data.id_producto, data.id_item)"
+                                    ng-if="data.estado == 'PAGADO' && !data.calificado">
+                                <i class="zmdi zmdi-star-half"></i></button>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td colspan="4"></td>
+                <td class="highlight" ><b>${{productos[0].preciocanasta | number}}</b></td>
+            </tr>
+            </thead>
+            </table>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="modal-footer">
+            <button class="btn bgm-cyan waves-effect " ng-click="pagar()" ng-if="productos[0].estado == 'PENDIENTE PAGO'">
+                <i class="zmdi zmdi-money-box zmdi-hc-fw" />
+                Pagar
+            </button>
+            <button class="btn bgm-red waves-effect " ng-if="productos[0].estado == 'PENDIENTE PAGO'"
+                    data-ui-sref="orden.lista" ng-click="cancelarOrden(idOrden)">
+                <i class="zmdi zmdi-close zmdi-hc-fw" />
+                Cancelar
+            </button>
+            <button class="btn bgm-green waves-effect " data-ui-sref="orden.lista">
+                <i class="zmdi zmdi-long-arrow-return zmdi-hc-fw" />
+                Regresar
+            </button>
+        </div>
+
+        <div class="clearfix"><br></div>
+
+    </div>
+
+    <!-- MODAL CALIFICAR -->
+    <div class="card">
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Calificar Servicio</h4>
+                <br>
+                <div class="modal-body ng-scope">
+                    <div class="pull-left">
+                        <img class="lv-img-sm" data-ng-src={{urlMod}} alt="" src={{urlMod}}>
+                    </div>
+                    <div class="pull-right">
+                        <h5 class="text-uppercase f-400 text-right"> {{nombreMod}} </h5>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="modal-body">
+                <!-- ESTRELLAS -->
+                <div class="card rating-list">
+                    <div class="listview">
+                        <div class="lv-header">
+                            <div class="rl-star">
+                                <button class="btn btn-default btn-icon waves-effect waves-circle" ng-click="calificar(1)">
+                                    <i class="zmdi zmdi-star {{cal[0]}}"/>
+                                </button>
+                                <button class="btn btn-default btn-icon waves-effect waves-circle" ng-click="calificar(2)">
+                                    <i class="zmdi zmdi-star {{cal[1]}}"/>
+                                </button>
+                                <button class="btn btn-default btn-icon waves-effect waves-circle" ng-click="calificar(3)">
+                                    <i class="zmdi zmdi-star {{cal[2]}}"/>
+                                </button>
+                                <button class="btn btn-default btn-icon waves-effect waves-circle" ng-click="calificar(4)">
+                                    <i class="zmdi zmdi-star {{cal[3]}}"/>
+                                </button>
+                                <button class="btn btn-default btn-icon waves-effect waves-circle" ng-click="calificar(5)">
+                                    <i class="zmdi zmdi-star {{cal[4]}}"/>
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
+                            <small class="c-gray">Calificación: {{numCal}}</small>
+                        </div>
+                        <div class="lv-footer ms-reply">
+                            <textarea placeholder="Comentarios..." maxlength="255"
+                                      id="comentario"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="c-red text-center">
+                {{errorModal}}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-link" ng-click="ok()">Confirmar</button>
+                <button class="btn btn-link" ng-click="cancel()">Cancelar</button>
+            </div>
+        </script>
+    </div>
+
+    <!-- MODAL PAGAR -->
+    <div class="card">
+        <script type="text/ng-template" id="myModalPagar.html">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Pago PSE</h4>
+                <br>
+                <div class="modal-body ng-scope">
+
+                    <img class="lv-img-m " data-ng-src="http://www.autosuperior.com.co/imagenes/Boton%20PSE1.png"
+                         alt="" src="http://www.autosuperior.com.co/imagenes/Boton%20PSE1.png">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-success waves-effect" ng-click="pagarOrden()" data-ui-sref="orden.lista">
+                                <i class="zmdi zmdi-money-box"></i>
+                                Confirmar</button>
+                        </div>
+                        <div class="col-xs-6"><button class="btn btn-danger waves-effect" ng-click="cancel()">
+                            <i class="zmdi zmdi-close"></i>
+                            Cancelar</button></div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    </div>
+</div>

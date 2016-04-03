@@ -52,7 +52,8 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
-                            <select chosen data-placeholder="Tipo de producto..." class="w-100"
+                            <label for="tipoCrear">Seleccione tipo de producto</label>
+                            <select data-placeholder="Tipo de producto..." class="w-100" id="tipoCrear"
                                     ng-model="producto.tipo_producto_id">
                                 <option value="1">ALOJAMIENTO</option>
                                 <option value="2">ALIMENTACION</option>
@@ -119,7 +120,8 @@
                     <div class="input-group">
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
                         <div class="fg-line">
-                            <select chosen data-placeholder="Seleccione estado..." class="w-100"
+                            <label for="tipoEstado">Seleccione el estado de su producto</label>
+                            <select data-placeholder="Seleccione estado..." class="w-100" id="tipoEstado"
                                     ng-model="producto.estado">
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
@@ -177,6 +179,8 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="input-group">
+                            <span class="input-group-addon last"><i class="zmdi zmdi-globe"></i></span>
+
                             <div class="fg-line">
                                 <label for="paisCrear">Seleccione pais</label>
                                 <select ng-model="producto.pais" placeholder="Seleccione pais..." id="paisCrear">
@@ -191,7 +195,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="zmdi"></i></span>
+                            <span class="input-group-addon last"><i class="zmdi zmdi-city-alt"></i></span>
                             <div class="fg-line">
                                 <label for="departamentoCrear">Departamento</label>
                                 <input type="text" class="form-control"
@@ -202,7 +206,8 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="zmdi"></i></span>
+                            <span class="input-group-addon last"><i class="zmdi zmdi-city"></i></span>
+
                             <div class="fg-line">
                                 <label for="ciudadCrear">Ciudad</label>
 
@@ -214,68 +219,42 @@
                 </div>
             </div>
             <!--IMAGNES-->
-            <br>
-            <br>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen" name="..." ng-model="imagen">
+            <div class="card-body card-padding">
+                <div class="col-xs-1">
+                    <span class=" btn btn-success btn-file m-r-10" style="cursor: pointer">
+                        <i class="zmdi zmdi-plus zmdi-hc-fw"></i>
+                        <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple />
                     </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen2" name="..." ng-model="imagen2">
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
-                        </div>
-                    </div>
+                <div class="col-xs-6">
+                    <p class="c-black f-500 m-b-5">Galeria</p>
+                    <small>Adicionar Imagen</small>
                 </div>
-                <div class="col-md-4">
-                    <p class="f-500 c-black m-b-20">Agregar imagenes al producto</p>
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                        <div>
-                    <span class="btn btn-info btn-file">
-                        <span class="fileinput-new">Cargar imagen</span>
-                        <span class="fileinput-exists">Cambiar</span>
-                        <input type="file" id="imagen3" name="..." ng-model="imagen3">
-                    </span>
-                            <a href="#" class="btn btn-danger fileinput-exists"
-                               data-dismiss="fileinput">Remover</a>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="card-body card-padding">
+                <div class="lightbox photos">
+                    <div class="fileinput fileinput-new col-xs-3" data-provides="fileinput" ng-repeat="imagen in imagenesCargadas">
+                        <div class="fileinput-preview thumbnail">
+                            <img ng-src="{{imagen.img}}"/><div class="clearfix"></div>
+                            <a ng-click="eliminarFoto(imagen.$$hashKey)"><i class="zmdi zmdi-delete zmdi-hc-fw"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
             <br>
-            <br>
+            <div class="clearfix"></div>
+
+
+            <!-- Botones de Confirmación -->
             <div class="row">
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarProducto();">Guardar</span>
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarProducto()">Guardar</span>
                     </div>
-
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
@@ -285,6 +264,13 @@
                 <div class="col-md-4">
                 </div>
             </div>
+
+
+
+            <!--
+            prueba para captura la ubicacion del servicio
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.9595625425777!2d-74.0667562469883!3d4.601265438892942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0xa1257e7013f3eb50!2sUniversidad+de+los+Andes!5e0!3m2!1ses-419!2sco!4v1459462887243" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+            -->
 
         </div>
     </div>

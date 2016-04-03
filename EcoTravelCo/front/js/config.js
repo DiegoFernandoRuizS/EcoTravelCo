@@ -1,6 +1,6 @@
 materialAdmin
         .config(function ($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise("/");
+            $urlRouterProvider.otherwise("/home");
 
             $stateProvider
                     //------------------------------
@@ -32,8 +32,71 @@ materialAdmin
                             }
                         }
                     })
-
-
+                    //------------------------------
+                    // HEADERS PARA PROVEEDORES
+                    //------------------------------
+                    .state('proveedores', {
+                        url: '/proveedores',
+                        templateUrl: 'views/common.html'
+                    })
+                    .state('proveedores.lista', {
+                        url: '/proveedores',
+                        templateUrl: 'views/proveedores/proveedores.html',
+                        controller: 'ProveedoresCtrl'
+                    })
+                    .state('proveedores.crear', {
+                        url: '/proveedor',
+                        templateUrl: 'views/proveedores/crear.html',
+                        controller: 'CrearProveedorCtrl'
+                    })
+                    //------------------------------
+                    // HEADERS PARA PAQUETE
+                    //------------------------------
+                    .state('paquetes', {
+                        url: '/paquetes',
+                        templateUrl: 'views/common.html'
+                    })
+                    .state('paquetes.lista', {
+                        url: '/paquetes',
+                        templateUrl: 'views/paquete/paquetes.html',
+                        controller: 'paquetectrl'
+                    })
+                    .state('paquetes.crear', {
+                        url: '/paquetescrear',
+                        templateUrl: 'views/paquete/crearpaquete.html',
+                         controller: 'paquetectrl',
+                          resolve: {
+                                                     loadPlugin: function ($ocLazyLoad) {
+                                                         return $ocLazyLoad.load([
+                                                             {
+                                                                 name: 'css',
+                                                                 insertBefore: '#app-level',
+                                                                 files: [
+                                                                     'vendors/bower_components/nouislider/jquery.nouislider.css',
+                                                                     'vendors/farbtastic/farbtastic.css',
+                                                                     'vendors/bower_components/summernote/dist/summernote.css',
+                                                                     'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+                                                                     'vendors/bower_components/chosen/chosen.min.css'
+                                                                 ]
+                                                             },
+                                                             {
+                                                                 name: 'vendors',
+                                                                 files: [
+                                                                     'vendors/input-mask/input-mask.min.js',
+                                                                     'vendors/bower_components/nouislider/jquery.nouislider.min.js',
+                                                                     'vendors/bower_components/moment/min/moment.min.js',
+                                                                     'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                                                                     'vendors/bower_components/summernote/dist/summernote.min.js',
+                                                                     'vendors/fileinput/fileinput.min.js',
+                                                                     'vendors/bower_components/chosen/chosen.jquery.js',
+                                                                     'vendors/bower_components/angular-chosen-localytics/chosen.js',
+                                                                     'vendors/bower_components/angular-farbtastic/angular-farbtastic.js'
+                                                                 ]
+                                                             }
+                                                         ])
+                                                     }
+                                                 }
+                    })
                     //------------------------------
                     // HEADERS PARA PRODUCTOS
                     //------------------------------
@@ -83,63 +146,96 @@ materialAdmin
                         }
                     })
                     .state('productos.editar', {
-                                            url: '/editarproducto',
-                                            templateUrl: 'views/editarproducto.html',
-                                            //controller: 'editar',
-                                            controller: 'ProductosCtrlProveedor',
-                                            resolve: {
-                                                loadPlugin: function ($ocLazyLoad) {
-                                                    return $ocLazyLoad.load([
-                                                        {
-                                                            name: 'css',
-                                                            insertBefore: '#app-level',
-                                                            files: [
-                                                                'vendors/bower_components/nouislider/jquery.nouislider.css',
-                                                                'vendors/farbtastic/farbtastic.css',
-                                                                'vendors/bower_components/summernote/dist/summernote.css',
-                                                                'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
-                                                                'vendors/bower_components/chosen/chosen.min.css'
-                                                            ]
-                                                        },
-                                                        {
-                                                            name: 'vendors',
-                                                            files: [
-                                                                'vendors/input-mask/input-mask.min.js',
-                                                                'vendors/bower_components/nouislider/jquery.nouislider.min.js',
-                                                                'vendors/bower_components/moment/min/moment.min.js',
-                                                                'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-                                                                'vendors/bower_components/summernote/dist/summernote.min.js',
-                                                                'vendors/fileinput/fileinput.min.js',
-                                                                'vendors/bower_components/chosen/chosen.jquery.js',
-                                                                'vendors/bower_components/angular-chosen-localytics/chosen.js',
-                                                                'vendors/bower_components/angular-farbtastic/angular-farbtastic.js'
-                                                            ]
-                                                        }
-                                                    ])
-                                                }
-                                            }
-                                        })
+                        url: '/editarproducto',
+                        templateUrl: 'views/editarproducto.html',
+                        //controller: 'editar',
+                        controller: 'ProductosCtrlProveedor',
+                        resolve: {
+                            loadPlugin: function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    {
+                                        name: 'css',
+                                        insertBefore: '#app-level',
+                                        files: [
+                                            'vendors/bower_components/nouislider/jquery.nouislider.css',
+                                            'vendors/farbtastic/farbtastic.css',
+                                            'vendors/bower_components/summernote/dist/summernote.css',
+                                            'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+                                            'vendors/bower_components/chosen/chosen.min.css'
+                                        ]
+                                    },
+                                    {
+                                        name: 'vendors',
+                                        files: [
+                                            'vendors/input-mask/input-mask.min.js',
+                                            'vendors/bower_components/nouislider/jquery.nouislider.min.js',
+                                            'vendors/bower_components/moment/min/moment.min.js',
+                                            'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                                            'vendors/bower_components/summernote/dist/summernote.min.js',
+                                            'vendors/fileinput/fileinput.min.js',
+                                            'vendors/bower_components/chosen/chosen.jquery.js',
+                                            'vendors/bower_components/angular-chosen-localytics/chosen.js',
+                                            'vendors/bower_components/angular-farbtastic/angular-farbtastic.js'
+                                        ]
+                                    }
+                                ])
+                            }
+                        }
+                    })
                     .state('productos.detalle', {
                         url: '/detalle',
                         templateUrl: 'views/detalle_producto.html',
                         controller: 'ProductosDetalle'
                     })
-
                     .state('productos.busqueda', {
                         url: '/resultados',
                         templateUrl: 'views/lista_productos.html',
                         controller: 'ProductosBusqueda'
                     })
-
                     .state('canasta', {
                         url: '/canasta',
                         templateUrl: 'views/common.html'
                     })
-
                     .state('canasta.lista', {
                         url: '/canasta',
                         templateUrl: 'views/canasta.html',
                         controller: 'CanastaCtrl'
+                    })
+
+                    .state('preguntas', {
+                        url: '/preguntas',
+                        templateUrl: 'views/common.html'
+                    })
+
+
+                    .state('preguntas.mis', {
+                        url: '/mis',
+                        templateUrl: 'views/preguntas.html',
+                        controller: 'MisPreguntasCtrl'
+                    })
+
+
+                    .state('preguntas.res', {
+                        url: '/res',
+                        templateUrl: 'views/respuestas.html',
+                        controller: 'ResPreguntasCtrl'
+                    })
+
+                    .state('orden', {
+                        url: '/orden',
+                        templateUrl: 'views/common.html'
+                    })
+
+                    .state('orden.lista', {
+                        url: '/orden',
+                        templateUrl: 'views/lista_orden.html',
+                        controller: 'OrdenCtrl'
+                    })
+
+                    .state('orden.detalle', {
+                        url: '/detalle',
+                        templateUrl: 'views/orden.html',
+                        controller: 'OrdenCtrl'
                     })
 
 
@@ -486,7 +582,6 @@ materialAdmin
                             }
                         }
                     })
-
                     //Default
 
                     .state('photo-gallery.photos', {
@@ -524,48 +619,50 @@ materialAdmin
 
                     //Profile
 
-                    .state ('pages.profile', {
-                                                        url: '/profile',
-                                                        templateUrl: 'views/profile.html',
-                                                        controller: 'ProfileCtrl',
-                                                        resolve: {
-                                                                                        loadPlugin: function($ocLazyLoad) {
-                                                                                            return $ocLazyLoad.load ([
-                                                                                                {
-                                                                                                    name: 'css',
-                                                                                                    insertBefore: '#app-level',
-                                                                                                    files: [
-                                                                                                        'vendors/bower_components/nouislider/jquery.nouislider.css',
-                                                                                                        'vendors/farbtastic/farbtastic.css',
-                                                                                                        'vendors/bower_components/summernote/dist/summernote.css',
-                                                                                                        'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
-                                                                                                        'vendors/bower_components/chosen/chosen.min.css'
-                                                                                                    ]
-                                                                                                },
-                                                                                                {
-                                                                                                    name: 'vendors',
-                                                                                                    files: [
-                                                                                                        'vendors/input-mask/input-mask.min.js',
-                                                                                                        'vendors/bower_components/nouislider/jquery.nouislider.min.js',
-                                                                                                        'vendors/bower_components/moment/min/moment.min.js',
-                                                                                                        'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-                                                                                                        'vendors/bower_components/summernote/dist/summernote.min.js',
-                                                                                                        'vendors/fileinput/fileinput.min.js',
-                                                                                                        'vendors/bower_components/chosen/chosen.jquery.js',
-                                                                                                        'vendors/bower_components/angular-chosen-localytics/chosen.js',
-                                                                                                        'vendors/bower_components/angular-farbtastic/angular-farbtastic.js'
-                                                                                                    ]
-                                                                                                }
-                                                                                            ])
-                                                                                        }
-                                                                                    }
+                    .state('pages.profile', {
+                        url: '/profile',
+                        templateUrl: 'views/profile.html',
+                        controller: 'ProfileCtrl',
+                        resolve: {
+                            loadPlugin: function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    {
+                                        name: 'css',
+                                        insertBefore: '#app-level',
+                                        files: [
+                                            'vendors/bower_components/nouislider/jquery.nouislider.css',
+                                            'vendors/farbtastic/farbtastic.css',
+                                            'vendors/bower_components/summernote/dist/summernote.css',
+                                            'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+                                            'vendors/bower_components/chosen/chosen.min.css'
+                                        ]
+                                    },
+                                    {
+                                        name: 'vendors',
+                                        files: [
+                                            'vendors/input-mask/input-mask.min.js',
+                                            'vendors/bower_components/nouislider/jquery.nouislider.min.js',
+                                            'vendors/bower_components/moment/min/moment.min.js',
+                                            'vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                                            'vendors/bower_components/summernote/dist/summernote.min.js',
+                                            'vendors/fileinput/fileinput.min.js',
+                                            'vendors/bower_components/chosen/chosen.jquery.js',
+                                            'vendors/bower_components/angular-chosen-localytics/chosen.js',
+                                            'vendors/bower_components/angular-farbtastic/angular-farbtastic.js'
+                                        ]
+                                    }
+                                ])
+                            }
+                        }
 
-                                                    })
+                    })
 
                     .state('pages.profile.profile-about', {
                         url: '/profile-about',
                         templateUrl: 'views/profile-about.html'
                     })
+
+
 
                     .state('pages.profile.profile-timeline', {
                         url: '/profile-timeline',

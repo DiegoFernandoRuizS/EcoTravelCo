@@ -1,5 +1,6 @@
 package co.ecofactory.ecotravel.producto.service;
 
+import co.ecofactory.ecotravel.galeria.service.dao.GaleriaDAO;
 import co.ecofactory.ecotravel.producto.service.dao.ProductoDAO;
 import co.ecofactory.ecotravel.init.Conexion;
 import io.vertx.core.AbstractVerticle;
@@ -29,6 +30,7 @@ public class ProductoService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarProductosHome", this::listarProductosHome);
         this.getVertx().eventBus().consumer("listarProductosDetalle", this::listarProductosDetalle);
         this.getVertx().eventBus().consumer("listarProductosBusqueda", this::listarProductosBusqueda);
+        this.getVertx().eventBus().consumer("listarCalificacion", this::listarCalificacion);
 
     }
 
@@ -119,24 +121,14 @@ public class ProductoService extends AbstractVerticle {
     }
 
     //Listar producto con un id como paramento
-    public void listarProducto(Message<JsonObject> message) {
-
+    public void listarProducto(Message<JsonObject> message){
         System.out.println("listarProducto ID: " + message.body().getLong("id"));
         try {
-            CompletableFuture<List<JsonObject>> data = this.dao.listarProducto(message.body().getLong("id"));
+            CompletableFuture<JsonObject> data = this.dao.listarProducto(message.body().getLong("id"));
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
-                if (ok != null) {
-                    JsonObject conImagenes = new JsonObject();
-
-                    conImagenes.mergeIn(ok.get(0));
-                    //Agregando las imagenes
-                    if (ok.size() > 1) {
-                        for (int i = 1; i < ok.size(); i++) {
-                            conImagenes.put("imagen" + i, ok.get(i).getString("imagen", ""));
-                        }
-                    }
-                    message.reply(conImagenes);
+                if (ok != null){
+                    message.reply(ok);
                 } else {
                     error.printStackTrace();
                     message.fail(0, "ERROR in data");
@@ -145,7 +137,6 @@ public class ProductoService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
-
         }
     }
 
@@ -161,32 +152,10 @@ public class ProductoService extends AbstractVerticle {
                 if (ok != null) {
                     System.out.println("La llave de la direccion" + ok.getJsonArray("keys").getValue(0));
                     llave[0] = (int) ok.getJsonArray("keys").getValue(0);
-                    System.out.println(llave[0]);
-                    System.out.println("insertarDireccion:OK");
-                    message.reply(ok);
-
-
                     CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
                     data2.whenComplete((ok2, error2) -> {
                         if (ok2 != null) {
-                            System.out.println("El idProducto " + ok2.getJsonArray("keys").getValue(0));
-                            idProducto[0] = (int) ok2.getJsonArray("keys").getValue(0);
-                            System.out.println(idProducto[0]);
-                            System.out.println("insertarProducto:OK" + ok2);
-
-
                             message.reply(ok2);
-                            CompletableFuture<JsonObject> dataImagen = this.dao.insertarImagen(message.body(), idProducto[0]);
-                            dataImagen.whenComplete((ok3, error3) -> {
-                                if (ok3 != null) {
-                                    message.reply(ok3);
-                                    System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                                    System.out.println("insertarImagen:OK" + ok3);
-                                } else {
-                                    error3.printStackTrace();
-                                    message.fail(0, "ERROR in data imagen - producto");
-                                }
-                            });
                         } else {
                             error2.printStackTrace();
                             message.fail(0, "ERROR in data producto");
@@ -212,7 +181,7 @@ public class ProductoService extends AbstractVerticle {
         try {
             CompletableFuture<JsonObject> data = this.dao.actualizarDireccion(message.body());
             data.whenComplete((ok, error) -> {
-                System.out.println("actualizar producto 1 " + data);
+                System.out.println("actualizar direccion al producto 1 " + data);
                 if (ok != null) {
                     System.out.println("La llave de la direccion" + ok.getJsonArray("keys").getValue(0));
                     llave[0] = (int) ok.getJsonArray("keys").getValue(0);
@@ -224,7 +193,6 @@ public class ProductoService extends AbstractVerticle {
                     message.fail(0, "ERROR in data direccion actualizar");
                 }
             });
-            //--------------------
 
             CompletableFuture<JsonObject> data2 = this.dao.editarProducto(message.body(), idProducto[0]);
             data2.whenComplete((ok2, error2) -> {
@@ -243,20 +211,6 @@ public class ProductoService extends AbstractVerticle {
                     error2.printStackTrace();
                     message.fail(0, "ERROR in data producto actualizar");
                 }
-                //-----
-                CompletableFuture<JsonObject> dataImagen = this.dao.actualizarImagen(message.body(), idProducto[0]);
-                dataImagen.whenComplete((ok3, error3) -> {
-                    if (ok3 != null) {
-                        message.reply(ok3);
-                        System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                        System.out.println("actualizar Imagen:OK" + ok3);
-                        System.out.println("actualizar producto 4 " + ok3);
-
-                    } else {
-                        error3.printStackTrace();
-                        message.fail(0, "ERROR in data imagen - producto - actualizar");
-                    }
-                });
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -275,17 +229,43 @@ public class ProductoService extends AbstractVerticle {
                 if (ok2 != null) {
                     System.out.println("borrarImagen:OK" + ok2);
                     message.reply(ok2);
-                    //borrar producto
-                    CompletableFuture<JsonObject> data = this.dao.borrarProducto(message.body().getLong("id"));
+                    //borrar preguntas asociadas al producto
+                    CompletableFuture<JsonObject> data = this.dao.borrarPreguntas(message.body().getLong("id"));
                     data.whenComplete((ok, error) -> {
-                        System.out.println("borrarProducto");
+                        System.out.println("borrarPreguntas");
                         if (ok != null) {
-                            System.out.println("borrarProducto:OK" + ok);
+                            System.out.println("borrarPreguntas:OK" + ok);
                             message.reply(ok);
+                            //borrar direccion asociada al producto
+                            CompletableFuture<JsonObject> data3 = this.dao.borrarDireccion(message.body().getLong("id"));
+                            data.whenComplete((ok3, error3) -> {
+                                System.out.println("borrarDireccion");
+                                if (ok3 != null) {
+                                    System.out.println("borrarDireccion:OK" + ok3);
+                                    message.reply(ok3);
+                                    //borrar producto
+                                    CompletableFuture<JsonObject> data4 = this.dao.borrarProducto(message.body().getLong("id"));
+                                    data.whenComplete((ok4, error4) -> {
+                                        System.out.println("borrarProducto");
+                                        if (ok4 != null) {
+                                            System.out.println("borrarProducto:OK" + ok4);
+                                            message.reply(ok4);
+
+                                        } else {
+                                            error4.printStackTrace();
+                                            message.fail(0, "ERROR in data producto");
+                                        }
+                                    });
+
+                                } else {
+                                    error3.printStackTrace();
+                                    message.fail(0, "ERROR in data direccion");
+                                }
+                            });
 
                         } else {
                             error.printStackTrace();
-                            message.fail(0, "ERROR in data producto");
+                            message.fail(0, "ERROR in data preguntas");
                         }
                     });
 
@@ -312,6 +292,35 @@ public class ProductoService extends AbstractVerticle {
                 System.out.println("listarProductosbb");
                 if (ok != null) {
                     System.out.println("listarProductosbusq:OK" + ok);
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+
+    public void listarCalificacion(Message<JsonObject> message) {
+
+        System.out.println("listarCalificacion");
+
+        try {
+
+            CompletableFuture<List<JsonObject>> data = this.dao.listarCalificacion(message.body().getString("id"));
+            System.out.println(message.body().getString("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarCalificacion");
+                if (ok != null) {
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);
