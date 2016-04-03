@@ -135,7 +135,7 @@
                                 {{ w.tipo }}
                             </td>
                             <td data-title="'Precio'">
-                                {{ w.precio }}
+                                {{ w.precio |number}}
                             </td>
                             <td data-title="'Retirar'">
                                 <button type="button" class="btn btn-danger" ng-click="quitarProducto(w.id)">
@@ -146,8 +146,9 @@
                         </tr>
                         <tr>
                             <td></td><td></td><td></td><td><h4>Total</h4></td>
-                            <td>
-                                <h4>{{total}}</h4>
+
+                            <td class="highlight">
+                                <h4>${{total|number}}</h4>
                             </td>
                         </tr>
                     </table>
@@ -202,7 +203,7 @@
                                         {{ w.tipo }}
                                     </td>
                                     <td data-title="'Precio'">
-                                        {{ w.precio }}
+                                        {{ w.precio|number }}
                                     </td>
                                     <td data-title="'Agregar'">
                                         <button type="button" class="btn btn-info" ng-click="agregarProductos(w.id)"
