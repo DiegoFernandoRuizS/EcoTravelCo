@@ -8,6 +8,7 @@ angular.module('materialAdmin')
             $scope.paquete = {};
             $scope.datos = [];
             var cuantos = 0;
+            $rootScope.total=0;
             $rootScope.mostrar = false;
             $rootScope.agregado = [];
             console.log("Entro al controlador de paquetes");
@@ -72,6 +73,7 @@ angular.module('materialAdmin')
                 for (var i = 0; i < $scope.datos.length; i++) {
                     if ($scope.datos[i].id === productoId) {
                         $rootScope.agregado.push($scope.datos[i]);
+                         $rootScope.total=$rootScope.total+$scope.datos[i].precio;
                     }
                 }
                 console.log($rootScope.agregado);
@@ -81,6 +83,8 @@ angular.module('materialAdmin')
                 for (var i = 0; i < $rootScope.agregado.length; i++) {
                     if ($rootScope.agregado[i].id === productoId) {
                         $rootScope.agregado.splice(i, 1);
+                        $rootScope.total=$rootScope.total-$scope.datos[i].precio;
+
                     }
                 }
 
