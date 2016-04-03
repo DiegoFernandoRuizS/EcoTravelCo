@@ -8,8 +8,5 @@ var materialAdmin = angular.module('materialAdmin', [
     'nouislider',
     'ngTable',
 	'angular-jwt'
-	//'image'
-
-	//'ng-image-compress'
 ])
  
