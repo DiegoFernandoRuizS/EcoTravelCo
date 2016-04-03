@@ -181,7 +181,8 @@ angular.module('materialAdmin')
             }else{
             $scope.actualProducto.isUpdate=true;
             console.log("No se cambiaron imagenes");}
-
+console.log("Que envio? ");
+console.log(id);
             console.log($scope.actualProducto);
             $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
                 .success(function (res) {

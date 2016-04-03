@@ -97,7 +97,7 @@ public class ModuloProducto implements Modulo {
             producto = rc.getBodyAsJson();
             producto.put("id", idAsLong);
             vertx.eventBus().send("editarProducto", producto, res -> {
-                System.out.println("servidor editarProducto: " + res.result().body());
+               // System.out.println("servidor editarProducto: " + res.result().body());
                 if (res.succeeded()) {
                     System.out.println("servidor correcto editarProducto -> : " + res.result().body());
                     if (((JsonObject) res.result().body()).getInteger("updated", 0) != 0) {
@@ -107,7 +107,9 @@ public class ModuloProducto implements Modulo {
                     }
 
                 } else {
+
                     rc.response().end("ERROR en el modulo producto editar un producto");
+
                 }
             });
         });
