@@ -22,6 +22,7 @@ public class PaqueteService extends AbstractVerticle {
 
         this.getVertx().eventBus().consumer("listarPaquetes", this::listarPaquetes);
         this.getVertx().eventBus().consumer("insertarPaquete", this::insertarPaquete);
+        this.getVertx().eventBus().consumer("borrarPaquete", this::borrarPaquete);
 
     }
 
@@ -71,6 +72,27 @@ public class PaqueteService extends AbstractVerticle {
                 } else {
                     error2.printStackTrace();
                     message.fail(0, "ERROR in data producto");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+        }
+    }
+
+    public void borrarPaquete(Message<JsonObject> message) {
+        System.out.println("Service insertarPaquete" + message.body());
+        final int[] llave = {0};
+        final int[] idProducto = {0};
+        try {
+            CompletableFuture<JsonObject> data2 = this.dao.borrarPaquete(message.body());
+            data2.whenComplete((ok2, error2) -> {
+                if (ok2 != null) {
+                    idProducto[0] = (int) ok2.getJsonArray("keys").getValue(0);
+                    message.reply(ok2);
+                } else {
+                    error2.printStackTrace();
+                    message.fail(0, "ERROR in data borrar paquete");
                 }
             });
         } catch (Exception e) {

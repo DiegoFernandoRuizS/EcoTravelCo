@@ -23,7 +23,7 @@ public class PaqueteDAO {
         int idUsuario = usuario.getInteger("id_usuario", 0);
 
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select * from mp_producto p inner join mp_tipo_producto tp on tp.id=p.tipo_producto_id where p.tipo_producto_id=5\n" +
+        String query = "select *,p.id as idProducto from mp_producto p inner join mp_tipo_producto tp on tp.id=p.tipo_producto_id where p.tipo_producto_id=5\n" +
                 "and id_usuario=" + idUsuario;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
@@ -154,6 +154,39 @@ public class PaqueteDAO {
                 }
             });
         }
+        return res;
+    }
+
+    //BorrarPaquete
+    public CompletableFuture<JsonObject> borrarPaquete(JsonObject nuevoProducto) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        JsonArray params = new JsonArray();
+
+       // int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
+        int idPaquete=nuevoProducto.getInteger("idPaquete",0);
+
+        String query = "delete from mp_producto mp where mp.id="+idPaquete;
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error insertar paquete DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
         return res;
     }
 }

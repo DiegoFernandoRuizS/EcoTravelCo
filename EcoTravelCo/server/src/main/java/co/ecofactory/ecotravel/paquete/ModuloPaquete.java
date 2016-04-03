@@ -59,6 +59,25 @@ public class ModuloPaquete implements Modulo {
             });
         });
 
+        //Borrar un paquete
+        rutas.delete("/:id").handler(rc -> {
+            final String id = rc.request().getParam("id");
+            final Long idAsLong = Long.valueOf(id);
+            JsonObject _params = new JsonObject();
+            _params.put("idPaquete", idAsLong);
+          //  Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
+         //   _params.put("id_usuario", idUsuario);
+            vertx.eventBus().send("borrarPaquete", _params, res -> {
+                System.out.println("servidor: " + res);
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo paquete borrar paquete");
+                }
+            });
+
+        });
 
         return rutas;
     }
