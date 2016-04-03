@@ -169,6 +169,8 @@ public class ProductoDAO {
         //Definicion de los datos a guardar del producto
         JsonArray params = new JsonArray();
 
+        System.out.println( nuevoProducto.getJsonObject("", new JsonObject()) );
+
         int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
 
         JsonUtils.add(params, nuevoProducto.getString("estado", ""));
@@ -184,19 +186,22 @@ public class ProductoDAO {
         JsonUtils.add(params, idUsuario);//Usuario quemado
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
+        JsonUtils.add(params, nuevoProducto.getJsonObject("caracteristicas", new JsonObject()).toString());
+
+
 
         // System.out.println("LA IMAGEN LLEGA? " + nuevoProducto.getString("imagen", ""));
 
         String query = "INSERT INTO mp_producto(\n" +
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
-                "            id_padre, id_direccion_id, tipo_producto_id, descripcion, precio,id_usuario,cantidad_actual,cantidad_origen)\n" +
+                "            id_padre, id_direccion_id, tipo_producto_id, descripcion, precio,id_usuario,cantidad_actual,cantidad_origen,caracteristicas)\n" +
                 "    VALUES (nextval('mp_producto_id_seq'), \n" +
                 "    ?, ?, \n" +
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),\n" +
                 "     ?, null, \n" +
                 "     (SELECT max(id) FROM mp_direccion), \n" +
-                "     ?, ?, ?,?,?,?);";
+                "     ?, ?, ?,?,?,?,?::JSON);";
 
 
         dataAccess.getConnection(conn -> {

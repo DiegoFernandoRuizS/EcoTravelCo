@@ -78,7 +78,7 @@ public class ModuloProducto implements Modulo {
 
             System.out.println("USUARIO AUTENTICADO para crear producto ----->" + producto.encodePrettily());
             vertx.eventBus().send("insertarProducto", producto, res -> {
-                System.out.println("servidor insertarProducto: " + res.result().body());
+                System.out.println("servidor insertarProducto: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto insertarProducto -> : " + res.result().body());
                     rc.response().end(((JsonObject)res.result().body()).encodePrettily());
