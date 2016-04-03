@@ -37,7 +37,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped table-vmiddle">
+                <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
                     <tr ng-repeat="w in paquetes">
                         <td data-title="'Identificador'">
                             {{w.idproducto}}
@@ -46,7 +46,7 @@
                            {{w.nombre}}
                         </td>
                         <td data-title="'Descripción servicio'">
-                            {{ w.descripcion }}
+                            {{ w.descrippaquete }}
                         </td>
                         <td data-title="'Tipo servicio'">
                             {{ w.tipo }}
@@ -58,12 +58,12 @@
                            {{ w.fecha_actualizacion }}
                         </td>
 
-                        <td data-title="'Edición'">
+                       <!-- <td data-title="'Edición'">
                             <button type="button" class="btn btn-info" ng-click="listarProducto(w.idproducto)"
                                     data-ui-sref="productos.editar"><i class="zmdi zmdi-edit"></i>
-                                <!--<a>Editar</a>-->
+
                             </button>
-                        </td>
+                        </td>-->
                         <td data-title="'Borrar'">
 
                         <button type="button" class="btn btn-danger" ng-click="borrarPaquete(w.idproducto)"

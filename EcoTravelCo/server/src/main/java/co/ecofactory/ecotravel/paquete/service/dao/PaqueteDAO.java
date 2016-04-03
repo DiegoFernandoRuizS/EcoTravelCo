@@ -23,8 +23,7 @@ public class PaqueteDAO {
         int idUsuario = usuario.getInteger("id_usuario", 0);
 
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select *,p.id as idProducto from mp_producto p inner join mp_tipo_producto tp on tp.id=p.tipo_producto_id where p.tipo_producto_id=5\n" +
-                "and id_usuario=" + idUsuario;
+        String query = "select *,p.id as idProducto,p.descripcion as descrippaquete from mp_producto p inner join mp_tipo_producto tp on tp.id=p.tipo_producto_id where p.tipo_producto_id=5 and id_usuario=\n" + idUsuario;
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
