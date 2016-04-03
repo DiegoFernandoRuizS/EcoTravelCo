@@ -8,8 +8,8 @@
  * Controller of the Canasta
  */
 angular.module('materialAdmin')
-	.controller('CanastaCtrl', function ($scope, $rootScope, $http, $location) {
-		
+	.controller('CanastaCtrl', function ($scope, $rootScope, $http, $location, growlService) {
+
 		$rootScope.canasta = [];
 		$scope.data = {};
 		$scope.error = [];
@@ -47,20 +47,29 @@ angular.module('materialAdmin')
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
 			});
+			growlService.growl('Producto eliminado de la Canasta.', 'success');
 		}
 
 		$scope.adicionarProductoCanasta = function () {
-			
+			var error = false;
+
 			if(sessionStorage.token == undefined){
-				$location.path( "/login.html" );
-			} else {
+				var error = true;
+				growlService.growl('Debe inicial sesión para adicionar productos a la Canasta.', 'danger');
+			}
+
+			if($rootScope.cantidadCanasta == undefined){
+				var error = true;
+				growlService.growl('Ingrese una cantidad valida.', 'danger');
+			}
+
+			if(!error) {
 				$scope.infoProducto = {
 					id_producto : $rootScope.prodId,
 					cantidad : $rootScope.cantidadCanasta
 				}
 				
 				$scope.sesion = {withCredentials: true,	headers: {token: sessionStorage.token}}
-
 
 				$http.post("http://localhost:8181/canasta/", $scope.infoProducto, $scope.sesion
 				).success(function (res) {
@@ -84,6 +93,7 @@ angular.module('materialAdmin')
 					console.log("Que trae esto: " + res);
 				});
 				$rootScope.cantidadCanasta = 1;
+				growlService.growl('Producto agregado a la Canasta.', 'success');
 			}
 		}
 
@@ -123,6 +133,7 @@ angular.module('materialAdmin')
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
 			});
+			growlService.growl('Canasta confirmada.', 'success');
 		}
 
 		$scope.detailProd = function (id) {

@@ -1,5 +1,6 @@
 package co.ecofactory.ecotravel.producto.service;
 
+import co.ecofactory.ecotravel.galeria.service.dao.GaleriaDAO;
 import co.ecofactory.ecotravel.producto.service.dao.ProductoDAO;
 import co.ecofactory.ecotravel.init.Conexion;
 import io.vertx.core.AbstractVerticle;
@@ -151,32 +152,10 @@ public class ProductoService extends AbstractVerticle {
                 if (ok != null) {
                     System.out.println("La llave de la direccion" + ok.getJsonArray("keys").getValue(0));
                     llave[0] = (int) ok.getJsonArray("keys").getValue(0);
-                    System.out.println(llave[0]);
-                    System.out.println("insertarDireccion:OK");
-                    message.reply(ok);
-
-
                     CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
                     data2.whenComplete((ok2, error2) -> {
                         if (ok2 != null) {
-                            System.out.println("El idProducto " + ok2.getJsonArray("keys").getValue(0));
-                            idProducto[0] = (int) ok2.getJsonArray("keys").getValue(0);
-                            System.out.println(idProducto[0]);
-                            System.out.println("insertarProducto:OK" + ok2);
-
-
                             message.reply(ok2);
-                            CompletableFuture<JsonObject> dataImagen = this.dao.insertarImagen(message.body(), idProducto[0]);
-                            dataImagen.whenComplete((ok3, error3) -> {
-                                if (ok3 != null) {
-                                    message.reply(ok3);
-                                    System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                                    System.out.println("insertarImagen:OK" + ok3);
-                                } else {
-                                    error3.printStackTrace();
-                                    message.fail(0, "ERROR in data imagen - producto");
-                                }
-                            });
                         } else {
                             error2.printStackTrace();
                             message.fail(0, "ERROR in data producto");
@@ -232,35 +211,6 @@ public class ProductoService extends AbstractVerticle {
                     error2.printStackTrace();
                     message.fail(0, "ERROR in data producto actualizar");
                 }
-                //-----
-                if(message.body().getBoolean("isUpdate")){
-
-                    CompletableFuture<JsonObject> borrarImagenes = this.dao.borrarImagen(message.body().getLong("id_producto"));
-                    borrarImagenes.whenComplete((ok3, error3) -> {
-                        if (ok3 != null) {
-                            message.reply(ok3);
-                            System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                        } else {
-                            error3.printStackTrace();
-                            message.fail(0, "ERROR in data imagen - producto - actualizar");
-                        }
-                    });
-
-                    CompletableFuture<JsonObject> dataImagen = this.dao.insertarImagen(message.body(), idProducto[0]);
-                    dataImagen.whenComplete((ok3, error3) -> {
-                        if (ok3 != null) {
-                            message.reply(ok3);
-                            System.out.println("El idImagen " + ok3.getJsonArray("keys").getValue(0));
-                            System.out.println("actualizar Imagen:OK" + ok3);
-                            System.out.println("actualizar producto 4 " + ok3);
-
-                        } else {
-                            error3.printStackTrace();
-                            message.fail(0, "ERROR in data imagen - producto - actualizar");
-                        }
-                    });
-                }
-
             });
         } catch (Exception e) {
             e.printStackTrace();

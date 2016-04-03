@@ -191,16 +191,12 @@ public class ProductoDAO {
                 "            id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
                 "            id_padre, id_direccion_id, tipo_producto_id, descripcion, precio,id_usuario,cantidad_actual,cantidad_origen)\n" +
                 "    VALUES (nextval('mp_producto_id_seq'), \n" +
-                "    ?, \n" +
-                "    ?, \n" +
+                "    ?, ?, \n" +
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
                 "    to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'),\n" +
-                "     ?, \n" +
-                "     null, \n" +
+                "     ?, null, \n" +
                 "     (SELECT max(id) FROM mp_direccion), \n" +
-                "     ?, \n" +
-                "     ?, \n" +
-                "     ?,?,?,?);";
+                "     ?, ?, ?,?,?,?);";
 
 
         dataAccess.getConnection(conn -> {
@@ -352,62 +348,6 @@ public class ProductoDAO {
         return res;
     }
 
-    //Insertar ImagenAsociada al producto
-    public CompletableFuture<JsonObject> insertarImagen(JsonObject nuevoProducto, int productoAsociado) {
-        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
-        //Definicion de los datos a guardar del producto
-        for (int i = 0; i < nuevoProducto.getJsonArray("imagen").size(); i++) {
-            int fotoPrincipal=0;
-            if (i == 0) {
-                fotoPrincipal = 1;
-            } else {
-                fotoPrincipal = 0;
-            }
-            JsonArray params3 = new JsonArray();
-
-            String imagen = (String) nuevoProducto.getJsonArray("imagen").getValue(i);
-            String tipo = "Imagen";
-            String ciudad = nuevoProducto.getString("ciudad", "");
-
-            JsonUtils.add(params3, tipo);
-            JsonUtils.add(params3, imagen);
-            JsonUtils.add(params3, ciudad);
-            JsonUtils.add(params3, productoAsociado);
-            JsonUtils.add(params3, fotoPrincipal);
-
-            String query3 = "INSERT INTO mp_galeria(\n" +
-                    "            id, tipo, url, descripcion, producto_id, foto_principal)\n" +
-                    "    VALUES (nextval('mp_galeria_id_seq'), \n" +
-                    "    ?, \n" +
-                    "    ?, \n" +
-                    "    ?,\n" +
-                    "    ?, \n" +
-                    "    ?);";
-
-            dataAccess.getConnection(conn -> {
-                if (conn.succeeded()) {
-                    conn.result().updateWithParams(query3, params3, data -> {
-                        if (data.succeeded()) {
-                            res.complete(data.result().toJson());
-                        } else {
-                            data.cause().printStackTrace();
-                            System.out.println("Error insertar Galeria en DAO producto");
-                            res.completeExceptionally(data.cause());
-                        }
-                    });
-                } else {
-                    conn.cause().printStackTrace();
-                }
-                try {
-                    conn.result().close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        return res;
-    }
-
     //Editar un producto
     public CompletableFuture<JsonObject> editarProducto(JsonObject nuevoProducto, int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
@@ -480,7 +420,7 @@ public class ProductoDAO {
         return res;
     }
 
-    //Listar Imagenes
+/*    //Listar Imagenes
     public CompletableFuture<List<JsonObject>> listarImagenes(Long id) {
 
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
@@ -512,7 +452,7 @@ public class ProductoDAO {
                 }
         );
         return res;
-    }
+    }*/
 
     //Borrar imagen
     public CompletableFuture<JsonObject> borrarImagen(Long id) {

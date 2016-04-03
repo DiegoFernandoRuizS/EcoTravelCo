@@ -40,37 +40,73 @@ angular.module('materialAdmin')
         $scope.datos = [];
         $scope.listaValores = [];
         $scope.listaTipo = [];
-        $scope.imagenes=[];
-        $scope.stepsModel = [];
-        $scope.isUpdate=false;
+        $scope.imagen=[];
+        $rootScope.imagenesCargadas = [];
+        $rootScope.imagenesEliminar = [];
+        
 
-        $scope.imageUpload = function(event){
-                $scope.isUpdate=true;
-                 var files = event.target.files; //FileList object
-                  $scope.stepsModel = [];
-                  $rootScope.imagenesCargadas=[];
-                 for (var i = 0; i < files.length; i++) {
-                     var file = files[i];
-                         var reader = new FileReader();
-                         reader.onload = $scope.imageIsLoaded;
-                         reader.readAsDataURL(file);
-                 }
+        
+        //Manejo de imagenes para crear
+        $scope.imageUpload = function (event) {
+            $scope.isUpdate = true;
+            var files = event.target.files;
+            
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = $scope.imageIsLoaded;
+                reader.readAsDataURL(file);
+            }
         }
 
-        $scope.imageIsLoaded = function(e){
-                $scope.$apply(function() {
-                    $scope.stepsModel.push(e.target.result);
-                    $rootScope.imagenesCargadas.push(e.target.result);
-                });
+        $scope.imageIsLoaded = function (e) {
+            $scope.$apply(function () {
+                var img = {"img":e.target.result};
+                $rootScope.imagenesCargadas.push(img);
+            });
         }
 
-        $scope.enviar=function(){
-           $scope.imagenes=[];
-             for (var i = 0; i < $scope.stepsModel.length; i++) {
-                 $scope.imagenes.push($scope.stepsModel[i]);
-                 }
-              };
+        $scope.eliminarFoto = function (key) {
+            for (var i = 0; i < $rootScope.imagenesCargadas.length; i++){
+                if($rootScope.imagenesCargadas[i]["$$hashKey"] == key){
+                    $rootScope.imagenesCargadas.splice(i,1);
+                }
+            }
+        }
 
+        //Manejo de imagenes para editar
+        $scope.imageUploadEdit = function (event) {
+            $scope.isUpdate = true;
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                reader.onload = $scope.imageIsLoadedEdit;
+                reader.readAsDataURL(file);
+            }
+        }
+
+        $scope.imageIsLoadedEdit = function (e) {
+            $scope.$apply(function () {
+                var img = {"url":e.target.result,
+                            "id":0  };
+                $rootScope.imagenesCargadas.push(img);
+            });
+        }
+
+        $scope.eliminarFotoEdit = function (key) {
+            for (var i = 0; i < $rootScope.imagenesCargadas.length; i++){
+                if($rootScope.imagenesCargadas[i]["$$hashKey"] == key){
+                    if($rootScope.imagenesCargadas[i]["id"] == 0){
+                        $rootScope.imagenesCargadas.splice(i,1);
+                    } else {
+                        $rootScope.imagenesEliminar.push($rootScope.imagenesCargadas[i]);
+                        $rootScope.imagenesCargadas.splice(i,1);
+                    }
+                }
+            }
+        }
 
         //para cargar el combox box de paises
         $scope.combox = function () {
@@ -84,6 +120,7 @@ angular.module('materialAdmin')
                 console.log("Que trae esto paises " + res);
             });
         };
+        
         //para cargar el combox box de tipoproducto
         $scope.comboxTipo = function () {
             $http.get("http://localhost:8181/datos/tipo", {
@@ -116,20 +153,49 @@ angular.module('materialAdmin')
         };
         //para insertar los productos
         $scope.insertarProducto = function () {
-            $scope.enviar();
-            $scope.producto.imagen=$scope.imagenes;
-            $http.post("http://localhost:8181/producto/", $scope.producto, {withCredentials: true, headers: {token: sessionStorage.token}})
-                .success(function (res) {
-                    growlService.growl('Se guardo correctamente la información.', 'inverse');
-                    $scope.insertarProducto = {};
-                    console.log("La respuesta del backend " + res);
-                    $window.location.href = '/#/productos/productos';
-                    $scope.consultarProductos();
-                }).error(function (res) {
-                growlService.growl(' Ocurrió un error guardando la información.', 'inverse');
-                console.log("Doesn't work para insertar producto");
-                console.log("El error para insertar producto: " + res);
-            });
+            var error = false;
+            // Validamos que se carge almenos una imagen
+            if($rootScope.imagenesCargadas.length == 0){
+                growlService.growl('Se debe ingresar una imagen.', 'danger');
+                error = true;
+            }
+
+            if(!error){
+                var sesion = {withCredentials: true, headers: {token: sessionStorage.token}};
+                $http.post("http://localhost:8181/producto/", $scope.producto, sesion)
+                    .success(function (res) {
+                        //agregar Imagenes
+                        var idProd = res["keys"][0];
+                        var principal = 1;
+                        for (var i = 0; i < $rootScope.imagenesCargadas.length; i++){
+                            var datosImagen = {
+                                "imagen": $rootScope.imagenesCargadas[i]["img"],
+                                "id_producto":idProd,
+                                "principal": principal,
+                            }
+                            
+                            $http.post("http://localhost:8181/galeria/", datosImagen)
+                                .success(function (res) {
+                                    console.log("El Imagen guardada: " + res);
+                                }).error(function (res) {
+                                console.log("Doesn't work para Borrar producto");
+                                console.log("El error para borar producto: " + res);
+                            });
+                            principal = 0;
+                        }
+
+                        growlService.growl('Se guardo correctamente la información.', 'success');
+                        $scope.insertarProducto = {};
+                        console.log("La respuesta del backend " + res);
+                        $location.path( "/productos/productos" );
+                        //$scope.consultarProductos();
+                    }).error(function (res) {
+                    growlService.growl(' Ocurrió un error guardando la información.', 'danger');
+                    console.log("Doesn't work para insertar producto");
+                    console.log("El error para insertar producto: " + res);
+                });
+            }
+
         };
         //para borrar los productos
         $scope.borrarProducto = function (id) {
@@ -144,21 +210,22 @@ angular.module('materialAdmin')
                 console.log("El error para borar producto: " + res);
             });
         };
+
         //para listar el producto a editar
-        $scope.listarProducto = function (id){
+        $scope.listarProducto = function (id) {
             $rootScope.productoEditar = [];
             $rootScope.actualProducto = [];
             console.log("Listar producto en el controlador " + id);
-            $http.get("http://localhost:8181/producto_detalle/" + id )
-                .success(function (res){
-                   $http({method: 'GET', url: 'http://localhost:8181/galeria/' + id})
-                                .success(function(resGaleria){
-                                    $rootScope.imagenesCargadas=[];
-                                    $rootScope.imagenesCargadas=resGaleria;
-                                }).error(function(resGaleria){
-                                console.log("Doesn't work");
-                                console.log("Que trae esto: "+resGaleria);
-                            })
+            $http.get("http://localhost:8181/producto_detalle/" + id)
+                .success(function (res) {
+                    $http({method: 'GET', url: 'http://localhost:8181/galeria/' + id})
+                        .success(function (resGaleria) {
+                            $rootScope.imagenesCargadas = [];
+                            $rootScope.imagenesCargadas = resGaleria;
+                        }).error(function (resGaleria) {
+                        console.log("Doesn't work");
+                        console.log("Que trae esto: " + resGaleria);
+                    })
                     $rootScope.actualProducto = res[0];
                     console.log($rootScope.actualProducto);
                     $rootScope.actualProducto.cantidad = "" + $rootScope.actualProducto.cantidad_actual;
@@ -171,20 +238,16 @@ angular.module('materialAdmin')
                 console.log("El error para borar producto: " + res);
             });
         };
+
         //para actualizr el producto en la gestion
         $scope.actualizarProducto = function (id) {
-            if($scope.isUpdate){
-            $scope.enviar();
-            $scope.actualProducto.imagen=$scope.imagenes;
-            $scope.actualProducto.isUpdate=true;
-            console.log("Se cambiaron imagenes");
-            }else{
-            $scope.actualProducto.isUpdate=true;
-            console.log("No se cambiaron imagenes");}
-console.log("Que envio? ");
-console.log(id);
+            console.log("Que envio? ");
+            console.log(id);
             console.log($scope.actualProducto);
-            $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {withCredentials: true, headers: {token: sessionStorage.token}})
+            $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {
+                    withCredentials: true,
+                    headers: {token: sessionStorage.token}
+                })
                 .success(function (res) {
                     growlService.growl('Se actualizó correctamente la información.', 'inverse');
                     console.log("La respuesta del backend " + res);
@@ -197,7 +260,41 @@ console.log(id);
                 console.log("Doesn't work para actualizar producto");
                 console.log("El error para actualizar producto: " + res);
             });
+            
+            //Insertamos las nuevas imagenes
+            var idProd = id;
+            var principal = 0;
+            for(var i = 0; i < $rootScope.imagenesCargadas.length; i++){
+                if($rootScope.imagenesCargadas[i]["id"] == 0){
+                    var datosImagen = {
+                        "imagen": $rootScope.imagenesCargadas[i]["url"],
+                        "id_producto":idProd,
+                        "principal": principal,
+                    }
+
+                    $http.post("http://localhost:8181/galeria/", datosImagen)
+                        .success(function (res) {
+                            console.log("El Imagen guardada: " + res);
+                        }).error(function (res) {
+                        console.log("Doesn't work para Borrar producto");
+                        console.log("El error para borar producto: " + res);
+                    });
+                }
+            }
+
+            //Eliminamos las imagenes
+            for(var i = 0; i < $rootScope.imagenesEliminar.length; i++){
+                $http.delete("http://localhost:8181/galeria/"+$rootScope.imagenesEliminar[i]['id'], datosImagen)
+                    .success(function (res) {
+                        console.log("El Eliminada guardada: " + res);
+                    }).error(function (res) {
+                    console.log("Doesn't work para Borrar producto");
+                    console.log("El error para borar producto: " + res);
+                });
+            }
+            
         };
+
         //autocarga de los productos en la gestion
         $scope.consultarProductos();
         $scope.combox();
