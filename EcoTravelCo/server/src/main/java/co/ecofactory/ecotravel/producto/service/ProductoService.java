@@ -202,7 +202,7 @@ public class ProductoService extends AbstractVerticle {
         try {
             CompletableFuture<JsonObject> data = this.dao.actualizarDireccion(message.body());
             data.whenComplete((ok, error) -> {
-                System.out.println("actualizar producto 1 " + data);
+                System.out.println("actualizar direccion al producto 1 " + data);
                 if (ok != null) {
                     System.out.println("La llave de la direccion" + ok.getJsonArray("keys").getValue(0));
                     llave[0] = (int) ok.getJsonArray("keys").getValue(0);
