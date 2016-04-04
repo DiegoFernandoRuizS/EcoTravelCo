@@ -337,6 +337,9 @@ angular.module('materialAdmin')
             console.log("Entro?"+id);
             $http({method: 'GET', url: 'http://localhost:8181/producto_detalle/' + id})
                 .success(function(res){
+
+
+
                     $scope.datos=res
                     console.log(res);
 

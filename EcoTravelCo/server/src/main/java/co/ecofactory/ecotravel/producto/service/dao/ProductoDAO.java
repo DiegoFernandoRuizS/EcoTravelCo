@@ -28,8 +28,8 @@ public class ProductoDAO {
         int idUsuario = usuario.getInteger("id_usuario", 0);
         System.out.println("Usuario en el dao " + idUsuario);
         String query = "SELECT p.id, p.estado, p.nombre, p.fecha_registro, p.fecha_actualizacion, p.calificacion_promedio, \n" +
-                "                    p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio\n" +
-                "                FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
+                "                    p.id_padre,p.id_direccion_id, tp.tipo, p.descripcion, p.precio,\n" +
+                "                p.caracteristicas FROM public.mp_producto p, public.mp_tipo_producto tp\n" +
                 "                 where p.tipo_producto_id=tp.id\n" +
                 "                 and p.id_usuario=" + idUsuario + " and p.tipo_producto_id not in (5) order by p.fecha_actualizacion desc";
         JsonArray params = new JsonArray();
@@ -90,7 +90,7 @@ public class ProductoDAO {
     public CompletableFuture<List<JsonObject>> listarProductosDetalle(String id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("entro id = " + id);
-        String query = "select a.id, a.nombre, to_char(a.fecha_registro, 'YYYY-MM-DD') as fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual\n" +
+        String query = "select a.id, a.nombre, to_char(a.fecha_registro, 'YYYY-MM-DD') as fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual, a.caracteristicas\n" +
                 ", b.tipo\n" +
                 ", c.url\n" +
                 ", (case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as vendedor, pe.foto\n" +
@@ -393,12 +393,14 @@ public class ProductoDAO {
         JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
         JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
 
+        JsonUtils.add(params, nuevoProducto.getJsonObject("caracteristicas", new JsonObject()).toString());
+
         int idProducto = nuevoProducto.getInteger("id", 0);
 
         String query = "UPDATE mp_producto\n" +
                 "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
                 "       id_direccion_id=?, tipo_producto_id=?, \n" +
-                "       descripcion=?, precio=?, cantidad_origen=?\n" +
+                "       descripcion=?, precio=?, cantidad_origen=?, caracteristicas = ?::JSON  \n " +
                 " WHERE id=" + idProducto;
 
         dataAccess.getConnection(conn -> {

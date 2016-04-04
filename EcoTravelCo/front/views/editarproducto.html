@@ -97,7 +97,245 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
             <br/><br/>
+
+
+            <div class="row" data-ng-show="actualProducto.tipo == 'Alojamiento'">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="tipoHabitacion">Tipo Habitación</label>
+                            <select data-placeholder="Tipo Habitación..." class="w-100" id="tipoHabitacion"
+                                    ng-model="actualProducto.caracteristicas.tipoHabitacion">
+                                <option value="clasica">CLASICA</option>
+                                <option value="vip">VIP</option>
+                                <option value="suite">SUITE</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="acomodacion">Acomodación</label>
+                            <select data-placeholder="Tipo Habitación..." class="w-100" id="acomodacion"
+                                    ng-model="actualProducto.caracteristicas.acomodacion">
+                                <option value="sencilla">SENCILLA</option>
+                                <option value="doble">DOBLE</option>
+                                <option value="multiple">MULTIPLE</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="=col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="cantidadCamas">Camas</label>
+                            <input class="form-control" rows="4" placeholder="Cantidad camas...."
+                                   ng-model="actualProducto.caracteristicas.camas" id="cantidadCamas">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" data-ng-show="actualProducto.tipo == 'Alimentación'">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="tipoAlimentacion">Tipo Alimentación</label>
+                            <select data-placeholder="Tipo Alimentacion..." class="w-100" id="tipoAlimentacion"
+                                    ng-model="actualProducto.caracteristicas.tipoAlimentacion">
+                                <option value="desayuno">Desayuno</option>
+                                <option value="almuerzo">Almuerzo</option>
+                                <option value="tres_comidas">Tres Comidas</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="bebidasIlimitadas">Bebidas Ilimitadas</label>
+                            <select data-placeholder="Bebidas Ilimitadas..." class="w-100" id="bebidasIlimitadas"
+                                    ng-model="actualProducto.caracteristicas.bebidasIlimitadas">
+                                <option value="si">SI</option>
+                                <option value="no">NO</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="todoIncluido">Todo Incluido</label>
+                            <select data-placeholder="Todo Incluido..." class="w-100" id="todoIncluido"
+                                    ng-model="actualProducto.caracteristicas.todoIncluido">
+                                <option value="si">SI</option>
+                                <option value="no">NO</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row" data-ng-show="actualProducto.tipo == 'Transporte'">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="tipoTransporte">Tipo Transporte</label>
+                            <select data-placeholder="Tipo Transporte..." class="w-100" id="tipoTransporte"
+                                    ng-model="actualProducto.caracteristicas.tipoTransporte">
+                                <option value="terrestre">TERRESTRE</option>
+                                <option value="aereo">AEREO</option>
+                                <option value="maritimo">MARITIMO</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row" data-ng-show="actualProducto.tipo == 'Transporte'">
+
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="salida">Salida</label>
+                            <input class="form-control" rows="4" placeholder="Salida...."
+                                   ng-model="actualProducto.caracteristicas.salida" id="salida">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="horasalida">Hora Salida</label>
+                            <input type="number" class="form-control" rows="4" placeholder="Hora Salida...."
+                                   ng-model="actualProducto.caracteristicas.horasalida" id="horasalida">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="llegada">Llegada</label>
+                            <input class="form-control" rows="4" placeholder="Llegada...."
+                                   ng-model="actualProducto.caracteristicas.llegada" id="llegada">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="horallegada">Hora Llegada</label>
+                            <input type="number" class="form-control" rows="4" placeholder="Hora Llegada...."
+                                   ng-model="actualProducto.caracteristicas.horallegada" id="horallegada">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" data-ng-show="actualProducto.tipo == 'Paseos Ecológicos'">
+
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="salidapaseo">Lugar de Salida</label>
+                            <input class="form-control" rows="4" placeholder="Salida...."
+                                   ng-model="actualProducto.caracteristicas.salida" id="salidapaseo">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="horasalidapaseo">Hora Salida</label>
+                            <input type="number" class="form-control" rows="4" placeholder="Hora Salida...."
+                                   ng-model="actualProducto.caracteristicas.horasalida" id="horasalidapaseo">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+                        <div class="fg-line">
+                            <label for="horaregreso">Hora de Regreso</label>
+                            <input type="number" class="form-control" rows="4" placeholder="Hora Regreso...."
+                                   ng-model="actualProducto.caracteristicas.horaregreso" id="horaregreso">
+                        </div>
+                        <span class="input-group-addon last"><i class="zmdi"></i></span>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <br/><br/>
+
+
+
+
             <div class="row">
                 <br/>
                 <div class="col-md-4">

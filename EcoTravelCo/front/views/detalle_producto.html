@@ -117,6 +117,33 @@
                             <div class="ptib-item">
                                 {{data.descripcion}}
                             </div>
+
+                            <div class="ptib-item" data-ng-show="data.tipo == 'Alimentación'">
+                                Tipo de Alimentación: {{data.caracteristicas.tipoAlimentacion}}<br/>
+                                Bebidas Ilimitadas: {{data.caracteristicas.bebidasIlimitadas}}<br/>
+                                Todo Incluido: {{data.caracteristicas.todoIncluido}}<br/>
+                            </div>
+
+                            <div class="ptib-item" data-ng-show="data.tipo == 'Alojamiento'">
+                                Tipo de Habitación: {{data.caracteristicas.tipoHabitacion}}<br/>
+                                Acomodación: {{data.caracteristicas.acomodacion}}<br/>
+                                Camas: {{data.caracteristicas.camas}}<br/>
+                            </div>
+
+                            <div class="ptib-item" data-ng-show="data.tipo == 'Transporte'">
+                                Tipo de Transporte: {{data.caracteristicas.tipoTransporte}}<br/>
+                                Salida: {{data.caracteristicas.salida}}<br/>
+                                Hora Salida: {{data.caracteristicas.horasalida}}<br/>
+                                Llegada: {{data.caracteristicas.llegada}}<br/>
+                                Hora Llegada: {{data.caracteristicas.horallegada}}<br/>
+                            </div>
+
+                            <div class="ptib-item" data-ng-show="data.tipo == 'Paseos Ecológicos'">
+                                Lugar de Salida: {{data.caracteristicas.salida}}<br/>
+                                Hora Salida: {{data.caracteristicas.horasalida}}<br/>
+                                Hora de Regreso: {{data.caracteristicas.horaregreso}}<br/>
+                            </div>
+
                         </div>
 
 
