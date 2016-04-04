@@ -228,29 +228,36 @@
                 </div>
             </div>
             <!--IMAGNES-->
-            <br/><br/>
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="input-group-addon last"><i class="zmdi zmdi-cloud-upload"></i></span>
-                <span class="btn btn-success btn-file m-r-10">Actualizar imágenes
-                <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(event)"
-                       multiple/>
+            <div class="card-body card-padding">
+                <div class="col-xs-1">
+                    <span class=" btn btn-success btn-file m-r-10" style="cursor: pointer">
+                        <i class="zmdi zmdi-plus zmdi-hc-fw"></i>
+                        <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUploadEdit(event)" multiple />
                     </span>
-                    <div ng-repeat="step in imagenesCargadas">
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-preview thumbnail">
-                                <img ng-src="{{step.url}}"/>
-                            </div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="c-black f-500 m-b-5">Galeria</p>
+                    <small>Adicionar Imagen</small>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="card-body card-padding">
+                <div class="lightbox photos">
+                    <div class="fileinput fileinput-new col-xs-3" data-provides="fileinput" ng-repeat="imagen in imagenesCargadas">
+                        <div class="fileinput-preview thumbnail">
+                            <img ng-src="{{imagen.url}}"/><div class="clearfix"></div>
+                            <a ng-click="eliminarFotoEdit(imagen.$$hashKey)"><i class="zmdi zmdi-delete zmdi-hc-fw"></i></a>
+                            <i class="zmdi zmdi-star zmdi-hc-fw" ng-if="imagen.foto_principal == 1"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                                   </div>
-                <div class="col-md-4">
-                </div>
             </div>
             <br>
-            <br>
+            <div class="clearfix"></div>
+
+
+            <!-- Botones -->
             <div class="row">
                 <div class="col-md-4">
                 </div>

@@ -61,6 +61,11 @@ materialAdmin
                         templateUrl: 'views/paquete/paquetes.html',
                         controller: 'paquetectrl'
                     })
+                    .state('paquetes.productos', {
+                                            url: '/paquetes',
+                                            templateUrl: 'views/paquete/views/proinsidepa.html',
+                                            controller: 'paquetectrl'
+                                        })
                     .state('paquetes.crear', {
                         url: '/paquetescrear',
                         templateUrl: 'views/paquete/crearpaquete.html',

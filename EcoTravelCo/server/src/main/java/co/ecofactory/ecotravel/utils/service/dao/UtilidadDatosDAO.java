@@ -51,7 +51,7 @@ public class UtilidadDatosDAO {
     //Listar tipo producto
     public CompletableFuture<List<JsonObject>> listaTipoProducto() {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select * from mp_tipo_producto order by tipo asc;";
+        String query = "select * from mp_tipo_producto where id not in (5) order by tipo asc;";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {

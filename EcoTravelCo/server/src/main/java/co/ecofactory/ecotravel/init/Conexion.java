@@ -13,7 +13,7 @@ public class Conexion {
         conf.put("url", "jdbc:postgresql://107.21.218.93:5432/djf63h0pqr06s?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
         conf.put("driver_class", "org.postgresql.Driver");
         conf.put("user","igqcflmodfdggd").put("password","Wen05D3mf4tXFdTHJOiEgkFa0S");
-        conf.put("max_pool_size", 1);
+        conf.put("max_pool_size", 2);
 
         return conf;
     }

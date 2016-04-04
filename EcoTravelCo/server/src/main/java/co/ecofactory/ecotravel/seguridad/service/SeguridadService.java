@@ -56,6 +56,7 @@ public class SeguridadService extends AbstractVerticle {
 
             JsonObject entrada = message.body();
 
+
             this.getVertx().eventBus().send("consultarUsuarioPorLogin", entrada.getString("login"),
                     res -> {
                         if (res.succeeded()) {

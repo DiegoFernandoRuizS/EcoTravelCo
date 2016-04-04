@@ -37,16 +37,16 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table ng-table="tctrl.tableSorting" class="table table-striped table-vmiddle">
+                <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
                     <tr ng-repeat="w in paquetes">
-                        <td data-title="'Identificador'" sortable="'id'">
-                            {{w.id}}
+                        <td data-title="'Identificador'">
+                            {{w.idproducto}}
                         </td>
                         <td data-title="'Nombre del servicio'">
                            {{w.nombre}}
                         </td>
                         <td data-title="'Descripción servicio'">
-                            {{ w.descripcion }}
+                            {{ w.descrippaquete }}
                         </td>
                         <td data-title="'Tipo servicio'">
                             {{ w.tipo }}
@@ -58,22 +58,22 @@
                            {{ w.fecha_actualizacion }}
                         </td>
 
-                        <td data-title="'Edición'">
-                            <button type="button" class="btn btn-info" ng-click="listarProducto(w.id)"
+                       <!-- <td data-title="'Edición'">
+                            <button type="button" class="btn btn-info" ng-click="listarProducto(w.idproducto)"
                                     data-ui-sref="productos.editar"><i class="zmdi zmdi-edit"></i>
-                                <!--<a>Editar</a>-->
+
                             </button>
-                        </td>
+                        </td>-->
                         <td data-title="'Borrar'">
 
-                        <button type="button" class="btn btn-danger" ng-click="borrarProducto(w.id)"
-                                    data-ui-sref="productos.lista"><i
+                        <button type="button" class="btn btn-danger" ng-click="borrarPaquete(w.idproducto)"
+                                    data-ui-sref="paquetes.lista"><i
                                     class="zmdi zmdi-delete"></i>
                                <!-- <a>Borrar</a>-->
                             </button>
                         </td>
                         <td data-title="'Vista previa'">
-                            <button type="button" class="btn btn-success" ng-click="detailProd(w.id)"
+                            <button type="button" class="btn btn-success" ng-click="detailProd(w.idproducto)"
                                     data-ui-sref="productos.detalle"><i
                                     class="zmdi zmdi-view-web"></i>
                                 <!-- <a>Borrar</a>-->
