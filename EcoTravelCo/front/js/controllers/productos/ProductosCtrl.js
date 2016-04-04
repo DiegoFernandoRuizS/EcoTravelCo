@@ -43,14 +43,14 @@ angular.module('materialAdmin')
         $scope.imagen=[];
         $rootScope.imagenesCargadas = [];
         $rootScope.imagenesEliminar = [];
-        
 
-        
+
+
         //Manejo de imagenes para crear
         $scope.imageUpload = function (event) {
             $scope.isUpdate = true;
             var files = event.target.files;
-            
+
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 var reader = new FileReader();
@@ -90,7 +90,7 @@ angular.module('materialAdmin')
         $scope.imageIsLoadedEdit = function (e) {
             $scope.$apply(function () {
                 var img = {"url":e.target.result,
-                            "id":0  };
+                    "id":0  };
                 $rootScope.imagenesCargadas.push(img);
             });
         }
@@ -120,7 +120,7 @@ angular.module('materialAdmin')
                 console.log("Que trae esto paises " + res);
             });
         };
-        
+
         //para cargar el combox box de tipoproducto
         $scope.comboxTipo = function () {
             $http.get("http://localhost:8181/datos/tipo", {
@@ -173,7 +173,7 @@ angular.module('materialAdmin')
                                 "id_producto":idProd,
                                 "principal": principal,
                             }
-                            
+
                             $http.post("http://localhost:8181/galeria/", datosImagen)
                                 .success(function (res) {
                                     console.log("El Imagen guardada: " + res);
@@ -260,7 +260,7 @@ angular.module('materialAdmin')
                 console.log("Doesn't work para actualizar producto");
                 console.log("El error para actualizar producto: " + res);
             });
-            
+
             //Insertamos las nuevas imagenes
             var idProd = id;
             var principal = 0;
@@ -292,7 +292,7 @@ angular.module('materialAdmin')
                     console.log("El error para borar producto: " + res);
                 });
             }
-            
+
         };
 
         //autocarga de los productos en la gestion
@@ -465,14 +465,21 @@ angular.module('materialAdmin')
                 .success(function(res){
                     $scope.datos=res;
 
-                    $scope.tableBasic = new ngTableParams(
+                    $scope.tableFilter = new ngTableParams(
                         {page: 1, count: 5},
                         {
                             total: res.length,
-                            getData: function ($defer, params) {
-
-                                $defer.resolve(res.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
+                            getData: function($defer, params) {
+                                // use build-in angular filter
+                                var orderedData = params.filter() ? $filter('filter')(res, params.filter()) : res;
+                                this.nombre = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                                this.tipo = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                                this.descripcion = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                                this.precio = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                                this.cantidad_actual = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                                this.vendedor = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                                params.total(orderedData.length); // set total for recalc pagination
+                                $defer.resolve( this.nombre , this.tipo, this.descripcion, this.precio, this.cantidad_actual, this.vendedor );
                             }
                         }
                     );
