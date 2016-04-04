@@ -5,29 +5,31 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table ng-table="tableBasic" class="table table-striped table-vmiddle">
+                            <table ng-table="tableFilter"  class="table table-striped table-vmiddle" show-filter="true">
                                 <tr ng-repeat="a in $data" data-ui-sref="productos.detalle" ng-click="detailProd(a.id)">
+
                                     <td data-title="'Imagen'">
 
                                         <img class="lv-img-m" src="{{ a.url }}" alt="" />
 
                                     </td>
-                                    <td data-title="'Nombre'">
+
+                                    <td data-title="'Nombre'" filter="{ 'nombre': 'text' }">
                                         {{ a.nombre }}
                                     </td>
-                                    <td data-title="'Categoria'">
+                                    <td data-title="'Categoria'" filter="{ 'tipo': 'text' }">
                                         {{ a.tipo }}
                                     </td>
-                                    <td data-title="'Descripción'">
+                                    <td data-title="'Descripción'" filter="{ 'descripcion': 'text' }">
                                         {{ a.descripcion }}
                                     </td>
-                                    <td data-title="'Precio'">
+                                    <td data-title="'Precio'" filter="{ 'precio': 'text' }">
                                         {{ a.precio }}
                                     </td>
-                                    <td data-title="'Cantidad'">
+                                    <td data-title="'Cantidad'" filter="{ 'cantidad_actual': 'text' }">
                                         {{ a.cantidad_actual }}
                                     </td>
-                                    <td data-title="'Vendedor'">
+                                    <td data-title="'Vendedor'" filter="{ 'vendedor': 'text' }">
                                         {{ a.vendedor }}
                                     </td>
                                 </tr>
