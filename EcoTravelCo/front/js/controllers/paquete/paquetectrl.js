@@ -11,7 +11,7 @@ angular.module('materialAdmin')
         $scope.total = 0;
         $scope.mostrar = false;
         $scope.agregado = [];
-        $scope.imagen=[];
+        $scope.imagen = [];
         $rootScope.imagenesCargadas = [];
 
 
@@ -43,10 +43,10 @@ angular.module('materialAdmin')
                         //agregar Imagenes
                         var idProd = res["keys"][0];
                         var principal = 1;
-                        for (var i = 0; i < $rootScope.imagenesCargadas.length; i++){
+                        for (var i = 0; i < $rootScope.imagenesCargadas.length; i++) {
                             var datosImagen = {
                                 "imagen": $rootScope.imagenesCargadas[i]["img"],
-                                "id_producto":idProd,
+                                "id_producto": idProd,
                                 "principal": principal,
                             }
 
@@ -59,7 +59,7 @@ angular.module('materialAdmin')
                             });
                             principal = 0;
                         }
-                        
+
                         growlService.growl('Se guardo correctamente la información.', 'success');
                         $scope.paquete = {};
                         console.log("La respuesta del backend " + res);
@@ -93,7 +93,7 @@ angular.module('materialAdmin')
             $scope.mostrar = !$scope.mostrar;
             $scope.cantidadProductos = {};
 
-            if($scope.datos.length == 0 && $scope.agregado.length == 0){
+            if ($scope.datos.length == 0 && $scope.agregado.length == 0) {
                 var session = {withCredentials: true, headers: {token: sessionStorage.token}};
                 $http.get("http://localhost:8181/producto/", session
                 ).success(function (res) {
@@ -160,117 +160,122 @@ angular.module('materialAdmin')
 
         $scope.imageIsLoaded = function (e) {
             $scope.$apply(function () {
-                var img = {"img":e.target.result};
+                var img = {"img": e.target.result};
                 $rootScope.imagenesCargadas.push(img);
             });
         }
 
         $scope.eliminarFoto = function (key) {
-            for (var i = 0; i < $rootScope.imagenesCargadas.length; i++){
-                if($rootScope.imagenesCargadas[i]["$$hashKey"] == key){
-                    $rootScope.imagenesCargadas.splice(i,1);
+            for (var i = 0; i < $rootScope.imagenesCargadas.length; i++) {
+                if ($rootScope.imagenesCargadas[i]["$$hashKey"] == key) {
+                    $rootScope.imagenesCargadas.splice(i, 1);
                 }
             }
         }
+
+        //borrar paquete
+        $scope.borrarPaquete = function (id) {
+            $http.delete("http://localhost:8181/paquete/" + id, $scope.productoDelete, {
+                    withCredentials: true,
+                    headers: {token: sessionStorage.token}
+                })
+                .success(function (res) {
+                    $scope.listar();
+                    growlService.growl('Se borró correctamente la información.', 'inverse');
+                }).error(function (res) {
+                growlService.growl(' Ocurrió un error borrando la información.', 'inverse');
+                console.log("Doesn't work para Borrar paquete");
+                console.log("El error para borar producto: " + res);
+            });
+        };
+
+
+//para listar el paquete a editar
+        $scope.listarPaquete = function (id) {
+            $rootScope.hijosPaquete = [];
+            $rootScope.actualPaquete = [];
+            console.log("Listar paquete en el controlador " + id);
+            $http.get("http://localhost:8181/paquete/" + id)
+                .success(function (res) {
+                    $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
+                        .success(function (resHijos) {
+                            $rootScope.hijosPaquete = resHijos;
+                            console.log(resHijos);
+                            $rootScope.agregado = $rootScope.hijosPaquete[0];
+
+                            console.log();
+                        }).error(function (resHijos) {
+                        console.log("Doesn't work");
+                        console.log("Que trae esto: " + resHijos);
+                    })
+                    $rootScope.actualPaquete = res[0];
+                    console.log($rootScope.actualPaquete);
+                    $rootScope.actualPaquete.cantidad = "" + $rootScope.actualPaquete.cantidad_actual;
+                    $rootScope.actualPaquete.precio = "" + $rootScope.actualPaquete.precio;
+
+                }).error(function (res) {
+                console.log("Doesn't work para listar producto");
+                console.log("El error para borar producto: " + res);
+            });
+        };
+
+//para actualizr el paquete en la gestion
+        $scope.actualizarProducto = function (id) {
+            console.log("Que envio? ");
+            console.log(id);
+            console.log($scope.actualProducto);
+            $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {
+                    withCredentials: true,
+                    headers: {token: sessionStorage.token}
+                })
+                .success(function (res) {
+                    growlService.growl('Se actualizó correctamente la información.', 'inverse');
+                    console.log("La respuesta del backend " + res);
+                    $scope.actualProducto = {};
+                    $window.location.href = '/#/productos/productos';
+                    $scope.consultarProductos();
+
+                }).error(function (res) {
+                growlService.growl(' Ocurrió un error actualizando la información.', 'inverse');
+                console.log("Doesn't work para actualizar producto");
+                console.log("El error para actualizar producto: " + res);
+            });
+
+            //Insertamos las nuevas imagenes
+            var idProd = id;
+            var principal = 0;
+            for (var i = 0; i < $rootScope.imagenesCargadas.length; i++) {
+                if ($rootScope.imagenesCargadas[i]["id"] == 0) {
+                    var datosImagen = {
+                        "imagen": $rootScope.imagenesCargadas[i]["url"],
+                        "id_producto": idProd,
+                        "principal": principal,
+                    }
+
+                    $http.post("http://localhost:8181/galeria/", datosImagen)
+                        .success(function (res) {
+                            console.log("El Imagen guardada: " + res);
+                        }).error(function (res) {
+                        console.log("Doesn't work para Borrar producto");
+                        console.log("El error para borar producto: " + res);
+                    });
+                }
+            }
+
+            //Eliminamos las imagenes
+            for (var i = 0; i < $rootScope.imagenesEliminar.length; i++) {
+                $http.delete("http://localhost:8181/galeria/" + $rootScope.imagenesEliminar[i]['id'], datosImagen)
+                    .success(function (res) {
+                        console.log("El Eliminada guardada: " + res);
+                    }).error(function (res) {
+                    console.log("Doesn't work para Borrar producto");
+                    console.log("El error para borar producto: " + res);
+                });
+            }
+
+        };
     });
 
 
-            //borrar paquete
-            $scope.borrarPaquete = function (id) {
-                $http.delete("http://localhost:8181/paquete/" + id, $scope.productoDelete, {withCredentials: true, headers: {token: sessionStorage.token}})
-                        .success(function (res) {
-                            $scope.listar();
-                            growlService.growl('Se borró correctamente la información.', 'inverse');
-                        }).error(function (res) {
-                    growlService.growl(' Ocurrió un error borrando la información.', 'inverse');
-                    console.log("Doesn't work para Borrar paquete");
-                    console.log("El error para borar producto: " + res);
-                });
-            };
 
 
-            //para listar el paquete a editar
-            $scope.listarPaquete = function (id){
-                        $rootScope.hijosPaquete = [];
-                        $rootScope.actualPaquete = [];
-                        console.log("Listar paquete en el controlador " + id);
-                        $http.get("http://localhost:8181/paquete/" + id)
-                            .success(function (res) {
-                                $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
-                                    .success(function (resHijos) {
-                                     $rootScope.hijosPaquete = resHijos;
-                                     console.log(resHijos);
-                                     $rootScope.agregado = $rootScope.hijosPaquete[0];
-                                     
-                                     console.log();
-                                    }).error(function (resHijos) {
-                                    console.log("Doesn't work");
-                                    console.log("Que trae esto: " + resHijos);
-                                })
-                                $rootScope.actualPaquete = res[0];
-                                console.log($rootScope.actualPaquete);
-                                $rootScope.actualPaquete.cantidad = "" + $rootScope.actualPaquete.cantidad_actual;
-                                $rootScope.actualPaquete.precio = "" + $rootScope.actualPaquete.precio;
-
-                            }).error(function (res) {
-                            console.log("Doesn't work para listar producto");
-                            console.log("El error para borar producto: " + res);
-                        });
-                    };
-
-             //para actualizr el paquete en la gestion
-             $scope.actualizarProducto = function (id) {
-                        console.log("Que envio? ");
-                        console.log(id);
-                        console.log($scope.actualProducto);
-                        $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {
-                                withCredentials: true,
-                                headers: {token: sessionStorage.token}
-                            })
-                            .success(function (res) {
-                                growlService.growl('Se actualizó correctamente la información.', 'inverse');
-                                console.log("La respuesta del backend " + res);
-                                $scope.actualProducto = {};
-                                $window.location.href = '/#/productos/productos';
-                                $scope.consultarProductos();
-
-                            }).error(function (res) {
-                            growlService.growl(' Ocurrió un error actualizando la información.', 'inverse');
-                            console.log("Doesn't work para actualizar producto");
-                            console.log("El error para actualizar producto: " + res);
-                        });
-
-                        //Insertamos las nuevas imagenes
-                        var idProd = id;
-                        var principal = 0;
-                        for(var i = 0; i < $rootScope.imagenesCargadas.length; i++){
-                            if($rootScope.imagenesCargadas[i]["id"] == 0){
-                                var datosImagen = {
-                                    "imagen": $rootScope.imagenesCargadas[i]["url"],
-                                    "id_producto":idProd,
-                                    "principal": principal,
-                                }
-
-                                $http.post("http://localhost:8181/galeria/", datosImagen)
-                                    .success(function (res) {
-                                        console.log("El Imagen guardada: " + res);
-                                    }).error(function (res) {
-                                    console.log("Doesn't work para Borrar producto");
-                                    console.log("El error para borar producto: " + res);
-                                });
-                            }
-                        }
-
-                        //Eliminamos las imagenes
-                        for(var i = 0; i < $rootScope.imagenesEliminar.length; i++){
-                            $http.delete("http://localhost:8181/galeria/"+$rootScope.imagenesEliminar[i]['id'], datosImagen)
-                                .success(function (res) {
-                                    console.log("El Eliminada guardada: " + res);
-                                }).error(function (res) {
-                                console.log("Doesn't work para Borrar producto");
-                                console.log("El error para borar producto: " + res);
-                            });
-                        }
-
-                    };
-        });
