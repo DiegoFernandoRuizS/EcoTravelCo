@@ -1,6 +1,5 @@
 'use strict';
 
-console.error("cargando ProveedoresCtrl.js");
 
 angular.module('materialAdmin')
   .controller('ProveedoresCtrl', function ($scope, $rootScope, $http, $location) {

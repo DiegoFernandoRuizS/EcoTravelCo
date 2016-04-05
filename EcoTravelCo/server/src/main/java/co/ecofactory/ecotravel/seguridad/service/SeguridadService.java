@@ -74,6 +74,8 @@ public class SeguridadService extends AbstractVerticle {
                                     response.put("nombre", persona.getString("nombre"));
                                     response.put("apellido", persona.getString("apellido"));
                                     response.put("correo_electronico", persona.getString("correo_electronico"));
+                                    response.put("foto", persona.getString("foto"));
+                                    response.put("tipo", persona.getString("tipo"));
                                     response.put("token", token);
                                     message.reply(response);
                                 } else {
