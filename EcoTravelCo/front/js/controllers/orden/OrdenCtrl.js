@@ -8,24 +8,37 @@
  * Controller of the Canasta
  */
 angular.module('materialAdmin')
-	.controller('OrdenCtrl', function ($scope, $rootScope, $http, $location, $uibModal) {
-		
+	.controller('OrdenCtrl', function ($scope, $rootScope, $http, $location, $uibModal, ngTableParams, tableService) {
+
 		$scope.ordenes = [];
 		$scope.orden = {};
 		$scope.data = {};
 		$rootScope.productos;
 
 		$http.get("http://localhost:8181/orden/", {
-				withCredentials: true,
-				headers: {token: sessionStorage.token}
-			}).success(function(res){
-				$scope.ordenes=res;
-				console.log($scope.datos)
-			}).error(function(res){
+			withCredentials: true,
+			headers: {token: sessionStorage.token}
+		}).success(function(res){
+			$scope.ordenes=res;
+			console.log($scope.datos)
+
+			$scope.tableOrden = new ngTableParams(
+				{page: 1, count: 10},
+				{
+					total: res.length,
+					getData: function ($defer, params) {
+
+						$defer.resolve(res.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+
+					}
+				}
+			);
+
+		}).error(function(res){
 			console.log("Doesn't work");
 			console.log("Que trae esto: "+res);
 		});
-		
+
 		if($rootScope.idOrdenCanasta != undefined && $rootScope.idOrdenCanasta != 0){
 			$rootScope.idOrden = $rootScope.idOrdenCanasta;
 			$http.get("http://localhost:8181/orden/detalle/?id="+$rootScope.idOrden)
@@ -37,8 +50,8 @@ angular.module('materialAdmin')
 				}).error(function(res){
 			});
 		}
-		
-		
+
+
 		$scope.detalleOrden = function (idOrden) {
 			$rootScope.idOrdenCanasta = 0;
 			$rootScope.idOrden = idOrden;
@@ -58,44 +71,44 @@ angular.module('materialAdmin')
 				.success(function(res){
 					var cancelar = res;
 					$http.get("http://localhost:8181/orden/", {
-							withCredentials: true,
-							headers: {token: sessionStorage.token}
-						}).success(function(res){
-							$scope.ordenes=res;
-							console.log($scope.datos)
-						}).error(function(res){
+						withCredentials: true,
+						headers: {token: sessionStorage.token}
+					}).success(function(res){
+						$scope.ordenes=res;
+						console.log($scope.datos)
+					}).error(function(res){
 						console.log("Doesn't work");
 						console.log("Que trae esto: "+res);
 					});
 				}).error(function(res){
 			});
 		}
-		
-	//Create Modal
-	function modalInstances() {
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: 'myModalContent.html',
-			controller: 'ModalCtrl',
-			size: "sm",
-			backdrop: true,
-			keyboard: true,
-			resolve: {
-				content: function () {
-					return $rootScope.idOrden;
+
+		//Create Modal
+		function modalInstances() {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'myModalContent.html',
+				controller: 'ModalCtrl',
+				size: "sm",
+				backdrop: true,
+				keyboard: true,
+				resolve: {
+					content: function () {
+						return $rootScope.idOrden;
+					}
 				}
-			}
-		});
-	}
-		
-	$scope.open = function (url, nombre, id_producto, id_item) {
-		$rootScope.urlMod = url;
-		$rootScope.nombreMod = nombre;
-		$rootScope.idProductoMod = id_producto;
-		$rootScope.idItemMod = id_item;
-		modalInstances();
-	}
-		
+			});
+		}
+
+		$scope.open = function (url, nombre, id_producto, id_item) {
+			$rootScope.urlMod = url;
+			$rootScope.nombreMod = nombre;
+			$rootScope.idProductoMod = id_producto;
+			$rootScope.idItemMod = id_item;
+			modalInstances();
+		}
+
 		$scope.pagar = function () {
 			$rootScope.idOrdenPagar = $rootScope.idOrden;
 			modalInstancesPagar();
@@ -117,9 +130,9 @@ angular.module('materialAdmin')
 				}
 			});
 		}
-})
+	})
 
-		
+
 angular.module('materialAdmin')
 	.controller('ModalCtrl', function ($scope, $rootScope, $modalInstance, $http) {
 		$scope.cal = ["","","","",""];
@@ -130,7 +143,7 @@ angular.module('materialAdmin')
 			$scope.numCal = valor;
 			for (var i = 0; i < 5; i++) {
 				if(i < valor ){
-					$scope.cal[i] = "active";	
+					$scope.cal[i] = "active";
 				} else {
 					$scope.cal[i] = "";
 				}
@@ -155,21 +168,21 @@ angular.module('materialAdmin')
 				envCal["comentario"] = $scope.comentarios;
 
 				$http.post("http://localhost:8181/orden/calificar/",envCal, {
-						withCredentials: true,
-						headers: {token: sessionStorage.token}
-					}).success(function(res){
-						$rootScope.datos=res
-						$modalInstance.close();
+					withCredentials: true,
+					headers: {token: sessionStorage.token}
+				}).success(function(res){
+					$rootScope.datos=res
+					$modalInstance.close();
 
-						$http.get("http://localhost:8181/orden/detalle/?id="+$rootScope.idOrden)
-							.success(function(res){
-								$rootScope.productos = [];
-								$rootScope.productos=res;
-								console.log(res);
-							}).error(function(res){
-						});
-						
-					}).error(function(res){
+					$http.get("http://localhost:8181/orden/detalle/?id="+$rootScope.idOrden)
+						.success(function(res){
+							$rootScope.productos = [];
+							$rootScope.productos=res;
+							console.log(res);
+						}).error(function(res){
+					});
+
+				}).error(function(res){
 					console.log("Doesn't work");
 					console.log("Que trae esto: "+res);
 				});
@@ -179,11 +192,11 @@ angular.module('materialAdmin')
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
 		};
-})
+	})
 
 angular.module('materialAdmin')
 	.controller('ModalCtrlPagar', function ($scope, $rootScope, $modalInstance, $http) {
-		
+
 		$scope.pagarOrden = function () {
 			$http.put("http://localhost:8181/orden/?id="+$rootScope.idOrdenPagar)
 				.success(function(res){

@@ -1,4 +1,4 @@
-<div class="container" ng-controller="OrdenCtrl">
+<div class="container" >
     <div class="block-header">
         <h2>SERVICIOS - ORDENES</h2>
 
@@ -12,8 +12,8 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table ng-table="tctrl.tableEdit" class="table table-striped table-vmiddle">
-                    <tr ng-repeat="orden in ordenes | orderBy: 'id': true" ng-class="active">
+                <table ng-table="tableOrden" class="table table-striped table-vmiddle">
+                    <tr ng-repeat="orden in $data | orderBy: 'id': true" ng-class="active">
                         <td data-title="'Identificador'">
                             <span>{{orden.id}}</span>
                         </td>
