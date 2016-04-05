@@ -1,0 +1,34 @@
+<div class="container" ng-controller="PaqueteCtrl">
+
+<div class="col-md-12">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
+                <tr ng-repeat="w in datos">
+                    <td data-title="Identificador">
+                        {{w.id}}
+                    </td>
+                    <td data-title="'Nombre del servicio'">
+                        {{w.nombre}}
+                    </td>
+                    <td data-title="'Descripción servicio'">
+                        {{ w.descripcion }}
+                    </td>
+                    <td data-title="'Tipo servicio'">
+                        {{ w.tipo }}
+                    </td>
+                    <td data-title="'Precio'">
+                        {{ w.precio }}
+                    </td>
+                    <td data-title="'Agregar'">
+                        <button type="button" class="btn btn-info" ng-click="agregarProductos(w.id)"
+                        ><i class="zmdi zmdi-plus"></i>
+                            <!-- <a>Borrar</a>-->
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+    </div>

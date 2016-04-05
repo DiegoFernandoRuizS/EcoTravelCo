@@ -48,7 +48,6 @@ angular.module('materialAdmin')
 
         //Manejo de imagenes para crear
         $scope.imageUpload = function (event) {
-            $scope.isUpdate = true;
             var files = event.target.files;
 
             for (var i = 0; i < files.length; i++) {
@@ -76,7 +75,6 @@ angular.module('materialAdmin')
 
         //Manejo de imagenes para editar
         $scope.imageUploadEdit = function (event) {
-            $scope.isUpdate = true;
             var files = event.target.files;
 
             for (var i = 0; i < files.length; i++) {

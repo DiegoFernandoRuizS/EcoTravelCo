@@ -59,7 +59,7 @@ materialAdmin
                     .state('paquetes.lista', {
                         url: '/paquetes',
                         templateUrl: 'views/paquete/paquetes.html',
-                        controller: 'paquetectrl'
+                        controller: 'PaqueteCtrl'
                     })
                     .state('paquetes.editar', {
                                             url: '/paquetes',
@@ -97,10 +97,11 @@ materialAdmin
                                                                                                  }
                                                                                              }
                                         })
+
                     .state('paquetes.crear', {
                         url: '/paquetescrear',
                         templateUrl: 'views/paquete/crearpaquete.html',
-                         controller: 'paquetectrl',
+                         controller: 'PaqueteCtrl',
                           resolve: {
                                                      loadPlugin: function ($ocLazyLoad) {
                                                          return $ocLazyLoad.load([
