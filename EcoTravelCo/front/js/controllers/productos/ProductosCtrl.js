@@ -36,7 +36,7 @@ angular.module('materialAdmin')
     });
 
 angular.module('materialAdmin')
-    .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location, $window,growlService) {
+    .controller('ProductosCtrlProveedor', function ($scope, $rootScope, $http, $location, $window,growlService, ngTableParams, tableService) {
         $scope.datos = [];
         $scope.listaValores = [];
         $scope.listaTipo = [];
@@ -141,6 +141,20 @@ angular.module('materialAdmin')
                 console.log("Consultando productos...");
                 $scope.datos = res;
                 $rootScope.cantidadProductos=res;
+
+                $scope.tableBasic = new ngTableParams(
+                    {page: 1, count: 10},
+                    {
+                        total: res.length,
+                        getData: function ($defer, params) {
+
+                            $defer.resolve(res.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+
+                        }
+                    }
+                );
+
+
                 var productosTotal = Object.keys($rootScope.cantidadProductos).length;
                 $rootScope.cantidadProductos=productosTotal;
             }).error(function (res) {

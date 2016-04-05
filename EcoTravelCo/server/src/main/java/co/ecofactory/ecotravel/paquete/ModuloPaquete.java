@@ -125,7 +125,6 @@ public class ModuloPaquete implements Modulo {
                     } else {
                         rc.response().end("El ID " + idAsLong + " no fue encontrado");
                     }
-
                 } else {
 
                     rc.response().end("ERROR en el modulo producto editar un producto");

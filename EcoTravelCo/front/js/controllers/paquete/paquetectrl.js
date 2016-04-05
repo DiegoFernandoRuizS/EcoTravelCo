@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('materialAdmin')
-    .controller('PaqueteCtrl', function ($scope, $rootScope, $http, $location, $window, growlService) {
+    .controller('PaqueteCtrl', function ($scope, $rootScope, $http, $location, $window, growlService, ngTableParams, tableService) {
 
         $scope.paquetes = [];
-        $scope.hijos;
+        $scope.hijos=[];
         //Datos del paquete a crear
         $scope.paquete = {};
         $scope.datos = [];
         var cuantos = 0;
         $scope.total = 0;
+        $scope.totalH = 0;
         $scope.mostrar = false;
         $scope.agregado = [];
         $scope.imagen = [];
@@ -82,12 +83,24 @@ angular.module('materialAdmin')
                 $scope.paquetes = res;
                 $scope.cantidadPaquetes = 0;
                 $scope.cantidadPaquetes = $scope.paquetes.length;
+
+                $scope.tablePaquete = new ngTableParams(
+                    {page: 1, count: 10},
+                    {
+                        total: res.length,
+                        getData: function ($defer, params) {
+
+                            $defer.resolve(res.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+
+                        }
+                    }
+                );
+
             }).error(function (res) {
                 console.log("Doesn't work");
                 console.log("Que trae esto paquetes " + res);
             });
         };
-        $scope.listar();
 
         //para consultar los productos en la gestion de productos
         $scope.consultarProductos = function () {
@@ -115,18 +128,22 @@ angular.module('materialAdmin')
             for (var i = 0; i < $scope.datos.length; i++) {
                 if ($scope.datos[i].id === productoId) {
                     $scope.agregado.push($scope.datos[i]);
+                    $scope.hijos.push($scope.datos[i]);
                     $scope.total = $scope.total + $scope.datos[i].precio;
+                    $scope.totalH = $scope.totalH + $scope.datos[i].precio;
                     $scope.datos.splice(i, 1);
                 }
             }
             console.log($scope.agregado);
         };
 
-        $scope.quitarProducto = function (productoId) {
+        $scope.quitarProducto = function (productoId){
             for (var i = 0; i < $scope.agregado.length; i++) {
                 if ($scope.agregado[i].id === productoId) {
                     $scope.datos.push($scope.agregado[i]);
+                    $scope.datos.push($scope.hijos[i]);
                     $scope.total = $scope.total - $scope.agregado[i].precio;
+                    $scope.totalH = $scope.totalH - $scope.hijos[i].precio;
                     $scope.agregado.splice(i, 1);
                 }
             }
@@ -192,17 +209,17 @@ angular.module('materialAdmin')
 
 
 //para listar el paquete a editar
+
         $scope.listarPaquete = function (id) {
-            $scope.hijos=[];
+            $scope.prodHijos=[];
             $rootScope.actualPaquete = [];
             console.log("Listar paquete en el controlador " + id);
             $http.get("http://localhost:8181/paquete/" + id)
                 .success(function (res) {
                     $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
                         .success(function (resHijos) {
-                            console.log(resHijos);
-                            $scope.hijos =resHijos;
-                            console.log();
+                            $rootScope.prodHijos =resHijos;
+
                         }).error(function (resHijos) {
                         console.log("Doesn't work");
                         console.log("Que trae esto: " + resHijos);
@@ -218,7 +235,7 @@ angular.module('materialAdmin')
             });
         };
 
- //para actualizr el paquete en la gestion
+        //para actualizr el paquete en la gestion
         $scope.actualizarPaquete = function (id) {
 
             console.log($scope.actualPaquete);
@@ -271,6 +288,10 @@ angular.module('materialAdmin')
             }
 
         };
+
+        if ($scope.paquetes.length < 1)
+            $scope.listar();
+
 
     });
 

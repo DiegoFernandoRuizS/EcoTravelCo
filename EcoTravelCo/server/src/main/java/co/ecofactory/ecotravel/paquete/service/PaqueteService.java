@@ -173,7 +173,7 @@ public class PaqueteService extends AbstractVerticle {
         }
     }
 
-    public void editarPaquete(Message<JsonObject> message) {
+    public void editarPaquete(Message<JsonObject> message){
         System.out.println("Service editar producto" + message.body());
         final int[] llave = {0};
         final int[] idProducto = {0};
@@ -181,19 +181,36 @@ public class PaqueteService extends AbstractVerticle {
             CompletableFuture<JsonObject> data2 = this.dao.editarPaquete(message.body(), idProducto[0]);
             data2.whenComplete((ok2, error2) -> {
                 System.out.println("actualizar producto 2 " + data2);
-
                 if (ok2 != null) {
-                    System.out.println("El idProducto a actualizar " + ok2.getJsonArray("keys").getValue(0));
                     idProducto[0] = (int) ok2.getJsonArray("keys").getValue(0);
                     System.out.println(idProducto[0]);
-                    System.out.println("actualizar producto:OK" + ok2);
-
                     message.reply(ok2);
-                    System.out.println("actualizar producto 3 " + ok2);
-
                 } else {
                     error2.printStackTrace();
                     message.fail(0, "ERROR in data producto actualizar");
+                }
+            });
+            //Desasociar los productos que tenia
+            CompletableFuture<JsonObject> data = this.dao.desasociarProductosAPaquete(message.body(), 0);
+            data.whenComplete((ok, error) -> {
+                if (ok != null) {
+                    idProducto[0] = (int) ok.getJsonArray("keys").getValue(0);
+                    System.out.println(idProducto[0]);
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data producto actualizar");
+                }
+            });
+            //Asociando los productos al padre nuevamente
+            int padre = idProducto[0];
+            CompletableFuture<JsonObject> data1 = this.dao.asociarProductosAPaquete(message.body(), padre);
+            data1.whenComplete((ok1, error1) -> {
+                if (ok1 != null) {
+                    message.reply(ok1);
+                } else {
+                    error1.printStackTrace();
+                    message.fail(0, "ERROR in data asociando al padre");
                 }
             });
         } catch (Exception e) {
