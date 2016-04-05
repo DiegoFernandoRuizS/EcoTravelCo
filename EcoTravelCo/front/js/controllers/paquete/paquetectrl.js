@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('materialAdmin')
-    .controller('PaqueteCtrl', function ($scope, $rootScope, $http, $location, $window, growlService) {
+    .controller('PaqueteCtrl', function ($scope, $rootScope, $http, $location, $window, growlService, ngTableParams, tableService) {
 
         $scope.paquetes = [];
         $scope.hijos=[];
@@ -88,7 +88,6 @@ angular.module('materialAdmin')
                 console.log("Que trae esto paquetes " + res);
             });
         };
-        $scope.listar();
 
         //para consultar los productos en la gestion de productos
         $scope.consultarProductos = function () {
@@ -197,17 +196,17 @@ angular.module('materialAdmin')
 
 
 //para listar el paquete a editar
-        $scope.listarPaquete = function (id){
-            $scope.hijos=[];
+
+        $scope.listarPaquete = function (id) {
+            $scope.prodHijos=[];
             $rootScope.actualPaquete = [];
             console.log("Listar paquete en el controlador " + id);
             $http.get("http://localhost:8181/paquete/" + id)
                 .success(function (res) {
                     $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
                         .success(function (resHijos) {
-                            console.log(resHijos);
-                            $scope.hijos =resHijos;
-                            console.log();
+                            $rootScope.prodHijos =resHijos;
+
                         }).error(function (resHijos) {
                         console.log("Doesn't work");
                         console.log("Que trae esto: " + resHijos);
@@ -276,6 +275,10 @@ angular.module('materialAdmin')
             }
 
         };
+
+        if ($scope.paquetes.length < 1)
+            $scope.listar();
+
 
     });
 

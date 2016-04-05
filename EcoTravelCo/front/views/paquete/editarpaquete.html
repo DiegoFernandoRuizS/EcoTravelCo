@@ -1,4 +1,4 @@
-<div class="container" ng-controller="PaqueteCtrl">
+<div class="container">
     <div class="block-header">
         <h2>Gestión de paquetes - Editar paquete</h2>
 
@@ -107,51 +107,52 @@
             <br>
             <div class="row">
                 <div class="col-md-12">
-                    <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
-                        <tr ng-repeat="w in hijos">
-                            <td data-title="'Identificador'">
-                                {{w.id}}
-                            </td>
-                            <td data-title="'Nombre del servicio'">
-                                {{w.nombre}}
-                            </td>
-                            <td data-title="'Descripción servicio'">
-                                {{ w.descripcion }}
-                            </td>
-                            <td data-title="'Tipo servicio'">
-                                {{ w.tipo }}
-                            </td>
-                            <td data-title="'Precio'">
-                                {{ w.precio |number}}
-                            </td>
-                            <td data-title="'Retirar'">
-                                <button type="button" class="btn btn-danger" ng-click="quitarProducto(w.id)">
-                                    <i class="zmdi zmdi-minus"></i>
-                                    <!-- <a>Borrar</a>-->
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td><td></td><td></td><td><h4>Total</h4></td>
+                    <div class="table-responsive">
+                        <table ng-table="tableBasic" class="table table-striped table-vmiddle">
+                            <tr ng-repeat="a in prodHijos">
+                                <td data-title="'Identificador'">
+                                    {{a.id}}
+                                </td>
+                                <td data-title="'Nombre del servicio'">
+                                    {{a.nombre}}
+                                </td>
+                                <td data-title="'Descripción servicio'">
+                                    {{ a.descripcion }}
+                                </td>
+                                <td data-title="'Tipo servicio'">
+                                    {{ a.tipo }}
+                                </td>
+                                <td data-title="'Precio'">
+                                    {{ a.precio |number}}
+                                </td>
+                                <td data-title="'Retirar'">
+                                    <button type="button" class="btn btn-danger" ng-click="quitarProducto(w.id)">
+                                        <i class="zmdi zmdi-minus"></i>
+                                        <!-- <a>Borrar</a>-->
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td><td></td><td></td><td><h4>Total</h4></td>
 
-                            <td class="highlight">
-                                <h4>${{total|number}}</h4>
-                            </td>
-                        </tr>
-                    </table>
-
+                                <td class="highlight">
+                                    <h4>${{total|number}}</h4>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <br>
             </div>
             <br><br>
-           <!-- <div class="row">
-                <div class="col-md-12">
-                            <div ng-show="true">
-                                <div  ng-controller="paquetectrl" ng-include="'views/paquete/views/proinsidepa.html'"></div>
-                            </div>
-                    </div>
-                </div>
-            </div>-->
+            <!-- <div class="row">
+                 <div class="col-md-12">
+                             <div ng-show="true">
+                                 <div  ng-controller="paquetectrl" ng-include="'views/paquete/views/proinsidepa.html'"></div>
+                             </div>
+                     </div>
+                 </div>
+             </div>-->
             <div class="row">
                 <div class="col-md-8">
                     <div class="input-group">
