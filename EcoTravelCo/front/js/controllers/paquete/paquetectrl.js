@@ -83,6 +83,19 @@ angular.module('materialAdmin')
                 $scope.paquetes = res;
                 $scope.cantidadPaquetes = 0;
                 $scope.cantidadPaquetes = $scope.paquetes.length;
+
+                $scope.tablePaquete = new ngTableParams(
+                    {page: 1, count: 10},
+                    {
+                        total: res.length,
+                        getData: function ($defer, params) {
+
+                            $defer.resolve(res.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+
+                        }
+                    }
+                );
+
             }).error(function (res) {
                 console.log("Doesn't work");
                 console.log("Que trae esto paquetes " + res);
