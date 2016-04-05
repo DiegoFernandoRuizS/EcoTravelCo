@@ -25,7 +25,7 @@ public class ModuloPaquete implements Modulo {
 
     public Router getRutas(Vertx vertx) {
         Router rutas = Router.router(vertx);
-//Listar paquetes
+       //Listar paquetes
         rutas.get("/").handler(rc -> {
             Integer idUsuario = Integer.parseInt(rc.request().params().get("user-id"));
             JsonObject usuario = new JsonObject();
@@ -77,6 +77,36 @@ public class ModuloPaquete implements Modulo {
                 }
             });
 
+        });
+
+        //Listar paquete
+        rutas.get("/:id").handler(rc -> {
+            final String id = rc.request().getParam("id");
+            final Long idAsLong = Long.valueOf(id);
+            JsonObject _params = new JsonObject();
+            _params.put("id", idAsLong);
+            vertx.eventBus().send("listarPaquetesDetalle", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo listarPaquetesDetalle consultando un listarPaquetesDetalle");
+                }
+            });
+        });
+
+        //Listar hijos
+        rutas.get("/hijos/:id").handler(rc -> {
+            final String id = rc.request().getParam("id");
+            final Long idAsLong = Long.valueOf(id);
+            JsonObject _params = new JsonObject();
+            _params.put("id", idAsLong);
+            vertx.eventBus().send("listarHijos", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo hijos paquete");
+                }
+            });
         });
 
         return rutas;

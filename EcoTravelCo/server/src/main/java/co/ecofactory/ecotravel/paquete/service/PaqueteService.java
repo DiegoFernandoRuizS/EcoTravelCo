@@ -23,6 +23,10 @@ public class PaqueteService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("listarPaquetes", this::listarPaquetes);
         this.getVertx().eventBus().consumer("insertarPaquete", this::insertarPaquete);
         this.getVertx().eventBus().consumer("borrarPaquete", this::borrarPaquete);
+        this.getVertx().eventBus().consumer("listarPaquetesDetalle", this::listarPaquetesDetalle);
+        this.getVertx().eventBus().consumer("listarHijos", this::listarHijos);
+
+
 
     }
 
@@ -101,6 +105,56 @@ public class PaqueteService extends AbstractVerticle {
         }
     }
 
+    public void listarPaquetesDetalle(Message<JsonObject> message) {
+        System.out.println("listarPaquetesDetalle");
+        try {
+            CompletableFuture<List<JsonObject>> data = this.dao.listarPaquetesDetalle(message.body().getLong("id"));
+//            System.out.println(message.body().getString("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarPaquetesDetalle");
+                if (ok != null) {
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
+    public void listarHijos(Message<JsonObject> message) {
+        System.out.println("listarHijos");
+        try {
+            CompletableFuture<List<JsonObject>> data = this.dao.listarHijos(message.body().getLong("id"));
+//            System.out.println(message.body().getString("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("ListarHijos");
+                if (ok != null) {
+                    JsonArray arr = new JsonArray();
+                    ok.forEach(o -> arr.add(o));
+                    message.reply(arr);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
 }
 
 

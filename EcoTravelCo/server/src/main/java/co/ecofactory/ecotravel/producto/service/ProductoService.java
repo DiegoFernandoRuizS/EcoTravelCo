@@ -41,10 +41,19 @@ public class ProductoService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProductos");
                 if (ok != null) {
-                    //  System.out.println("listarProductos:OK" + ok);
+                    System.out.println("listarProductosProveedor:OK" + ok);
                     JsonArray arr = new JsonArray();
 
-                    ok.forEach(o -> arr.add(o));
+                    ok.forEach(o ->
+
+                            {
+                                if (o.getString("caracteristicas") != null) {
+                                    o.put("caracteristicas", new JsonObject(o.getString("caracteristicas")));
+                                }
+                                arr.add(o);
+                            }
+
+                    );
 
                     message.reply(arr);
                 } else {
@@ -104,7 +113,12 @@ public class ProductoService extends AbstractVerticle {
                 if (ok != null) {
                     // System.out.println("listarProductos:OK" + ok);
                     JsonArray arr = new JsonArray();
-                    ok.forEach(o -> arr.add(o));
+                    ok.forEach(o -> {
+                        if (o.getString("caracteristicas") != null) {
+                            o.put("caracteristicas", new JsonObject(o.getString("caracteristicas")));
+                        }
+                        arr.add(o);
+                    });
                     message.reply(arr);
                 } else {
                     error.printStackTrace();
@@ -121,13 +135,13 @@ public class ProductoService extends AbstractVerticle {
     }
 
     //Listar producto con un id como paramento
-    public void listarProducto(Message<JsonObject> message){
+    public void listarProducto(Message<JsonObject> message) {
         System.out.println("listarProducto ID: " + message.body().getLong("id"));
         try {
             CompletableFuture<JsonObject> data = this.dao.listarProducto(message.body().getLong("id"));
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProducto");
-                if (ok != null){
+                if (ok != null) {
                     message.reply(ok);
                 } else {
                     error.printStackTrace();
