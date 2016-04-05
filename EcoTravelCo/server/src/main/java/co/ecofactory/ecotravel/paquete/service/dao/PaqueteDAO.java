@@ -261,11 +261,11 @@ public class PaqueteDAO {
     public CompletableFuture<List<JsonObject>> listarHijos(Long id){
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("entro id = " + id);
-        String query = "SELECT id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
-                "       id_padre, id_direccion_id, tipo_producto_id, descripcion, precio, \n" +
-                "       id_usuario, cantidad_actual, cantidad_origen, caracteristicas\n" +
-                "  FROM mp_producto\n" +
-                "  where id_padre=" + id + ";";
+        String query = "SELECT mp_producto.id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio,\n" +
+                "id_padre, id_direccion_id, tipo_producto_id, mp_producto.descripcion, precio, \n" +
+                "id_usuario, cantidad_actual, cantidad_origen, caracteristicas, url\n" +
+                "FROM mp_producto INNER JOIN mp_galeria on mp_producto.id = mp_galeria.producto_id \n" +
+                "where id_padre="+id+" and mp_galeria.foto_principal = 1";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {

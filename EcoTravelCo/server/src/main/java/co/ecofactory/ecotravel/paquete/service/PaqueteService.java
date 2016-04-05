@@ -152,7 +152,12 @@ public class PaqueteService extends AbstractVerticle {
                 System.out.println("ListarHijos");
                 if (ok != null) {
                     JsonArray arr = new JsonArray();
-                    ok.forEach(o -> arr.add(o));
+                    ok.forEach(o -> {
+                        if (o.getString("caracteristicas") != null) {
+                            o.put("caracteristicas", new JsonObject(o.getString("caracteristicas")));
+                        }
+                        arr.add(o);
+                    });
                     message.reply(arr);
                 } else {
                     error.printStackTrace();

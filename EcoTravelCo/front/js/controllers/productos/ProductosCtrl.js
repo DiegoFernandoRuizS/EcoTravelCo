@@ -382,7 +382,15 @@ angular.module('materialAdmin')
 
             $scope.buscarPreg(id);
 
-
+            //Cargamos los hijos del paquete
+            $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
+                .success(function (res) {
+                    $scope.hijos = res
+                    console.log(res);
+                }).error(function (res) {
+                console.log("Doesn't work");
+                console.log("Que trae esto: " + res);
+            })
 
         };
 
@@ -443,7 +451,9 @@ angular.module('materialAdmin')
             return $scope.showCalificaciones;
         };
 
-
+        $scope.detailProdDet = function (id) {
+            $rootScope.prodId= id;
+        };
 
     });
 

@@ -47,7 +47,7 @@
                                 </td>
                                 <td>&nbsp;&nbsp;&nbsp;</td>
                                 <td width="60%">
-                                    <div class="lv-title m-b-5"><a href="#" data-ui-sref="productos.detalle"
+                                    <div class="lv-title m-b-5"><a href="#" data-ui-sref="productos.detalle" ui-sref-opts="{reload: true}"
                                                                    ng-click="detailProd(data.id_producto)">{{data.nombre}}</a></div>
                                     <small class="lv-title">Cantidad:{{data.cantidad}}</small>
                                     <small class="lv-title">Valor:${{data.precio | number}}</small>

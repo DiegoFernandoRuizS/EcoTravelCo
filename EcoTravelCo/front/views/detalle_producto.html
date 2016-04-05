@@ -46,10 +46,52 @@
                         </address>
                     </li>
                 </ul>
+            </div>
 
+            <!-- Información de Productos de un paquete -->
+            <div id="best-selling" ng-if="data.tipo == 'Paquete'">
+                <div class="card-header bgm-green">
+                    <h2>Productos Asociados</h2>
+                </div>
 
+                <div class="listview p-t-5 ">
+                    <a class="lv-item ng-scope" href="" data-ng-repeat="hijo in hijos" style="">
+                        <div class="media" data-ui-sref-active="active"
+                             data-ui-sref="productos.detalle" ng-click="detailProdDet(hijo.id)" ui-sref-opts="{reload: true}">
+                            <div class="pull-left">
+                                <img class="lv-img" src="{{ hijo.url }}" alt=""/>
+                            </div>
+                            <div class="media-body rgb">
+                                <div class="lv-title ng-binding">{{hijo.nombre}}</div>
+                                <div class="ptib-item" data-ng-show="hijo.tipo_producto_id == 2"><small>
+                                    Tipo de Alimentación: {{hijo.caracteristicas.tipoAlimentacion}}<br/>
+                                    Bebidas Ilimitadas: {{hijo.caracteristicas.bebidasIlimitadas}}<br/>
+                                    Todo Incluido: {{hijo.caracteristicas.todoIncluido}}<br/></small>
+                                </div>
 
+                                <div class="ptib-item" data-ng-show="hijo.tipo_producto_id == 1"><small>
+                                    Tipo de Habitación: {{hijo.caracteristicas.tipoHabitacion}}<br/>
+                                    Acomodación: {{hijo.caracteristicas.acomodacion}}<br/>
+                                    Camas: {{hijo.caracteristicas.camas}}<br/></small>
+                                </div>
 
+                                <div class="ptib-item" data-ng-show="hijo.tipo_producto_id == 3"><small>
+                                    Tipo de Transporte: {{hijo.caracteristicas.tipoTransporte}}<br/>
+                                    Salida: {{hijo.caracteristicas.salida}}<br/>
+                                    Hora Salida: {{hijo.caracteristicas.horasalida | date:'hh:mm a'}}<br/>
+                                    Llegada: {{hijo.caracteristicas.llegada }}<br/>
+                                    Hora Llegada: {{hijo.caracteristicas.horallegada | date:'hh:mm a'}}<br/></small>
+                                </div>
+
+                                <div class="ptib-item" data-ng-show="hijo.tipo_producto_id == 4"><small>
+                                    Lugar de Salida: {{hijo.caracteristicas.salida}}<br/>
+                                    Hora Salida: {{hijo.caracteristicas.horasalida | date:'hh:mm a'}}<br/>
+                                    Hora de Regreso: {{hijo.caracteristicas.horaregreso | date:'hh:mm a'}}<br/></small>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
 
             <div class="pmo-block pmo-items hidden-xs">
@@ -179,7 +221,7 @@
                 </div>
             </div>
 
-            <div class="pmb-block"">
+            <div class="pmb-block">
                 <div class="pmbb-header">
                     <h2><i class="zmdi zmdi-star-outline m-r-5"></i> Calificaciones y comentarios </h2> </br> </br>
 
@@ -288,10 +330,5 @@
 
         </div>
 
-
-
-
-
-
-
     </div>
+</div>
