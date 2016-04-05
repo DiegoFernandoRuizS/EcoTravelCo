@@ -133,15 +133,15 @@
                             <div class="ptib-item" data-ng-show="data.tipo == 'Transporte'">
                                 Tipo de Transporte: {{data.caracteristicas.tipoTransporte}}<br/>
                                 Salida: {{data.caracteristicas.salida}}<br/>
-                                Hora Salida: {{data.caracteristicas.horasalida}}<br/>
-                                Llegada: {{data.caracteristicas.llegada}}<br/>
-                                Hora Llegada: {{data.caracteristicas.horallegada}}<br/>
+                                Hora Salida: {{data.caracteristicas.horasalida | date:'hh:mm a'}}<br/>
+                                Llegada: {{data.caracteristicas.llegada }}<br/>
+                                Hora Llegada: {{data.caracteristicas.horallegada | date:'hh:mm a'}}<br/>
                             </div>
 
                             <div class="ptib-item" data-ng-show="data.tipo == 'Paseos Ecológicos'">
                                 Lugar de Salida: {{data.caracteristicas.salida}}<br/>
-                                Hora Salida: {{data.caracteristicas.horasalida}}<br/>
-                                Hora de Regreso: {{data.caracteristicas.horaregreso}}<br/>
+                                Hora Salida: {{data.caracteristicas.horasalida | date:'hh:mm a'}}<br/>
+                                Hora de Regreso: {{data.caracteristicas.horaregreso | date:'hh:mm a'}}<br/>
                             </div>
 
                         </div>

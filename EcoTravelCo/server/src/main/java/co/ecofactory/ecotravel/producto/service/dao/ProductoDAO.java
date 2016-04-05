@@ -248,8 +248,14 @@ public class ProductoDAO {
 
 
         JsonUtils.add(params2, direccion);
-        JsonUtils.add(params2, Double.parseDouble(latitud));
-        JsonUtils.add(params2, Double.parseDouble(longitud));
+        if (!latitud.equals(""))
+            JsonUtils.add(params2, Double.parseDouble(latitud));
+        else
+            JsonUtils.add(params2, 0);
+        if (!longitud.equals(""))
+            JsonUtils.add(params2, Double.parseDouble(longitud));
+        else
+            JsonUtils.add(params2, 0);
         JsonUtils.add(params2, ciudad);
         JsonUtils.add(params2, departamento);
         JsonUtils.add(params2, pais);
