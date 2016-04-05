@@ -189,6 +189,39 @@ public class PaqueteDAO {
         return res;
     }
 
+    public CompletableFuture<JsonObject> borrarGaleriaPaquete(JsonObject nuevoProducto) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        JsonArray params = new JsonArray();
+
+        // int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
+        int idPaquete=nuevoProducto.getInteger("idPaquete",0);
+
+        String query = "delete from mp_galeria mp where mp.producto_id="+idPaquete;
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error borrar galeria paquete DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+        return res;
+    }
+
+
     public CompletableFuture<List<JsonObject>> listarPaquetesDetalle(Long id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("entro id = " + id);
@@ -251,6 +284,63 @@ public class PaqueteDAO {
                         conn.result().close();
                     } catch (Exception e) {
 
+                    }
+                }
+        );
+        return res;
+    }
+
+    public CompletableFuture<JsonObject> editarPaquete(JsonObject nuevoProducto, int productoAsociado) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+        //Definicion de los datos a guardar del producto
+        JsonArray params = new JsonArray();
+
+        int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
+
+        JsonUtils.add(params, nuevoProducto.getString("estado", ""));
+        JsonUtils.add(params, nuevoProducto.getString("nombre", ""));
+        JsonUtils.add(params, new Date().toInstant());
+        String tipo3 = nuevoProducto.getString("tipo", "");
+
+        int tipo_producto_id = 0;
+
+        if (tipo3.equals("Paquete")) {
+            tipo_producto_id = 5;
+        }
+
+        JsonUtils.add(params, tipo_producto_id);
+        JsonUtils.add(params, nuevoProducto.getString("descripcion", ""));
+        JsonUtils.add(params, Double.parseDouble(nuevoProducto.getString("precio", "")));
+        JsonUtils.add(params, Integer.parseInt(nuevoProducto.getString("cantidad", "")));
+
+
+
+        int idProducto = nuevoProducto.getInteger("id", 0);
+
+        String query = "UPDATE mp_producto\n" +
+                "   SET estado=?, nombre=?, fecha_actualizacion=to_timestamp(?, 'yyyy-mm-dd hh24:mi:ss'), \n" +
+                "        tipo_producto_id=?, \n" +
+                "       descripcion=?, precio=?, cantidad_origen=?\n " +
+                " WHERE id=" + idProducto;
+
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().updateWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().toJson());
+                            } else {
+                                data.cause().printStackTrace();
+                                System.out.println("Error actualizar producto DAO print");
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
         );

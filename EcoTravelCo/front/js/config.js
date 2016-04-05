@@ -64,7 +64,7 @@ materialAdmin
                     .state('paquetes.editar', {
                                             url: '/paquetes',
                                             templateUrl: 'views/paquete/editarpaquete.html',
-                                            controller: 'paquetectrl',
+                                            controller: 'PaqueteCtrl',
                                               resolve: {
                                                                                                  loadPlugin: function ($ocLazyLoad) {
                                                                                                      return $ocLazyLoad.load([

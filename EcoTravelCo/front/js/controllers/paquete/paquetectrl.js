@@ -4,6 +4,7 @@ angular.module('materialAdmin')
     .controller('PaqueteCtrl', function ($scope, $rootScope, $http, $location, $window, growlService) {
 
         $scope.paquetes = [];
+        $scope.hijos;
         //Datos del paquete a crear
         $scope.paquete = {};
         $scope.datos = [];
@@ -192,17 +193,15 @@ angular.module('materialAdmin')
 
 //para listar el paquete a editar
         $scope.listarPaquete = function (id) {
-            $rootScope.hijosPaquete = [];
+            $scope.hijos=[];
             $rootScope.actualPaquete = [];
             console.log("Listar paquete en el controlador " + id);
             $http.get("http://localhost:8181/paquete/" + id)
                 .success(function (res) {
                     $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
                         .success(function (resHijos) {
-                            $rootScope.hijosPaquete = resHijos;
                             console.log(resHijos);
-                            $rootScope.agregado = $rootScope.hijosPaquete[0];
-
+                            $scope.hijos =resHijos;
                             console.log();
                         }).error(function (resHijos) {
                         console.log("Doesn't work");
@@ -219,24 +218,22 @@ angular.module('materialAdmin')
             });
         };
 
-//para actualizr el paquete en la gestion
-        $scope.actualizarProducto = function (id) {
-            console.log("Que envio? ");
-            console.log(id);
-            console.log($scope.actualProducto);
-            $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {
+ //para actualizr el paquete en la gestion
+        $scope.actualizarPaquete = function (id) {
+
+            console.log($scope.actualPaquete);
+            $http.put("http://localhost:8181/paquete/" + id, $scope.actualPaquete, {
                     withCredentials: true,
                     headers: {token: sessionStorage.token}
                 })
                 .success(function (res) {
-                    growlService.growl('Se actualizó correctamente la información.', 'inverse');
+                    growlService.growl('Se actualizó correctamente la información.', 'success');
                     console.log("La respuesta del backend " + res);
-                    $scope.actualProducto = {};
-                    $window.location.href = '/#/productos/productos';
-                    $scope.consultarProductos();
-
+                    $scope.actualPaquete = {};
+                    $window.location.href = '/#/paquetes/paquetes';
+                    $scope.listar();
                 }).error(function (res) {
-                growlService.growl(' Ocurrió un error actualizando la información.', 'inverse');
+                growlService.growl(' Ocurrió un error actualizando la información.', 'danger');
                 console.log("Doesn't work para actualizar producto");
                 console.log("El error para actualizar producto: " + res);
             });
@@ -244,11 +241,11 @@ angular.module('materialAdmin')
             //Insertamos las nuevas imagenes
             var idProd = id;
             var principal = 0;
-            for (var i = 0; i < $rootScope.imagenesCargadas.length; i++) {
-                if ($rootScope.imagenesCargadas[i]["id"] == 0) {
+            for(var i = 0; i < $rootScope.imagenesCargadas.length; i++){
+                if($rootScope.imagenesCargadas[i]["id"] == 0){
                     var datosImagen = {
                         "imagen": $rootScope.imagenesCargadas[i]["url"],
-                        "id_producto": idProd,
+                        "id_producto":idProd,
                         "principal": principal,
                     }
 
@@ -263,8 +260,8 @@ angular.module('materialAdmin')
             }
 
             //Eliminamos las imagenes
-            for (var i = 0; i < $rootScope.imagenesEliminar.length; i++) {
-                $http.delete("http://localhost:8181/galeria/" + $rootScope.imagenesEliminar[i]['id'], datosImagen)
+            for(var i = 0; i < $rootScope.imagenesEliminar.length; i++){
+                $http.delete("http://localhost:8181/galeria/"+$rootScope.imagenesEliminar[i]['id'], datosImagen)
                     .success(function (res) {
                         console.log("El Eliminada guardada: " + res);
                     }).error(function (res) {
@@ -274,6 +271,7 @@ angular.module('materialAdmin')
             }
 
         };
+
     });
 
 

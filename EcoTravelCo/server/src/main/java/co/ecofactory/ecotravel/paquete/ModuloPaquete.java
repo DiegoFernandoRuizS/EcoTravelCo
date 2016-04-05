@@ -109,6 +109,31 @@ public class ModuloPaquete implements Modulo {
             });
         });
 
+        //Editar un paquete
+        rutas.put("/:id").handler(rc -> {
+            final String id = rc.request().getParam("id");
+            final Long idAsLong = Long.valueOf(id);
+            JsonObject producto = new JsonObject();
+            producto = rc.getBodyAsJson();
+            producto.put("id", idAsLong);
+            vertx.eventBus().send("editarPaquete", producto, res -> {
+                // System.out.println("servidor editarProducto: " + res.result().body());
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto editarProducto -> : " + res.result().body());
+                    if (((JsonObject) res.result().body()).getInteger("updated", 0) != 0) {
+                        rc.response().end("Se editarProducto correctamente " + ((JsonObject) res.result().body()).encodePrettily());
+                    } else {
+                        rc.response().end("El ID " + idAsLong + " no fue encontrado");
+                    }
+
+                } else {
+
+                    rc.response().end("ERROR en el modulo producto editar un producto");
+
+                }
+            });
+        });
+
         return rutas;
     }
 

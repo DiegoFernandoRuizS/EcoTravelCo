@@ -25,6 +25,7 @@ public class PaqueteService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("borrarPaquete", this::borrarPaquete);
         this.getVertx().eventBus().consumer("listarPaquetesDetalle", this::listarPaquetesDetalle);
         this.getVertx().eventBus().consumer("listarHijos", this::listarHijos);
+        this.getVertx().eventBus().consumer("editarPaquete", this::editarPaquete);
 
 
 
@@ -99,6 +100,17 @@ public class PaqueteService extends AbstractVerticle {
                     message.fail(0, "ERROR in data borrar paquete");
                 }
             });
+
+            CompletableFuture<JsonObject> data = this.dao.borrarGaleriaPaquete(message.body());
+            data.whenComplete((ok, error) -> {
+                if (ok != null) {
+                    idProducto[0] = (int) ok.getJsonArray("keys").getValue(0);
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data borrar paquete");
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
@@ -153,6 +165,35 @@ public class PaqueteService extends AbstractVerticle {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
 
+        }
+    }
+
+    public void editarPaquete(Message<JsonObject> message) {
+        System.out.println("Service editar producto" + message.body());
+        final int[] llave = {0};
+        final int[] idProducto = {0};
+        try {
+            CompletableFuture<JsonObject> data2 = this.dao.editarPaquete(message.body(), idProducto[0]);
+            data2.whenComplete((ok2, error2) -> {
+                System.out.println("actualizar producto 2 " + data2);
+
+                if (ok2 != null) {
+                    System.out.println("El idProducto a actualizar " + ok2.getJsonArray("keys").getValue(0));
+                    idProducto[0] = (int) ok2.getJsonArray("keys").getValue(0);
+                    System.out.println(idProducto[0]);
+                    System.out.println("actualizar producto:OK" + ok2);
+
+                    message.reply(ok2);
+                    System.out.println("actualizar producto 3 " + ok2);
+
+                } else {
+                    error2.printStackTrace();
+                    message.fail(0, "ERROR in data producto actualizar");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch actualizar");
         }
     }
 }
