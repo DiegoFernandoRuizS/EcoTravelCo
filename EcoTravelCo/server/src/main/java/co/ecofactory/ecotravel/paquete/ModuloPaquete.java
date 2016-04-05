@@ -52,7 +52,7 @@ public class ModuloPaquete implements Modulo {
                 System.out.println("servidor insertarPaquete: " + res.result().body());
                 if (res.succeeded()) {
                     System.out.println("servidor correcto insertarPaquete -> : " + res.result().body());
-                    rc.response().end("Se inserto correctamente " + ((JsonObject) res.result().body()).encodePrettily());
+                    rc.response().end(((JsonObject)res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo producto insertar un producto");
                 }

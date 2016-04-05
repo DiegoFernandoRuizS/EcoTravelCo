@@ -1,4 +1,4 @@
-<div class="container" ng-controller="paquetectrl">
+<div class="container" ng-controller="PaqueteCtrl">
     <div class="block-header">
         <h2>Gestión de paquetes - Crear paquete</h2>
 
@@ -140,7 +140,6 @@
                             <td data-title="'Retirar'">
                                 <button type="button" class="btn btn-danger" ng-click="quitarProducto(w.id)">
                                     <i class="zmdi zmdi-minus"></i>
-                                    <!-- <a>Borrar</a>-->
                                 </button>
                             </td>
                         </tr>
@@ -157,35 +156,18 @@
                 <br>
             </div>
             <br><br>
-           <!-- <div class="row">
-                <div class="col-md-12">
-                            <div ng-show="true">
-                                <div  ng-controller="paquetectrl" ng-include="'views/paquete/views/proinsidepa.html'"></div>
-                            </div>
-                    </div>
-                </div>
-            </div>-->
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-xs-8">
                     <div class="input-group">
-                        <span class="btn btn-success btn-file m-r-10" data-ng-click="consultarProductos();">Agregar productos</span>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarPaquete();">Crear</span>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="btn btn-warning btn-file m-r-10" data-ui-sref="paquetes.lista">Cancelar</span>
+                        <span class="btn btn-success btn-file m-r-10" ng-if="!mostrar" data-ng-click="consultarProductos();">Mostrar Mis Productos</span>
+                        <span class="btn btn-success btn-file m-r-10" ng-if="mostrar" data-ng-click="consultarProductos();">Ocultar Mis Productos</span>
                     </div>
                 </div>
             </div>
             <br>
             <br>
             <div class="row">
-                <div ng-hide="{{mostrar}}" class="col-md-12">
+                <div ng-if="mostrar" class="col-md-12">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
@@ -206,9 +188,8 @@
                                         {{ w.precio|number }}
                                     </td>
                                     <td data-title="'Agregar'">
-                                        <button type="button" class="btn btn-info" ng-click="agregarProductos(w.id)"
-                                        ><i class="zmdi zmdi-plus"></i>
-                                            <!-- <a>Borrar</a>-->
+                                        <button type="button" class="btn btn-info" ng-click="agregarProductos(w.id)">
+                                            <i class="zmdi zmdi-plus"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -217,10 +198,49 @@
                     </div>
                 </div>
             </div>
+
+            <!--IMAGNES-->
+            <div class="card-body card-padding">
+                <div class="col-xs-1">
+                    <span class=" btn btn-success btn-file m-r-10" style="cursor: pointer">
+                        <i class="zmdi zmdi-plus zmdi-hc-fw"></i>
+                        <input type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(event)" multiple />
+                    </span>
+                </div>
+                <div class="col-xs-6">
+                    <p class="c-black f-500 m-b-5">Galeria</p>
+                    <small>Adicionar Imagen</small>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="card-body card-padding">
+                <div class="lightbox photos">
+                    <div class="fileinput fileinput-new col-xs-3" data-provides="fileinput" ng-repeat="imagen in imagenesCargadas">
+                        <div class="fileinput-preview thumbnail">
+                            <img ng-src="{{imagen.img}}"/><div class="clearfix"></div>
+                            <a ng-click="eliminarFoto(imagen.$$hashKey)"><i class="zmdi zmdi-delete zmdi-hc-fw"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="clearfix"></div>
+
+            <!-- Botones de Confirmación -->
             <div class="row">
                 <div class="col-md-4">
                 </div>
-
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarPaquete()">Guardar</span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="btn btn-warning btn-file m-r-10" data-ui-sref="paquetes.lista">Cancelar</span>
+                    </div>
+                </div>
                 <div class="col-md-4">
                 </div>
             </div>
