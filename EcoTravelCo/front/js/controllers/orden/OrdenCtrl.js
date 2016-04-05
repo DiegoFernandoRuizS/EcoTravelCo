@@ -130,6 +130,10 @@ angular.module('materialAdmin')
 				}
 			});
 		}
+
+		$scope.detailProd = function (id) {
+			$rootScope.prodId= id;
+		};
 	})
 
 

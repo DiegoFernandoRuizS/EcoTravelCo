@@ -21,7 +21,7 @@
                             </div>
                         </td>
                         <td width="50%">
-                            <h5 class="text-uppercase f-400"> {{data.nombre}} </h5>
+                            <a href="#" data-ui-sref="productos.detalle" ng-click="detailProd(data.id_producto)"><h5 class="text-uppercase f-400"> {{data.nombre}} </h5></a>
                             {{data.descripcion}}
                         </td>
                         <td>${{data.precio | number}}</td>

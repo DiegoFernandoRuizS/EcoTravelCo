@@ -61,7 +61,7 @@ public class ProductoDAO {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         String query = "select  p.id, g.url,  p.nombre,  p.precio \n" +
                 "FROM public.mp_producto p left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1\n" +
-                "order by p.fecha_registro desc limit 10;";
+                "order by p.fecha_registro desc limit 8;";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
