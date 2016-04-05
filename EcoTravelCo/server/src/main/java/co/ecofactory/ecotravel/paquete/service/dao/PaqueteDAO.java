@@ -195,7 +195,7 @@ public class PaqueteDAO {
         String query = "select a.id, a.nombre, to_char(a.fecha_registro, 'YYYY-MM-DD') as fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual, a.caracteristicas\n" +
                 ", b.tipo\n" +
                 ", (case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as vendedor, \n" +
-                ",  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, a.estado, d.latitud, d.longitud, d.pais, d.departamento, d.ciudad, d.nombre as nombredireccion, d.id as id_direccion\n" +
+                "  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, a.estado, d.latitud, d.longitud, d.pais, d.departamento, d.ciudad, d.nombre as nombredireccion, d.id as id_direccion\n" +
                 "from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id \n" +
                 "left join mp_galeria c on c.producto_id=a.id and c.foto_principal=1 \n" +
                 "left join mp_persona pe on pe.id= a.id_usuario\n" +

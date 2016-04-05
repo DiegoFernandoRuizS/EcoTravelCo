@@ -112,7 +112,7 @@ angular.module('materialAdmin')
                         console.log("Listar paquete en el controlador " + id);
                         $http.get("http://localhost:8181/paquete/" + id)
                             .success(function (res) {
-                                $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos' + id})
+                                $http({method: 'GET', url: 'http://localhost:8181/paquete/hijos/' + id})
                                     .success(function (resHijos) {
                                      $rootScope.hijosPaquete = resHijos;
                                      console.log(resHijos);
