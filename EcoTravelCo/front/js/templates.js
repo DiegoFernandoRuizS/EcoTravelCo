@@ -7,7 +7,7 @@ angular.module('materialAdmin').run(['$templateCache', function($templateCache) 
 
 
   $templateCache.put('template/footer.html',
-    "Copyright &copy; 2016 EcoTravel<ul class=\"f-menu\"><li><a href=\"\">Home</a></li><li><a href=\"\">Dashboard</a></li><li><a href=\"\">Reports</a></li><li><a href=\"\">Support</a></li><li><a href=\"\">Contact</a></li></ul>"
+    "Desarrollado por EcoFactory</br>Universidad de los Andes, Fabricas de Software"
   );
 
 
