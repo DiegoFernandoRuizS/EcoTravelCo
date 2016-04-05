@@ -221,18 +221,17 @@ angular.module('materialAdmin')
  //para actualizr el paquete en la gestion
         $scope.actualizarPaquete = function (id) {
 
-            console.log($scope.actualProducto);
-            $http.put("http://localhost:8181/producto/" + id, $scope.actualProducto, {
+            console.log($scope.actualPaquete);
+            $http.put("http://localhost:8181/paquete/" + id, $scope.actualPaquete, {
                     withCredentials: true,
                     headers: {token: sessionStorage.token}
                 })
                 .success(function (res) {
                     growlService.growl('Se actualizó correctamente la información.', 'success');
                     console.log("La respuesta del backend " + res);
-                    $scope.actualProducto = {};
-                    $window.location.href = '/#/productos/productos';
-                    $scope.consultarProductos();
-
+                    $scope.actualPaquete = {};
+                    $window.location.href = '/#/paquetes/paquetes';
+                    $scope.listar();
                 }).error(function (res) {
                 growlService.growl(' Ocurrió un error actualizando la información.', 'danger');
                 console.log("Doesn't work para actualizar producto");
