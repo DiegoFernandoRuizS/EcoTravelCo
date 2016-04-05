@@ -59,9 +59,9 @@ public class ProductoDAO {
 
     public CompletableFuture<List<JsonObject>> listarProductosHome() {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
-        String query = "select  p.id, g.url,  p.nombre,  tp.tipo, p.descripcion, p.precio ,p.fecha_registro\n" +
-                "FROM public.mp_producto p inner join  public.mp_tipo_producto tp on tp.id= p.tipo_producto_id inner join mp_persona pe on pe.id= p.id_usuario left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1 \n" +
-                "order by p.fecha_registro desc limit 10";
+        String query = "select  p.id, g.url,  p.nombre,  p.precio \n" +
+                "FROM public.mp_producto p left join mp_galeria g on g.producto_id =p.id and g.foto_principal=1\n" +
+                "order by p.fecha_registro desc limit 10;";
         JsonArray params = new JsonArray();
         dataAccess.getConnection(conn -> {
                     if (conn.succeeded()) {
