@@ -39,10 +39,14 @@
                         <span class="input-group-addon"><i class="zmdi"></i></span>
                         <div class="fg-line">
                             <label for="tipoCrear">Tipo de producto</label>
-                            <select data-placeholder="Tipo de producto..." class="w-100" id="tipoCrear"
+                            <select ng-model="actualPaquete.tipo" data-placeholder="Tipo de producto..." class="w-100" id="tipoCrear"
                                     ng-model="actualPaquete.tipo_producto_id">
-                                <option value="5" selected>PAQUETE</option>
+                                <option
+                                        value="{{actualPaquete.tipo}}">
+                                    {{actualPaquete.tipo}}
+                                </option>
                             </select>
+                           
                         </div>
 
                     </div>
