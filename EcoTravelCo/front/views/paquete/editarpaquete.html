@@ -1,4 +1,4 @@
-<div class="container" ng-controller="paquetectrl">
+<div class="container" ng-controller="PaqueteCtrl">
     <div class="block-header">
         <h2>Gestión de paquetes - Editar paquete</h2>
 
@@ -108,7 +108,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table ng-table="tctrl.tableBasic" class="table table-striped table-vmiddle">
-                        <tr ng-repeat="w in agregado">
+                        <tr ng-repeat="w in hijos">
                             <td data-title="'Identificador'">
                                 {{w.id}}
                             </td>
@@ -155,12 +155,12 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="input-group">
-                        <span class="btn btn-success btn-file m-r-10" data-ng-click="consultarProductos();">Agregar productos</span>
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="consultarProductos();">Mostrar mis productos</span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="btn btn-success btn-file m-r-10" data-ng-click="insertarPaquete();">Crear</span>
+                        <span class="btn btn-success btn-file m-r-10" data-ng-click="actualizarPaquete();">Actualizar</span>
                     </div>
                 </div>
                 <div class="col-md-2">

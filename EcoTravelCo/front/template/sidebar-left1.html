@@ -45,27 +45,27 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="productos.lista"
                        data-ng-click="mactrl.sidebarStat($event)">Mis productos</a></li>
                 <li><a data-ui-sref-active="active" data-ui-sref="productos.crear"
-                       data-ng-click="mactrl.sidebarStat($event)">Crear productos</a></li>
+                       data-ng-click="mactrl.sidebarStat($event)">Crear producto</a></li>
             </ul>
         </li>
 
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('paquetes') }" ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'">
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Paquetes</a>
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de paquetes</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="paquetes.lista" data-ng-click="mactrl.sidebarStat($event)">Mis paquetes</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="paquetes.crear" data-ng-click="mactrl.sidebarStat($event)">Crear paquetes</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="paquetes.crear" data-ng-click="mactrl.sidebarStat($event)">Crear paquete</a></li>
             </ul>
         </li>
 
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }" >
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Compras</a>
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de compras</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="orden.lista" data-ng-click="mactrl.sidebarStat($event)">Historico Compras</a></li>
             </ul>
         </li>
 
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }" >
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Preguntas</a>
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de preguntas</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="preguntas.mis" data-ng-click="mactrl.sidebarStat($event)">Mis Preguntas</a></li>
                 <li ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'"><a data-ui-sref-active="active" data-ui-sref="preguntas.res" data-ng-click="mactrl.sidebarStat($event)">Responder Preguntas</a></li>
@@ -73,7 +73,7 @@
         </li>
 
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('proveedor') }" ng-show="mactrl.getTipoUsuario() == 'ADMINISTRADOR'">
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Proveedores</a>
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Gestión de proveedores</a>
             <ul>
                 <li><a data-ui-sref-active="active" data-ui-sref="proveedores.lista" data-ng-click="mactrl.sidebarStat($event)">Lista de Proveedores</a></li>
                 <li><a data-ui-sref-active="active" data-ui-sref="proveedores.crear" data-ng-click="mactrl.sidebarStat($event)">Crear</a></li>
