@@ -221,7 +221,6 @@ public class PaqueteDAO {
         return res;
     }
 
-
     public CompletableFuture<List<JsonObject>> listarPaquetesDetalle(Long id) {
         final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
         System.out.println("entro id = " + id);
@@ -344,6 +343,53 @@ public class PaqueteDAO {
                     }
                 }
         );
+        return res;
+    }
+
+    public CompletableFuture<JsonObject> desasociarProductosAPaquete(JsonObject nuevoProducto,int idPadre) {
+        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
+
+        for (int i = 0; i < nuevoProducto.getJsonArray("productos").size(); i++) {
+            JsonArray params = new JsonArray();
+            JsonObject produ= new JsonObject();
+            produ= (JsonObject) nuevoProducto.getJsonArray("productos").getValue(i);
+            System.out.println("id del producto asociado "+nuevoProducto.getJsonArray("productos").getValue(i));
+            System.out.println("-----");
+            System.out.println(produ.getInteger("id",0));
+            //Asociando el producto
+            int productoAsociar = produ.getInteger("id",0);
+
+            int idUsuario = nuevoProducto.getInteger("id_usuario", 0);
+
+            JsonUtils.add(params, idPadre);
+
+            //JsonUtils.add(params, idUsuario);
+
+            String query = "UPDATE mp_producto p\n" +
+                    "   SET id_padre=?\n" +
+                    " WHERE p.id="+productoAsociar;
+
+            dataAccess.getConnection(conn -> {
+                if (conn.succeeded()) {
+                    conn.result().updateWithParams(query, params, data -> {
+                        if (data.succeeded()) {
+                            res.complete(data.result().toJson());
+                        } else {
+                            data.cause().printStackTrace();
+                            System.out.println("Error asociar productos  paquete DAO print");
+                            res.completeExceptionally(data.cause());
+                        }
+                    });
+                } else {
+                    conn.cause().printStackTrace();
+                }
+                try {
+                    conn.result().close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
         return res;
     }
 }
