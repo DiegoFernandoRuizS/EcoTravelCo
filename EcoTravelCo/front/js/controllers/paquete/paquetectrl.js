@@ -84,10 +84,8 @@ angular.module('materialAdmin')
                     if ($rootScope.agregado[i].id === productoId) {
                         $rootScope.agregado.splice(i, 1);
                         $rootScope.total=$rootScope.total-$scope.datos[i].precio;
-
                     }
                 }
-
                 console.log($rootScope.agregado);
             };
 
@@ -116,6 +114,9 @@ angular.module('materialAdmin')
                                     .success(function (resHijos) {
                                      $rootScope.hijosPaquete = resHijos;
                                      console.log(resHijos);
+                                     $rootScope.agregado = $rootScope.hijosPaquete[0];
+                                     
+                                     console.log();
                                     }).error(function (resHijos) {
                                     console.log("Doesn't work");
                                     console.log("Que trae esto: " + resHijos);
