@@ -40,7 +40,7 @@
                         <div class="fg-line">
                             <label for="tipoCrear">Tipo de producto</label>
                             <select data-placeholder="Tipo de producto..." class="w-100" id="tipoCrear"
-                                    ng-model="paquete.tipo_producto_id">
+                                    ng-model="actualPaquete.tipo_producto_id">
                                 <option value="5" selected>PAQUETE</option>
                             </select>
                         </div>
@@ -54,7 +54,7 @@
                         <div class="fg-line">
                             <label for="nombreCrear">Nombre del paquete</label>
                             <input class="form-control" rows="4" placeholder="Nombre del producto...."
-                                   ng-model="paquete.nombre" id="nombreCrear">
+                                   ng-model="actualPaquete.nombre" id="nombreCrear">
                         </div>
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
 
@@ -70,7 +70,7 @@
                         <div class="fg-line">
                             <label for="descripcionCrear">Descripción del paquete</label>
                             <textarea class="form-control" rows="4" placeholder="Añadir descripción...."
-                                      ng-model="paquete.descripcion" id="descripcionCrear"></textarea>
+                                      ng-model="actualPaquete.descripcion" id="descripcionCrear"></textarea>
                         </div>
                         <span class="input-group-addon last"><i class="zmdi"></i></span>
 
@@ -86,7 +86,7 @@
                         <div class="fg-line">
                             <label for="precioCrear">Precio por paquete</label>
                             <input type="text" class="form-control" data-input-mask="{mask: '000000000'}"
-                                   placeholder="Precio" ng-model="paquete.precio" id="precioCrear">
+                                   placeholder="Precio" ng-model="actualPaquete.precio" id="precioCrear">
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                         <div class="fg-line">
                             <label for="cantidadCrear">Cantidad de paquetes</label>
                             <input type="text" class="form-control" data-input-mask="{mask: '0000'}"
-                                   placeholder="Cantidad" ng-model="paquete.cantidad" id="cantidadCrear">
+                                   placeholder="Cantidad" ng-model="actualPaquete.cantidad" id="cantidadCrear">
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                         <div class="fg-line">
                             <label for="tipoEstado">Seleccione el estado de su paquete</label>
                             <select data-placeholder="Seleccione estado..." class="w-100" id="tipoEstado"
-                                    ng-model="paquete.estado">
+                                    ng-model="actualPaquete.estado">
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
                             </select>

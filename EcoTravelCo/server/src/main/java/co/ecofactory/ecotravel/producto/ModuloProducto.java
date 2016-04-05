@@ -56,8 +56,6 @@ public class ModuloProducto implements Modulo {
             JsonObject _params = new JsonObject();
             _params.put("id", idAsLong);
 
-
-
             vertx.eventBus().send("listarProducto", _params, res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {

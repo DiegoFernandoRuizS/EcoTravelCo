@@ -188,4 +188,72 @@ public class PaqueteDAO {
         );
         return res;
     }
+
+    public CompletableFuture<List<JsonObject>> listarPaquetesDetalle(Long id) {
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        System.out.println("entro id = " + id);
+        String query = "select a.id, a.nombre, to_char(a.fecha_registro, 'YYYY-MM-DD') as fecha_registro, a.calificacion_promedio, a.descripcion, a.precio, a.cantidad_actual, a.caracteristicas\n" +
+                ", b.tipo\n" +
+                ", (case when pe.nombre isnull then '' else (pe.nombre)|| ' ' end)||(case when pe.nombre_sec isnull then '' else (pe.nombre_sec)|| ' ' end)||(case when pe.apellido isnull then '' else (pe.apellido)|| ' ' end)||(case when pe.apellido_sec isnull then '' else (pe.apellido_sec) end) as vendedor, \n" +
+                ",  ( d.nombre ||' , '|| d.pais ||' , '|| d.departamento||' , '|| d.ciudad) as direccion, a.estado, d.latitud, d.longitud, d.pais, d.departamento, d.ciudad, d.nombre as nombredireccion, d.id as id_direccion\n" +
+                "from mp_producto a left join mp_tipo_producto b on a.tipo_producto_id=b.id \n" +
+                "left join mp_galeria c on c.producto_id=a.id and c.foto_principal=1 \n" +
+                "left join mp_persona pe on pe.id= a.id_usuario\n" +
+                "left join mp_direccion d on d.id= a.id_direccion_id\n" +
+                "where a.id=\n" + id + ";";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
+    public CompletableFuture<List<JsonObject>> listarHijos(Long id){
+        final CompletableFuture<List<JsonObject>> res = new CompletableFuture<List<JsonObject>>();
+        System.out.println("entro id = " + id);
+        String query = "SELECT id, estado, nombre, fecha_registro, fecha_actualizacion, calificacion_promedio, \n" +
+                "       id_padre, id_direccion_id, tipo_producto_id, descripcion, precio, \n" +
+                "       id_usuario, cantidad_actual, cantidad_origen, caracteristicas\n" +
+                "  FROM mp_producto\n" +
+                "  where id_padre=" + id + ";";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+                                res.complete(data.result().getRows());
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
 }
