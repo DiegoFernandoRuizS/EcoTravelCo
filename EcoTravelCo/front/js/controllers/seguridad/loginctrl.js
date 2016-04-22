@@ -2,7 +2,7 @@
 
 
 materialAdmin
-	.controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window) {
+	.controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window,growlService) {
 		$scope.registro = {};
 		$scope.usuario = {login:"",contrasenia:""};
 		this.login = 1;
@@ -39,6 +39,7 @@ materialAdmin
 					sessionStorage.setItem ("correousuario",res.correo_electronico) ;
 					sessionStorage.setItem ("tipo",res.tipo) ;
 					sessionStorage.setItem ("foto",res.foto) ;
+
 					console.log(sessionStorage.getItem("nombreusuario"));
 					console.log(res);
 
@@ -46,6 +47,7 @@ materialAdmin
 					console.log(sessionStorage.token);
 
 				}).error(function(res){
+                growlService.growl('Error de autenticación.', 'danger');
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
 
