@@ -1,5 +1,6 @@
 package co.ecofactory.ecotravel.init;
 
+import co.ecofactory.ecotravel.seguridad.auth.Basic;
 import co.ecofactory.ecotravel.seguridad.service.SeguridadService;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
@@ -37,13 +38,12 @@ public class Services {
                 String token = r.request().getHeader("token");
                // System.out.println("token->" + token);
 
-
                 if (token == null) {
                     r.next();
                 } else {
                     JsonObject authInfo = new JsonObject().put("jwt", token);
 
-                    JWTAuth provider = SeguridadService.generateJWTAuthProvider(VertxFactory.getVertxInstance());
+                    JWTAuth provider = Basic.generateJWTAuthProvider(VertxFactory.getVertxInstance());
 
                     provider.authenticate(authInfo, response -> {
                         if (response.failed()) {
