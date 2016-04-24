@@ -47,7 +47,7 @@ materialAdmin
 					console.log(sessionStorage.token);
 
 				}).error(function(res){
-                growlService.growl('Error de autenticación.', 'danger');
+            //    growlService.growl('Error de autenticación.', 'danger');
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
 
@@ -64,7 +64,7 @@ materialAdmin
 
 		//facebook
 		$scope.autenticarfb = function () {
-        			$http.post("http://localhost:8181/seguridad/autenticar/fb",$scope.usuario,{})
+        		/*	$http.post("http://localhost:8181/seguridad/autenticar/fb",$scope.usuario,{})
         				.success(function(res){
         					$scope.registro = {};
         				}).error(function(res){
@@ -72,11 +72,8 @@ materialAdmin
         				console.log("Doesn't work");
         				console.log("Que trae esto: "+res);
         			});
-
+*/
         		};
-
-
-
 	});
 
 
