@@ -45,10 +45,10 @@ public class ModuloSeguridad implements Modulo {
         });
 
         //facebook
-        rutas.post("/autenticar/fb").handler(rc ->{
+        rutas.get("/autenticar/fb").handler(rc ->{
 
-            JsonObject _params = rc.getBodyAsJson();
-
+           // JsonObject _params = rc.getBodyAsJson();
+            JsonObject _params = new JsonObject();
             //vertx.eventBus().send("autenticarUsuario", _params, res -> {
             vertx.eventBus().send("autenticarFB", _params, res -> {
                 if (res.succeeded()) {
