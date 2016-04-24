@@ -1,8 +1,8 @@
 package co.ecofactory.ecotravel.seguridad;
 
 import co.ecofactory.ecotravel.module.contract.Modulo;
-import co.ecofactory.ecotravel.seguridad.auth.Basic;
-import co.ecofactory.ecotravel.seguridad.auth.FacebookAuth;
+import co.ecofactory.ecotravel.seguridad.auth.basic.Basic;
+import co.ecofactory.ecotravel.seguridad.auth.facebookAuth.FacebookAuth;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;

@@ -1,19 +1,18 @@
 package co.ecofactory.ecotravel.init;
 
-import co.ecofactory.ecotravel.seguridad.auth.Basic;
-import co.ecofactory.ecotravel.seguridad.service.SeguridadService;
+import co.ecofactory.ecotravel.seguridad.auth.basic.Basic;
+import co.ecofactory.ecotravel.seguridad.auth.facebookAuth.FacebookAuth;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.impl.JWTUser;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
-/**
- * Created by samuel on 2/15/16.
- */
+import javax.servlet.ServletException;
+import java.io.IOException;
+
 public class Services {
     private static Router mainRouter;
 
@@ -22,6 +21,8 @@ public class Services {
         mainRouter = Router.router(VertxFactory.getVertxInstance());
         server.requestHandler(mainRouter::accept);
         server.listen(8181);
+
+
 
         mainRouter.route().handler(BodyHandler.create());
         mainRouter.route("/*").handler(r -> {
@@ -34,11 +35,16 @@ public class Services {
 
             System.out.println(r.request().absoluteURI());
 
+            if(r.request().absoluteURI().equals("http://localhost:8181/seguridad/autenticar/fb")){
+                System.out.println("Pidio Facebook");
+
+            }
+
             if (!r.request().method().equals(HttpMethod.OPTIONS)) {
                 String token = r.request().getHeader("token");
                // System.out.println("token->" + token);
 
-                if (token == null) {
+                if (token == null){
                     r.next();
                 } else {
                     JsonObject authInfo = new JsonObject().put("jwt", token);
@@ -51,24 +57,17 @@ public class Services {
                         } else {
                            // System.out.println(response.result());
                             JWTUser user = (JWTUser) response.result();
-
                          //   System.out.println(user.principal());
-
                             try {
                                 r.request().params().add("user-id", new String(user.principal().getInteger("id").toString()));
                                 r.request().params().add("user-tipo", "" + user.principal().getString("tipo").toString());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-
                             r.next();
                         }
-
                     });
-
                 }
-
             }else{
                 r.next();
             }
@@ -76,10 +75,7 @@ public class Services {
         });
 
         mainRouter.options("/*").handler(r -> {
-
             r.response().end("OK");
-
-
         });
 
     }
