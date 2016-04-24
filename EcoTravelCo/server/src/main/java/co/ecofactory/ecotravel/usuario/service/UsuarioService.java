@@ -200,7 +200,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("consultarUsuarioPorLogin");
                 if (error == null) {
-                    System.out.println("consultarUsuarioPorLogin:OK" + ok);
+                    //System.out.println("consultarUsuarioPorLogin:OK" + ok);
                     message.reply(ok);
                 } else {
                     try {

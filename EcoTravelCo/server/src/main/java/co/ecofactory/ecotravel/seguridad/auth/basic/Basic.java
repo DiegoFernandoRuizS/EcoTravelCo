@@ -1,21 +1,21 @@
-package co.ecofactory.ecotravel.seguridad.service;
+package co.ecofactory.ecotravel.seguridad.auth.basic;
 
-import co.ecofactory.ecotravel.usuario.service.dao.UsuarioDAO;
-import io.vertx.core.AbstractVerticle;
+import co.ecofactory.ecotravel.seguridad.service.SeguridadService;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.JWTOptions;
 
-public abstract class SeguridadService extends AbstractVerticle {
+public class Basic extends SeguridadService {
 
-   /* static JWTAuth provider;
+    static JWTAuth provider;
 
     public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
         if (provider == null) {
             JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                    .put("path", "./src/main/java/keystore.jceks")
+                   // .put("path", "./src/main/java/keystore.jceks")
+                    .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                     .put("type", "jceks")
                     .put("password", "secret"));
 
@@ -24,6 +24,7 @@ public abstract class SeguridadService extends AbstractVerticle {
 
         return provider;
     }
+
 
     @Override
     public void start() throws Exception {
@@ -34,19 +35,19 @@ public abstract class SeguridadService extends AbstractVerticle {
         // System.out.println(new File("./src/main/java").getAbsolutePath());
         //  System.out.println("VARRR "+System.getenv("KEY_STORE"));
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
-                // .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
+                //.put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
+                .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
 
         provider = JWTAuth.create(this.getVertx(), config);
         provider = generateJWTAuthProvider(this.getVertx());
 
-    }*/
+    }
 
-    public abstract void autenticar(Message<JsonObject> message);
 
-    /*public void autenticarUsuario(Message<JsonObject> message){
+    @Override
+    public void autenticar(Message<JsonObject> message) {
         System.out.println("Service autenticar usuario" + message.body());
         try {
 
@@ -68,7 +69,7 @@ public abstract class SeguridadService extends AbstractVerticle {
                                     response.put("nombre", persona.getString("nombre"));
                                     response.put("apellido", persona.getString("apellido"));
                                     response.put("correo_electronico", persona.getString("correo_electronico"));
-                                 //   response.put("foto", persona.getString("foto"));
+                                    //   response.put("foto", persona.getString("foto"));
                                     response.put("tipo", persona.getString("tipo"));
                                     response.put("token", token);
                                     message.reply(response);
@@ -94,5 +95,6 @@ public abstract class SeguridadService extends AbstractVerticle {
             message.fail(0, "ERROR inside catch");
 
         }
-    }*/
+    }
+
 }

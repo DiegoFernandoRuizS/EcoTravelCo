@@ -2,7 +2,7 @@
 
 
 materialAdmin
-	.controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window) {
+	.controller('LoginCtrl', function ($scope, $rootScope, $http, $location,jwtHelper,$state,$window,growlService) {
 		$scope.registro = {};
 		$scope.usuario = {login:"",contrasenia:""};
 		this.login = 1;
@@ -10,20 +10,15 @@ materialAdmin
 		this.forgot = 0;
 
 		$scope.registrarUsuario = function () {
-
 			$http.post("http://localhost:8181/cliente/",$scope.registro,{})
 				.success(function(res){
 					$scope.registro = {};
 					$scope.usuario = {login:document.getElementById("login").value,contrasenia:document.getElementById("pass").value};
 					$scope.autenticarUsuario();
-
 				}).error(function(res){
-
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
-
 			});
-
 		};
 
 		$scope.autenticarUsuario = function () {
@@ -39,18 +34,17 @@ materialAdmin
 					sessionStorage.setItem ("correousuario",res.correo_electronico) ;
 					sessionStorage.setItem ("tipo",res.tipo) ;
 					sessionStorage.setItem ("foto",res.foto) ;
+
 					console.log(sessionStorage.getItem("nombreusuario"));
 					console.log(res);
 
 					$window.location.href = '/#/home';
 					console.log(sessionStorage.token);
-
 				}).error(function(res){
+            //    growlService.growl('Error de autenticación.', 'danger');
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
-
 			});
-
 		};
 
 		$scope.limpiarSesion = function () {
@@ -60,8 +54,12 @@ materialAdmin
 
 		$scope.limpiarSesion();
 
+		$scope.autenticarfb=function(){
+console.log("fb");
+		}
 
-	});
+
+});
 
 
 
