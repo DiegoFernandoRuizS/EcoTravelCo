@@ -37,7 +37,6 @@ public class Services {
 
             if(r.request().absoluteURI().equals("http://localhost:8181/seguridad/autenticar/fb")){
                 System.out.println("Pidio Facebook");
-
             }
 
             if (!r.request().method().equals(HttpMethod.OPTIONS)) {

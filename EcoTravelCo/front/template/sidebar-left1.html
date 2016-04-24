@@ -1,3 +1,5 @@
+<script src="js/fb.js"></script>
+<script src="js/fbauth.js"></script>
 <div class="sidebar-inner c-overflow">
     <div class="profile-menu">
         <a href="" toggle-submenu>
@@ -20,7 +22,7 @@
             </li>
 
             <li ng-show="mactrl.getNombreUsuario()!=null">
-                <a href="/login.html" data-ng-click="sessionStorage.clear();"><i class="zmdi zmdi-time-restore"></i>Salir</a>
+                <a href="/login.html" data-ng-click="sessionStorage.clear();" id='logout'><i class="zmdi zmdi-time-restore"></i>Salir</a>
 
             <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar sesión</a></li>
 

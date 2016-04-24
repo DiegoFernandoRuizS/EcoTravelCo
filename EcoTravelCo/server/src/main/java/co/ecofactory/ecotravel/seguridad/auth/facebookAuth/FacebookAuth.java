@@ -28,9 +28,8 @@ public class FacebookAuth extends SeguridadService {
     }
 
     @Override
-    public void autenticar(Message<JsonObject> message) {
+    public void autenticar(Message<JsonObject> message){
         System.out.println("FACEBOOK" + message.body());
-
     }
 
 

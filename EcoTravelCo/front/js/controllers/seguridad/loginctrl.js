@@ -10,20 +10,15 @@ materialAdmin
 		this.forgot = 0;
 
 		$scope.registrarUsuario = function () {
-
 			$http.post("http://localhost:8181/cliente/",$scope.registro,{})
 				.success(function(res){
 					$scope.registro = {};
 					$scope.usuario = {login:document.getElementById("login").value,contrasenia:document.getElementById("pass").value};
 					$scope.autenticarUsuario();
-
 				}).error(function(res){
-
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
-
 			});
-
 		};
 
 		$scope.autenticarUsuario = function () {
@@ -45,14 +40,11 @@ materialAdmin
 
 					$window.location.href = '/#/home';
 					console.log(sessionStorage.token);
-
 				}).error(function(res){
             //    growlService.growl('Error de autenticación.', 'danger');
 				console.log("Doesn't work");
 				console.log("Que trae esto: "+res);
-
 			});
-
 		};
 
 		$scope.limpiarSesion = function () {
@@ -62,19 +54,12 @@ materialAdmin
 
 		$scope.limpiarSesion();
 
-		//facebook
-		$scope.autenticarfb = function () {
-        		/*	$http.post("http://localhost:8181/seguridad/autenticar/fb",$scope.usuario,{})
-        				.success(function(res){
-        					$scope.registro = {};
-        				}).error(function(res){
-                        growlService.growl('Error de autenticación.', 'danger');
-        				console.log("Doesn't work");
-        				console.log("Que trae esto: "+res);
-        			});
-*/
-        		};
-	});
+		$scope.autenticarfb=function(){
+console.log("fb");
+		}
+
+
+});
 
 
 
