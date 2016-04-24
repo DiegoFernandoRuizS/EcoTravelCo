@@ -26,7 +26,7 @@ public class ModuloUsuario implements Modulo {
         Router rutas = Router.router(vertx);
 
         rutas.get("/").handler(rc -> {
-            vertx.eventBus().send("listarProductos", new JsonObject(), res -> {
+            vertx.eventBus().send("listarUsuarios", new JsonObject(), res -> {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto");

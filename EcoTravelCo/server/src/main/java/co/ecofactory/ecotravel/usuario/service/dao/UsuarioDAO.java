@@ -91,6 +91,42 @@ public class UsuarioDAO {
         return res;
     }
 
+    public CompletableFuture<List> listarUsuarios() {
+        final CompletableFuture<List> res = new CompletableFuture<List>();
+        String query = "SELECT * FROM public.mp_persona where tipo <> 'ADMINISTRADOR'";
+        JsonArray params = new JsonArray();
+        dataAccess.getConnection(conn -> {
+                    if (conn.succeeded()) {
+                        conn.result().queryWithParams(query, params, data -> {
+                            if (data.succeeded()) {
+
+                                System.out.println("Retorno Consulta: listarUsuarios" + data.result());
+
+                                List proveedores = new ArrayList<JsonObject>();
+
+                                if (data.result() != null && data.result().getRows() != null && data.result().getRows().size() > 0) {
+                                    proveedores = data.result().getRows();
+                                }
+                                res.complete(proveedores);
+                            } else {
+                                data.cause().printStackTrace();
+                                res.completeExceptionally(data.cause());
+                            }
+                        });
+                    } else {
+                        conn.cause().printStackTrace();
+                        res.completeExceptionally(conn.cause());
+                    }
+                    try {
+                        conn.result().close();
+                    } catch (Exception e) {
+
+                    }
+                }
+        );
+        return res;
+    }
+
     public CompletableFuture<JsonObject> consultarUsuarioPorLogin(String login) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
         String query = "SELECT * FROM public.mp_persona where login = ?";
