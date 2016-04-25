@@ -9,7 +9,7 @@ materialAdmin
 		this.register = 0;
 		this.forgot = 0;
 
-		$scope.registrarUsuario = function () {
+		$scope.registrarUsuario = function (){
 			$http.post("http://localhost:8181/cliente/",$scope.registro,{})
 				.success(function(res){
 					$scope.registro = {};
@@ -55,9 +55,8 @@ materialAdmin
 		$scope.limpiarSesion();
 
 		$scope.autenticarfb=function(){
-console.log("fb");
-		}
 
+        }
 
 });
 

@@ -162,7 +162,7 @@ public class UsuarioService extends AbstractVerticle {
 
     //Insertar usuario
     public void consultarUsuarioPorLogin(Message<String> message) {
-        System.out.println("Service consultarUsuarioPorLogin" + message.body());
+        System.out.println("Service consultarUsuarioPorLogin: -> " + message.body());
         try {
 
             String datos = message.body();
@@ -191,7 +191,7 @@ public class UsuarioService extends AbstractVerticle {
     }
 
     public void consultarUsuarioPorId(Message<JsonObject> message) {
-        System.out.println("Service consultarUsuarioPorLogin" + message.body());
+        System.out.println("Service consultarUsuarioPorID: -> " + message.body());
         try {
 
             JsonObject datos = (JsonObject) message.body();

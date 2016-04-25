@@ -42,7 +42,9 @@
             <div class="clearfix"></div>
 
             <div class="checkbox">
+                <div data-ng-controller="LoginfbCtrl as fbctrl">
                 <a href="" data-ng-click="autenticarfb();" id="loginFB"><img src="img/social/login-with-facebook.png" alt="Sign in with Facebook"></a>
+                </div>
                 <!--<a href="#" id="loginFB" class="btn btn-primary">Iniciar sesión</a>-->
                 <label>
                     <input type="checkbox" value="">
@@ -189,9 +191,11 @@
         <script src="js/controllers/main.js"></script>
         <script src="js/controllers/seguridad/loginctrl.js"></script>
 
+        <script src="js/controllers/seguridad/loginfbctrl.js"></script>
+
         <script src="js/services.js"></script>
         <script src="js/fb.js"></script>
-        <script src="js/fbauth.js"></script>
+       <!-- <script src="js/fbauth.js"></script>-->
         <script src="js/templates.js"></script>
         <script src="js/controllers/ui-bootstrap.js"></script>
         <script src="js/controllers/table.js"></script>

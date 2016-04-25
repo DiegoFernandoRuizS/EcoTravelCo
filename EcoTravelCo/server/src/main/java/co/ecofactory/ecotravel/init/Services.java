@@ -32,12 +32,7 @@ public class Services {
                     .add("Access-Control-Allow-Credentials", "true")
                     .add("Access-Control-Allow-Origin", "http://localhost:9291");
 
-
             System.out.println(r.request().absoluteURI());
-
-            if(r.request().absoluteURI().equals("http://localhost:8181/seguridad/autenticar/fb")){
-                System.out.println("Pidio Facebook");
-            }
 
             if (!r.request().method().equals(HttpMethod.OPTIONS)) {
                 String token = r.request().getHeader("token");

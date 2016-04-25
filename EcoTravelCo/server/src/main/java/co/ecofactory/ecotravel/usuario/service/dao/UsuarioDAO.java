@@ -92,6 +92,7 @@ public class UsuarioDAO {
     }
 
     public CompletableFuture<JsonObject> consultarUsuarioPorLogin(String login) {
+        System.out.println("Login que llega "+login);
         final CompletableFuture<JsonObject> res = new CompletableFuture<JsonObject>();
         String query = "SELECT * FROM public.mp_persona where login = ?";
         JsonArray params = new JsonArray();

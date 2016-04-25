@@ -1,4 +1,4 @@
-$(function() {
+/*$(function() {
 	var app_id = '985703204846099';
 	var scopes = 'email, user_friends, user_online_presence';
     console.log("entra");
@@ -35,11 +35,11 @@ $(function() {
   	}
 
   	var getFacebookData =  function() {
-        console.log("Trae los datos");
         FB.api('/me?fields=id,name,email,permissions', function(response){
         console.log(response);
   		if(response.name!=null){
-  		            	   //sessionStorage.token = res.token;
+  		            	    //sessionStorage.token = res.token;
+  		            	    sessionStorage.setItem ("auth","fb");
                             sessionStorage.setItem ("nombreusuario",response.name);
                             sessionStorage.setItem ("correousuario",response.email) ;
                             sessionStorage.setItem ("tipo","CLIENTE");
@@ -47,7 +47,40 @@ $(function() {
                             // console.log(sessionStorage.getItem("nombreusuario"));
                             console.log(response);
 
-        window.location.href = 'http://localhost:9291/#/home';
+                        var user={
+                          "apellido_sec" : null,
+                          tipo : "CLIENTE",
+                          correo_electronico : "user@user.com",
+                          login : "user",
+                          nombre : response.name,
+                          foto: sessionStorage.getItem("foto"),
+                          id_direccion_id : null,
+                          apellido : null,
+                          nombre_sec : "Fernando",
+                          contrasenia : "user",
+                          telefono : "123456789"
+                        }
+                        console.log(user);
+                            //guardarlo
+                           $.ajax({
+                               url : "http://localhost:8181/cliente/",
+                               type: "POST",
+                               dataType: "json",
+                               data : user,
+                               success: function(data, textStatus, jqXHR)
+                               {
+                                   alert("OK "+data);
+                                   //data - response from server
+                               },
+                               error: function (jqXHR, textStatus, errorThrown)
+                               {
+                                    alert("ERROR "+errorThrown);
+                               }
+                           });
+
+//        window.location.href = 'http://localhost:9291/#/home';
+
+
   		}else{
 
   		}
