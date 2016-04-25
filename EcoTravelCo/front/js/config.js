@@ -743,7 +743,8 @@ materialAdmin
 
                     .state('pages.messages', {
                         url: '/messages',
-                        templateUrl: 'views/messages.html'
+                        templateUrl: 'views/messages.html',
+                        controller: 'MensajesCtrl'
                     })
 
                     .state('pages.pricing-table', {
