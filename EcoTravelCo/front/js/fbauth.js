@@ -1,17 +1,7 @@
-$(function() {
+/*$(function() {
 	var app_id = '985703204846099';
 	var scopes = 'email, user_friends, user_online_presence';
-
-	var btn_login = '<a href="" data-ng-click="autenticarfb();" id="loginFB"><img src="img/social/login-with-facebook.png" alt="Sign in with Facebook"></a>';
-
-	var div_session = "<div id='facebook-session'>"+
-					  "<strong></strong>"+
-					  "<img>"+
-					  "<a href='#' id='logout' class='btn btn-danger'>Cerrar sesión</a>"+
-					  "</div>";
-
     console.log("entra");
-
 	window.fbAsyncInit = function() {
 
 	  	FB.init({
@@ -34,7 +24,7 @@ $(function() {
     	if (response.status === 'connected') {
       		getFacebookData();
     	} else {
-     		callback(false);
+     	//	callback(false);
     	}
   	}
 
@@ -45,14 +35,58 @@ $(function() {
   	}
 
   	var getFacebookData =  function() {
-            console.log("Trae los datos");
-  		FB.api('/me', function(response) {
-	  		$('#loginFB').after(div_session);
-	  		$('#loginFB').remove();
-	  		$('#facebook-session strong').text("Bienvenido: "+response.name);
-	  		$('#facebook-session img').attr('src','http://graph.facebook.com/'+response.id+'/picture?type=large');
+        FB.api('/me?fields=id,name,email,permissions', function(response){
+        console.log(response);
+  		if(response.name!=null){
+  		            	    //sessionStorage.token = res.token;
+  		            	    sessionStorage.setItem ("auth","fb");
+                            sessionStorage.setItem ("nombreusuario",response.name);
+                            sessionStorage.setItem ("correousuario",response.email) ;
+                            sessionStorage.setItem ("tipo","CLIENTE");
+                            sessionStorage.setItem ("foto",'http://graph.facebook.com/'+response.id+'/picture?type=large');
+                            // console.log(sessionStorage.getItem("nombreusuario"));
+                            console.log(response);
+
+                        var user={
+                          "apellido_sec" : null,
+                          tipo : "CLIENTE",
+                          correo_electronico : "user@user.com",
+                          login : "user",
+                          nombre : response.name,
+                          foto: sessionStorage.getItem("foto"),
+                          id_direccion_id : null,
+                          apellido : null,
+                          nombre_sec : "Fernando",
+                          contrasenia : "user",
+                          telefono : "123456789"
+                        }
+                        console.log(user);
+                            //guardarlo
+                           $.ajax({
+                               url : "http://localhost:8181/cliente/",
+                               type: "POST",
+                               dataType: "json",
+                               data : user,
+                               success: function(data, textStatus, jqXHR)
+                               {
+                                   alert("OK "+data);
+                                   //data - response from server
+                               },
+                               error: function (jqXHR, textStatus, errorThrown)
+                               {
+                                    alert("ERROR "+errorThrown);
+                               }
+                           });
+
+//        window.location.href = 'http://localhost:9291/#/home';
+
+
+  		}else{
+
+  		}
+
 	  	});
-             //window.location.href = 'http://localhost:9291/#/home';
+
   	}
 
   	var facebookLogin = function() {
@@ -73,8 +107,8 @@ $(function() {
   			if (data.status === 'connected') {
                             console.log("Cierra sesión");
 				FB.logout(function(response) {
-					$('#facebook-session').before(btn_login);
-					$('#facebook-session').remove();
+				window.location.href = 'http://localhost:9291/login.html#/home';
+
 				})
 			}
   		})
@@ -91,11 +125,7 @@ $(function() {
 
   	$(document).on('click', '#logout', function(e) {
   		e.preventDefault();
-
-  		if (confirm("¿Está seguro?"))
-  			facebookLogout();
-  		else 
-  			return false;
+	    facebookLogout();
   	})
 
 })

@@ -20,6 +20,7 @@ public class UsuarioService extends AbstractVerticle {
 
         // registro los metodos en el bus
 
+        this.getVertx().eventBus().consumer("listarUsuarios", this::listarUsuarios);
         this.getVertx().eventBus().consumer("insertarCliente", this::insertarCliente);
         this.getVertx().eventBus().consumer("listarProveedores", this::listarProveedores);
         this.getVertx().eventBus().consumer("insertarProveedor", this::insertarProveedor);
@@ -29,6 +30,34 @@ public class UsuarioService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("actualizarFoto", this::actualizarFoto);
 
     }
+
+    public void listarUsuarios(Message<JsonObject> message) {
+        System.out.println("Service listarUsuarios" + message.body());
+        try {
+
+            CompletableFuture<List> data = this.dao.listarUsuarios();
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarUsuarios");
+                if (ok != null) {
+                    System.out.println("listarUsuarios:OK" + ok);
+                    JsonArray arr = new JsonArray();
+
+                    ok.forEach(o -> arr.add(o));
+
+                    message.reply(arr);
+
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR inside catch");
+
+        }
+    }
+
 
     public void listarProveedores(Message<JsonObject> message) {
         System.out.println("Service listarProveedores" + message.body());
@@ -162,7 +191,7 @@ public class UsuarioService extends AbstractVerticle {
 
     //Insertar usuario
     public void consultarUsuarioPorLogin(Message<String> message) {
-        System.out.println("Service consultarUsuarioPorLogin" + message.body());
+        System.out.println("Service consultarUsuarioPorLogin: -> " + message.body());
         try {
 
             String datos = message.body();
@@ -191,7 +220,7 @@ public class UsuarioService extends AbstractVerticle {
     }
 
     public void consultarUsuarioPorId(Message<JsonObject> message) {
-        System.out.println("Service consultarUsuarioPorLogin" + message.body());
+        System.out.println("Service consultarUsuarioPorID: -> " + message.body());
         try {
 
             JsonObject datos = (JsonObject) message.body();

@@ -1,85 +1,110 @@
+<script src="js/fb.js"></script>
 <div class="sidebar-inner c-overflow">
     <div class="profile-menu">
-        <a href="" toggle-submenu>
-            <div class="profile-pic">
-                <img src="{{mactrl.getFotoUsuario()}}" alt="" ng-show="mactrl.getFotoUsuario()!=null">
-                <img src="img/logo.png" alt="" ng-show="mactrl.getFotoUsuario()==null">
-            </div>
+    <a href="" toggle-submenu>
+        <div class="profile-pic">
+            <img src="{{mactrl.getFotoUsuario()}}" alt="" ng-show="mactrl.getFotoUsuario()!=null">
+            <img src="img/logo.png" alt="" ng-show="mactrl.getFotoUsuario()==null">
+        </div>
 
-            <div class="profile-info">
-                {{mactrl.getNombreUsuario() == null ? "Invitado"  : mactrl.getNombreUsuario()}}
+        <div class="profile-info">
+            {{mactrl.getNombreUsuario() == null ? "Invitado" : mactrl.getNombreUsuario()}}
 
-                <i class="zmdi zmdi-caret-down"></i>
-            </div>
-        </a>
+            <i class="zmdi zmdi-caret-down"></i>
+        </div>
+    </a>
 
-        <ul class="main-menu" >
-            <li ng-show="mactrl.getNombreUsuario()!=null">
-                <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)" ><i
-                        class="zmdi zmdi-account"></i>Perfil</a>
-            </li>
-
-            <li ng-show="mactrl.getNombreUsuario()!=null">
-                <a href="/login.html" data-ng-click="sessionStorage.clear();"><i class="zmdi zmdi-time-restore"></i>Salir</a>
-
-            <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar sesión</a></li>
-
-        </ul>
-
-    </div>
-
-    <ul class="main-menu" ng-show="mactrl.getTipoUsuario()==null">
-        <li data-ui-sref-active="active">
-            <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i>Inicio</a>
+    <ul class="main-menu">
+        <li ng-show="mactrl.getNombreUsuario()!=null">
+            <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)"><i
+                    class="zmdi zmdi-account"></i>Perfil</a>
         </li>
+
+        <li ng-show="mactrl.getNombreUsuario()!=null">
+            <a href="/login.html" data-ng-click="sessionStorage.clear();" id='logout'><i
+                    class="zmdi zmdi-time-restore"></i>Salir</a>
+        <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar
+            sesión</a></li>
+
     </ul>
 
+</div>
 
-    <ul class="main-menu" ng-show="mactrl.getTipoUsuario()!=null">
-        <li data-ui-sref-active="active">
-            <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i>Inicio</a>
-        </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('productos') }" ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'">
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de productos</a>
+<ul class="main-menu" ng-show="mactrl.getTipoUsuario()==null">
+    <li data-ui-sref-active="active">
+        <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i>Inicio</a>
+    </li>
+</ul>
+
+
+<ul class="main-menu" ng-show="mactrl.getTipoUsuario()!=null">
+    <li data-ui-sref-active="active">
+        <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i>Inicio</a>
+    </li>
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('productos') }"
+        ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'">
+        <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de productos</a>
+        <ul>
+            <li><a data-ui-sref-active="active" data-ui-sref="productos.lista"
+                   data-ng-click="mactrl.sidebarStat($event)">Mis productos</a></li>
+            <li><a data-ui-sref-active="active" data-ui-sref="productos.crear"
+                   data-ng-click="mactrl.sidebarStat($event)">Crear producto</a></li>
+        </ul>
+    </li>
+
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('paquetes') }"
+        ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'">
+        <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de paquetes</a>
+        <ul>
+            <li><a data-ui-sref-active="active" data-ui-sref="paquetes.lista"
+                   data-ng-click="mactrl.sidebarStat($event)">Mis paquetes</a></li>
+            <li><a data-ui-sref-active="active" data-ui-sref="paquetes.crear"
+                   data-ng-click="mactrl.sidebarStat($event)">Crear paquete</a></li>
+        </ul>
+    </li>
+
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }">
+        <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de compras</a>
+        <ul>
+            <li><a data-ui-sref-active="active" data-ui-sref="orden.lista" data-ng-click="mactrl.sidebarStat($event)">Historico
+                Compras</a></li>
+        </ul>
+    </li>
+
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }">
+        <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de preguntas</a>
+        <ul>
+            <li><a data-ui-sref-active="active" data-ui-sref="preguntas.mis" data-ng-click="mactrl.sidebarStat($event)">Mis
+                Preguntas</a></li>
+            <li ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'"><a data-ui-sref-active="active"
+                                                                 data-ui-sref="preguntas.res"
+                                                                 data-ng-click="mactrl.sidebarStat($event)">Responder
+                Preguntas</a></li>
+        </ul>
+    </li>
+
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('proveedor') }"
+        ng-show="mactrl.getTipoUsuario() == 'ADMINISTRADOR'">
+        <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Gestión de proveedores</a>
+        <ul>
+            <li><a data-ui-sref-active="active" data-ui-sref="proveedores.lista"
+                   data-ng-click="mactrl.sidebarStat($event)">Lista de Proveedores</a></li>
+            <li><a data-ui-sref-active="active" data-ui-sref="proveedores.crear"
+                   data-ng-click="mactrl.sidebarStat($event)">Crear</a></li>
+        </ul>
+
+    </li>
+
+</ul>
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('mensajes') }" >
+            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Mensajes</a>
             <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="productos.lista"
-                       data-ng-click="mactrl.sidebarStat($event)">Mis productos</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="productos.crear"
-                       data-ng-click="mactrl.sidebarStat($event)">Crear producto</a></li>
-            </ul>
-        </li>
-
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('paquetes') }" ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'">
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de paquetes</a>
-            <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="paquetes.lista" data-ng-click="mactrl.sidebarStat($event)">Mis paquetes</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="paquetes.crear" data-ng-click="mactrl.sidebarStat($event)">Crear paquete</a></li>
-            </ul>
-        </li>
-
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('canasta') }" >
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de compras</a>
-            <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="orden.lista" data-ng-click="mactrl.sidebarStat($event)">Historico Compras</a></li>
-            </ul>
-        </li>
-
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('preguntas') }" >
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de preguntas</a>
-            <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="preguntas.mis" data-ng-click="mactrl.sidebarStat($event)">Mis Preguntas</a></li>
-                <li ng-show="mactrl.getTipoUsuario()!= 'CLIENTE'"><a data-ui-sref-active="active" data-ui-sref="preguntas.res" data-ng-click="mactrl.sidebarStat($event)">Responder Preguntas</a></li>
-            </ul>
-        </li>
-
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('proveedor') }" ng-show="mactrl.getTipoUsuario() == 'ADMINISTRADOR'">
-            <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Gestión de proveedores</a>
-            <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="proveedores.lista" data-ng-click="mactrl.sidebarStat($event)">Lista de Proveedores</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="proveedores.crear" data-ng-click="mactrl.sidebarStat($event)">Crear</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="pages.messages" data-ng-click="mactrl.sidebarStat($event)">Mis Mensajes</a></li>
             </ul>
 
         </li>
+
+
 
     </ul>
 </div>
