@@ -37,7 +37,22 @@ public class ModuloDireccion implements Modulo {
             });
         });
 
+        rutas.get("/coordenada/:dir").handler(rc -> {
+            System.out.println("entro: cordanada");
+            final String dir = rc.request().getParam("dir");
+            JsonObject _params = new JsonObject();
+            _params.put("dir", dir);
+            vertx.eventBus().send("dirreccionCoord", _params, res -> {
+                if (res.succeeded()) {
+                    rc.response().end(((JsonArray)res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo de Direcciones");
+                }
+            });
+        });
+
 
         return rutas;
     }
-}
+
+    }

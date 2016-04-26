@@ -47,7 +47,7 @@ public class Direccion_Ruta extends Direccion{
 
 
 
-    public static String[] getLatLongPositions(String address) throws Exception
+    public String[] getLatLongPositions(String address) throws Exception
     {
         int responseCode = 0;
         String api = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + URLEncoder.encode(address, "UTF-8") + "&sensor=true";

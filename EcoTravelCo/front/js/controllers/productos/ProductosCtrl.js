@@ -307,6 +307,26 @@ angular.module('materialAdmin')
 
         };
 
+
+        $scope.calcularCoordenadas = function (id) {
+            $rootScope.productoEditar = [];
+            $rootScope.actualProducto = [];
+            var dir = ""+
+            $scope.producto.nombredireccion +" "+
+            $scope.producto.pais +" "+
+            $scope.producto.departamento +" "+
+            $scope.producto.ciudad ;
+            
+            $http.get("http://localhost:8181/direccion/coordenada/" + dir)
+                .success(function (res) {
+                    $scope.producto.latitud = res[0].latitude;
+                    $scope.producto.longitud = res[0].longitude;
+                }).error(function (res) {
+                console.log("Doesn't work para listar producto");
+                console.log("El error para borar producto: " + res);
+            });
+        };
+
         //autocarga de los productos en la gestion
         $scope.consultarProductos();
         $scope.combox();
@@ -350,9 +370,9 @@ angular.module('materialAdmin')
             $http({method: 'GET', url: 'http://localhost:8181/producto_detalle/' + id})
                 .success(function(res){
 
-
-
                     $scope.datos=res
+                    $rootScope.latitud = res[0].latitud;
+                    $rootScope.longitud = res[0].longitud;
                     console.log(res);
 
                 }).error(function(res){
@@ -541,8 +561,7 @@ angular.module('materialAdmin')
 
 
             var pointA = new google.maps.LatLng(lat,lon),
-
-                pointB = new google.maps.LatLng( 4.7443707,-74.0281353),
+                pointB = new google.maps.LatLng( $rootScope.latitud,$rootScope.longitud ),
                 myOptions = {
                     zoom: 7,
                     center: pointA
