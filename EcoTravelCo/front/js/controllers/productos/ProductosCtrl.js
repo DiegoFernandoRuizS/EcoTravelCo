@@ -307,6 +307,26 @@ angular.module('materialAdmin')
 
         };
 
+
+        $scope.calcularCoordenadas = function (id) {
+            $rootScope.productoEditar = [];
+            $rootScope.actualProducto = [];
+            var dir = ""+
+            $scope.producto.nombredireccion +" "+
+            $scope.producto.pais +" "+
+            $scope.producto.departamento +" "+
+            $scope.producto.ciudad ;
+            
+            $http.get("http://localhost:8181/direccion/coordenada/" + dir)
+                .success(function (res) {
+                    $scope.producto.latitud = res[0].latitude;
+                    $scope.producto.longitud = res[0].longitude;
+                }).error(function (res) {
+                console.log("Doesn't work para listar producto");
+                console.log("El error para borar producto: " + res);
+            });
+        };
+
         //autocarga de los productos en la gestion
         $scope.consultarProductos();
         $scope.combox();
@@ -350,9 +370,9 @@ angular.module('materialAdmin')
             $http({method: 'GET', url: 'http://localhost:8181/producto_detalle/' + id})
                 .success(function(res){
 
-
-
                     $scope.datos=res
+                    $rootScope.latitud = res[0].latitud;
+                    $rootScope.longitud = res[0].longitud;
                     console.log(res);
 
                 }).error(function(res){
@@ -469,6 +489,8 @@ angular.module('materialAdmin')
             $rootScope.prodId= id;
         };
 
+
+
     });
 
 
@@ -522,4 +544,67 @@ angular.module('materialAdmin')
 
         $scope.queryProducts();
 
+    });
+
+
+angular.module('materialAdmin')
+
+    .controller('ProductosMapa', function ($scope, $rootScope, $http, $location, $filter, $sce) {
+
+
+        function initMap() {
+
+
+            var lat =google.loader.ClientLocation.latitude;
+            var lon =  google.loader.ClientLocation.longitude;
+
+
+
+            var pointA = new google.maps.LatLng(lat,lon),
+                pointB = new google.maps.LatLng( $rootScope.latitud,$rootScope.longitud ),
+                myOptions = {
+                    zoom: 7,
+                    center: pointA
+                },
+                map = new google.maps.Map(document.getElementById("ruta"), myOptions),
+            // Instantiate a directions service.
+                directionsService = new google.maps.DirectionsService,
+                directionsDisplay = new google.maps.DirectionsRenderer({
+                    map: map
+                }),
+                markerA = new google.maps.Marker({
+                    position: pointA,
+                    title: "point A",
+                    label: "A",
+                    map: map
+                }),
+                markerB = new google.maps.Marker({
+                    position: pointB,
+                    title: "point B",
+                    label: "B",
+                    map: map
+                });
+
+            // get route from A to B
+            calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+
+        }
+
+
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+            directionsService.route({
+                origin: pointA,
+                destination: pointB,
+                travelMode: google.maps.TravelMode.DRIVING
+            }, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+
+        initMap();
     });

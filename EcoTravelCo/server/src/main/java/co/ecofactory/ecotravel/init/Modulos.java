@@ -17,7 +17,7 @@ public class Modulos {
                 "co.ecofactory.ecotravel.galeria.ModuloGaleria",
                 "co.ecofactory.ecotravel.preguntas.ModuloPreguntas",
                 "co.ecofactory.ecotravel.orden.ModuloOrden",
-                "co.ecofactory.ecotravel.seguridad.ModuloSeguridad",
+                "co.ecofactory.ecotravel.direcciones.ModuloDireccion",
                 "co.ecofactory.ecotravel.paquete.ModuloPaquete",
         "co.ecofactory.ecotravel.message.ModuloMessage"};
 
