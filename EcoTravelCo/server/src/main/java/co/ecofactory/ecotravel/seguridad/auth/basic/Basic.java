@@ -14,8 +14,8 @@ public class Basic extends SeguridadService {
     public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
         if (provider == null) {
             JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                     .put("path", "./src/main/java/keystore.jceks")
-                    //.put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
+                   // .put("path", "./src/main/java/keystore.jceks")
+                    .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                     .put("type", "jceks")
                     .put("password", "secret"));
 
@@ -28,11 +28,15 @@ public class Basic extends SeguridadService {
 
     @Override
     public void start() throws Exception {
+        // registro los metodos en el bus
+        //this.getVertx().eventBus().consumer("autenticarUsuario", this::autenticarUsuario);
         this.getVertx().eventBus().consumer("autenticar", this::autenticar);
 
+        // System.out.println(new File("./src/main/java").getAbsolutePath());
+        //  System.out.println("VARRR "+System.getenv("KEY_STORE"));
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
-                //.put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
+                //.put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
+                .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
 
@@ -53,6 +57,8 @@ public class Basic extends SeguridadService {
                         if (res.succeeded()) {
 
                             JsonObject persona = (JsonObject) res.result().body();
+                            System.out.println("------------------------");
+                            //  System.out.println(persona);
 
                             if (persona != null) {
                                 if (persona.getString("contrasenia").equals(entrada.getString("contrasenia"))) {
@@ -90,4 +96,5 @@ public class Basic extends SeguridadService {
 
         }
     }
+
 }
