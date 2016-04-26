@@ -64,7 +64,8 @@
                 <a uib-dropdown-toggle href="">
                     <i class="tm-icon zmdi zmdi-more-vert"></i>
                 </a>
-              <ul class="dropdown-menu dm-icon pull-right">
+                <ul class="dropdown-menu dm-icon pull-right">
+
 
                     <li ng-show="mactrl.getNombreUsuario()!=null">
                         <a data-ui-sref="pages.profile.profile-about" data-ng-click="mactrl.sidebarStat($event)" ><i
@@ -72,7 +73,6 @@
                     </li>
 
                     <li ng-show="mactrl.getNombreUsuario()!=null">
-
                         <a href="/login.html" data-ng-click="sessionStorage.clear();"><i class="zmdi zmdi-time-restore"></i>Salir</a>
                     </li>
 

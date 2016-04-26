@@ -67,7 +67,6 @@ public class ModuloCliente implements Modulo {
         rutas.post("/").handler(rc -> {
 
             JsonObject _params = rc.getBodyAsJson();
-            System.out.println("cliente guardar "+_params);
 
             vertx.eventBus().send("insertarCliente", _params, res -> {
 
