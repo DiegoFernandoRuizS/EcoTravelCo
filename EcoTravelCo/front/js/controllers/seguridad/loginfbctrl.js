@@ -6,7 +6,7 @@ materialAdmin
             $scope.usuario = {correo:""};
 
             var app_id = '985703204846099';
-            var scopes = 'email, user_friends, user_online_presence';
+            var scopes = 'email, user_friends, user_online_presence,publish_actions';
             window.fbAsyncInit = function () {
 
                 FB.init({
@@ -41,8 +41,9 @@ materialAdmin
 
             var getFacebookData = function () {
                 FB.api('/me?fields=id,name,email,permissions', function (response) {
-                    console.log(response);
-                    if (response.name != null) {
+                    console.log("datos--->");
+                    console.log(response.status);
+                    if (response.status != 'undefined') {
                         //sessionStorage.token = res.token;
                         sessionStorage.setItem("auth", "fb");
                         sessionStorage.setItem("nombreusuario", response.name);
@@ -54,9 +55,9 @@ materialAdmin
 
                         $scope.registrofb.apellido_sec = null;
                         $scope.registrofb.tipo = "CLIENTE";
-                        $scope.registrofb.correo_electronico = "user@user.com";
-                        $scope.usuario.correo="user@user.com";
-                        $scope.registrofb.login = "user@user.com";
+                        $scope.registrofb.correo_electronico = sessionStorage.getItem("correousuario");
+                        $scope.usuario.correo=sessionStorage.getItem("correousuario");
+                        $scope.registrofb.login = sessionStorage.getItem("correousuario");
                         $scope.registrofb.foto = sessionStorage.getItem("foto");
                         $scope.registrofb.nombre = sessionStorage.getItem("nombreusuario");
                         $scope.registrofb.id_direccion_id = null;
@@ -75,6 +76,11 @@ materialAdmin
                 });
 
             }
+
+            var postear= function(){
+              FB.api('/me/feed', 'post', {message: 'Hello, world!'});
+            }
+
 
             var facebookLogin = function () {
                 checkLoginState(function (data) {
@@ -130,12 +136,12 @@ materialAdmin
                             console.log(sessionStorage.getItem("nombreusuario"));
                             console.log(res);
 
+                            postear();
+
                             $window.location.href = '/#/home';
                             console.log(sessionStorage.token);
                         }).error(function (res) {
                     //    growlService.growl('Error de autenticación.', 'danger');
-                    alert("No registrado ");
-                    console.log("No registrado " + res);
                     $scope.registrarUsuarioFB();
                 });
             };
@@ -143,12 +149,11 @@ materialAdmin
                 console.log($scope.registrofb);
                 $http.post("http://localhost:8181/cliente/", $scope.registrofb, {})
                         .success(function (res) {
-                            alert("Se registro");
                             $scope.registrofb = {};
                             //$scope.usuario = {login:document.getElementById("login").value,contrasenia:document.getElementById("pass").value};
                             //$scope.autenticarUsuario();
+                            $window.location.href = '/#/home';
                         }).error(function (res) {
-
                     console.log("Error respuesta guardar fb: " + res);
                 });
             };
