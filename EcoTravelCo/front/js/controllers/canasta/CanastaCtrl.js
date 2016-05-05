@@ -15,7 +15,6 @@ angular.module('materialAdmin')
 		$scope.error = [];
 
 		if(sessionStorage.token != undefined){
-			console.log("Consultando canasta...");
 			$http.get("http://localhost:8181/canasta/", {
 				withCredentials: true,
 				headers: {token: sessionStorage.token}
@@ -55,7 +54,7 @@ angular.module('materialAdmin')
 
 			if(sessionStorage.token == undefined){
 				var error = true;
-				growlService.growl('Debe inicial sesión para adicionar productos a la Canasta.', 'danger');
+				growlService.growl('Debe iniciar sesión para adicionar productos a la Canasta.', 'danger');
 			}
 
 			if($rootScope.cantidadCanasta == undefined){

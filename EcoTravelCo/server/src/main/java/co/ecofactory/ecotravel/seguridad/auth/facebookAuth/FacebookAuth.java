@@ -27,8 +27,8 @@ public class FacebookAuth extends SeguridadService {
     public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
         if (provider == null) {
             JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                     .put("path", "./src/main/java/keystore.jceks")
-                    //.put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
+                    // .put("path", "./src/main/java/keystore.jceks")
+                    .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                     .put("type", "jceks")
                     .put("password", "secret"));
 
@@ -44,8 +44,8 @@ public class FacebookAuth extends SeguridadService {
         this.getVertx().eventBus().consumer("autenticarFB", this::autenticar);
 
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
-                //.put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
+                //.put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
+                .put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
     provider = JWTAuth.create(this.getVertx(), config);

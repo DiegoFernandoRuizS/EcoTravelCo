@@ -116,6 +116,7 @@
                 {{errorModal}}
             </div>
             <div class="modal-footer">
+              <!--  <img src="img/compartirfb.png" width="190px" height="28px"/>-->
                 <button class="btn btn-link" ng-click="ok()">Confirmar</button>
                 <button class="btn btn-link" ng-click="cancel()">Cancelar</button>
             </div>
@@ -130,8 +131,12 @@
                 <br>
                 <div class="modal-body ng-scope">
 
-                    <img class="lv-img-m " data-ng-src="http://www.autosuperior.com.co/imagenes/Boton%20PSE1.png"
-                         alt="" src="http://www.autosuperior.com.co/imagenes/Boton%20PSE1.png">
+                    <div style="text-align:center;">
+                        <img class="lv-img-m " data-ng-src="img/pse.png"
+                             alt="" src="img/pse.png" height="40px" width="40px">
+                    </div>
+
+
                     <div class="row">
                         <div class="col-xs-6">
                             <button class="btn btn-success waves-effect" ng-click="pagarOrden()" data-ui-sref="orden.lista">
@@ -146,4 +151,32 @@
             </div>
         </script>
     </div>
+
+    <!-- MODAL COMPARTIR EN FB CALIFICACION Y COMENTARIOS -->
+    <div class="card">
+        <script type="text/ng-template" id="myModalSharefb.html">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">¿Deseas compartir en Facebook?</h4>
+                <br>
+                <div class="modal-body ng-scope">
+                    <div style="text-align:center;">
+                    <img class="lv-img-m " data-ng-src="img/social/facebook-128.png"
+                         alt="" src="img/fb.png" >
+                        </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-success waves-effect" ng-click="sharefb()" data-ui-sref="orden.lista">
+                                <i class="zmdi zmdi-share"></i>
+                                Si</button>
+                        </div>
+                        <div class="col-xs-6"><button class="btn btn-danger waves-effect" ng-click="cancelsharefb()">
+                            <i class="zmdi zmdi-close"></i>
+                            No</button></div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    </div>
+
+
 </div>
