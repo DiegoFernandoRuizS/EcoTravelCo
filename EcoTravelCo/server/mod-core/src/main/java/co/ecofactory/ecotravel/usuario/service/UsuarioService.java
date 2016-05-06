@@ -39,7 +39,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarUsuarios");
                 if (ok != null) {
-                    System.out.println("listarUsuarios:OK" + ok);
+                  //  System.out.println("listarUsuarios:OK" + ok);
                     JsonArray arr = new JsonArray();
 
                     ok.forEach(o -> arr.add(o));
@@ -67,7 +67,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("listarProveedores");
                 if (ok != null) {
-                    System.out.println("listarProveedores:OK" + ok);
+                   // System.out.println("listarProveedores:OK" + ok);
                     JsonArray arr = new JsonArray();
 
                     ok.forEach(o -> arr.add(o));
@@ -98,7 +98,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("insertarUsuario");
                 if (ok != null) {
-                    System.out.println("insertarProducto:OK" + ok);
+                   // System.out.println("insertarProducto:OK" + ok);
                     message.reply(ok);
                 } else {
                     error.printStackTrace();
@@ -124,7 +124,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("insertarUsuario");
                 if (ok != null) {
-                    System.out.println("insertarProducto:OK" + ok);
+                //    System.out.println("insertarProducto:OK" + ok);
                     message.reply(ok);
                 } else {
                     error.printStackTrace();
@@ -150,7 +150,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("actualizarUsuario");
                 if (ok != null) {
-                    System.out.println("actualizarUsuario:OK" + ok);
+                  //  System.out.println("actualizarUsuario:OK" + ok);
                     message.reply(ok);
                 } else {
                     error.printStackTrace();
@@ -175,7 +175,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("actualizarUsuario");
                 if (ok != null) {
-                    System.out.println("actualizarUsuario:OK" + ok);
+                   // System.out.println("actualizarUsuario:OK" + ok);
                     message.reply(ok);
                 } else {
                     error.printStackTrace();
@@ -232,7 +232,7 @@ public class UsuarioService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("consultarUsuarioPorLogin");
                 if (error == null) {
-                    System.out.println("consultarUsuarioPorLogin:OK" + ok);
+                 //   System.out.println("consultarUsuarioPorLogin:OK" + ok);
                     message.reply(ok);
                 } else {
                     try {

@@ -149,7 +149,7 @@ angular.module('materialAdmin')
             $rootScope.onfb=false;
 
             (function () {
-                console.log("Se ejecutto anónima");
+                console.log("Se ejecuta verificación de fb");
 
                 FB.init({
                     appId: '985703204846099',
@@ -158,7 +158,6 @@ angular.module('materialAdmin')
                 });
                 FB.getLoginStatus(function (response) {
                     if (response.status === 'connected') {
-                        // $scope.publish();
                         console.log("Conectado a fb");
                         $rootScope.onfb=true;
                     } else if (response.status === 'not_authorized') {

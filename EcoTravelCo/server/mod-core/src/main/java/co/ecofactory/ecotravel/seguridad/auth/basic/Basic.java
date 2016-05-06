@@ -14,8 +14,7 @@ public class Basic extends SeguridadService {
     public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
         if (provider == null) {
             JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                     .put("path", "./src/main/java/keystore.jceks")
-                    //.put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
+                    .put("path", "./mod-core/src/main/java/keystore.jceks")
                     .put("type", "jceks")
                     .put("password", "secret"));
 
@@ -32,7 +31,6 @@ public class Basic extends SeguridadService {
 
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
                 .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
-                //.put("path", "C:\\Users\\Asistente\\Documents\\GitHub\\EcoTravelCo\\EcoTravelCo\\server\\src\\main\\java\\keystore.jceks")
                 .put("type", "jceks")
                 .put("password", "secret"));
 
@@ -63,7 +61,7 @@ public class Basic extends SeguridadService {
                                     response.put("nombre", persona.getString("nombre"));
                                     response.put("apellido", persona.getString("apellido"));
                                     response.put("correo_electronico", persona.getString("correo_electronico"));
-                                    //   response.put("foto", persona.getString("foto"));
+                                    response.put("foto", persona.getString("foto"));
                                     response.put("tipo", persona.getString("tipo"));
                                     response.put("token", token);
                                     message.reply(response);

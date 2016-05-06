@@ -13,6 +13,7 @@
         <!-- CSS -->
         <link href="css/app.min.1.css" rel="stylesheet">
         <link href="css/app.min.2.css" rel="stylesheet">
+        <script src="js/fb.js"></script>
 
 
 <!--        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>-->
@@ -40,13 +41,18 @@
             </div>
 
             <div class="clearfix"></div>
-            <div class="checkbox" data-ng-controller="LoginfbCtrl as fbctrl">
-                <a href="" data-ng-click="autenticarfb();" id="loginFB"><img src="img/fb.png" alt="Sign in with Facebook"></a>
-            </div>
+
             <a href="" data-ng-click="autenticarUsuario();" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
             <ul class="login-navigation">
                 <li data-block="#l-register" class="bgm-red" data-ui-sref="productos.detalle" data-ng-click="lctrl.login = 0; lctrl.register = 1">Registro</li>
             </ul>
+            <div class="input-group m-b-20">
+                <span class="input-group-addon">Ó ingresa a EcoTravel con:</span>
+            </div>
+            <div data-ng-controller="LoginfbCtrl as fbctrl" align="center">
+                <a href="" data-ng-click="iniciarfb();" id="loginFB"><img src="img/social/facebook-128.png" alt="Sign in with Facebook" width="50px;" height="50px;"></a>
+                <a href="" data-ng-click="iniciartw();" id="loginTW"><img src="img/social/twitter-128.png" alt="Sign in with Twitter" width="50px;" height="50px;"></a>
+            </div>
         </div>
 
         <!-- Register -->
@@ -99,8 +105,6 @@
             </ul>
 
         </div>
-
-
 
         <!-- Older IE warning message -->
         <!--[if lt IE 9]>
@@ -183,13 +187,10 @@
         <script src="js/controllers/seguridad/loginfbctrl.js"></script>
 
         <script src="js/services.js"></script>
-        <script src="js/fb.js"></script>
-       <!-- <script src="js/fbauth.js"></script>-->
         <script src="js/templates.js"></script>
         <script src="js/controllers/ui-bootstrap.js"></script>
         <script src="js/controllers/table.js"></script>
         <script src="js/controllers/productos/ProductosCtrl.js"></script>
-
 
         <!-- Template Modules -->
         <script src="js/modules/template.js"></script>

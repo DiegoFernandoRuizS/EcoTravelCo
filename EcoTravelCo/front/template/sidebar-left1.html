@@ -21,10 +21,9 @@
         </li>
 
         <li ng-show="mactrl.getNombreUsuario()!=null">
-            <a href="/login.html" data-ng-click="sessionStorage.clear();" id='logout'><i
-                    class="zmdi zmdi-time-restore"></i>Salir</a>
-        <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar
-            sesión</a></li>
+            <a href="/login.html" data-ng-click="limpiarSesion()"><i
+                class="zmdi zmdi-time-restore"></i>Salir</a>
+        <li><a href="login.html" ng-show="mactrl.getNombreUsuario()==null"><i class="zmdi zmdi-key"></i>Iniciar sesión</a></li>
 
     </ul>
 

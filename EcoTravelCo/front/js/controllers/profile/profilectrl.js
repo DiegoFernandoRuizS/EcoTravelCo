@@ -1,7 +1,5 @@
 'use strict';
 
-console.log("cargando el archivo profilectrl.js");
-
 angular.module('materialAdmin')
 	.controller('ProfileCtrl', function ($scope, $rootScope, $http,growlService) {
 
