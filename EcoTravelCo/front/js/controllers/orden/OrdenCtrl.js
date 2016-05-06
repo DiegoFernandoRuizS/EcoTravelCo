@@ -199,7 +199,7 @@ angular.module('materialAdmin')
                     envCal["calificacion"] = $scope.numCal;
                     envCal["comentario"] = $scope.comentarios;
 
-                    $http.post("http://localhost:8181/orden/calificar/", envCal, {
+                    $http.post("http://localhost:8181/calificacion/", envCal, {
                         withCredentials: true,
                         headers: {token: sessionStorage.token}
                     }).success(function (res) {

@@ -391,7 +391,7 @@ angular.module('materialAdmin')
                 console.log("Que trae esto: "+res);
             })
 
-            $http({method: 'GET', url: 'http://localhost:8181/producto_detalle/calificacion/' + id})
+            $http({method: 'GET', url: 'http://localhost:8181/calificacion/' + id})
                 .success(function(res){
                     $scope.calificaciones=res
                     if(res.length > 0)
@@ -554,10 +554,13 @@ angular.module('materialAdmin')
 
         function initMap() {
 
+            var lat = 4.6026978;
+            var lon = -74.0676671;
 
-            var lat =google.loader.ClientLocation.latitude;
-            var lon =  google.loader.ClientLocation.longitude;
-
+            if(google.loader.ClientLocation != undefined){
+                var lat =google.loader.ClientLocation.latitude;
+                var lon =  google.loader.ClientLocation.longitude;
+            }
 
 
             var pointA = new google.maps.LatLng(lat,lon),
