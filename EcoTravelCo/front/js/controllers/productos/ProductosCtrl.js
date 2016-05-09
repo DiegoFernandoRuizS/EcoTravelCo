@@ -503,6 +503,7 @@ angular.module('materialAdmin')
 
         $scope.comentario = [];
         $scope.comentarios = {};
+        $scope.position = "";
 
         $scope.queryProducts = function () {
 
@@ -556,7 +557,6 @@ angular.module('materialAdmin')
 
             var lat = sessionStorage.getItem('latitude');
             var lon = sessionStorage.getItem('longitude');
-            var xip =sessionStorage.getItem('ip');
 
             var pointA = new google.maps.LatLng(lat,lon),
                 pointB = new google.maps.LatLng( $rootScope.latitud,$rootScope.longitud ),
@@ -568,12 +568,6 @@ angular.module('materialAdmin')
             // Instantiate a directions service.
                 directionsService = new google.maps.DirectionsService,
                 directionsDisplay = new google.maps.DirectionsRenderer({
-                    map: map
-                }),
-                markerA = new google.maps.Marker({
-                    position: pointA,
-                    title: "point A",
-                    label: "A",
                     map: map
                 }),
                 markerB = new google.maps.Marker({
@@ -598,7 +592,7 @@ angular.module('materialAdmin')
                 if (status == google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
                 } else {
-                    window.alert('Directions request failed due to ' + status);
+                    window.alert('No fue posible calcular tu ruta, intenta de nuevo. ' + status);
                 }
             });
         }
@@ -606,16 +600,14 @@ angular.module('materialAdmin')
 
 
         function getIp() {
-            var ip = sessionStorage.getItem('ip');
-            if (ip == null) {
-                $.getJSON( "http://freegeoip.net/json/",
-                    function(data){
-                        sessionStorage.setItem("ip",data.ip);
-                        sessionStorage.setItem("latitude",data.latitude);
-                        sessionStorage.setItem("longitude",data.longitude);
-                        initMap();
-                    }
-                );
+            var latitude = sessionStorage.getItem('latitude');
+            if (latitude == null) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    sessionStorage.setItem("latitude", position.coords.latitude);
+                    sessionStorage.setItem("longitude", position.coords.longitude);
+                    $scope.position = position;
+                    initMap();
+                });
             }else {
                 initMap();
             }
