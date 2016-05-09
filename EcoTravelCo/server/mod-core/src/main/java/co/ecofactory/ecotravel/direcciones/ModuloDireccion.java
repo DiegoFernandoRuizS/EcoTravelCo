@@ -26,7 +26,6 @@ public class ModuloDireccion implements Modulo {
     public Router getRutas(Vertx vertx) {
         Router rutas = Router.router(vertx);
         rutas.get("/:tipo").handler(rc -> {
-            System.out.println("entro: Direccion");
             JsonObject _params = new JsonObject();
             vertx.eventBus().send("dirreccionTipo", _params, res -> {
                 if (res.succeeded()) {
@@ -38,7 +37,6 @@ public class ModuloDireccion implements Modulo {
         });
 
         rutas.get("/coordenada/:dir").handler(rc -> {
-            System.out.println("entro: cordanada");
             final String dir = rc.request().getParam("dir");
             JsonObject _params = new JsonObject();
             _params.put("dir", dir);
@@ -52,7 +50,6 @@ public class ModuloDireccion implements Modulo {
         });
 
         rutas.get("/ip/:dir").handler(rc -> {
-            System.out.println("entro: cordanada");
             final String dir = rc.request().getParam("dir");
             JsonObject _params = new JsonObject();
             _params.put("dir", dir);

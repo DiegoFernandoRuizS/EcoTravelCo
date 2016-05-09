@@ -226,71 +226,6 @@ public class ProductoDAO {
     }
 
 
-
-    //Actualizar DireccionAsociada al producto
-    public CompletableFuture<JsonObject> actualizarDireccion(JsonObject nuevoProducto) {
-        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
-        //Definicion de los datos a guardar del producto
-
-        JsonArray params2 = new JsonArray();
-
-        int id = nuevoProducto.getInteger("id_direccion", 0);
-        String direccion = nuevoProducto.getString("nombredireccion", "");
-        double latitud = Double.parseDouble(nuevoProducto.getString("latitud", ""));
-
-        double longitud = Double.parseDouble(nuevoProducto.getString("longitud", ""));
-        String pais = nuevoProducto.getString("pais", "");
-        String departamento = nuevoProducto.getString("departamento", "");
-        String ciudad = nuevoProducto.getString("ciudad", "");
-
-        System.out.println("DATOS PARA ACTUALIZAR direccion");
-
-        System.out.println(id);
-        System.out.println(direccion);
-        System.out.println(latitud);
-        System.out.println(longitud);
-        System.out.println(pais);
-        System.out.println(departamento);
-        System.out.println(ciudad);
-
-
-        JsonUtils.add(params2, direccion);
-        JsonUtils.add(params2, (latitud));
-        JsonUtils.add(params2, (longitud));
-        JsonUtils.add(params2, ciudad);
-        JsonUtils.add(params2, departamento);
-        JsonUtils.add(params2, pais);
-
-
-        String query2 = "UPDATE mp_direccion\n" +
-                "   SET  nombre=?, latitud=?, longitud=?, ciudad=?, departamento=?, \n" +
-                "       pais=?\n" +
-                " WHERE id=" + id;
-
-        dataAccess.getConnection(conn -> {
-            if (conn.succeeded()) {
-                conn.result().updateWithParams(query2, params2, data -> {
-                    if (data.succeeded()) {
-                        res.complete(data.result().toJson());
-                    } else {
-                        data.cause().printStackTrace();
-                        System.out.println("Error insertar direccion en DAO producto");
-                        res.completeExceptionally(data.cause());
-                    }
-                });
-            } else {
-                conn.cause().printStackTrace();
-            }
-            try {
-                conn.result().close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        return res;
-    }
-
     //Editar un producto
     public CompletableFuture<JsonObject> editarProducto(JsonObject nuevoProducto, int productoAsociado) {
         final CompletableFuture<JsonObject> res = new CompletableFuture<>();
@@ -432,38 +367,7 @@ public class ProductoDAO {
         return res;
     }
 
-    //Borrar un Direccion
-    public CompletableFuture<JsonObject> borrarDireccion(Long id) {
-        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
 
-        String query = "DELETE FROM mp_direccion\n" +
-                " WHERE id=" + id + ";";
-
-        JsonArray params = new JsonArray();
-        dataAccess.getConnection(conn -> {
-                    if (conn.succeeded()) {
-                        conn.result().updateWithParams(query, params, data -> {
-                            if (data.succeeded()) {
-                                res.complete(data.result().toJson());
-                                System.out.println("Borrar direccion DAO");
-                            } else {
-                                data.cause().printStackTrace();
-                                System.out.println("Error Borrar direccion DAO print");
-                                res.completeExceptionally(data.cause());
-                            }
-                        });
-                    } else {
-                        conn.cause().printStackTrace();
-                    }
-                    try {
-                        conn.result().close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
-        return res;
-    }
 
     //Borrar las preguntas asociadas al producto
     public CompletableFuture<JsonObject> borrarPreguntas(Long idProducto) {

@@ -25,7 +25,8 @@ public class DireccionService extends AbstractVerticle {
         this.getVertx().eventBus().consumer("dirreccionCoord", this::dirreccionCoord);
         this.getVertx().eventBus().consumer("dirreccionCoordIp", this::dirreccionCoordIp);
         this.getVertx().eventBus().consumer("insertarDireccion", this::insertarDireccion);
-
+        this.getVertx().eventBus().consumer("actualizarDireccion", this::actualizarDireccion);
+        this.getVertx().eventBus().consumer("borrarDireccion", this::borrarDireccion);
 
 
     }
@@ -100,6 +101,45 @@ public class DireccionService extends AbstractVerticle {
     }
 
 
+    public void actualizarDireccion(Message<JsonObject> message) {
+        try {
+
+            CompletableFuture<JsonObject> data = direccion.actualizarDireccion( message.body());
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProducto");
+                if (ok != null) {
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR al crear la direccion");
+        }
+    }
+
+    public void borrarDireccion(Message<JsonObject> message) {
+        try {
+
+            CompletableFuture<JsonObject> data = direccion.borrarDireccion( message.body().getLong("id"));
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProducto");
+                if (ok != null) {
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR al crear la direccion");
+        }
+    }
 
 
 }
