@@ -23,6 +23,9 @@ public class DireccionService extends AbstractVerticle {
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("dirreccionTipo", this::dirreccionTipo);
         this.getVertx().eventBus().consumer("dirreccionCoord", this::dirreccionCoord);
+        this.getVertx().eventBus().consumer("dirreccionCoordIp", this::dirreccionCoordIp);
+        this.getVertx().eventBus().consumer("insertarDireccion", this::insertarDireccion);
+
 
 
     }
@@ -56,6 +59,43 @@ public class DireccionService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR al Obtener el tipo de la direccion");
+        }
+    }
+
+    public void dirreccionCoordIp(Message<JsonObject> message) {
+        try {
+            String dir = message.body().getString("dir");
+            String[] coord = ((Direccion_Ruta)direccion).getLatLongPositionsIp(dir);
+            JsonArray arr = new JsonArray();
+            JsonObject address = new JsonObject();
+            address.put("latitude",coord[0]);
+            address.put("longitude",coord[1]);
+            arr.add(address);
+            message.reply(arr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR al Obtener el tipo de la direccion");
+        }
+    }
+
+    public void insertarDireccion(Message<JsonObject> message) {
+        try {
+
+            CompletableFuture<JsonObject> data = direccion.insertarDireccion( message.body());
+            data.whenComplete((ok, error) -> {
+                System.out.println("listarProducto");
+                if (ok != null) {
+                    message.reply(ok);
+                } else {
+                    error.printStackTrace();
+                    message.fail(0, "ERROR in data");
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR al crear la direccion");
         }
     }
 

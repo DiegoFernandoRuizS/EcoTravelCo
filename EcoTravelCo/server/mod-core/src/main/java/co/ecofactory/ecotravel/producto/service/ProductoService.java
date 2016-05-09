@@ -158,27 +158,32 @@ public class ProductoService extends AbstractVerticle {
         final int[] llave = {0};
         final int[] idProducto = {0};
         try {
-            CompletableFuture<JsonObject> data = this.dao.insertarDireccion(message.body());
-            data.whenComplete((ok, error) -> {
-                System.out.println("insertarProducto");
-                if (ok != null) {
-                    System.out.println("La llave de la direccion" + ok.getJsonArray("keys").getValue(0));
-                    llave[0] = (int) ok.getJsonArray("keys").getValue(0);
-                    CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
-                    data2.whenComplete((ok2, error2) -> {
-                        if (ok2 != null) {
-                            message.reply(ok2);
-                        } else {
-                            error2.printStackTrace();
-                            message.fail(0, "ERROR in data producto");
-                        }
-                    });
+            CompletableFuture<JsonObject> data = null;
+            vertx.eventBus().send("insertarDireccion", message.body(), res -> {
+                if (res.succeeded()) {
+                    int dir =  (int)((JsonArray)((JsonObject) res.result().body()).getMap().get("keys")).getInteger(0);
+                    if (dir != 0) {
+                        CompletableFuture<JsonObject> data2 = this.dao.insertarProducto(message.body());
+                        data2.whenComplete((ok2, error2) -> {
+                            if (ok2 != null) {
+                                message.reply(ok2);
+                            } else {
+                                error2.printStackTrace();
+                                message.fail(0, "ERROR in data producto");
+                            }
+                        });
 
-                } else {
-                    error.printStackTrace();
-                    message.fail(0, "ERROR in data direccion");
+                    } else {
+                        message.fail(0, "ERROR in data direccion");
+                    }
+
+
+                }else{
+                    message.fail(0, "ERROR in res direccion");
                 }
             });
+
+
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");

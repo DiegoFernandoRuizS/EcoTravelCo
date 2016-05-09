@@ -312,11 +312,11 @@ angular.module('materialAdmin')
             $rootScope.productoEditar = [];
             $rootScope.actualProducto = [];
             var dir = ""+
-            $scope.producto.nombredireccion +" "+
-            $scope.producto.pais +" "+
-            $scope.producto.departamento +" "+
-            $scope.producto.ciudad ;
-            
+                $scope.producto.nombredireccion +" "+
+                $scope.producto.pais +" "+
+                $scope.producto.departamento +" "+
+                $scope.producto.ciudad ;
+
             $http.get("http://localhost:8181/direccion/coordenada/" + dir)
                 .success(function (res) {
                     $scope.producto.latitud = res[0].latitude;
@@ -554,14 +554,9 @@ angular.module('materialAdmin')
 
         function initMap() {
 
-            var lat = 4.6026978;
-            var lon = -74.0676671;
-
-            if(google.loader.ClientLocation != undefined){
-                var lat =google.loader.ClientLocation.latitude;
-                var lon =  google.loader.ClientLocation.longitude;
-            }
-
+            var lat = sessionStorage.getItem('latitude');
+            var lon = sessionStorage.getItem('longitude');
+            var xip =sessionStorage.getItem('ip');
 
             var pointA = new google.maps.LatLng(lat,lon),
                 pointB = new google.maps.LatLng( $rootScope.latitud,$rootScope.longitud ),
@@ -594,7 +589,6 @@ angular.module('materialAdmin')
         }
 
 
-
         function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
             directionsService.route({
                 origin: pointA,
@@ -609,5 +603,25 @@ angular.module('materialAdmin')
             });
         }
 
-        initMap();
+
+
+        function getIp() {
+            var ip = sessionStorage.getItem('ip');
+            if (ip == null) {
+                $.getJSON( "http://freegeoip.net/json/",
+                    function(data){
+                        sessionStorage.setItem("ip",data.ip);
+                        sessionStorage.setItem("latitude",data.latitude);
+                        sessionStorage.setItem("longitude",data.longitude);
+                        initMap();
+                    }
+                );
+            }else {
+                initMap();
+            }
+        }
+
+
+        getIp();
+
     });

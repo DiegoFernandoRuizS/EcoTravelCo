@@ -225,72 +225,7 @@ public class ProductoDAO {
         return res;
     }
 
-    //Insertar DireccionAsociada al producto
-    public CompletableFuture<JsonObject> insertarDireccion(JsonObject nuevoProducto) {
-        final CompletableFuture<JsonObject> res = new CompletableFuture<>();
-        //Definicion de los datos a guardar del producto
 
-        JsonArray params2 = new JsonArray();
-
-        String direccion = nuevoProducto.getString("nombredireccion", "");
-        String latitud = nuevoProducto.getString("latitud", "");
-        String longitud = nuevoProducto.getString("longitud", "");
-        String pais = nuevoProducto.getString("pais", "");
-        String departamento = nuevoProducto.getString("departamento", "");
-        String ciudad = nuevoProducto.getString("ciudad", "");
-
-        System.out.println("------> direccion " + direccion);
-
-        System.out.println("------> latitud  " + latitud);
-
-
-        JsonUtils.add(params2, direccion);
-        if (!latitud.equals(""))
-            JsonUtils.add(params2, Double.parseDouble(latitud));
-        else
-            JsonUtils.add(params2, 0);
-        if (!longitud.equals(""))
-            JsonUtils.add(params2, Double.parseDouble(longitud));
-        else
-            JsonUtils.add(params2, 0);
-        JsonUtils.add(params2, ciudad);
-        JsonUtils.add(params2, departamento);
-        JsonUtils.add(params2, pais);
-
-
-        String query2 = "INSERT INTO mp_direccion(\n" +
-                "            id, nombre, latitud, longitud, ciudad, departamento, pais)\n" +
-                "    VALUES (nextval('mp_direccion_id_seq'),\n" +
-                "     ?,\n" +
-                "     ?, \n" +
-                "     ?, \n" +
-                "     ?, \n" +
-                "     ?, \n" +
-                "     ?);\n";
-
-        dataAccess.getConnection(conn -> {
-            if (conn.succeeded()) {
-                conn.result().updateWithParams(query2, params2, data -> {
-                    if (data.succeeded()) {
-                        res.complete(data.result().toJson());
-                    } else {
-                        data.cause().printStackTrace();
-                        System.out.println("Error insertar direccion en DAO producto");
-                        res.completeExceptionally(data.cause());
-                    }
-                });
-            } else {
-                conn.cause().printStackTrace();
-            }
-            try {
-                conn.result().close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        return res;
-    }
 
     //Actualizar DireccionAsociada al producto
     public CompletableFuture<JsonObject> actualizarDireccion(JsonObject nuevoProducto) {
