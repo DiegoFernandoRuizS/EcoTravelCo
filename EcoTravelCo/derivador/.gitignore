@@ -1,0 +1,17 @@
+/.idea/*
+/target
+/lib
+/classes
+/checkouts
+*.jar
+*.class
+/.lein-*
+/.env
+*.log
+*.iml
+*.iws
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/*
+/.vertx/*
+**/.vertx/*
