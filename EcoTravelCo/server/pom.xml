@@ -15,7 +15,6 @@
         <module>mod-message</module>
         <module>mod-reporte</module>
         <module>mod-aspecto</module>
-        <module>mod-conxrep</module>
     </modules>
 
     <dependencies>
