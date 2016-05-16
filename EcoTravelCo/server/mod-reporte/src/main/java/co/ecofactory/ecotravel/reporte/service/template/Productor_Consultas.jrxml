@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-05-15T23:48:25 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Administrador_Ventas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b76dfbda-ff0d-4be2-b91b-1d6d5991cd2e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ecotravel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Grafica" uuid="b12f0716-919d-4e77-af9f-cc46fc4f0a79">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ecotravel"/>
+		<parameter name="Fecha_Inicial" class="java.sql.Date"/>
+		<parameter name="Fecha_Final" class="java.sql.Date"/>
+		<parameter name="id_usuario" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[select mp_producto.nombre, mp_log.tipo, count(0) as cantidad from mp_log inner join mp_producto on mp_producto.id = mp_log.id_producto_id
+where mp_log.tipo in ('BUSQUEDA', 'VISUALIZACION', 'PREGUNTA') and mp_log.fecha between  $P{Fecha_Inicial} and  $P{Fecha_Final} 
+and id_producto_id in (select id from mp_producto where id_usuario =  $P{id_usuario} )
+group by mp_log.id_producto_id, mp_log.tipo, mp_producto.nombre order by count(0) desc]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="tipo" class="java.lang.String"/>
+		<field name="cantidad" class="java.lang.Long"/>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="tipo">
+			<groupExpression><![CDATA[$F{tipo}]]></groupExpression>
+		</group>
+		<group name="cantidad">
+			<groupExpression><![CDATA[$F{cantidad}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="Fecha_Inicial" class="java.sql.Date"/>
+	<parameter name="Fecha_Final" class="java.sql.Date"/>
+	<parameter name="id_usuario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select 1 as cantidad from  mp_log inner join mp_producto on mp_producto.id = mp_log.id_producto_id
+where mp_log.tipo in ('BUSQUEDA', 'VISUALIZACION', 'PREGUNTA')  and mp_log.fecha between  $P{Fecha_Inicial} and  $P{Fecha_Final} 
+and id_producto_id in (select id from mp_producto where id_usuario =  $P{id_usuario} )
+having count(0) > 0]]>
+	</queryString>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<title>
+		<band height="110" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="6" width="150" height="90" uuid="658eda27-d3c8-4750-a265-4eb052b2b99f"/>
+				<imageExpression><![CDATA["C:/Users/CristianCamilo/Desktop/logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="780" height="110" forecolor="#418B00" uuid="46917619-2d85-413d-80b1-f35f6a2e985c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe de Consultas]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="70" width="390" height="30" forecolor="#418B00" uuid="1ef4d846-f649-42b1-b8b8-640cdefcec8a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desde " + $P{Fecha_Inicial}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="390" y="70" width="410" height="30" forecolor="#418B00" uuid="1196deaa-d712-4715-9c38-5dfa498a60a8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Hasta  " + $P{Fecha_Final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="319" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="1" width="799" height="318" uuid="8bcf79a6-de16-49e4-81fb-52694b7fadc8"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Grafica" uuid="dadfc576-3133-4610-9894-ffc57c29cb97">
+							<datasetParameter name="Fecha_Inicial">
+								<datasetParameterExpression><![CDATA[$P{Fecha_Inicial}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Fecha_Final">
+								<datasetParameterExpression><![CDATA[$P{Fecha_Final}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="id_usuario">
+								<datasetParameterExpression><![CDATA[$P{id_usuario}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tipo}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+						<labelExpression><![CDATA[$F{nombre}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</detail>
+</jasperReport>

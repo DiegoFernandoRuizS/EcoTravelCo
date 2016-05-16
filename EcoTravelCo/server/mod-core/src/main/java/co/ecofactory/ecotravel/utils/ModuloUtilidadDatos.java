@@ -51,6 +51,21 @@ public class ModuloUtilidadDatos implements Modulo {
                 }
             });
         });
+
+
+        rutas.get("/variabilidad").handler(rc -> {
+
+            vertx.eventBus().send("variabilidad", new JsonObject(), res -> {
+                System.out.println("servidor: " + res);
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto");
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo datos");
+                }
+            });
+        });
+
         return rutas;
     }
 

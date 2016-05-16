@@ -3,7 +3,7 @@ materialAdmin
 // Base controller for common functions
 // =========================================================================
 
-    .controller('materialadminCtrl', function($timeout, $state, $scope, growlService){
+    .controller('materialadminCtrl', function($timeout, $state, $scope,$http, growlService){
         //Welcome Message
         growlService.growl('Bienvenido!', 'inverse')
 
@@ -17,6 +17,24 @@ materialAdmin
 
         this.getFotoUsuario=function(){
             return sessionStorage.getItem("foto");
+        }
+
+        $scope.iniciarServicios = function () {
+            if(sessionStorage.getItem("Variabilidad") != 1) {
+                $http.get("http://localhost:8181/datos/variabilidad", {})
+                    .success(function (res) {
+                        var lent =res[0].length;
+                        for (var i = 0; lent > i; i++) {
+                            localStorage.setItem(res[i], res[i]);
+                        }
+                        localStorage.setItem("Variabilidad", "1");
+
+                    }).error(function (res) {
+                    //    growlService.growl('Error de autenticación.', 'danger');
+                    console.log("Doesn't work");
+                    console.log("Que trae esto: " + res);
+                });
+            }
         }
 
 
@@ -79,6 +97,8 @@ materialAdmin
         this.skinSwitch = function (color) {
             this.currentSkin = color;
         }
+
+        $scope.iniciarServicios();
 
     })
 

@@ -1,6 +1,7 @@
 package co.ecofactory.ecotravel.seguridad.auth.basic;
 
 import co.ecofactory.ecotravel.seguridad.service.SeguridadService;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -9,23 +10,15 @@ import io.vertx.ext.auth.jwt.JWTOptions;
 
 public class Basic extends SeguridadService {
 
-    static JWTAuth provider;
+    private SeguridadService Servicio;
 
-    public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
-        if (provider == null) {
-            JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                    .put("path", "./mod-core/src/main/java/keystore.jceks")
-                    .put("type", "jceks")
-                    .put("password", "secret"));
 
-            provider = JWTAuth.create(vertx, config);
-        }
-
-        return provider;
+    public Basic(Vertx ver, DeploymentOptions options) {
+        super(ver);
+        vertx.deployVerticle(this, options);
     }
 
-
-    @Override
+     @Override
     public void start() throws Exception {
         this.getVertx().eventBus().consumer("autenticar", this::autenticar);
 

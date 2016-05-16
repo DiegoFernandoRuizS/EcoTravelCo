@@ -13,6 +13,9 @@
         <module>mod-core</module>
         <module>mod-config</module>
         <module>mod-message</module>
+        <module>mod-reporte</module>
+        <module>mod-aspecto</module>
+        <module>mod-conxrep</module>
     </modules>
 
     <dependencies>
@@ -133,6 +136,17 @@
             <artifactId>geoip-api</artifactId>
             <version>1.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>[4.0,)</version>
+        </dependency>
+
+        <dependency>
+            <groupId>co.ecofactory</groupId>
+            <artifactId>mod-aspecto</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
 
@@ -150,6 +164,23 @@
                             <arg>-Acodetrans.output=${project.basedir}/src/main</arg>
                             <arg>-Acodetrans.config=${basedir}/codetrans-config.json</arg>
                         </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>aspectj-maven-plugin</artifactId>
+                    <version>1.8</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
             </plugins>

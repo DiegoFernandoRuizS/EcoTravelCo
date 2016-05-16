@@ -20,7 +20,8 @@ public class Modulos {
                 "co.ecofactory.ecotravel.direcciones.ModuloDireccion",
                 "co.ecofactory.ecotravel.paquete.ModuloPaquete",
                 "co.ecofactory.ecotravel.message.ModuloMessage",
-                "co.ecofactory.ecotravel.calificacion.ModuloCalificacion"};
+                "co.ecofactory.ecotravel.calificacion.ModuloCalificacion",
+                "co.ecofactory.ecotravel.reporte.ModuloReporte"};
 
         for (String nombreModulo : modulos) {
             try {

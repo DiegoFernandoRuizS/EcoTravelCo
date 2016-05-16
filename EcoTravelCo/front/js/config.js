@@ -254,7 +254,20 @@ materialAdmin
                         controller: 'OrdenCtrl'
                     })
 
+                    .state('reporte', {
+                        url: '/reporte',
+                        templateUrl: 'views/common.html'
+                    })
 
+                    .state('reporte.administrador', {
+                        url: '/admin',
+                        templateUrl: 'views/reportes/reporteAdmin.html'
+                    })
+
+                    .state('reporte.proveedor', {
+                        url: '/proveedor',
+                        templateUrl: 'views/reportes/reporteProveedor.html'
+                    })
 
                     //------------------------------
                     // HEADERS
