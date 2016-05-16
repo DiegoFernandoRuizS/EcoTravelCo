@@ -79,6 +79,7 @@ public class TwitterAutentication extends Basic {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
+            message.fail(0, "ERROR al autenticar");
         }
     }
 
@@ -132,7 +133,7 @@ public class TwitterAutentication extends Basic {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                message.fail(0, "ERROR inside catch");
+                message.fail(0, "Obtener Perfil Twitter");
 
             }
 
@@ -140,6 +141,7 @@ public class TwitterAutentication extends Basic {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
+            message.fail(0, "ERROR al Procesar");
         }
     }
 
@@ -158,6 +160,7 @@ public class TwitterAutentication extends Basic {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
+            message.fail(0, "ERROR al Procesar Tweet");
         }
     }
 
