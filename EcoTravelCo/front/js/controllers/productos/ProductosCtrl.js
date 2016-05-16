@@ -340,7 +340,7 @@ angular.module('materialAdmin')
     });
 
 angular.module('materialAdmin')
-    .controller('ProductosDetalle', function ($scope, $rootScope, $http, $location, $filter, $sce, ngTableParams, tableService) {
+    .controller('ProductosDetalle', function ($scope, $rootScope, $http, $location, $filter, $sce, growlService, ngTableParams, tableService) {
 
         $scope.datos = [];
         $scope.data = {};
@@ -489,7 +489,22 @@ angular.module('materialAdmin')
             $rootScope.prodId= id;
         };
 
+        $scope.tweet = function () {
 
+            var param1 = sessionStorage.getItem("oauth_token");
+            var param2 = $scope.datos[0].nombre;
+            var param3 = $scope.datos[0].vendedor;
+            var param = param1 + "/"+  param2 +"/"+  param3;
+            $http({method: 'GET', url: 'http://localhost:8181/seguridad/tweet/' + param})
+                .success(function (res) {
+
+                    growlService.growl('Se publicó el mensaje exitosamente en tu perfil de twitter');
+
+                }).error(function (res) {
+                console.log("Doesn't work");
+                console.log("Que trae esto: " + res);
+            })
+        }
 
     });
 
@@ -550,7 +565,7 @@ angular.module('materialAdmin')
 
 angular.module('materialAdmin')
 
-    .controller('ProductosMapa', function ($scope, $rootScope, $http, $location, $filter, $sce) {
+    .controller('ProductosMapa', function ($scope, $rootScope, growlService, $http, $location, $filter, $sce) {
 
 
         function initMap() {
@@ -592,7 +607,7 @@ angular.module('materialAdmin')
                 if (status == google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
                 } else {
-                    window.alert('No fue posible calcular tu ruta, intenta de nuevo. ' + status);
+                    growlService.growl('No fue posible calcular tu ruta, intenta de nuevo.', 'danger');
                 }
             });
         }
@@ -612,6 +627,7 @@ angular.module('materialAdmin')
                 initMap();
             }
         }
+
 
 
         getIp();

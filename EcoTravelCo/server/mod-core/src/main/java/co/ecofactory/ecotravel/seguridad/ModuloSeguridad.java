@@ -109,6 +109,24 @@ public class ModuloSeguridad implements Modulo {
             });
         });
 
+        rutas.get("/tweet/:a/:b/:c").handler(rc ->{
+            String oauth_token = rc.request().getParam("a");
+            String name = rc.request().getParam("b");
+            String ven = rc.request().getParam("c");
+            JsonObject _params = new JsonObject();
+            _params.put("oauth_token", oauth_token);
+            _params.put("name", name);
+            _params.put("ven", ven);
+            vertx.eventBus().send("tweet", _params, res -> {
+                if (res.succeeded()) {
+                    System.out.println("servidor correcto autenticarUsuario -> : " + res.result().body());
+                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                } else {
+                    rc.response().end("ERROR en el modulo de Direcciones");
+                }
+            });
+        });
+
         return rutas;
     }
 

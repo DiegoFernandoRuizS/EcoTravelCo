@@ -26,6 +26,7 @@ public class TwitterAutentication extends Basic {
     private String ConsumerSecret ="ZO3357tUgjE98OPgNBknCsu38iOwWSjomTAWpNLzltHpA61vpe";
     private HashMap<String, RequestToken> requestTokenMap = new HashMap<String, RequestToken>();
     private HashMap<String, Twitter> requestTwitterMap = new HashMap<String, Twitter>();
+    private HashMap<String, AccessToken> accessTokenMap = new HashMap<String, AccessToken>();
 
     public TwitterAutentication(Vertx ver,DeploymentOptions options) {
         super(ver,options);
@@ -36,6 +37,7 @@ public class TwitterAutentication extends Basic {
         this.getVertx().eventBus().consumer("autenticarTwitter", this::autenticar);
         this.getVertx().eventBus().consumer("autenticar", super::autenticar);
         this.getVertx().eventBus().consumer("getPerfil", this::getPerfil);
+        this.getVertx().eventBus().consumer("tweet", this::tweet);
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
                 .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
                 .put("type", "jceks")
@@ -77,7 +79,6 @@ public class TwitterAutentication extends Basic {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
-            System.exit(-1);
         }
     }
 
@@ -90,6 +91,7 @@ public class TwitterAutentication extends Basic {
             Twitter twitter = requestTwitterMap.get(oauth_token);
             AccessToken accessToken = null;
             accessToken = twitter.getOAuthAccessToken(requestTokenMap.get(oauth_token), oauth_verifier);
+            accessTokenMap.put(oauth_token,accessToken);
             String user =twitter.getAccountSettings().getScreenName();
             User userAu = twitter.showUser(twitter.getId());
 
@@ -138,7 +140,24 @@ public class TwitterAutentication extends Basic {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
-            System.exit(-1);
+        }
+    }
+
+
+    public void tweet(Message<JsonObject> message)  {
+        try{
+            JsonObject entrada = message.body();
+
+            String oauth_token =entrada.getString("oauth_token");
+            Twitter twitter = requestTwitterMap.get(oauth_token);
+            String tweet=entrada.getString("name")+" Vendedor :"+ entrada.getString("ven")+
+                    "\nhttp://ecotravel-co/#/home";
+            Status status = twitter.updateStatus(tweet);
+            JsonObject response = new JsonObject();
+            message.reply(response);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get timeline: " + te.getMessage());
         }
     }
 
