@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -14,13 +15,16 @@ public class Main {
         String rutaConfig = args[2];
 
         String pom = new String(Files.readAllBytes(Paths.get(rutaPOM)));
-        String[] modulos = Files.readAllLines(Paths.get(rutaConfig)).toArray(new String[]{});
+        ArrayList<String> modulos = (ArrayList<String>) Files.readAllLines(Paths.get(rutaConfig));
 
         String modulosPOM = "";
         String modulosEjecutable = "";
+        String pluginPOMCore = "";
+        String pluginPOMCalificacion = "";
+        String variabilidad = "";
 
-        for (int i = 0; i < modulos.length; i++) {
-            String modulo = modulos[i];
+        for (int i = 0; i < modulos.size(); i++) {
+            String modulo = modulos.get(i);
 
             if (!modulo.startsWith("CORE_")) {
 
@@ -37,13 +41,56 @@ public class Main {
                             "            <artifactId>mod-calificacion</artifactId>\n" +
                             "            <version>3.2.1</version>\n" +
                             "        </dependency>";
+
+                    pluginPOMCore += "<plugin>\n" +
+                            "<groupId>org.codehaus.mojo</groupId>\n" +
+                            "<artifactId>aspectj-maven-plugin</artifactId>\n" +
+                            "<configuration>\n" +
+                            "<aspectLibraries>\n" +
+                            "<aspectLibrary>\n" +
+                            "<groupId>co.ecofactory</groupId>\n" +
+                            "<artifactId>mod-aspecto</artifactId>\n" +
+                            "</aspectLibrary>\n" +
+                            "</aspectLibraries>\n" +
+                            "</configuration>\n" +
+                            "</plugin>";
                 }
+
+                if (modulo.equals("Reportes")) {
+                    modulosPOM += "<dependency>\n" +
+                            "<groupId>co.ecofactory</groupId>\n" +
+                            "<artifactId>mod-reporte</artifactId>\n" +
+                            "<version>3.2.1</version>\n" +
+                            "</dependency>";
+
+
+                }
+
                 modulosEjecutable += " -D" + modulo + "=ACTIVO ";
+                if (!variabilidad.equals("")) {
+                    variabilidad += ",";
+                }
+                variabilidad = modulo;
             }
         }
 
+        if (modulos.contains("Twitter") && modulos.contains("Facebook")) {
+            modulosEjecutable += " -DTipoAutenticacion=ALL ";
+        } else if (modulos.contains("Twitter") && !modulos.contains("Facebook")) {
+            modulosEjecutable += " -DTipoAutenticacion=TWITTER ";
+        } else if (!modulos.contains("Twitter") && modulos.contains("Facebook")) {
+            modulosEjecutable += " -DTipoAutenticacion=FACEBOOK ";
+        }
+
+        modulosEjecutable += " -DVariabilidad=" + variabilidad;
+
+
         if (!modulosPOM.equals("")) {
             pom = pom.replaceAll("<!--modulos-->", modulosPOM);
+        }
+
+        if (!pluginPOMCore.equals("")) {
+            pom = pom.replaceAll("<!--plugins-->", pluginPOMCore);
         }
 
 
