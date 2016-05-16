@@ -1,35 +1,27 @@
 package co.ecofactory.ecotravel.seguridad.auth.facebookAuth;
 
 
+import co.ecofactory.ecotravel.seguridad.auth.basic.Basic;
 import co.ecofactory.ecotravel.seguridad.service.SeguridadService;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.JWTOptions;
 
-public class FacebookAuth extends SeguridadService {
+public class FacebookAuth extends Basic {
 
-    static JWTAuth provider;
 
-    public synchronized static JWTAuth generateJWTAuthProvider(Vertx vertx) {
-        if (provider == null) {
-            JsonObject config = new JsonObject().put("keyStore", new JsonObject()
-                    .put("path", "./mod-core/src/main/java/keystore.jceks")
-                    .put("type", "jceks")
-                    .put("password", "secret"));
-
-            provider = JWTAuth.create(vertx, config);
-        }
-
-        return provider;
+    public FacebookAuth(Vertx ver,DeploymentOptions options) {
+        super(ver,options);
+        vertx.deployVerticle(this, options);
     }
-
 
     @Override
     public void start() throws Exception {
         this.getVertx().eventBus().consumer("autenticarFB", this::autenticar);
-
+        this.getVertx().eventBus().consumer("autenticar", super::autenticar);
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
                 .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
                 .put("type", "jceks")
