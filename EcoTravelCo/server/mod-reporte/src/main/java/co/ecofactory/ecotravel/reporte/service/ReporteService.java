@@ -81,6 +81,9 @@ public class ReporteService extends AbstractVerticle {
         String reportSrcFile = System.getenv("KEY_STORE");
         reportSrcFile = reportSrcFile.replace("mod-core\\src\\main\\java", ruta);
 
+        String rutaArchivo = System.getenv("KEY_STORE");
+        rutaArchivo = rutaArchivo.replace("server\\mod-core\\src\\main\\java", "front\\reports");
+
         try {
             // First, compile jrxml file.
             JasperReport jasperReport = JasperCompileManager.compileReport(reportSrcFile);
@@ -88,8 +91,9 @@ public class ReporteService extends AbstractVerticle {
 
             JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, conn);
 
+
             // Make sure the output directory exists.
-            File outDir = new File(System.getenv("KEY_STORE"));
+            File outDir = new File(rutaArchivo);
             outDir.mkdirs();
 
             // PDF Exportor.
@@ -101,7 +105,7 @@ public class ReporteService extends AbstractVerticle {
 
             // ExporterOutput
             OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(
-                    System.getenv("KEY_STORE") + "/"+nomPdf+".pdf");
+                    rutaArchivo + "\\"+nomPdf+".pdf");
             // Output
             exporter.setExporterOutput(exporterOutput);
 
@@ -117,9 +121,9 @@ public class ReporteService extends AbstractVerticle {
         } catch (SQLException e) {
             System.out.println("Error Generando Reporte.\n" + e);
         }
-        //CompletableFuture<JsonObject> cal = this.dao.calificarServicio(idProducto, idCliente, calificacion, comentario);
+
         JsonObject obj = new JsonObject();
-        obj.put("ruta", System.getenv("KEY_STORE") + "/"+nomPdf+".pdf");
+        obj.put("ruta", nomPdf+".pdf");
         message.reply(obj);
     }
 }
