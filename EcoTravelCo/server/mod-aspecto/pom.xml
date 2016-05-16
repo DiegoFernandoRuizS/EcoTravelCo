@@ -9,22 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mod-calificacion</artifactId>
+    <artifactId>mod-aspecto</artifactId>
+
     <dependencies>
-        <dependency>
-            <groupId>co.ecofactory</groupId>
-            <artifactId>mod-config</artifactId>
-            <version>3.2.1</version>
-        </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>1.6.11</version>
-        </dependency>
-        <dependency>
-            <groupId>co.ecofactory</groupId>
-            <artifactId>mod-aspecto</artifactId>
-            <version>3.2.1</version>
         </dependency>
     </dependencies>
 
@@ -33,14 +24,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <configuration>
-                    <aspectLibraries>
-                        <aspectLibrary>
-                            <groupId>co.ecofactory</groupId>
-                            <artifactId>mod-aspecto</artifactId>
-                        </aspectLibrary>
-                    </aspectLibraries>
-                </configuration>
             </plugin>
         </plugins>
     </build>

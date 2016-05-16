@@ -21,9 +21,24 @@
             <artifactId>mod-message</artifactId>
             <version>3.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>co.ecofactory</groupId>
+            <artifactId>mod-reporte</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+        <dependency>
+            <groupId>co.ecofactory</groupId>
+            <artifactId>mod-aspecto</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
-<build>
+    <build>
         <pluginManagement>
             <plugins>
                 <!-- We specify the Maven compiler plugin as we need to set it to Java 1.8 -->
@@ -50,31 +65,45 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-<plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-shade-plugin</artifactId>
-  <version>2.3</version>
-  <executions>
-    <execution>
-      <phase>package</phase>
-      <goals>
-        <goal>shade</goal>
-      </goals>
-      <configuration>
-        <transformers>
-          <transformer
-            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-            <manifestEntries>
-              <Main-Class>co.ecofactory.ecotravel.init.Main</Main-Class>
-            </manifestEntries>
-          </transformer>
-        </transformers>
-        <artifactSet/>
-        <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
-      </configuration>
-    </execution>
-  </executions>
-</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>co.ecofactory.ecotravel.init.Main</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <artifactSet/>
+                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
+                            </outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>co.ecofactory</groupId>
+                            <artifactId>mod-aspecto</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
