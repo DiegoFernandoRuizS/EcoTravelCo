@@ -22,6 +22,7 @@ public class UtilidadDatosService extends AbstractVerticle {
 
         this.getVertx().eventBus().consumer("listarPaises", this::listarPaises);
         this.getVertx().eventBus().consumer("listaTipoProducto", this::listaTipoProducto);
+        this.getVertx().eventBus().consumer("variabilidad", this::variabilidad);
 
 
     }
@@ -66,6 +67,33 @@ public class UtilidadDatosService extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
             message.fail(0, "ERROR inside catch");
+        }
+    }
+
+
+
+    public void variabilidad(Message<JsonObject> message)  {
+        try{
+            JsonObject entrada = message.body();
+
+            //Reemplazar ya que se llena en despliegue
+            System.getProperties().setProperty("Variabilidad"
+                    ,"EnvioMensajes," + "CalificarServicios," + "Twitter," + "Facebook," +
+                            "Ruta," + "PublicarTransaccion," + "VentasAdministrador," +
+                            "VentasProductor," + "ConsultaProductor," + "HistoricoClientesProductor");
+
+            String variantes=System.getProperties().getProperty("Variabilidad");
+            String getVariability[] = variantes.split(",");
+            JsonObject response = new JsonObject();
+
+            for (int i=0; getVariability.length >i ; i++  ) {
+                response.put(String.valueOf(i), getVariability[i]);
+            }
+
+            message.reply(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.fail(0, "ERROR al Procesar");
         }
     }
 
