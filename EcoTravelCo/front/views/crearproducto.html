@@ -1,4 +1,4 @@
-<div class="container" ng-controller="ProductosCtrlProveedor">
+<div class="container" ng-controller="ProductosCtrlProveedor as prodprov">
     <div class="block-header">
         <h2>Gestión de productos - Crear producto</h2>
 
@@ -349,7 +349,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-4"  ng-show="prodprov.getLocalStorageById('Ruta')!=null">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi"></i></span>
                             <div class="fg-line">
@@ -360,7 +360,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-4" ng-show="prodprov.getLocalStorageById('Ruta')!=null">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi"></i></span>
                             <div class="fg-line">

@@ -46,14 +46,14 @@
     <ul class="login-navigation">
         <li data-block="#l-register" class="bgm-red" data-ui-sref="productos.detalle" data-ng-click="lctrl.login = 0; lctrl.register = 1">Registro</li>
     </ul>
-    <div class="input-group m-b-20">
+    <div class="input-group m-b-20" ng-show="lctrl.getLocalStorageById('Twitter')!=null || lctrl.getLocalStorageById('Facebook')!=null">
         <span class="input-group-addon">Ó ingresa a EcoTravel con:</span>
     </div>
     <div align="center">
-        <div data-ng-controller="LoginfbCtrl as fbctrl" align="center">
+        <div data-ng-controller="LoginfbCtrl as fbctrl" align="center" ng-show="lctrl.getLocalStorageById('Facebook')!=null">
             <a href="" data-ng-click="iniciarfb();" id="loginFB"><img src="img/social/facebook-128.png" alt="Sign in with Facebook" width="50px;" height="50px;"></a>
         </div>
-        <div align="center">
+        <div align="center" ng-show="lctrl.getLocalStorageById('Twitter')!=null">
             <a href="" data-ng-click="iniciartw();" id="loginTW"><img src="img/social/twitter-128.png" alt="Sign in with Twitter" width="50px;" height="50px;"></a>
         </div>
     </div>

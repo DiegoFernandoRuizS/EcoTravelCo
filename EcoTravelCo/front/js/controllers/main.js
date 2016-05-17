@@ -19,8 +19,14 @@ materialAdmin
             return sessionStorage.getItem("foto");
         }
 
+        this.getLocalStorageById=function(id){
+            return localStorage.getItem(id);
+        }
+
+
         $scope.iniciarServicios = function () {
-            if(sessionStorage.getItem("Variabilidad") != 1) {
+            var con = localStorage.getItem("Variabilidad");
+            if( con != "1") {
                 $http.get("http://localhost:8181/datos/variabilidad", {})
                     .success(function (res) {
                         var lent =res[0].length;
