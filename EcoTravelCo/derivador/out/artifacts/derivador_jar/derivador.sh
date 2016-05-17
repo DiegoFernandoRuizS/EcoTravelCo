@@ -1,0 +1,1 @@
+java -jar derivador.jar /desarrollo/proyectos/uniandes/repo/EcoTravelCo/EcoTravelCo/server/mod-core /desarrollo/proyectos/uniandes/repo/EcoTravelCo/EcoTravelCo/out /desarrollo/proyectos/uniandes/repo/EcoTravelCo/EcoTravelCo/out/config.config /home/samuel/Downloads/apache-maven-3.3.9 

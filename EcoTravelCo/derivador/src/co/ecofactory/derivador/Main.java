@@ -1,14 +1,10 @@
 package co.ecofactory.derivador;
 
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.OpenOption;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,8 +15,9 @@ public class Main {
         String rutaPOM = rutaBASE + "/pom.xml";
         String rutaEjecutable = args[1];
         String rutaConfig = args[2];
+        String rutaMaven = args[3];
 
-        String pom = new String(Files.readAllBytes(Paths.get(rutaPOM)));
+        String pom = new String(Files.readAllBytes(Paths.get(rutaBASE + "/pom.base")));
         ArrayList<String> modulos = (ArrayList<String>) Files.readAllLines(Paths.get(rutaConfig));
 
         String modulosPOM = "";
@@ -49,17 +46,30 @@ public class Main {
                             "        </dependency>";
 
                     pluginPOMCore += "<plugin>\n" +
-                            "<groupId>org.codehaus.mojo</groupId>\n" +
-                            "<artifactId>aspectj-maven-plugin</artifactId>\n" +
-                            "<configuration>\n" +
-                            "<aspectLibraries>\n" +
-                            "<aspectLibrary>\n" +
-                            "<groupId>co.ecofactory</groupId>\n" +
-                            "<artifactId>mod-aspecto</artifactId>\n" +
-                            "</aspectLibrary>\n" +
-                            "</aspectLibraries>\n" +
-                            "</configuration>\n" +
-                            "</plugin>";
+                            "                <groupId>org.codehaus.mojo</groupId>\n" +
+                            "                <artifactId>aspectj-maven-plugin</artifactId>\n" +
+                            "                <version>1.8</version>\n" +
+                            "                <executions>\n" +
+                            "                    <execution>\n" +
+                            "                        <goals>\n" +
+                            "                            <goal>compile</goal>\n" +
+                            "                            <goal>test-compile</goal>\n" +
+                            "                        </goals>\n" +
+                            "                    </execution>\n" +
+                            "\n" +
+                            "                </executions>\n" +
+                            "                <configuration>\n" +
+                            "                    <complianceLevel>1.8</complianceLevel>\n" +
+                            "                    <source>1.8</source>\n" +
+                            "                    <target>1.8</target>\n" +
+                            "                    <aspectLibraries>\n" +
+                            "                        <aspectLibrary>\n" +
+                            "                            <groupId>co.ecofactory</groupId>\n" +
+                            "                            <artifactId>mod-aspecto</artifactId>\n" +
+                            "                        </aspectLibrary>\n" +
+                            "                    </aspectLibraries>\n" +
+                            "                </configuration>\n" +
+                            "            </plugin>";
                 }
 
                 if (modulo.equals("Reportes")) {
@@ -105,15 +115,28 @@ public class Main {
         //ejecutar el pom.xml y esperar a que se cree el jar
 
         InvocationRequest request = new DefaultInvocationRequest();
-        request.setPomFile(new File(rutaPOM));
+        //request.setPomFile(new File(rutaPOM));
+        request.setBaseDirectory(new File(rutaBASE));
+
         request.setGoals(Arrays.asList("clean", "package"));
+        Invoker invoker = new DefaultInvoker();
+        invoker.setMavenHome(new File(rutaMaven));
+        invoker.setMavenExecutable(new File(rutaMaven + "/bin/mvn"));
+        InvocationResult result = invoker.execute(request);
+
+        if (result.getExitCode() != 0) {
+            result.getExecutionException().printStackTrace();
+        } else {
+            //copiando archivos
+            Files.copy(Paths.get(rutaBASE + "/target/mod-core-3.2.1-fat.jar"), Paths.get(rutaEjecutable + "/mod-core-3.2.1-fat.jar"), StandardCopyOption.REPLACE_EXISTING);
+            String ejecutable = "java -jar mod-core-3.2.1-fat.jar " + modulosEjecutable;
 
 
-        String ejecutable = "java -jar target/mod-core-3.2.1-fat.jar " + modulosEjecutable;
+            Files.write(Paths.get(rutaEjecutable + "/ejecutar.sh"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(Paths.get(rutaEjecutable + "/ejecutar.bat"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
+        }
 
-        Files.write(Paths.get(rutaEjecutable + "ejecutar.sh"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-        Files.write(Paths.get(rutaEjecutable + "ejecutar.bat"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
     }
 }

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: maven-invoker-2.2.jar plexus-utils-3.0.20.jar plexus-compo
+ nent-annotations-1.6.jar
+Main-Class: co.ecofactory.derivador.Main
+
