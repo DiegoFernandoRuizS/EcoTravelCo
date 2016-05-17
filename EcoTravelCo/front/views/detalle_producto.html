@@ -18,14 +18,14 @@
                         <img class="img-responsive" src="{{data.url}}" alt="">
                     </a>
 
-                    <div class="dropdown pmop-message" dropdown ng-if="!localStorage.getItem('CalificarServicios')">
+                    <div class="dropdown pmop-message" dropdown ng-show="getLocalStorageById('CalificarServicios')!=null">
                         <button dropdown-toggle class="btn bgm-white btn-float">
                             <h2 class="m-0 c-green">{{data.calificacion_promedio}}</h2>
                         </button>
                     </div>
                 </div>
 
-                <div class="pmo-stat" ng-if="!localStorage.getItem('CalificarServicios')">
+                <div class="pmo-stat" ng-show="getLocalStorageById('CalificarServicios')!=null">
                     Calificación
                 </div>
             </div>
@@ -227,8 +227,7 @@
                     </div>
                 </div>
             </div>
-            ng-show="mapa.getLocalStorageById('Ruta')!=null"
-            <div class="pmb-block" data-ng-controller="ProductosMapa as mapa" >
+            <div class="pmb-block" data-ng-controller="ProductosMapa as mapa" ng-show="mapa.getLocalStorageById('Ruta')!=null">
                 <div class="pmbb-header">
                     <h2><i class="zmdi zmdi-card-travel m-r-5"></i> Tu Ruta </h2>
                     </br></br>
@@ -241,7 +240,7 @@
             </div>
 
 
-            <div class="pmb-block" ng-if="!localStorage.getItem('CalificarServicios')">
+            <div class="pmb-block" ng-show="getLocalStorageById('CalificarServicios')!=null">
                 <div class="pmbb-header">
                     <h2><i class="zmdi zmdi-star-outline m-r-5"></i> Calificaciones y comentarios </h2> </br> </br>
 

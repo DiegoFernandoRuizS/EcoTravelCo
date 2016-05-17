@@ -30,15 +30,15 @@
             </div>
             <br>
             <div class="text-center">
-                <button class="btn bgm-green waves-effect " ng-click="generarReporte('CONSULTAS')" ng-if="!localStorage.getItem('ConsultaProductor')">
+                <button class="btn bgm-green waves-effect " ng-click="generarReporte('CONSULTAS')" ng-if="localStorage.getItem('ConsultaProductor')"!=null>
                     <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
                     Reporte Consultas
                 </button>
-                <button class="btn bgm-green waves-effect " ng-click="generarReporte('VENTAS')" ng-if="!localStorage.getItem('VentasProductor')">
+                <button class="btn bgm-green waves-effect " ng-click="generarReporte('VENTAS')" ng-if="localStorage.getItem('VentasProductor')"!=null>
                     <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
                     Reporte Ventas y Calificaciones
                 </button>
-                <button class="btn bgm-green waves-effect " ng-click="generarReporte('CLIENTES')" ng-if="!localStorage.getItem('HistoricoClientesProductor')">
+                <button class="btn bgm-green waves-effect " ng-click="generarReporte('CLIENTES')" ng-if="localStorage.getItem('HistoricoClientesProductor')"!=null>
                     <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
                     Reporte Clientes
                 </button>
