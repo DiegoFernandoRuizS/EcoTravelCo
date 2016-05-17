@@ -16,6 +16,7 @@ public class Main {
         String rutaEjecutable = args[1];
         String rutaConfig = args[2];
         String rutaMaven = args[3];
+        String rutaJKS = args[4];
 
         String pom = new String(Files.readAllBytes(Paths.get(rutaBASE + "/pom.base")));
         ArrayList<String> modulos = (ArrayList<String>) Files.readAllLines(Paths.get(rutaConfig));
@@ -86,7 +87,7 @@ public class Main {
                 if (!variabilidad.equals("")) {
                     variabilidad += ",";
                 }
-                variabilidad = modulo;
+                variabilidad += modulo;
             }
         }
 
@@ -96,6 +97,8 @@ public class Main {
             modulosEjecutable += " -DTipoAutenticacion=TWITTER ";
         } else if (!modulos.contains("Twitter") && modulos.contains("Facebook")) {
             modulosEjecutable += " -DTipoAutenticacion=FACEBOOK ";
+        }else{
+            modulosEjecutable += " -DTipoAutenticacion=BASIC ";
         }
 
         modulosEjecutable += " -DVariabilidad=" + variabilidad;
@@ -118,7 +121,7 @@ public class Main {
         //request.setPomFile(new File(rutaPOM));
         request.setBaseDirectory(new File(rutaBASE));
 
-        request.setGoals(Arrays.asList("clean", "package"));
+        request.setGoals(Arrays.asList("clean", "package assembly:single"));
         Invoker invoker = new DefaultInvoker();
         invoker.setMavenHome(new File(rutaMaven));
         invoker.setMavenExecutable(new File(rutaMaven + "/bin/mvn"));
@@ -128,8 +131,9 @@ public class Main {
             result.getExecutionException().printStackTrace();
         } else {
             //copiando archivos
-            Files.copy(Paths.get(rutaBASE + "/target/mod-core-3.2.1-fat.jar"), Paths.get(rutaEjecutable + "/mod-core-3.2.1-fat.jar"), StandardCopyOption.REPLACE_EXISTING);
-            String ejecutable = "java -jar mod-core-3.2.1-fat.jar " + modulosEjecutable;
+            Files.copy(Paths.get(rutaBASE + "/target/mod-core-3.2.1-jar-with-dependencies.jar"), Paths.get(rutaEjecutable + "/mod-core-3.2.1-jar-with-dependencies.jar"), StandardCopyOption.REPLACE_EXISTING);
+            String ejecutable = "export KEY_STORE="  + rutaJKS + "\n" +
+                    "java  " + modulosEjecutable + " -jar mod-core-3.2.1-jar-with-dependencies.jar";
 
 
             Files.write(Paths.get(rutaEjecutable + "/ejecutar.sh"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);

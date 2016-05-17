@@ -26,6 +26,7 @@ public class UtilidadDatosService extends AbstractVerticle {
 
 
     }
+
     public void listarPaises(Message<JsonObject> message) {
         System.out.println("listar Piases");
         try {
@@ -33,7 +34,7 @@ public class UtilidadDatosService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("Listar Paises");
                 if (ok != null) {
-                   //   System.out.println("ListarPaises:OK" + ok);
+                    //   System.out.println("ListarPaises:OK" + ok);
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);
@@ -55,7 +56,7 @@ public class UtilidadDatosService extends AbstractVerticle {
             data.whenComplete((ok, error) -> {
                 System.out.println("Listar producto");
                 if (ok != null) {
-                       System.out.println("tipoproducto:OK" + ok);
+                    System.out.println("tipoproducto:OK" + ok);
                     JsonArray arr = new JsonArray();
                     ok.forEach(o -> arr.add(o));
                     message.reply(arr);
@@ -71,25 +72,20 @@ public class UtilidadDatosService extends AbstractVerticle {
     }
 
 
-
-    public void variabilidad(Message<JsonObject> message)  {
-        try{
+    public void variabilidad(Message<JsonObject> message) {
+        try {
             JsonObject entrada = message.body();
 
-            //Reemplazar ya que se llena en despliegue
-            /*System.getProperties().setProperty("Variabilidad"
-                    ,"EnvioMensajes," + "CalificarServicios," + "Twitter," + "Facebook," +
-                            "Ruta," + "PublicarTransaccion," + "VentasAdministrador," +
-                            "VentasProductor," + "ConsultaProductor," + "HistoricoClientesProductor");
-            */
-            String variantes=System.getProperties().getProperty("Variabilidad");
+            String variantes = System.getProperties().getProperty("Variabilidad");
             String getVariability[] = variantes.split(",");
-            JsonObject response = new JsonObject();
+            JsonArray response = new JsonArray();
 
-            for (int i=0; getVariability.length >i ; i++  ) {
-                response.put(String.valueOf(i), getVariability[i]);
+            System.out.println(getVariability);
+
+            for (int i = 0; i < getVariability.length; i++) {
+                response.add(getVariability[i]);
             }
-
+            System.out.println(response);
             message.reply(response);
         } catch (Exception e) {
             e.printStackTrace();

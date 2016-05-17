@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-    <!--[if IE 9 ]><html class="ie9" data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl"><![endif]-->
-    <![if IE 9 ]><html data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl"><![endif]>
+
+    <html data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl">
 
     <head>
         <meta charset="utf-8">
@@ -24,6 +24,8 @@
     </head>
 
     <body data-ng-class="{ 'sw-toggled': mactrl.layoutType === '1'}">
+
+    <div  id="root"></div>
 
         <data ui-view></data>
 
@@ -144,5 +146,17 @@
         <!--  <script src="js/modules/calendar.js"></script>
          <script src="js/modules/demo.js"></script> -->
     </body>
+<script  >
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+    var scope = angular.element(document.getElementById("root")).scope();
+    scope.$apply(function () {
+    scope.iniciarServicios();
+    });
+});
+
+
+</script>
 </html>
 
