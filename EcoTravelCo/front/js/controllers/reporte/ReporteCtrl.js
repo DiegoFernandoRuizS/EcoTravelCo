@@ -74,8 +74,7 @@ angular.module('materialAdmin')
 			
 		};
 
-		$scope.downloadFile = function(downloadPath) {
-			var ruta = $scope.urlReporte.replace(/\\/g, "/");
-			window.open("file:///" + ruta);
+		$scope.getLocalStorageById=function(id){
+			return localStorage.getItem(id);
 		}
 	});

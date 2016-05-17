@@ -134,6 +134,10 @@ angular.module('materialAdmin')
                 $rootScope.prodId = id;
             };
 
+            $scope.getLocalStorageById=function(id){
+                return localStorage.getItem(id);
+            }
+
         })
 
 
