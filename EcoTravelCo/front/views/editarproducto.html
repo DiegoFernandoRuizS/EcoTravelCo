@@ -1,4 +1,4 @@
-<div class="container" ng-controller="ProductosCtrlProveedor">
+<div class="container" ng-controller="ProductosCtrlProveedor as prodprov">
     <div class="block-header">
         <h2>Gestión de productos - Editar producto</h2>
 
@@ -369,7 +369,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4"  ng-show="prodprov.getLocalStorageById('Ruta')!=null">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi"></i></span>
                             <div class="fg-line">
@@ -380,13 +380,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4"  ng-show="prodprov.getLocalStorageById('Ruta')!=null">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi"></i></span>
                             <div class="fg-line">
                                 <label for="longitudCrear">Longitud</label>
                                 <input type="text" class="form-control"
                                        placeholder="Longitud" ng-model="actualProducto.longitud" id="longitudCrear">
+                                <div class="fg-line">
+                                    <span class="btn btn-success btn-file m-r-10" data-ng-click="calcularCoordenadasEdit()">Calcular</span>
+                                </div>
                             </div>
                         </div>
                     </div>

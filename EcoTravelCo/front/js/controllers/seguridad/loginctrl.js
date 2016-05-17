@@ -132,6 +132,9 @@ materialAdmin
         }
 
 
+        this.getLocalStorageById=function(id){
+            return localStorage.getItem(id);
+        }
 
         $scope.limpiarSesion();
         $scope.loginTwitter();

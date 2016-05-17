@@ -29,11 +29,12 @@
                     Calificación
                 </div>
             </div>
-            <div class="pmo-block pmo-contact hidden-xs">
-                <div  href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=https://www.facebook.com/EcoTravelColombiaPlus&amp;t=Ecotravel','','scrollbars=yes,width=660,height=328'); return false;" title="Share this"></a>
+            <div class="pmo-block pmo-contact hidden-xs" data-ng-controller="ProductosDetalle as Pdet">
+                <div  href="#" onclick="window.open('http://www.facebook.com/sharer.php?u=https://www.facebook.com/EcoTravelColombiaPlus&amp;t=Ecotravel','','scrollbars=yes,width=660,height=328'); return false;" title="Share this"
+                ng-show="Pdet.getLocalStorageById('Facebook')!=null && Pdet.getLocalStorageById('PublicarTransaccion')!=null"></a>
                <img src="img/compartirfb.png" width="190px" height="28px"/>
                 </div>
-                <div  href="#" ng-click="tweet();" title="Tweet"></a>
+                <div  href="#" ng-click="tweet();" title="Tweet"  ng-show="Pdet.getLocalStorageById('Twitter')!=null && Pdet.getLocalStorageById('PublicarTransaccion')!=null"></a>
                     <img src="img/compartir-en-twitter.jpg"/>
                 </div>
             </div>
@@ -226,8 +227,8 @@
                     </div>
                 </div>
             </div>
-
-            <div class="pmb-block" data-ng-controller="ProductosMapa as mapa">
+            ng-show="mapa.getLocalStorageById('Ruta')!=null"
+            <div class="pmb-block" data-ng-controller="ProductosMapa as mapa" >
                 <div class="pmbb-header">
                     <h2><i class="zmdi zmdi-card-travel m-r-5"></i> Tu Ruta </h2>
                     </br></br>

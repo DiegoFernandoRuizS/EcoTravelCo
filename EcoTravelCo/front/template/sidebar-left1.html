@@ -109,7 +109,7 @@
         </ul>
     </li>
 
-    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('mensajes') }" >
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('mensajes') }"  ng-show="mactrl.getTipoUsuario()!=null && mactrl.getLocalStorageById('EnvioMensajes')!=null">
         <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Mensajes</a>
         <ul>
             <li><a data-ui-sref-active="active" data-ui-sref="pages.messages" data-ng-click="mactrl.sidebarStat($event)">Mis Mensajes</a></li>
