@@ -95,8 +95,7 @@
     </li>
 
     <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('reportes') }"
-        ng-if="localStorage.getItem('VentasAdministrador')!=null || mactrl.getLocalStorageById('VentasProductor')!=null ||
-        mactrl.getLocalStorageById('ConsultaProductor')!=null || mactrl.getLocalStorageById('HistoricoClientesProductor')!=null">
+        ng-if="mactrl.getLocalStorageById('Reportes')!=null">
         <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de reportes</a>
         <ul>
             <li ng-show="mactrl.getTipoUsuario()== 'ADMINISTRADOR'" ng-if="mactrl.getLocalStorageById('VentasAdministrador')!=null">
