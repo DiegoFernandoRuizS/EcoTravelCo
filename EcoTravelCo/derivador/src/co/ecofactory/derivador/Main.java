@@ -1,16 +1,22 @@
 package co.ecofactory.derivador;
 
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.InvocationRequest;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String rutaPOM = args[0];
+        String rutaBASE = args[0];
+        String rutaPOM = rutaBASE + "/pom.xml";
         String rutaEjecutable = args[1];
         String rutaConfig = args[2];
 
@@ -96,10 +102,18 @@ public class Main {
 
         Files.write(Paths.get(rutaPOM), pom.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
 
+        //ejecutar el pom.xml y esperar a que se cree el jar
+
+        InvocationRequest request = new DefaultInvocationRequest();
+        request.setPomFile(new File(rutaPOM));
+        request.setGoals(Arrays.asList("clean", "package"));
+
+
         String ejecutable = "java -jar target/mod-core-3.2.1-fat.jar " + modulosEjecutable;
 
 
-        Files.write(Paths.get(rutaEjecutable), ejecutable.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get(rutaEjecutable + "ejecutar.sh"), ejecutable.getBytes(), StandardOpenOption.CREATE_NEW, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get(rutaEjecutable + "ejecutar.bat"), ejecutable.getBytes(), StandardOpenOption.CREATE_NEW, StandardOpenOption.TRUNCATE_EXISTING);
 
     }
 }
