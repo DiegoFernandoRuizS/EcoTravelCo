@@ -94,11 +94,18 @@
 
     </li>
 
-    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('reportes') }">
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('reportes') }"
+        ng-if="!localStorage.getItem('VentasAdministrador') || !localStorage.getItem('VentasProductor') ||
+        !localStorage.getItem('ConsultaProductor') || !localStorage.getItem('HistoricoClientesProductor')">
         <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de reportes</a>
         <ul>
-            <li ng-show="mactrl.getTipoUsuario()== 'ADMINISTRADOR'"><a data-ui-sref-active="active" data-ui-sref="reporte.administrador" data-ng-click="mactrl.sidebarStat($event)">Reporte de Ventas</a></li>
-            <li ng-show="mactrl.getTipoUsuario()== 'PROVEEDOR'"><a data-ui-sref-active="active" data-ui-sref="reporte.proveedor" data-ng-click="mactrl.sidebarStat($event)">Reportes</a></li>
+            <li ng-show="mactrl.getTipoUsuario()== 'ADMINISTRADOR'" ng-if="!localStorage.getItem('VentasAdministrador')">
+                <a data-ui-sref-active="active" data-ui-sref="reporte.administrador" data-ng-click="mactrl.sidebarStat($event)">Reporte de Ventas</a>
+            </li>
+            <li ng-show="mactrl.getTipoUsuario()== 'PROVEEDOR'" ng-if="!localStorage.getItem('VentasProductor') ||
+                !localStorage.getItem('ConsultaProductor') || !localStorage.getItem('HistoricoClientesProductor')">
+                <a data-ui-sref-active="active" data-ui-sref="reporte.proveedor" data-ng-click="mactrl.sidebarStat($event)">Reportes</a>
+            </li>
         </ul>
     </li>
 

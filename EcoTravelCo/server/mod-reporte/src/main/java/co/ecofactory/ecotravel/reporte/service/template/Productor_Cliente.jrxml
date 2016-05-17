@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-05-17T01:48:40 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Productor_Cliente" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ecotravel"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Fecha_Inicial" class="java.sql.Date"/>
+	<parameter name="Fecha_Final" class="java.sql.Date"/>
+	<parameter name="id_usuario" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select id_cliente_id, to_char(fecha, 'YYYY-mm') as mes, id_producto_id, sum(cantidad) as cantidad, mp_producto.nombre, mp_persona.login,
+(mp_persona.nombre || ' ' || mp_persona.nombre_sec || ' ' || mp_persona.apellido || ' ' || mp_persona.apellido_sec) As cliente
+from mp_log inner join mp_producto on mp_producto.id = mp_log.id_producto_id inner join mp_persona on mp_persona.id = id_cliente_id
+where mp_log.tipo = 'VENTA' and fecha between $P{Fecha_Inicial} and $P{Fecha_Final} and id_producto_id in (select id from mp_producto where id_usuario =  $P{id_usuario} )
+group by id_cliente_id, fecha, id_producto_id, mp_producto.nombre, mp_persona.login, mp_persona.nombre, mp_persona.nombre_sec, mp_persona.apellido, mp_persona.apellido_sec
+order by id_cliente_id, mes]]>
+	</queryString>
+	<field name="login" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="mes" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Long"/>
+	<field name="cliente" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{login}]]></groupExpression>
+		<groupHeader>
+			<band height="47">
+				<frame>
+					<reportElement mode="Opaque" x="10" y="7" width="550" height="24" forecolor="#B89F7D" backcolor="#F2EBDF" uuid="ff649bda-bbd1-4c2d-bd67-21f69ad64bbf"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="-8" y="0" width="36" height="24" forecolor="#418B00" backcolor="#418B00" uuid="a7ae31ce-9474-4e4b-9627-eb9152ff7b80"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="SubTitle" x="67" y="0" width="483" height="24" forecolor="#418B00" uuid="b5a25815-f4ed-4382-9712-d113dc519d4e"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{cliente}+" ("+$F{login}+")"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<frame>
+					<reportElement x="0" y="0" width="560" height="31" backcolor="rgba(255, 255, 255, 0.0)" uuid="46d665dd-eea9-46e7-8655-b6547dc8e58c"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+				</frame>
+				<textField>
+					<reportElement style="SubTitle" x="10" y="0" width="330" height="31" forecolor="#418B00" uuid="f12f6bf3-7d7e-4d80-a7a9-29937604f672"/>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="341" y="0" width="100" height="31" forecolor="#418B00" uuid="d2b4c174-a457-49ad-b312-02955aace978"/>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="461" y="0" width="92" height="31" forecolor="#418B00" uuid="5b590f6c-9113-4447-812c-44e7bce7e94a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="mes">
+		<groupExpression><![CDATA[$F{mes}]]></groupExpression>
+	</group>
+	<group name="cantidad">
+		<groupExpression><![CDATA[$F{cantidad}]]></groupExpression>
+	</group>
+	<title>
+		<band height="110" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="6" width="150" height="90" uuid="fa354300-e7fb-477f-83db-b4594d3ac8de"/>
+				<imageExpression><![CDATA["C:/Users/CristianCamilo/Desktop/logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="570" height="110" forecolor="#418B00" uuid="055aac76-530d-4537-b1d8-e0899aa6793e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe de Ventas]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="70" width="279" height="30" forecolor="#418B00" uuid="e8f4509a-0556-4798-b956-7b38a9e51489"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desde " + $P{Fecha_Inicial}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="279" y="70" width="291" height="30" forecolor="#418B00" uuid="a77672cd-c77d-47dd-847a-51a32f1b1f13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Hasta  " + $P{Fecha_Final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement x="0" y="10" width="278" height="30" forecolor="#418B00" uuid="60c5f391-f764-484d-88a5-5b5c59f3aee3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="279" y="10" width="291" height="30" forecolor="#418B00" uuid="d5225620-58d3-48c2-b064-2af2a809fe6d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

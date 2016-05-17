@@ -18,16 +18,14 @@
                         <img class="img-responsive" src="{{data.url}}" alt="">
                     </a>
 
-                    <div class="dropdown pmop-message" dropdown>
+                    <div class="dropdown pmop-message" dropdown ng-if="!localStorage.getItem('CalificarServicios')">
                         <button dropdown-toggle class="btn bgm-white btn-float">
                             <h2 class="m-0 c-green">{{data.calificacion_promedio}}</h2>
                         </button>
-
-
                     </div>
                 </div>
 
-                <div class="pmo-stat">
+                <div class="pmo-stat" ng-if="!localStorage.getItem('CalificarServicios')">
                     Calificación
                 </div>
             </div>
@@ -242,7 +240,7 @@
             </div>
 
 
-            <div class="pmb-block">
+            <div class="pmb-block" ng-if="!localStorage.getItem('CalificarServicios')">
                 <div class="pmbb-header">
                     <h2><i class="zmdi zmdi-star-outline m-r-5"></i> Calificaciones y comentarios </h2> </br> </br>
 
