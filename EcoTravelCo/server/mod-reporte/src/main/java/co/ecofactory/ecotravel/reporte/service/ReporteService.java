@@ -40,6 +40,7 @@ public class ReporteService extends AbstractVerticle {
 
 
     public void generarReporte(Message<JsonObject> message) {
+        boolean error = false;
         //Parametros de entrada
         int idUsuario = message.body().getInteger("idUsuario");
         String reporte = message.body().getString("reporte");
@@ -50,6 +51,11 @@ public class ReporteService extends AbstractVerticle {
         String nomPdf="", nomReporte="";
         switch(reporte) {
             case "ADMIN":
+                /*if(){
+
+                }else{
+
+                }*/
                 nomPdf = "AdminInformeVentas";
                 nomReporte = "Administrador_Ventas";
                 break;
@@ -68,62 +74,71 @@ public class ReporteService extends AbstractVerticle {
                 nomPdf = "ProductorClientes"+idUsuario;
                 nomReporte = "Productor_Cliente";
                 break;
+
+            default:
+                error = true;
         }
 
+        //Generar reporte
+        if(!error){
+            // Parameters for report
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("Fecha_Inicial", fechaInicial);
+            parameters.put("Fecha_Final", fechaFinal);
+            parameters.put("id_usuario", idUsuario);
 
-        // Parameters for report
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("Fecha_Inicial", fechaInicial);
-        parameters.put("Fecha_Final", fechaFinal);
-        parameters.put("id_usuario", idUsuario);
+            String ruta = "mod-reporte/src/main/java/co/ecofactory/ecotravel/reporte/service/template/"+ nomReporte +".jrxml";
+            String reportSrcFile = System.getenv("KEY_STORE");
+            reportSrcFile = reportSrcFile.replace("mod-core\\src\\main\\java", ruta);
 
-        String ruta = "mod-reporte/src/main/java/co/ecofactory/ecotravel/reporte/service/template/"+ nomReporte +".jrxml";
-        String reportSrcFile = System.getenv("KEY_STORE");
-        reportSrcFile = reportSrcFile.replace("mod-core\\src\\main\\java", ruta);
+            String rutaArchivo = System.getenv("KEY_STORE");
+            rutaArchivo = rutaArchivo.replace("server\\mod-core\\src\\main\\java", "front\\reports");
 
-        String rutaArchivo = System.getenv("KEY_STORE");
-        rutaArchivo = rutaArchivo.replace("server\\mod-core\\src\\main\\java", "front\\reports");
+            try {
+                // First, compile jrxml file.
+                JasperReport jasperReport = JasperCompileManager.compileReport(reportSrcFile);
+                Connection conn = ConnectionUtils.getConnection();
 
-        try {
-            // First, compile jrxml file.
-            JasperReport jasperReport = JasperCompileManager.compileReport(reportSrcFile);
-            Connection conn = ConnectionUtils.getConnection();
-
-            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, conn);
+                JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, conn);
 
 
-            // Make sure the output directory exists.
-            File outDir = new File(rutaArchivo);
-            outDir.mkdirs();
+                // Make sure the output directory exists.
+                File outDir = new File(rutaArchivo);
+                outDir.mkdirs();
 
-            // PDF Exportor.
-            JRPdfExporter exporter = new JRPdfExporter();
+                // PDF Exportor.
+                JRPdfExporter exporter = new JRPdfExporter();
 
-            ExporterInput exporterInput = new SimpleExporterInput(print);
-            // ExporterInput
-            exporter.setExporterInput(exporterInput);
+                ExporterInput exporterInput = new SimpleExporterInput(print);
+                // ExporterInput
+                exporter.setExporterInput(exporterInput);
 
-            // ExporterOutput
-            OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(
-                    rutaArchivo + "\\"+nomPdf+".pdf");
-            // Output
-            exporter.setExporterOutput(exporterOutput);
+                // ExporterOutput
+                OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(
+                        rutaArchivo + "\\"+nomPdf+".pdf");
+                // Output
+                exporter.setExporterOutput(exporterOutput);
 
-            //
-            SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-            exporter.setConfiguration(configuration);
-            exporter.exportReport();
+                //
+                SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+                exporter.setConfiguration(configuration);
+                exporter.exportReport();
 
-        } catch (JRException e) {
-            System.out.println("Error Generando Reporte.\n" + e);
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error Generando Reporte.\n" + e);
-        } catch (SQLException e) {
-            System.out.println("Error Generando Reporte.\n" + e);
+            } catch (JRException e) {
+                error = true;
+                System.out.println("Error Generando Reporte.\n" + e);
+            } catch (ClassNotFoundException e) {
+                error = true;
+                System.out.println("Error Generando Reporte.\n" + e);
+            } catch (SQLException e) {
+                error = true;
+                System.out.println("Error Generando Reporte.\n" + e);
+            }
         }
 
         JsonObject obj = new JsonObject();
         obj.put("ruta", nomPdf+".pdf");
+        obj.put("error", error);
         message.reply(obj);
     }
 }

@@ -29,7 +29,7 @@
                         <td class="highlight">${{data.precio_total | number}}</td>
                         <td>
                             <button type="button" class="btn btn-info" ng-click="open(data.url, data.nombre, data.id_producto, data.id_item)"
-                                    ng-if="data.estado == 'PAGADO' && !data.calificado">
+                                    ng-if="data.estado == 'PAGADO' && !data.calificado && localStorage.getItem('CalificarServicios')!=null">
                                 <i class="zmdi zmdi-star-half"></i></button>
                         </td>
                     </tr>

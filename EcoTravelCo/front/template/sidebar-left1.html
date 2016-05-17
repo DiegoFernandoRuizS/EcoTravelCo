@@ -94,15 +94,22 @@
 
     </li>
 
-    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('reportes') }">
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('reportes') }"
+        ng-if="localStorage.getItem('VentasAdministrador')!=null || localStorage.getItem('VentasProductor')!=null ||
+        localStorage.getItem('ConsultaProductor')!=null || localStorage.getItem('HistoricoClientesProductor')!=null">
         <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i>Gestión de reportes</a>
         <ul>
-            <li ng-show="mactrl.getTipoUsuario()== 'ADMINISTRADOR'"><a data-ui-sref-active="active" data-ui-sref="reporte.administrador" data-ng-click="mactrl.sidebarStat($event)">Reporte de Ventas</a></li>
-            <li ng-show="mactrl.getTipoUsuario()== 'PROVEEDOR'"><a data-ui-sref-active="active" data-ui-sref="reporte.proveedor" data-ng-click="mactrl.sidebarStat($event)">Reportes</a></li>
+            <li ng-show="mactrl.getTipoUsuario()== 'ADMINISTRADOR'" ng-if="localStorage.getItem('VentasAdministrador')!=null">
+                <a data-ui-sref-active="active" data-ui-sref="reporte.administrador" data-ng-click="mactrl.sidebarStat($event)">Reporte de Ventas</a>
+            </li>
+            <li ng-show="mactrl.getTipoUsuario()== 'PROVEEDOR'" ng-if="localStorage.getItem('VentasProductor')!=null ||
+                localStorage.getItem('ConsultaProductor')!=null || localStorage.getItem('HistoricoClientesProductor')!=null">
+                <a data-ui-sref-active="active" data-ui-sref="reporte.proveedor" data-ng-click="mactrl.sidebarStat($event)">Reportes</a>
+            </li>
         </ul>
     </li>
 
-    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('mensajes') }" >
+    <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('mensajes') }"  ng-show="mactrl.getTipoUsuario()!=null && mactrl.getLocalStorageById('EnvioMensajes')!=null">
         <a href="" toggle-submenu><i class="zmdi zmdi-view-compact"></i> Mensajes</a>
         <ul>
             <li><a data-ui-sref-active="active" data-ui-sref="pages.messages" data-ng-click="mactrl.sidebarStat($event)">Mis Mensajes</a></li>

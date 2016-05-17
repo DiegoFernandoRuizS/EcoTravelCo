@@ -58,11 +58,11 @@ angular.module('materialAdmin')
 
 				$http.post("http://localhost:8181/reporte/", $scope.infoReporte, $scope.sesion
 				).success(function (res) {
-					if(res.ruta == undefined){
+					if(res.error){
 						growlService.growl('Error al generar el reporte.', 'danger');
 					}else{
-						growlService.growl('Reporte generado en la rura .'+$scope.urlReporte, 'success');
 						$scope.urlReporte = "/reports/"+res.ruta;
+						growlService.growl('Reporte generado en la rura .'+$scope.urlReporte, 'success');
 						window.open($scope.urlReporte);
 					}
 				}).error(function (res) {

@@ -29,13 +29,19 @@
                 </div>
             </div>
             <br>
-            <div class="row">
-                <div class="col-xs-4 col-xs-offset-5">
-                    <button class="btn bgm-green waves-effect " ng-click="generarReporte('CONSULTAS')">
-                        <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
-                        Generar Reporte Consultas
-                    </button>
-                </div>
+            <div class="text-center">
+                <button class="btn bgm-green waves-effect " ng-click="generarReporte('CONSULTAS')" ng-if="localStorage.getItem('ConsultaProductor')"!=null>
+                    <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
+                    Reporte Consultas
+                </button>
+                <button class="btn bgm-green waves-effect " ng-click="generarReporte('VENTAS')" ng-if="localStorage.getItem('VentasProductor')"!=null>
+                    <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
+                    Reporte Ventas y Calificaciones
+                </button>
+                <button class="btn bgm-green waves-effect " ng-click="generarReporte('CLIENTES')" ng-if="localStorage.getItem('HistoricoClientesProductor')"!=null>
+                    <i class="zmdi zmdi-collection-pdf zmdi-hc-fw"/>
+                    Reporte Clientes
+                </button>
             </div>
         </div>
         <div class="clearfix"><br></div>

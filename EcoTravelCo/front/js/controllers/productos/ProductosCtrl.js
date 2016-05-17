@@ -327,6 +327,24 @@ angular.module('materialAdmin')
             });
         };
 
+
+        $scope.calcularCoordenadasEdit = function (id) {
+            var dir = ""+
+                $scope.actualProducto.nombredireccion +" "+
+                $scope.actualProducto.pais +" "+
+                $scope.actualProducto.departamento +" "+
+                $scope.actualProducto.ciudad ;
+
+            $http.get("http://localhost:8181/direccion/coordenada/" + dir)
+                .success(function (res) {
+                    $scope.actualProducto.latitud = res[0].latitude;
+                    $scope.actualProducto.longitud = res[0].longitude;
+                }).error(function (res) {
+                console.log("Doesn't work para listar producto");
+                console.log("El error para borar producto: " + res);
+            });
+        };
+
         //autocarga de los productos en la gestion
         $scope.consultarProductos();
         $scope.combox();
@@ -336,6 +354,11 @@ angular.module('materialAdmin')
             $rootScope.prodId = id;
             $rootScope.cantidadCanasta = 1;
         };
+
+        this.getLocalStorageById=function(id){
+            return localStorage.getItem(id);
+        }
+
 
     });
 
@@ -506,6 +529,10 @@ angular.module('materialAdmin')
             })
         }
 
+        this.getLocalStorageById=function(id){
+            return localStorage.getItem(id);
+        }
+
     });
 
 
@@ -615,21 +642,29 @@ angular.module('materialAdmin')
 
 
         function getIp() {
-            var latitude = sessionStorage.getItem('latitude');
-            if (latitude == null) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    sessionStorage.setItem("latitude", position.coords.latitude);
-                    sessionStorage.setItem("longitude", position.coords.longitude);
-                    $scope.position = position;
+            if(localStorage.getItem("Ruta")!=null){
+                var latitude = sessionStorage.getItem('latitude');
+                if (latitude == null) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        sessionStorage.setItem("latitude", position.coords.latitude);
+                        sessionStorage.setItem("longitude", position.coords.longitude);
+                        $scope.position = position;
+                        initMap();
+                    });
+                }else {
                     initMap();
-                });
-            }else {
-                initMap();
+                }
             }
         }
 
 
+        this.getLocalStorageById=function(id){
+            return localStorage.getItem(id);
+        }
+
 
         getIp();
+
+
 
     });
