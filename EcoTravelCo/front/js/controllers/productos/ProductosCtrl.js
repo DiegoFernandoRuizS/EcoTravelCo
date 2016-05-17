@@ -529,7 +529,7 @@ angular.module('materialAdmin')
             })
         }
 
-        this.getLocalStorageById=function(id){
+        $scope.getLocalStorageById=function(id){
             return localStorage.getItem(id);
         }
 
