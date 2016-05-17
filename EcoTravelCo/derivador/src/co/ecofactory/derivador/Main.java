@@ -112,8 +112,8 @@ public class Main {
         String ejecutable = "java -jar target/mod-core-3.2.1-fat.jar " + modulosEjecutable;
 
 
-        Files.write(Paths.get(rutaEjecutable + "ejecutar.sh"), ejecutable.getBytes(), StandardOpenOption.CREATE_NEW, StandardOpenOption.TRUNCATE_EXISTING);
-        Files.write(Paths.get(rutaEjecutable + "ejecutar.bat"), ejecutable.getBytes(), StandardOpenOption.CREATE_NEW, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get(rutaEjecutable + "ejecutar.sh"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get(rutaEjecutable + "ejecutar.bat"), ejecutable.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
     }
 }
