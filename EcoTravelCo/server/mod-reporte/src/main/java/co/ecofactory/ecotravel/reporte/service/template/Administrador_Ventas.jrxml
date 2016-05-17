@@ -92,7 +92,7 @@
 		<band height="110" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="6" width="150" height="90" uuid="658eda27-d3c8-4750-a265-4eb052b2b99f"/>
-				<imageExpression><![CDATA["C:/Users/CristianCamilo/Desktop/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["/home/samuel/Downloads/logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="0" y="0" width="780" height="110" forecolor="#418B00" uuid="46917619-2d85-413d-80b1-f35f6a2e985c"/>

@@ -87,16 +87,16 @@ public class ReporteService extends AbstractVerticle {
             parameters.put("Fecha_Final", fechaFinal);
             parameters.put("id_usuario", idUsuario);
 
-            String ruta = "mod-reporte/src/main/java/co/ecofactory/ecotravel/reporte/service/template/"+ nomReporte +".jrxml";
+            String ruta = "/desarrollo/proyectos/uniandes/repo/EcoTravelCo/EcoTravelCo/server/mod-reporte/src/main/java/co/ecofactory/ecotravel/reporte/service/template/"+ nomReporte +".jrxml";
             String reportSrcFile = System.getenv("KEY_STORE");
-            reportSrcFile = reportSrcFile.replace("mod-core\\src\\main\\java", ruta);
+            reportSrcFile = "/desarrollo/proyectos/uniandes/repo/EcoTravelCo/EcoTravelCo/server/mod-reporte/src/main/java/co/ecofactory/ecotravel/reporte/service/template";
 
             String rutaArchivo = System.getenv("KEY_STORE");
-            rutaArchivo = rutaArchivo.replace("server\\mod-core\\src\\main\\java", "front\\reports");
+            rutaArchivo = "/desarrollo/proyectos/uniandes/repo/EcoTravelCo/EcoTravelCo/front/reports";
 
             try {
                 // First, compile jrxml file.
-                JasperReport jasperReport = JasperCompileManager.compileReport(reportSrcFile);
+                JasperReport jasperReport = JasperCompileManager.compileReport(ruta );
                 Connection conn = ConnectionUtils.getConnection();
 
                 JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, conn);
@@ -115,7 +115,7 @@ public class ReporteService extends AbstractVerticle {
 
                 // ExporterOutput
                 OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(
-                        rutaArchivo + "\\"+nomPdf+".pdf");
+                        rutaArchivo + "/"+nomPdf+".pdf");
                 // Output
                 exporter.setExporterOutput(exporterOutput);
 

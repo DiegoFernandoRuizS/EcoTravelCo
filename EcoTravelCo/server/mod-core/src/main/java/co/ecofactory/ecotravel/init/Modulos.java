@@ -31,7 +31,7 @@ public class Modulos {
                 Services.getMainRouter().mountSubRouter(modulo.getNombre(), modulo.getRutas(VertxFactory.getVertxInstance()));
 
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 System.out.println("Modulo "+ nombreModulo + " Inactivo.");
             }
 

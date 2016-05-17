@@ -5,10 +5,10 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ecotravel"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Title"  fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343"  fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
+	<style name="Detail"  fontSize="12"/>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -104,7 +104,7 @@ order by id_cliente_id, mes]]>
 		<band height="110" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="6" width="150" height="90" uuid="fa354300-e7fb-477f-83db-b4594d3ac8de"/>
-				<imageExpression><![CDATA["C:/Users/CristianCamilo/Desktop/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["/home/samuel/Downloads/logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="0" y="0" width="570" height="110" forecolor="#418B00" uuid="055aac76-530d-4537-b1d8-e0899aa6793e"/>

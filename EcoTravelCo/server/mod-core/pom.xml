@@ -12,10 +12,6 @@
     <artifactId>mod-core</artifactId>
     <dependencies>
         <dependency>
-            <groupId>co.ecofactory</groupId>
-            <artifactId>mod-message</artifactId>
-            <version>3.2.1</version>
-        </dependency><dependency>
 <groupId>co.ecofactory</groupId>
 <artifactId>mod-reporte</artifactId>
 <version>3.2.1</version>
