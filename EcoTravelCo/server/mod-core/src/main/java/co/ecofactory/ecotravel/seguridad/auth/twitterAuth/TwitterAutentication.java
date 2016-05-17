@@ -38,6 +38,8 @@ public class TwitterAutentication extends Basic {
         this.getVertx().eventBus().consumer("autenticar", super::autenticar);
         this.getVertx().eventBus().consumer("getPerfil", this::getPerfil);
         this.getVertx().eventBus().consumer("tweet", this::tweet);
+
+
         JsonObject config = new JsonObject().put("keyStore", new JsonObject()
                 .put("path", System.getenv("KEY_STORE") + "/keystore.jceks")
                 .put("type", "jceks")

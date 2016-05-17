@@ -77,11 +77,11 @@ public class UtilidadDatosService extends AbstractVerticle {
             JsonObject entrada = message.body();
 
             //Reemplazar ya que se llena en despliegue
-            System.getProperties().setProperty("Variabilidad"
+            /*System.getProperties().setProperty("Variabilidad"
                     ,"EnvioMensajes," + "CalificarServicios," + "Twitter," + "Facebook," +
                             "Ruta," + "PublicarTransaccion," + "VentasAdministrador," +
                             "VentasProductor," + "ConsultaProductor," + "HistoricoClientesProductor");
-
+            */
             String variantes=System.getProperties().getProperty("Variabilidad");
             String getVariability[] = variantes.split(",");
             JsonObject response = new JsonObject();

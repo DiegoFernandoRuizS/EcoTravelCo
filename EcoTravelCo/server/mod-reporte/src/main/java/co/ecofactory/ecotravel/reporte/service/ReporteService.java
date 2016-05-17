@@ -1,6 +1,6 @@
 package co.ecofactory.ecotravel.reporte.service;
 
-import co.ecofactory.ecotravel.conexion.ConnectionUtils;
+import co.ecofactory.ecotravel.reporte.conexion.ConnectionUtils;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;

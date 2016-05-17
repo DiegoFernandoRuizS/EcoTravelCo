@@ -19,7 +19,7 @@ public class DireccionService extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         // Crea Fabrica Segun Variabilidad!!!
-        direccion = FabricaDirecciones.getDireccion("Ruta",this.getVertx(), new Conexion().getConf());
+        direccion = FabricaDirecciones.getDireccion((System.getProperties().getProperty("Ruta") != null ? "Ruta" : ""),this.getVertx(), new Conexion().getConf());
         // registro los metodos en el bus
         this.getVertx().eventBus().consumer("dirreccionTipo", this::dirreccionTipo);
         this.getVertx().eventBus().consumer("dirreccionCoord", this::dirreccionCoord);

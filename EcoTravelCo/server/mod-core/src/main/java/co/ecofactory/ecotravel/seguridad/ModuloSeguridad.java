@@ -18,7 +18,7 @@ public class ModuloSeguridad implements Modulo {
 
         //Decorador
 
-        System.getProperties().setProperty("TipoAutenticacion","ALL");
+        //System.getProperties().setProperty("TipoAutenticacion","ALL");
 
         String getVariability = System.getProperties().getProperty("TipoAutenticacion");
 
