@@ -49,26 +49,31 @@ materialAdmin
         $scope.limpiarSesion = function () {
             var isFB = sessionStorage.getItem("auth");
             if (isFB == "fb") {
-                alert("Estaba autenticado con fb");
                 (function () {
                     console.log("Ejecutando logout fb");
+                    try{
                     FB.init({
-                        appId: '985703204846099',
-                        xfbml: true,
-                        version: 'v2.6'
-                    });
-                    FB.getLoginStatus(function (response) {
-                        if (response.status === 'connected'){
-                            console.log("Conectado a fb");
-                            FB.logout(function (response){
-                                console.log("cerrando sesión");
-                            })
-                        } else if (response.status === 'not_authorized'){
-                            console.log("No iniciado en fb desde login");
-                        } else {
-                            console.log("No Conectado a fb desde login");
-                        }
-                    });
+                                            appId: '985703204846099',
+                                            xfbml: true,
+                                            version: 'v2.6'
+                                        });
+                                        FB.getLoginStatus(function (response) {
+                                            if (response.status === 'connected'){
+                                                console.log("Conectado a fb");
+                                                FB.logout(function (response){
+                                                    console.log("cerrando sesión");
+                                                })
+                                            } else if (response.status === 'not_authorized'){
+                                                console.log("No iniciado en fb desde login");
+                                            } else {
+                                                console.log("No Conectado a fb desde login");
+                                            }
+                                        });
+                    }catch(e){
+                    }
+
+
+
 
                 })();
                 sessionStorage.clear();

@@ -25,15 +25,26 @@ materialAdmin
 
 
         $scope.iniciarServicios = function () {
+
+
             var con = localStorage.getItem("Variabilidad");
-            if( con != "1") {
+
+            console.log(con);
+
+            if( con != "1" || true) {
                 $http.get("http://localhost:8181/datos/variabilidad", {})
                     .success(function (res) {
-                        var lent =res[0].length;
-                        for (var i = 0; lent > i; i++) {
+
+
+                        console.log(res);
+
+                        var lent =res.length;
+                        for (var i = 0;  i < lent ; i++) {
                             localStorage.setItem(res[i], res[i]);
                         }
                         localStorage.setItem("Variabilidad", "1");
+
+                        console.log(localStorage);
 
                     }).error(function (res) {
                     //    growlService.growl('Error de autenticación.', 'danger');

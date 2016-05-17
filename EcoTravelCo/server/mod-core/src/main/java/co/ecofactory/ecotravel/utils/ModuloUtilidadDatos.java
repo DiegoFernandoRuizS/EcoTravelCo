@@ -59,7 +59,7 @@ public class ModuloUtilidadDatos implements Modulo {
                 System.out.println("servidor: " + res);
                 if (res.succeeded()) {
                     System.out.println("servidor correcto");
-                    rc.response().end(((JsonObject) res.result().body()).encodePrettily());
+                    rc.response().end(((JsonArray) res.result().body()).encodePrettily());
                 } else {
                     rc.response().end("ERROR en el modulo datos");
                 }

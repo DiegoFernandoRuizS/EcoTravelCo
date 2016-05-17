@@ -12,10 +12,18 @@
     <artifactId>mod-core</artifactId>
     <dependencies>
         <dependency>
+            <groupId>co.ecofactory</groupId>
+            <artifactId>mod-message</artifactId>
+            <version>3.2.1</version>
+        </dependency><dependency>
 <groupId>co.ecofactory</groupId>
 <artifactId>mod-reporte</artifactId>
 <version>3.2.1</version>
-</dependency>
+</dependency><dependency>
+            <groupId>co.ecofactory</groupId>
+            <artifactId>mod-calificacion</artifactId>
+            <version>3.2.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -38,7 +46,31 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <!--plugins-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+                <configuration>
+                    <complianceLevel>1.8</complianceLevel>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>co.ecofactory</groupId>
+                            <artifactId>mod-aspecto</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -47,32 +79,19 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Main-Class>co.ecofactory.ecotravel.init.Main</Main-Class>
-                                    </manifestEntries>
-                                </transformer>
-                            </transformers>
-                            <artifactSet/>
-                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar
-                            </outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+           <plugin>
+                           <artifactId>maven-assembly-plugin</artifactId>
+                           <configuration>
+                               <archive>
+                                   <manifest>
+                                       <Main-Class>co.ecofactory.ecotravel.init.Main</Main-Class>
+                                   </manifest>
+                               </archive>
+                               <descriptorRefs>
+                                   <descriptorRef>jar-with-dependencies</descriptorRef>
+                               </descriptorRefs>
+                           </configuration>
+                       </plugin>
         </plugins>
     </build>
 
